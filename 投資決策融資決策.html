@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>投資決策 vs. 融資決策：最新理論演進與當代實務案例</title>
+    <style>
+        :root {
+            --primary-color: #0A3663;
+            --secondary-color: #008080;
+            --accent-orange: #E65100;
+            --bg-light: #F4F6F9;
+            --text-dark: #1E293B;
+            --card-border: #E2E8F0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Microsoft JhengHei", sans-serif;
+            line-height: 1.75;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color), #051C33);
+            color: white;
+            padding: 3.5rem 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        header h1 {
+            margin: 0 0 12px 0;
+            font-size: 2.3rem;
+            letter-spacing: 1px;
+        }
+
+        header p {
+            margin: 0;
+            font-size: 1.15rem;
+            opacity: 0.9;
+            color: #B3D7FF;
+        }
+
+        .container {
+            max-width: 1040px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .section-badge {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: white;
+            font-size: 0.85rem;
+            font-weight: bold;
+            padding: 4px 12px;
+            border-radius: 12px;
+            margin-bottom: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            border: 1px solid var(--card-border);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+        }
+
+        .card h2 {
+            color: var(--primary-color);
+            margin-top: 0;
+            border-bottom: 2px solid #E0E8F5;
+            padding-bottom: 10px;
+            font-size: 1.55rem;
+        }
+
+        .takeaway-box {
+            background-color: #EBF3FA;
+            border-left: 4px solid var(--primary-color);
+            padding: 1.1rem 1.3rem;
+            margin-top: 1.2rem;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .takeaway-box strong {
+            color: var(--primary-color);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .case-box {
+            background-color: #FAF9F6;
+            border: 1px solid #EAE5D9;
+            border-radius: 8px;
+            padding: 1.3rem;
+        }
+
+        .case-box h3 {
+            margin-top: 0;
+            color: var(--accent-orange);
+            font-size: 1.2rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            background: white;
+        }
+
+        th, td {
+            border: 1px solid var(--card-border);
+            padding: 12px 16px;
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #F8FAFC;
+        }
+
+        ul {
+            padding-left: 1.2rem;
+            margin-bottom: 0;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2.5rem;
+            color: #64748B;
+            font-size: 0.95rem;
+            border-top: 1px solid #E2E8F0;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+            header h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>投資決策 vs. 融資決策</h1>
+        <p>最新財務學教材演進（Brealey 第 14 版）與當代全球科技巨頭實務案例解析</p>
+    </header>
+
+    <div class="container">
+
+        <!-- 導言與經典對比表 -->
+        <div class="card">
+            <span class="section-badge">核心架構比較</span>
+            <h2>1. 財務管理兩大基石概念對比</h2>
+            <p>不論教材如何更新，財務總監（CFO）的核心使命始終围绕著**資本配置**與**資本結構**。下表總結了投資決策與融資決策的核心對比：</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>決策維度</th>
+                        <th>投資決策 (Investment Decision / CapEx)</th>
+                        <th>融資決策 (Financing Decision)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>核心問題</strong></td>
+                        <td>資金要<strong>「買什麼」</strong>？（資產配置與價值創造）</td>
+                        <td>資金要<strong>「從哪來」</strong>？（資本結構與融資成本）</td>
+                    </tr>
+                    <tr>
+                        <td><strong>著眼資產</strong></td>
+                        <td><strong>實質資產 (Real Assets)</strong><br>廠房、設備、研發（R&D）、專利、軟體、品牌</td>
+                        <td><strong>金融資產 (Financial Assets)</strong><br>股票、普通公司債、商業本票、銀行貸款</td>
+                    </tr>
+                    <tr>
+                        <td><strong>財務目標</strong></td>
+                        <td>尋找淨現值 (NPV) &gt; 0 的專案以創造企業價值</td>
+                        <td>尋找最佳資本結構，降低加權平均資本成本 (WACC)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>當代實務案例</strong></td>
+                        <td>台積電建熊本廠、微軟百億美金投資 OpenAI</td>
+                        <td>台積電發行綠色公司債、微軟運用帳上現金與發債收購暴雪</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 理論演進 -->
+        <div class="card">
+            <span class="section-badge">教材最新演進</span>
+            <h2>2. Brealey 教材最新版（第 14 版）的理論微調與亮點</h2>
+            <p>在最新版教材中（Brealey, Myers, Allen & Edmans），除了維持經典的財務框架外，特別強化了以下兩個現代商業趨勢：</p>
+
+            <ul>
+                <li><strong>無形資產（Intangible Assets）躍升為投資主軸：</strong><br>
+                    傳統教材多以「蓋工廠、買機器」為例。新版強調，現代科技與服務業最核心的投資決策在於**智慧財產權（IP）、軟體生態系、專利研發與品牌價值**。
+                </li>
+                <li><strong>融入利益相關者資本主義（Stakeholder Capitalism）與 ESG：</strong><br>
+                    新版新增專章討論企業責任，主張投資決策不僅要追求「股東價值極大化（Shareholder Value）」，更需兼顧員工、供應鏈與社會環境，保護公司長期的無形資產與品牌聲譽。
+                </li>
+            </ul>
+
+            <div class="takeaway-box">
+                <strong>理論觀念連結：</strong><br>
+                現代企業的 NPV 評估已不能僅看眼前的現金流，忽視 ESG 與無形資產風險的投資，未來可能面臨極高的高昂法規成本與聲譽毀損。
+            </div>
+        </div>
+
+        <!-- 當代實務案例解析 -->
+        <div class="card">
+            <span class="section-badge">當代實戰案例</span>
+            <h2>3. 當代科技巨頭的兩大決策實務解析</h2>
+            <p>透過現實生活中的大型商業動態，能讓學生更有感地理解財務理論的實際運作：</p>
+
+            <div class="grid-2">
+                <!-- 案例 1 -->
+                <div class="case-box">
+                    <h3>🇹🇼 台積電 (TSMC)</h3>
+                    <p><strong>全球擴廠與資本支出</strong></p>
+                    <hr style="border:0; border-top:1px dashed #DDD; margin:10px 0;">
+                    <p><strong>【投資決策】</strong><br>
+                    宣布於美國亞利桑那州、日本熊本及德國德勒斯登投入數百億美元建廠。台積電需評估海外建廠成本飆升下，未來的現金流量是否仍具備正 NPV。</p>
+                    <p><strong>【融資決策】</strong><br>
+                    為支應龐大 CapEx，除了留存收益外，台積電選擇在國內外**發行無擔保公司債與綠色債券**，而非增資發行新股，避免稀釋現有股東權利並鎖定低利息成本。</p>
+                </div>
+
+                <!-- 案例 2 -->
+                <div class="case-box">
+                    <h3>🇺🇸 輝達 (NVIDIA)</h3>
+                    <p><strong>AI 軟體生態系與巨額併購</strong></p>
+                    <hr style="border:0; border-top:1px dashed #DDD; margin:10px 0;">
+                    <p><strong>【投資決策】</strong><br>
+                    每年投入數十億美元於研發（R&D），打造 CUDA 軟體架構與晶片；先前曾試圖以 400 億美元併購 Arm，屬於大型無形資產與戰略併購投資。</p>
+                    <p><strong>【融資決策】</strong><br>
+                    當初規劃併購 Arm 時，支付方案包含**現金與自家股票（Equity Financing）**。利用高漲的自家股票作為「對價貨幣」，是典型的股權籌資應用。</p>
+                </div>
+            </div>
+
+            <!-- 案例 3 -->
+            <div class="case-box" style="margin-top: 1.5rem;">
+                <h3>🇺🇸 微軟 (Microsoft)</h3>
+                <p><strong>卡位生成式 AI 與遊戲產業版圖</strong></p>
+                <hr style="border:0; border-top:1px dashed #DDD; margin:10px 0;">
+                <div class="grid-2">
+                    <div>
+                        <p><strong>【投資決策】</strong></p>
+                        <p>向 OpenAI 戰略投資超百億美元，並以 687 億美元現金收購動視暴雪（Activision Blizzard）。微軟評估傳統 PC 成長趨緩，決定將資本重組投入生成式 AI 與內容 IP 等高成長無形資產。</p>
+                    </div>
+                    <div>
+                        <p><strong>【融資決策】</strong></p>
+                        <p>微軟擁有頂級「AAA」信用評等與龐大自由現金流。收購暴雪時完全不需向市場發行新股增資，直接調用**帳上現金加上發行短期商業本票與公司債**即順利完成。</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- 結語 -->
+        <div class="card" style="background-color: #FAF5FF; border-color: #E9D8FD;">
+            <h2 style="color: #5B21B6;">總結：給 CFO 與決策者的啟示</h2>
+            <ol>
+                <li><strong>投資決策決定企業上限：</strong> 企業能否創造價值，關鍵在於有沒有找到淨現值 $NPV > 0$ 的優質專案（如台積電先進製程、微軟佈局 AI）。</li>
+                <li><strong>融資決策確保企業下限：</strong> 好的融資架構能降低資本成本並確保流動性，讓企業在面對市場波動或大舉擴張時（如發債融資）立於不敗之地。</li>
+                <li><strong>無形資產與永續為王：</strong> 現代財務決策必須納入軟體專利與 ESG 變數，才能精準預估長期現金流的真正價值。</li>
+            </ol>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>參考教材：Brealey, Myers, Allen & Edmans - <i>Principles of Corporate Finance</i> (14th Edition)</p>
+        <p>設計：財務經濟學課程與實務案例輔助學習網頁</p>
+    </footer>
+
+</body>
+</html>
