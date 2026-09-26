@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>財務經濟學 (Financial Economics) | 課程教材入口網</title>
+    <style>
+        :root {
+            --primary-navy: #0F172A;
+            --accent-blue: #0284C7;
+            --accent-teal: #0D9488;
+            --accent-amber: #D97706;
+            --accent-purple: #7C3AED;
+            --bg-light: #F8FAFC;
+            --card-border: #E2E8F0;
+            --text-dark: #1E293B;
+            --text-muted: #64748B;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Microsoft JhengHei", sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-navy), #1E293B);
+            color: white;
+            padding: 4rem 1.5rem 3.5rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        header h1 {
+            margin: 0 0 12px 0;
+            font-size: 2.5rem;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        header p {
+            margin: 0 auto;
+            font-size: 1.15rem;
+            color: #94A3B8;
+            max-width: 650px;
+        }
+
+        .container {
+            max-width: 1040px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.8rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid var(--card-border);
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            transition: all 0.25s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+            border-color: #CBD5E1;
+        }
+
+        .card-header {
+            margin-bottom: 1rem;
+        }
+
+        .tag {
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 6px;
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .tag.blue { background-color: #E0F2FE; color: var(--accent-blue); }
+        .tag.teal { background-color: #CCFBF1; color: var(--accent-teal); }
+        .tag.amber { background-color: #FEF3C7; color: var(--accent-amber); }
+        .tag.purple { background-color: #F3E8FF; color: var(--accent-purple); }
+
+        .card-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin: 0 0 0.8rem 0;
+            color: var(--primary-navy);
+            line-height: 1.4;
+        }
+
+        .card-desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        .card-footer {
+            margin-top: 1.8rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--accent-blue);
+            display: flex;
+            align-items: center;
+        }
+
+        .card-footer::after {
+            content: " →";
+            transition: transform 0.2s ease;
+        }
+
+        .card:hover .card-footer::after {
+            transform: translateX(4px);
+        }
+
+        footer {
+            text-align: center;
+            padding: 3rem 1.5rem;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            border-top: 1px solid var(--card-border);
+            margin-top: 4rem;
+        }
+
+        @media (max-width: 640px) {
+            header h1 { font-size: 2rem; }
+            .grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>財務經濟學 (Financial Economics)</h1>
+        <p>基於 Brealey 財務學理論演進與當代全球商業個案之互動式 HTML 教材庫</p>
+    </header>
+
+    <div class="container">
+        <div class="grid">
+
+            <!-- 1. 投資決策與融資決策 -->
+            <a href="./投資決策融資決策.html" class="card">
+                <div class="card-header">
+                    <span class="tag blue">Chapter 1 核心理論</span>
+                    <h2 class="card-title">投資決策 vs. 融資決策</h2>
+                    <p class="card-desc">解析財務管理兩大基石（CapEx 與資本結構），結合 Brealey 第 14 版無形資產、ESG 趨勢與台積電、微軟、輝達當代實例。</p>
+                </div>
+                <div class="card-footer">開啟教材內容</div>
+            </a>
+
+            <!-- 2. FedEx 經典個案 -->
+            <a href="./Fred%20Smith%20創立與經營%20FedEx（聯邦快遞）的經典歷程.html" class="card">
+                <div class="card-header">
+                    <span class="tag purple">實務個案研討</span>
+                    <h2 class="card-title">FedEx 創立與經營經典歷程</h2>
+                    <p class="card-desc">剖析 Fred Smith 如何將金融資產轉化為實質資產（飛機機隊與樞紐），克服破產危機並實現隔夜快遞的經典創業財務史。</p>
+                </div>
+                <div class="card-footer">開啟教材內容</div>
+            </a>
+
+            <!-- 3. 財務槓桿的歷史鏡像 -->
+            <a href="./財務槓桿的歷史鏡像.html" class="card">
+                <div class="card-header">
+                    <span class="tag amber">槓桿與風險管理</span>
+                    <h2 class="card-title">財務槓桿的歷史鏡像</h2>
+                    <p class="card-desc">對照 2007 年 TXU 400 億美元高槓桿 LBO 破產案與當代 AI 算力商（CoreWeave）GPU 晶片抵押融資狂潮的雙刃劍效應。</p>
+                </div>
+                <div class="card-footer">開啟教材內容</div>
+            </a>
+
+            <!-- 4. 財務紀事本 -->
+            <a href="./財務紀事.html" class="card">
+                <div class="card-header">
+                    <span class="tag teal">理論演進年表</span>
+                    <h2 class="card-title">財務紀事本 (Financial Timeline)</h2>
+                    <p class="card-desc">梳理從 19 世紀有限責任制度、馬科維茨 MPT、MM 定理、CAPM 到當代 AI 與 ESG 資本主義的財務管理歷史里程碑。</p>
+                </div>
+                <div class="card-footer">開啟教材內容</div>
+            </a>
+
+        </div>
+    </div>
+
+    <footer>
+        <p>財務經濟學課程教材網頁 | 國立淡江大學 / 授課網頁平台</p>
+    </footer>
+
+</body>
+</html>
