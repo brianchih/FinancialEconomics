@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>埃隆·馬斯克（Elon Musk）帝國的資金歷史與資本結構演進</title>
+
+    <!-- KaTeX CSS 引擎 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    
+    <style>
+        :root {
+            --primary-navy: #0F172A;
+            --accent-blue: #0284C7;
+            --accent-teal: #0D9488;
+            --accent-amber: #D97706;
+            --accent-purple: #7C3AED;
+            --alert-red: #DC2626;
+            --bg-light: #F8FAFC;
+            --card-border: #E2E8F0;
+            --text-dark: #1E293B;
+            --text-muted: #64748B;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Microsoft JhengHei", sans-serif;
+            line-height: 1.8;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-navy), #1E293B);
+            color: white;
+            padding: 3.5rem 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        header h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.3rem;
+            letter-spacing: 1px;
+            font-weight: 700;
+            color: #F8FAFC;
+        }
+
+        header p {
+            margin: 0 auto;
+            font-size: 1.15rem;
+            color: #94A3B8;
+            max-width: 800px;
+        }
+
+        .container {
+            max-width: 1040px;
+            margin: 2.5rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .section-badge {
+            display: inline-block;
+            background-color: var(--accent-blue);
+            color: white;
+            font-size: 0.85rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 6px;
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .section-badge.purple { background-color: var(--accent-purple); }
+        .section-badge.amber { background-color: var(--accent-amber); }
+        .section-badge.red { background-color: var(--alert-red); }
+        .section-badge.teal { background-color: var(--accent-teal); }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid var(--card-border);
+            padding: 2.2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+        }
+
+        .card h2 {
+            color: var(--primary-navy);
+            margin-top: 0;
+            border-bottom: 2px solid #F1F5F9;
+            padding-bottom: 12px;
+            font-size: 1.6rem;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1.2rem;
+        }
+
+        .box {
+            background-color: #F8FAFC;
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 1.4rem;
+        }
+
+        .box h3 {
+            margin-top: 0;
+            color: var(--primary-navy);
+            font-size: 1.2rem;
+            border-bottom: 2px solid #E2E8F0;
+            padding-bottom: 6px;
+        }
+
+        /* 自訂 CSS 箭頭，徹底排除 -> 與亂碼問題 */
+        .arrow {
+            display: inline-block;
+            margin: 0 8px;
+            color: var(--accent-blue);
+            font-weight: bold;
+        }
+        .arrow::after {
+            content: "➔";
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.2rem;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        th, td {
+            border: 1px solid var(--card-border);
+            padding: 14px 16px;
+            text-align: left;
+            font-size: 0.95rem;
+        }
+
+        th {
+            background-color: var(--primary-navy);
+            color: white;
+        }
+
+        tr:nth-child(even) { background-color: #F8FAFC; }
+
+        .takeaway-box {
+            background-color: #FFFBEB;
+            border-left: 5px solid var(--accent-amber);
+            padding: 1.2rem 1.5rem;
+            margin-top: 1.5rem;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .takeaway-box strong { color: #92400E; }
+
+        .alert-box {
+            background-color: #FEF2F2;
+            border-left: 5px solid var(--alert-red);
+            padding: 1.2rem 1.5rem;
+            margin-top: 1.2rem;
+            border-radius: 0 8px 8px 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 3rem 1.5rem;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            border-top: 1px solid var(--card-border);
+            margin-top: 4rem;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 { grid-template-columns: 1fr; }
+            header h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>馬斯克帝國的資金歷史與資本結構演進</h1>
+        <p>對接 Brealey 第 2 章：企業生命週期融資、創投 VC、公開市場與黑天鵝破產危機</p>
+    </header>
+
+    <div class="container">
+
+        <!-- 1. 早期原始資本累積 -->
+        <div class="card">
+            <span class="section-badge teal">階段一：原始資本累積</span>
+            <h2>1. Zip2 與 X.com (PayPal)：第一桶金的誕生</h2>
+            <p>公開發行公司創辦人的早期資本通常來自天使投資或創業獲利。埃隆·馬斯克（Elon Musk）的資本帝國始於 1990 年代網路浪潮：</p>
+
+            <div class="grid-2">
+                <div class="box">
+                    <h3>💻 Zip2 (1995–1999)</h3>
+                    <ul>
+                        <li><strong>業務內容：</strong> 馬斯克與弟弟 Kimbal 創立，提供「線上電子黃頁與城市地圖導覽系統」，授權給紐約時報等報業。</li>
+                        <li><strong>資本結果：</strong> 1999 年 Compaq 電腦以 3.07 億美元現金收購，馬斯克獲得約 <strong>2,200 萬美元</strong>，完成人生第一桶金累積。</li>
+                    </ul>
+                </div>
+                <div class="box">
+                    <h3>💳 X.com / PayPal (1999–2002)</h3>
+                    <ul>
+                        <li><strong>業務內容：</strong> 投入 1,000 萬美元創立網路金融服務公司 X.com，後與 Confinity 合併為 PayPal。</li>
+                        <li><strong>資本結果：</strong> 2002 年 eBay 以 15 億美元股票併購 PayPal，馬斯克作為最大股東獲得約 <strong>1.8 億美元</strong> 淨收益。</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="takeaway-box">
+                <strong>💡 財務學對接 (Brealey Ch. 2)：</strong> 企業家將初次創業收穫的金融資產（Cash），100% 轉投入下一階段風險更高的實質資產（Real Assets）研發中，形成了典型的「高風險個人權益資本（Founder's Equity）」。
+            </div>
+        </div>
+
+        <!-- 2. 險些破產真相與雙雄建立 -->
+        <div class="card">
+            <span class="section-badge red">關鍵歷史澄清</span>
+            <h2>2. 2008 年黑天鵝危機：極度接近破產，但從未破產</h2>
+            <p>許多人常誤解馬斯克的公司破產過。真相是：<strong>Tesla 與 SpaceX 都曾「數度離破產僅差數小時」，但「從未正式宣告破產（Never Bankrupt）」</strong>。</p>
+
+            <div class="alert-box">
+                <h3>⚠️ 2008 年聖誕夜危機（生死一瞬間）</h3>
+                <p>2008 年全球金融海嘯爆發，馬斯克將 PayPal 賺來的 1.8 億美元全數投入 SpaceX 與 Tesla，但兩家公司同時陷入現金耗盡的絕境：</p>
+                <ul>
+                    <li><strong>SpaceX 瀕死：</strong> Falcon 1 火箭連續 3 次發射失敗，資金全數燒光。馬斯克湊集最後資金押注第 4 次發射。2008 年 9 月第 4 次發射成功，順利贏得 NASA 高達 <strong>16 億美元</strong> 的商業補給合約（CRS），挽救了公司。</li>
+                    <li><strong>Tesla 聖誕夜救命融資：</strong> 2008 年 12 月 24 日，Tesla 帳上現金僅能維持數小時，馬斯克將個人僅存資金砸入，並說服既存 VC 簽署 <strong>4,000 萬美元過渡融資（Bridge Loan）</strong>，奇蹟避開破產。</li>
+                </ul>
+            </div>
+
+            <div class="grid-2">
+                <div class="box">
+                    <h3>🚀 SpaceX、星鏈與火星計畫的關係</h3>
+                    <ul>
+                        <li><strong>SpaceX（母公司）：</strong> 2002 年創立的商業航航天與火箭製造商。</li>
+                        <li><strong>火星殖民計畫：</strong> SpaceX 創立的<strong>終極願景與研發目標</strong>。</li>
+                        <li><strong>星鏈 Starlink：</strong> SpaceX 旗下的低軌衛星通訊服務，是 SpaceX 專屬的<strong>現金牛（Cash Cow）</strong>，目的正是為了獲取龐大現金流，支應昂貴的火星研發 CapEx。</li>
+                    </ul>
+                </div>
+                <div class="box">
+                    <h3>🚗 Tesla Model 3 產能地獄 (2017–2018)</h3>
+                    <p>Model 3 量產關卡卡住時，Tesla 離現金流斷裂僅剩約 1 個月。最終依靠發行<strong>可轉換公司債（Convertible Bonds）</strong>與極限壓縮營運成本渡過難關，邁向後來的規模化獲利。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. 三大事業體融資對照表 -->
+        <div class="card">
+            <span class="section-badge amber">公開 vs. 私募比較</span>
+            <h2>3. 馬斯克旗下的三大當代事業資本結構對比</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>公司名稱</th>
+                        <th>市場型態 (Market Type)</th>
+                        <th>核心融資決策 (Financing Decisions)</th>
+                        <th>資金去向 / 實質資產 (Real Assets)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Tesla (特斯拉)</strong></td>
+                        <td>公開發行公司 (NASDAQ)</td>
+                        <td>2010 年 IPO<span class="arrow"></span>發行可轉債<span class="arrow"></span>納入 S&P500 後發行新股 (SEO)<span class="arrow"></span>營運現金流自給自足與股票回購。</td>
+                        <td>全球 Gigafactory 超級工廠、自動駕駛 AI 算力中心、鋰電池研發。</td>
+                    </tr>
+                    <tr>
+                        <td><strong>SpaceX & Starlink</strong></td>
+                        <td>大型未上市獨角獸 (Private)</td>
+                        <td>拒絕公開上市 IPO！長期依賴<strong>私募股權 (Private Equity)</strong>、員工二次股票交易，以及 NASA/國防部大型合約預付款。</td>
+                        <td>Starship 星艦研發、Starlink 低軌衛星星系、發射場設施。</td>
+                    </tr>
+                    <tr>
+                        <td><strong>xAI</strong></td>
+                        <td>前沿 AI 新創 (VC / 戰略融資)</td>
+                        <td>短短一年內完成數十億美元大額 VC 融資（a16z, Sequoia）與微軟/甲骨文算力戰略合作。</td>
+                        <td>採購數萬張 NVIDIA GPU 晶片、建置 Memphis 巨型 AI 算力中心。</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 4. 財務公式與課堂思考 -->
+        <div class="card" style="background-color: #FAF5FF; border-color: #E9D8FD;">
+            <span class="section-badge purple">財務學理論連結</span>
+            <h2>4. 本個案的 Brealey 財務學重點總結</h2>
+
+            <p><strong>資本預算與折現現值公式：</strong> 企業價值取決於未來預期現金流的折現值：</p>
+            <p style="text-align: center; font-size: 1.1rem;" id="math-npv"></p>
+
+            <ul>
+                <li><strong>公開 vs. 私募資本市場權衡：</strong> Tesla 上市讓其獲得公開市場龐大的 CapEx 資本，但代價是必須面對次級市場（Secondary Market）季度財報與賣空者（Short Sellers）的巨大壓力；SpaceX 選擇維持私有化，確保其「火星計畫」不被公開市場短期盈餘目標干擾。</li>
+                <li><strong>實體期權 (Real Options)：</strong> 馬斯克將 Starlink 視為附屬於 SpaceX 火星計畫的高價值實體期權，一旦成功將帶來源源不絕的電信訂閱現金流。</li>
+            </ul>
+        </div>
+
+        <!-- 5. 小組討論題 -->
+        <div class="card" style="background-color: #F8FAFC; border-color: #CBD5E1;">
+            <h2 style="color: var(--primary-navy);">💬 課堂思考與小組討論題</h2>
+            <ol>
+                <li><strong>上市與未上市的選擇：</strong> 為什麼需要巨額資本額擴張的 Tesla 選擇早早 IPO，而同樣需要極龐大資金的 SpaceX 卻堅持不上市？這與兩家公司的「客戶屬性」與「現金流回收週期」有何關係？</li>
+                <li><strong>極端風險與個人資本：</strong> 2008 年馬斯克將個人最後的資產砸入瀕臨破產的公司，這符合傳統財務學的「資產分散風險（Diversification）」原則嗎？作為 CFO，你會建議創辦人這樣做嗎？</li>
+            </ol>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>參考教材：Brealey, Myers, Allen & Edmans - <i>Principles of Corporate Finance</i> (Chapter 2 Case Studies)</p>
+        <p>製作：財務經濟學案例教學網頁</p>
+    </footer>
+
+    <!-- KaTeX JS 引擎 -->
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            katex.render("NPV = \\sum_{t=1}^{n} \\frac{CF_t}{(1 + r)^t} - \\text{Initial Investment}", document.getElementById("math-npv"), {
+                throwOnError: false
+            });
+        });
+    </script>
+
+</body>
+</html>

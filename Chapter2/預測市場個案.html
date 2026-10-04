@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>個案研究：預測市場與市場有效性 (Prediction Markets & Market Efficiency)</title>
+    <style>
+        :root {
+            --primary-navy: #0F172A;
+            --accent-blue: #0284C7;
+            --accent-teal: #0D9488;
+            --accent-purple: #7C3AED;
+            --accent-amber: #D97706;
+            --bg-light: #F8FAFC;
+            --card-border: #E2E8F0;
+            --text-dark: #1E293B;
+            --text-muted: #64748B;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Microsoft JhengHei", sans-serif;
+            line-height: 1.8;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-navy), #1E293B);
+            color: white;
+            padding: 3.5rem 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        header h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.3rem;
+            letter-spacing: 1px;
+            font-weight: 700;
+            color: #F8FAFC;
+        }
+
+        header p {
+            margin: 0 auto;
+            font-size: 1.1rem;
+            color: #94A3B8;
+            max-width: 800px;
+        }
+
+        .container {
+            max-width: 1040px;
+            margin: 2.5rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .section-badge {
+            display: inline-block;
+            background-color: var(--accent-blue);
+            color: white;
+            font-size: 0.85rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 6px;
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .section-badge.purple { background-color: var(--accent-purple); }
+        .section-badge.amber { background-color: var(--accent-amber); }
+        .section-badge.teal { background-color: var(--accent-teal); }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid var(--card-border);
+            padding: 2.2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+        }
+
+        .card h2 {
+            color: var(--primary-navy);
+            margin-top: 0;
+            border-bottom: 2px solid #F1F5F9;
+            padding-bottom: 12px;
+            font-size: 1.6rem;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1.2rem;
+        }
+
+        .box {
+            background-color: #F8FAFC;
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 1.4rem;
+        }
+
+        .box h3 {
+            margin-top: 0;
+            color: var(--primary-navy);
+            font-size: 1.2rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.2rem;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        th, td {
+            border: 1px solid var(--card-border);
+            padding: 14px 16px;
+            text-align: left;
+            font-size: 0.95rem;
+        }
+
+        th {
+            background-color: var(--primary-navy);
+            color: white;
+        }
+
+        tr:nth-child(even) { background-color: #F8FAFC; }
+
+        .takeaway-box {
+            background-color: #FFFBEB;
+            border-left: 5px solid var(--accent-amber);
+            padding: 1.2rem 1.5rem;
+            margin-top: 1.5rem;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .takeaway-box strong { color: #92400E; }
+
+        footer {
+            text-align: center;
+            padding: 3rem 1.5rem;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            border-top: 1px solid var(--card-border);
+            margin-top: 4rem;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 { grid-template-columns: 1fr; }
+            header h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>預測市場與市場有效性 (Prediction Markets)</h1>
+        <p>Brealey 第 14 版理論補充：集體智慧、價格發現與企業風險控管</p>
+    </header>
+
+    <div class="container">
+
+        <!-- 1. 概念與運作原理 -->
+        <div class="card">
+            <span class="section-badge">財務理論連結</span>
+            <h2>1. 何謂預測市場？（用資本進行即時投票）</h2>
+            <p><strong>預測市場（Prediction Markets / Information Markets）</strong> 是指允許參與者對未來特定事件（如「Fed 下月降息幾碼？」或「某產品能否在 Q4 準時上市？」）的結果進行合約交易的市場。合約價格介於 $0 到 $1 美元之間，直接代表市場認為該事件發生的<strong>即時機率（Probability）</strong>。</p>
+
+            <div class="grid-2">
+                <div class="box">
+                    <h3>💡 為什麼比專家民調更精準？</h3>
+                    <ul>
+                        <li><strong>利益攸關 (Skin in the Game)：</strong> 下注需要投入真金白銀，能消除口頭宣稱與媒體偏見。</li>
+                        <li><strong>資訊迅速折現：</strong> 任何掌握最新情報或數據的人都有強烈動機買賣，推動價格反映最新公開與隱性資訊。</li>
+                        <li><strong>有效市場假說 (EMH) 的實驗場：</strong> 完美示範了價格如何高效地匯集分散在社會各處的碎片化資訊。</li>
+                    </ul>
+                </div>
+                <div class="box">
+                    <h3>🏢 企業內部預測市場 (Corporate Prediction)</h3>
+                    <ul>
+                        <li><strong>打破組織官僚：</strong> Google、Microsoft 等公司建立內部匿名預測市場。</li>
+                        <li><strong>解決代理問題：</strong> 基層工程師常知道專案進度落後，但不敢直言。內部預測市場讓匿名下注展現真相，幫助 CFO/CEO 提前規避風險。</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. 當代案例對照 -->
+        <div class="card">
+            <span class="section-badge purple">當代實務案例</span>
+            <h2>2. 當代預測市場的突破與應用</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>預測市場類型</th>
+                        <th>代表平台 (如 Polymarket, Kalshi, PredictIt)</th>
+                        <th>CFO 與財務管理者的應用</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>宏觀經濟與央行政策</strong></td>
+                        <td>Fed 利率決策（美聯儲升/降息機率）、通膨數據 CPI 預測。</td>
+                        <td>作為企業利率避險與外匯融資決策的即時參考指標，反應速度常快於傳統投行報告。</td>
+                    </tr>
+                    <tr>
+                        <td><strong>地緣政治與大選</strong></td>
+                        <td>美國總統大選、法規審查（如科技巨頭 M&A 監管通過率）。</td>
+                        <td>幫助全球擴張型企業評估關稅風險、供應鏈轉移與跨境併購成敗機率。</td>
+                    </tr>
+                    <tr>
+                        <td><strong>企業研發與專案管理</strong></td>
+                        <td>Google / Intel 內部預測市場（下注新產品上市日期、銷量）。</td>
+                        <td>評估資本預算（CapEx）專案能否按時產生現金流，降低資訊不對稱導致的預算超支。</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="takeaway-box">
+                <strong>🎓 課堂總結：</strong> 預測市場不只是一場賭局，它是「市場有效性（Efficiency）」最直接的展現。對於 CFO 而言，它是打破企業內部資訊封閉、即時監測宏觀風險的重要輔助工具。
+            </div>
+        </div>
+
+        <!-- 3. 課堂討論題 -->
+        <div class="card" style="background-color: #F8FAFC; border-color: #CBD5E1;">
+            <h2 style="color: var(--primary-navy);">💬 課堂討論題目</h2>
+            <ol>
+                <li><strong>代理問題與內部市場：</strong> 為什麼基層員工在面對老闆關心時常會說「專案進度順利」，但在匿名的公司內部預測市場中卻會下注「專案一定會延期」？這反映了什麼代理成本？</li>
+                <li><strong>資訊效率邊界：</strong> 預測市場是否可能被有心人士利用大筆資金進場進行「操縱價格」？市場機制會如何修正這種操縱行為？</li>
+            </ol>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>參考教材：Brealey, Myers, Allen & Edmans - <i>Principles of Corporate Finance</i> (14th Edition)</p>
+        <p>製作：財務經濟学案例教學網頁</p>
+    </footer>
+
+</body>
+</html>

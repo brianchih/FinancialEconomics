@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>次級市場價值與 AI 新創融資決策</title>
+    <style>
+        :root {
+            --primary-navy: #0F172A;
+            --accent-blue: #0284C7;
+            --accent-teal: #0D9488;
+            --accent-amber: #D97706;
+            --accent-purple: #7C3AED;
+            --bg-light: #F8FAFC;
+            --card-border: #E2E8F0;
+            --text-dark: #1E293B;
+            --text-muted: #64748B;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Microsoft JhengHei", sans-serif;
+            line-height: 1.8;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-navy), #1E293B);
+            color: white;
+            padding: 3.5rem 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        header h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.3rem;
+            letter-spacing: 1px;
+            font-weight: 700;
+            color: #F8FAFC;
+        }
+
+        header p {
+            margin: 0 auto;
+            font-size: 1.15rem;
+            color: #94A3B8;
+            max-width: 800px;
+        }
+
+        .container {
+            max-width: 1040px;
+            margin: 2.5rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .section-badge {
+            display: inline-block;
+            background-color: var(--accent-blue);
+            color: white;
+            font-size: 0.85rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 6px;
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .section-badge.purple { background-color: var(--accent-purple); }
+        .section-badge.amber { background-color: var(--accent-amber); }
+        .section-badge.teal { background-color: var(--accent-teal); }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid var(--card-border);
+            padding: 2.2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+        }
+
+        .card h2 {
+            color: var(--primary-navy);
+            margin-top: 0;
+            border-bottom: 2px solid #F1F5F9;
+            padding-bottom: 12px;
+            font-size: 1.6rem;
+        }
+
+        .topic-question {
+            background-color: #F0F9FF;
+            border-left: 5px solid var(--accent-blue);
+            padding: 1.2rem 1.5rem;
+            border-radius: 0 8px 8px 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary-navy);
+            margin-bottom: 1.5rem;
+        }
+
+        .grid-5 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.2rem;
+            margin-top: 1.2rem;
+        }
+
+        .concept-card {
+            background-color: #F8FAFC;
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 1.3rem;
+        }
+
+        .concept-card h3 {
+            margin-top: 0;
+            color: var(--accent-blue);
+            font-size: 1.15rem;
+            border-bottom: 2px solid #E2E8F0;
+            padding-bottom: 6px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.2rem;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        th, td {
+            border: 1px solid var(--card-border);
+            padding: 14px 16px;
+            text-align: left;
+            font-size: 0.95rem;
+        }
+
+        th {
+            background-color: var(--primary-navy);
+            color: white;
+        }
+
+        tr:nth-child(even) { background-color: #F8FAFC; }
+
+        .speech-box {
+            background-color: #FAF5FF;
+            border-left: 5px solid var(--accent-purple);
+            padding: 1.2rem 1.5rem;
+            margin-top: 1.5rem;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .speech-box strong { color: var(--accent-purple); font-size: 1.05rem; }
+
+        footer {
+            text-align: center;
+            padding: 3rem 1.5rem;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            border-top: 1px solid var(--card-border);
+            margin-top: 4rem;
+        }
+
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>第 2 章小組討論專題研討</h1>
+        <p>次級市場股價對 CFO 的戰略價值 & AI 新創公司的資本結構決策</p>
+    </header>
+
+    <div class="container">
+
+        <!-- 專題一：次級市場價值 -->
+        <div class="card">
+            <span class="section-badge">討論專題 一</span>
+            <h2>次級市場股價與 CFO 的戰略關聯</h2>
+
+            <div class="topic-question">
+                ❓ 問題：既然次級市場上的股票買賣只是投資人之間的資金移轉，公司拿不到一毛錢，為什麼 CFO 依然非常關心公司在次級市場上的股價表現？
+            </div>
+
+            <p><strong>核心邏輯：</strong> 次級市場股價雖然不直接產生當下現金流，但是公司價值的「實時晴雨表」與「資本定價機制」，直接決定了企業未來的融資成本與經營團隊的存亡。</p>
+
+            <div class="grid-5">
+                <div class="concept-card">
+                    <h3>1. 未來再融資成本 (SEO)</h3>
+                    <p>當公司未來發行新股（現金增資）或可轉債（CB）時，發行價是以<strong>次級市場現行股價</strong>折價計算。股價越高，發行少數股票就能籌得巨額資金，股權稀釋極小。</p>
+                </div>
+
+                <div class="concept-card">
+                    <h3>2. 借債與資本成本 (WACC)</h3>
+                    <p>次級市場總市值反映了股權價值。市值越高代表權益緩衝越充足，銀行的信用評等越高，發行公司債或申請銀行貸款時的<strong>利息成本（WACC）就越低</strong>。</p>
+                </div>
+
+                <div class="concept-card">
+                    <h3>3. 併購貨幣 (M&A Currency)</h3>
+                    <p>在現代併購交易中，公司常以自家股票作為支付對價。次級市場股價越高，代表「股票貨幣」購買力越強，能以更少的股數收購優質資產或對手。</p>
+                </div>
+
+                <div class="concept-card">
+                    <h3>4. 薪酬對齊與反敵意併購</h3>
+                    <p>高管薪酬與股票選擇權（RSU）掛鉤。若次級市場股價長期低迷，公司極易被私募股權基金發動<strong>敵意併購（Hostile Takeover）</strong>，導致管理層失業。</p>
+                </div>
+
+                <div class="concept-card">
+                    <h3>5. 利益相關者信心 (Stakeholders)</h3>
+                    <p>股價是企業強健度的公開指標。高股價能吸引頂尖人才，並讓供應商願意給予更好的信用期、客戶放心簽署長期合約。</p>
+                </div>
+            </div>
+
+            <div class="speech-box">
+                <strong>🎙️ 小組報告總結發言範例：</strong><br>
+                「次級市場的股價雖然不直接給公司現金，但它是 CFO 手中最大的『戰略籌碼』。它決定了我們未來發新股能拿多少錢、借債利息高不高、併購別人時股票管不管用，甚至決定了 CFO 自己會不會被解雇。因此，CFO 關心的不是明天的短期漲跌，而是次級市場對公司長期價值的精準定價。」
+            </div>
+        </div>
+
+        <!-- 專題二：AI 新創公司融資決策 -->
+        <div class="card">
+            <span class="section-badge purple">討論專題 二</span>
+            <h2>AI 新創公司 CFO 的儲蓄流向與融資管道決策</h2>
+
+            <div class="topic-question">
+                ❓ 問題：假設您是一家新創 AI 公司的 CFO，在選擇創投資金 (VC)、銀行貸款與公開 IPO 上市時，您會考量哪些關鍵因素？
+            </div>
+
+            <p><strong>核心邏輯：</strong> AI 新創公司具備「高 R&D 投入、高無形資產、早期無穩定現金流」的特性，財務學精髓在於根據<strong>企業生命週期（Life Cycle）</strong>搭配最適合的資本結構。</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>融資管道</th>
+                        <th>核心優勢 (Pros)</th>
+                        <th>劣勢與風險 (Cons)</th>
+                        <th>CFO 的戰略考量與適用階段</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>創投資金 (VC)</strong></td>
+                        <td>• 無固定利息負擔<br>• 願意承擔高失敗風險<br>• 提供產業資源與戰略指導</td>
+                        <td>• <strong>股權與控制權大幅稀釋</strong><br>• 創投可能干預營運方向<br>• 有 5–7 年清算出場壓力</td>
+                        <td><strong>適合早期與研發階段（Seed ~ Series C）</strong><br>當尚無穩定現金流、技術尚在突破期時，VC 是最佳對禦風險的耐性股權資本。</td>
+                    </tr>
+                    <tr>
+                        <td><strong>銀行貸款 (Bank Loan)</strong></td>
+                        <td>• <strong>完全不稀釋股權與控制權</strong><br>• 獲利時，利息支出可享稅減效益 (Tax Shield)</td>
+                        <td>• <strong>每期固定利息支出（現金流壓力）</strong><br>• 銀行要求實體資產抵押（AI 公司多為無形資產，難抵押）</td>
+                        <td><strong>不適合早期；適合中後期成熟期</strong><br>銀行極度厭惡風險。除非有大客戶長期預付合約，否則早期 AI 公司很難拿到合理利率。</td>
+                    </tr>
+                    <tr>
+                        <td><strong>公開 IPO 上市</strong></td>
+                        <td>• 從大眾次級市場取得龐大資本<br>• 提升全球品牌信任度與聲譽<br>• 原始股東與 VC 獲得流動性出場</td>
+                        <td>• <strong>極高的合規與法規審計成本</strong><br>• 承擔次級市場短期股價波動壓力<br>• 營運機密與財務必須完全透明化</td>
+                        <td><strong>適合商業模式成熟、具擴充規模階段</strong><br>當 AI 模型找到明確獲利模式 (PMF)，需要數百億資金大規模擴充算力與全球市場時發動。</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="speech-box">
+                <strong>🎙️ 總結：</strong><br>
+                「作為 AI 公司的 CFO，我們的資本策略應該是『按生命週期階梯推進』：在技術研發與燒錢初期，應該優先找 VC 拿『耐心的股權資本』分擔風險；當商業模式確立、有穩定訂閱現金流時，可適度加入少量的銀行貸款或設備租賃（如 GPU 抵押）來避免股權過度稀釋；最後在規模爆發、需要巨大算力資本時，發動 IPO 邁向公開市場。」
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>參考教材：Brealey, Myers, Allen & Marcus - <i>Fundamentals of Corporate Finance</i> (Chapter 2)</p>
+        <p>製作：財務經濟學討論與個案分析教材庫</p>
+    </footer>
+
+</body>
+</html>

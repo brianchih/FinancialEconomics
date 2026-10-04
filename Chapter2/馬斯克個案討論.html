@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>馬斯克個案專題討論：公開上市權衡與創辦人極端風險剖析</title>
+
+    <!-- KaTeX CSS 引擎 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    
+    <style>
+        :root {
+            --primary-navy: #0F172A;
+            --accent-blue: #0284C7;
+            --accent-teal: #0D9488;
+            --accent-amber: #D97706;
+            --accent-purple: #7C3AED;
+            --alert-red: #DC2626;
+            --bg-light: #F8FAFC;
+            --card-border: #E2E8F0;
+            --text-dark: #1E293B;
+            --text-muted: #64748B;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Microsoft JhengHei", sans-serif;
+            line-height: 1.8;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-navy), #1E293B);
+            color: white;
+            padding: 3.5rem 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        header h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.3rem;
+            letter-spacing: 1px;
+            font-weight: 700;
+            color: #F8FAFC;
+        }
+
+        header p {
+            margin: 0 auto;
+            font-size: 1.15rem;
+            color: #94A3B8;
+            max-width: 800px;
+        }
+
+        .container {
+            max-width: 1040px;
+            margin: 2.5rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .section-badge {
+            display: inline-block;
+            background-color: var(--accent-blue);
+            color: white;
+            font-size: 0.85rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 6px;
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .section-badge.purple { background-color: var(--accent-purple); }
+        .section-badge.amber { background-color: var(--accent-amber); }
+        .section-badge.red { background-color: var(--alert-red); }
+        .section-badge.teal { background-color: var(--accent-teal); }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid var(--card-border);
+            padding: 2.2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+        }
+
+        .card h2 {
+            color: var(--primary-navy);
+            margin-top: 0;
+            border-bottom: 2px solid #F1F5F9;
+            padding-bottom: 12px;
+            font-size: 1.6rem;
+        }
+
+        .topic-question {
+            background-color: #F0F9FF;
+            border-left: 5px solid var(--accent-blue);
+            padding: 1.2rem 1.5rem;
+            border-radius: 0 8px 8px 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary-navy);
+            margin-bottom: 1.5rem;
+        }
+
+        .topic-question.purple {
+            background-color: #FAF5FF;
+            border-left-color: var(--accent-purple);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1.2rem;
+        }
+
+        .box {
+            background-color: #F8FAFC;
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 1.4rem;
+        }
+
+        .box h3 {
+            margin-top: 0;
+            color: var(--primary-navy);
+            font-size: 1.2rem;
+            border-bottom: 2px solid #E2E8F0;
+            padding-bottom: 6px;
+        }
+
+        /* 自訂 CSS 箭頭，徹底排除 -> 與亂碼問題 */
+        .arrow {
+            display: inline-block;
+            margin: 0 8px;
+            color: var(--accent-blue);
+            font-weight: bold;
+        }
+        .arrow::after {
+            content: "➔";
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.2rem;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        th, td {
+            border: 1px solid var(--card-border);
+            padding: 14px 16px;
+            text-align: left;
+            font-size: 0.95rem;
+        }
+
+        th {
+            background-color: var(--primary-navy);
+            color: white;
+        }
+
+        tr:nth-child(even) { background-color: #F8FAFC; }
+
+        .speech-box {
+            background-color: #FFFBEB;
+            border-left: 5px solid var(--accent-amber);
+            padding: 1.2rem 1.5rem;
+            margin-top: 1.5rem;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .speech-box strong { color: #92400E; font-size: 1.05rem; }
+
+        footer {
+            text-align: center;
+            padding: 3rem 1.5rem;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            border-top: 1px solid var(--card-border);
+            margin-top: 4rem;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 { grid-template-columns: 1fr; }
+            header h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>馬斯克個案討論</h1>
+        <p>對接 Brealey 第 2 章：公開上市權衡、客戶屬性、現金流回收期與個人風險對賭</p>
+    </header>
+
+    <div class="container">
+
+        <!-- 專題一：上市與未上市的選擇 -->
+        <div class="card">
+            <span class="section-badge blue">討論專題 一</span>
+            <h2>上市與未上市的選擇：Tesla (IPO) vs. SpaceX (Private)</h2>
+
+            <div class="topic-question">
+                ❓ 問題：為什麼需要巨額資本額擴張的 Tesla 選擇早早 IPO，而同樣需要極龐大資金的 SpaceX 卻堅持不上市？這與兩家公司的「客戶屬性」與「現金流回收週期」有何關係？
+            </div>
+
+            <p><strong>核心財務邏輯：</strong> 融資管道的選擇取決於企業的<strong>「資本支出密度（CapEx）」</strong>、<strong>「現金流可預測性」</strong>以及<strong>「次級市場對短期盈餘波動的耐受度」</strong>。</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>評估維度</th>
+                        <th>Tesla (2010 年上市 IPO)</th>
+                        <th>SpaceX (堅持私有化未上市)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>1. 客戶屬性<br>(Client Profile)</strong></td>
+                        <td><strong>大眾消費市場 (B2C)</strong><br>客戶為分散的全球大眾消費者，買車前無法提供大額預付合約。需要藉由 IPO 建立公開品牌的國際信用與信任感。</td>
+                        <td><strong>機構與政府客戶 (B2G / B2B)</strong><br>客戶為 NASA、美國國防部與大型電信巨頭。政府提供龐大的<strong>商業補給合約預付款（Pre-payments）</strong>，自身即為融資來源。</td>
+                    </tr>
+                    <tr>
+                        <td><strong>2. 現金流回收週期<br>(Payback Period)</strong></td>
+                        <td><strong>中短期現金流 (Shorter Cycle)</strong><br>電動車開發完畢進入量產後，每賣出一輛車就能立刻收回現金，符合公開市場股東對每季盈餘（EPS）與營收成長的期待。</td>
+                        <td><strong>極長期且高度不確定 (Long-term / High Risk)</strong><br>火星殖民計畫（Starship）研發週期長達數十年且失敗率極高，公開次級市場（Secondary Market）無法容忍如此劇烈的短期虧損。</td>
+                    </tr>
+                    <tr>
+                        <td><strong>3. 次級市場壓力<br>(Market Pressure)</strong></td>
+                        <td><strong>高次級市場對價關係</strong><br>建置全球 Gigafactory 龐大資本支出，創投（VC）無力獨自承擔，必須借助次級市場發行股票（SEO）與可轉債籌資。</td>
+                        <td><strong>避開短期盈餘指標干擾</strong><br>馬斯克曾言：「SpaceX 只有在星艦定期前往火星後才會考慮上市。」避免華爾街股東為了「下一季財報」而逼迫公司砍掉火星 R&D 預算。</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="speech-box">
+                <strong>🎙️ 小組報告總結發言範例：</strong><br>
+                「總結來說，Tesla 走向 B2C 大眾市場，需要建造全球超級工廠，資本需求遠超私募創投的極限，加上汽車量產後有明確的中短期現金流，因此必須透過 IPO 擁抱公開市場；反觀 SpaceX 的主要客戶是 NASA 等政府機構，能拿到巨額專案預付款，再加上『火星殖民』屬於研發週期長達數十年的極端高風險專案，若冒然上市會天天面臨華爾街要求縮減 R&D 的壓力。因此，維持未上市、由私人股權（PE）與星鏈（Starlink）現金流來支應，才是最合理的資本結構選擇。」
+            </div>
+        </div>
+
+        <!-- 專題二：極端風險與個人資本 -->
+        <div class="card">
+            <span class="section-badge purple">討論專題 二</span>
+            <h2>極端風險與個人資本：2008 年馬斯克的豪賭與分散風險原則</h2>
+
+            <div class="topic-question purple">
+                ❓ 問題：2008 年馬斯克將個人最後的資產砸入瀕臨破產的公司，這符合傳統財務學的「資產分散風險（Diversification）」原則嗎？作為 CFO，你會建議創辦人這樣做嗎？
+            </div>
+
+            <p><strong>核心財務理論：</strong> 這精準呈現了 「現代投資組合理論（MPT）」 與 「企業家實體期權（Entrepreneurial Real Options）」 之間的經典矛盾。</p>
+
+            <div class="grid-2">
+                <div class="box">
+                    <h3>📉 1. 是否符合「分散風險 (Diversification)」？</h3>
+                    <p><strong>完全不符合！</strong> 依據馬科維茨的現代投資組合理論（MPT），將 100% 的個人淨資產集中投入兩家高風險、高相關性（均面臨 2008 金融海嘯與極高破產機率）的新創公司，屬於極端違背分散風險原則的孤注一擲。</p>
+                    <p style="text-align: center; margin-top: 10px;" id="math-var"></p>
+                </div>
+
+                <div class="box" style="background-color: #FAF5FF; border-color: #E9D8FD;">
+                    <h3>💼 2. 作為 CFO，會建議創辦人這樣做嗎？</h3>
+                    <p><strong>理性的 CFO 絕對會強力警告並反對！</strong></p>
+
+                    <ul>
+                        <li><strong>資產負債表破產風險：</strong> CFO 的職責是維護企業的流動性與生存底線。把個人最後流動資金投入，一旦失敗將導致企業與個人同時宣告破產。</li>
+                        <li><strong>替代財務方案：</strong> CFO 應尋求發行附認股權債券（Warrants）、引進戰略拯救者（Bridge Financing）或進行債務重組（Debt Restructuring），而非讓創辦人進行個人賭博。</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="speech-box">
+                <strong>🎙️ 總結：</strong><br>
+                「從財務學角度來看，馬斯克 2008 年的舉動完全違背了馬科維茨的『分散投資（Diversification）』原則，這不是理性的資產配置，而是一場非理性的個人豪賭。作為 CFO，我絕對不會建議創辦人這樣做！因為 CFO 的職責是管理流動性與下行風險，我們應該透過金融工具（如尋求政府過渡貸款、引進戰略投資人或進行債務重組）來保護公司，而不是讓創辦人賭上個人全部身家。馬斯克最終能成功是極罕見的『存活者偏誤（Survivorship Bias）』，在絕大多數情況下，這種孤注一擲只會帶來創辦人與企業雙雙破產的悲劇結局。」
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>參考教材：Brealey, Myers, Allen & Edmans - <i>Principles of Corporate Finance</i> (14th Edition)</p>
+        <p>製作：財務經濟學課堂討論與個案分析教材庫</p>
+    </footer>
+
+    <!-- KaTeX JS 引擎 -->
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            katex.render("\\sigma_p^2 = w_1^2 \\sigma_1^2 + w_2^2 \\sigma_2^2 + 2w_1 w_2 \\sigma_{12}", document.getElementById("math-var"), {
+                throwOnError: false
+            });
+        });
+    </script>
+
+</body>
+</html>

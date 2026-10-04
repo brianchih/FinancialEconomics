@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>預測市場專題討論：代理成本與市場操縱修復機制</title>
+    <style>
+        :root {
+            --primary-navy: #0F172A;
+            --accent-blue: #0284C7;
+            --accent-teal: #0D9488;
+            --accent-purple: #7C3AED;
+            --accent-amber: #D97706;
+            --alert-red: #DC2626;
+            --bg-light: #F8FAFC;
+            --card-border: #E2E8F0;
+            --text-dark: #1E293B;
+            --text-muted: #64748B;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Microsoft JhengHei", sans-serif;
+            line-height: 1.8;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-navy), #1E293B);
+            color: white;
+            padding: 3.5rem 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        header h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.3rem;
+            letter-spacing: 1px;
+            font-weight: 700;
+            color: #F8FAFC;
+        }
+
+        header p {
+            margin: 0 auto;
+            font-size: 1.15rem;
+            color: #94A3B8;
+            max-width: 800px;
+        }
+
+        .container {
+            max-width: 1040px;
+            margin: 2.5rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .section-badge {
+            display: inline-block;
+            background-color: var(--accent-blue);
+            color: white;
+            font-size: 0.85rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 6px;
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .section-badge.purple { background-color: var(--accent-purple); }
+        .section-badge.amber { background-color: var(--accent-amber); }
+        .section-badge.red { background-color: var(--alert-red); }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid var(--card-border);
+            padding: 2.2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+        }
+
+        .card h2 {
+            color: var(--primary-navy);
+            margin-top: 0;
+            border-bottom: 2px solid #F1F5F9;
+            padding-bottom: 12px;
+            font-size: 1.6rem;
+        }
+
+        .topic-question {
+            background-color: #F0F9FF;
+            border-left: 5px solid var(--accent-blue);
+            padding: 1.2rem 1.5rem;
+            border-radius: 0 8px 8px 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary-navy);
+            margin-bottom: 1.5rem;
+        }
+
+        .topic-question.purple {
+            background-color: #FAF5FF;
+            border-left-color: var(--accent-purple);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1.2rem;
+        }
+
+        .box {
+            background-color: #F8FAFC;
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 1.4rem;
+        }
+
+        .box h3 {
+            margin-top: 0;
+            color: var(--primary-navy);
+            font-size: 1.2rem;
+            border-bottom: 2px solid #E2E8F0;
+            padding-bottom: 6px;
+        }
+
+        .speech-box {
+            background-color: #FFFBEB;
+            border-left: 5px solid var(--accent-amber);
+            padding: 1.2rem 1.5rem;
+            margin-top: 1.5rem;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .speech-box strong { color: #92400E; font-size: 1.05rem; }
+
+        footer {
+            text-align: center;
+            padding: 3rem 1.5rem;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            border-top: 1px solid var(--card-border);
+            margin-top: 4rem;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 { grid-template-columns: 1fr; }
+            header h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>預測市場（Prediction Markets）深度討論專題</h1>
+        <p>剖析內部代理問題、資訊不對稱與資本操縱修正機制</p>
+    </header>
+
+    <div class="container">
+
+        <!-- 專題一：代理問題與內部市場 -->
+        <div class="card">
+            <span class="section-badge purple">討論專題 一</span>
+            <h2>代理問題與內部預測市場 (Corporate Agency Problems)</h2>
+
+            <div class="topic-question purple">
+                ❓ 討論問題：為什麼基層員工在面對老闆關心時常會說「專案進度順利」，但在匿名的公司內部預測市場中卻會下注「專案一定會延期」？這反映了什麼代理成本？
+            </div>
+
+            <p><strong>核心財務理論：</strong> 這精準呈現了企業組織內部的 「資訊不對稱（Information Asymmetry）」 與 「代理人誘因扭曲（Misaligned Incentives）」。</p>
+
+            <div class="grid-2">
+                <div class="box">
+                    <h3>🗣️ 為什麼面對老闆說「進度順利」？</h3>
+                    <ul>
+                        <li><strong>職涯懲罰與績效壓力：</strong> 當面回報壞消息會面臨主管斥責、績效獎金被扣甚至被解僱的風險（以個人職涯冒險）。</li>
+                        <li><strong>道德風險與延遲暴露：</strong> 員工有誘因「先蓋住問題」，賭未來有奇蹟或等換組後再由接手者承擔責任（短視近利）。</li>
+                        <li><strong>官僚過濾機制：</strong> 壞消息在層層回報過程中，被中階主管以政治話術「美化」為一切掌控中。</li>
+                    </ul>
+                </div>
+
+                <div class="box" style="background-color: #FAF5FF; border-color: #E9D8FD;">
+                    <h3>🎯 為什麼在匿名預測市場下注「會延期」？</h3>
+                    <ul>
+                        <li><strong>匿名性消除職業威脅：</strong> 預測市場提供保護，消除講真話的懲罰機制（No Penalty for Truth）。</li>
+                        <li><strong>金錢激勵 (Skin in the Game)：</strong> 下注「延期」下對了能分得真金白銀，將基層掌握的私人隱性資訊（Private Information）轉化為財務回報。</li>
+                        <li><strong>集合智慧發揮：</strong> 每個工程師知道一小塊瓶頸，匯集起來的市場價格直接折現了真正的成功機率。</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="speech-box">
+                <strong>💡 反映的「代理成本 (Agency Costs)」類型：</strong><br>
+                1. <strong>殘餘損失 (Residual Loss)：</strong> 管理者因取得被美化的錯誤資訊，做出次優決策（如繼續灌入資金給註定延期的專案），導致企業價值減損。<br>
+                2. <strong>監督與防禦成本：</strong> 企業需要額外建立內部審計、預測市場或第三方評估機構來「挖出真相」所付出的成本。
+            </div>
+        </div>
+
+        <!-- 專題二：資訊效率邊界與操縱修正 -->
+        <div class="card">
+            <span class="section-badge amber">討論專題 二</span>
+            <h2>資訊效率邊界：大資金「操縱價格」與市場自我修正機制</h2>
+
+            <div class="topic-question">
+                ❓ 討論問題：預測市場是否可能被有心人士利用大筆資金進場進行「操縱價格」？市場機制會如何修正這種操縱行為？
+            </div>
+
+            <p><strong>核心財務理論：</strong> 任何金融市場都可能面臨短期的 「資本操縱（Market Manipulation）」，但預測市場具備強大的 「無風險套利（Arbitrage）」 與「獎勵真知（Reward for Truth）」機制，能迅速修復價格扭曲。</p>
+
+            <div class="grid-2">
+                <div class="box">
+                    <h3>⚠️ 操縱行為是如何發生的？</h3>
+                    <ul>
+                        <li><strong>巨資硬推（Capital Bullying）：</strong> 操縱者（如專案負責人或有利益關係者）砸下重金買進「YES」，試圖營造成功機率高的假象，以影響外部決策或公關輿論。</li>
+                        <li><strong>流動性薄弱池：</strong> 在交易量小的市場中，少量資金就能顯著拉抬或壓低價格。</li>
+                    </ul>
+                </div>
+
+                <div class="box" style="background-color: #FFFBEB; border-color: #FDE68A;">
+                    <h3>🛠️ 市場機制如何「自動修復」價格？</h3>
+                    <ul>
+                        <li><strong>套利者打折送錢（Arbitrageurs）：</strong> 操縱者把價格推到不合理的偏高位置（如將 20% 延期率推高到 90%）時，等同於在市場上發放折扣補貼。得知真相的理性交易者會瘋狂賣空或買進對立面，賺取暴利，迅速將價格推回合理值。</li>
+                        <li><strong>「懲罰操縱者」機制：</strong> 操縱預測市場代價極其昂貴，因為該合約最終會按照真實結果（$0 或 $1）結算。操縱者的假資金最終會被知道真相的套利者完全吃掉（財富轉移）。</li>
+                        <li><strong>時間終局約束 (Settlement Constraint)：</strong> 越接近事件到期日，真實資訊越明確，操縱者維持虛假價格所需注入的資金呈指數型增加，最終宣告失敗。</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="speech-box">
+                <strong>🎙️ 總結：</strong><br>
+                「預測市場確實可能遭遇短期的人為砸錢操縱，但這種操縱行為在財務學上被稱為『送錢給知情者』。因為預測市場有硬性的結算日（$1 或 $0），操縱者製造的偏離價格只會吸引更多套利者（Arbitrageurs）進場反向押注。操縱者付出的巨額資金最終會被市場套利者瓜分，價格也會迅速回歸真實概率——這正是『有效市場假說（EMH）』最生動的自動修復機制。」
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>參考教材：Brealey, Myers, Allen & Edmans - <i>Principles of Corporate Finance</i> (14th Edition)</p>
+        <p>製作：財務經濟學討論與個案分析教材庫</p>
+    </footer>
+
+</body>
+</html>

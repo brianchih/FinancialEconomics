@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第 2 章：金融市場與資金流向 (Financial Markets & Fund Flows) - 互動教學講義</title>
+    <style>
+        :root {
+            --primary-navy: #0F172A;
+            --accent-blue: #0284C7;
+            --accent-teal: #0D9488;
+            --accent-amber: #D97706;
+            --accent-purple: #7C3AED;
+            --bg-light: #F8FAFC;
+            --card-border: #E2E8F0;
+            --text-dark: #1E293B;
+            --text-muted: #64748B;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Microsoft JhengHei", sans-serif;
+            line-height: 1.8;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-navy), #1E293B);
+            color: white;
+            padding: 3.5rem 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        header h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.3rem;
+            letter-spacing: 1px;
+            font-weight: 700;
+            color: #F8FAFC;
+        }
+
+        header p {
+            margin: 0 auto;
+            font-size: 1.15rem;
+            color: #94A3B8;
+            max-width: 750px;
+        }
+
+        .container {
+            max-width: 1040px;
+            margin: 2.5rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .section-badge {
+            display: inline-block;
+            background-color: var(--accent-blue);
+            color: white;
+            font-size: 0.85rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 6px;
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .section-badge.teal { background-color: var(--accent-teal); }
+        .section-badge.amber { background-color: var(--accent-amber); }
+        .section-badge.purple { background-color: var(--accent-purple); }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid var(--card-border);
+            padding: 2.2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+        }
+
+        .card h2 {
+            color: var(--primary-navy);
+            margin-top: 0;
+            border-bottom: 2px solid #F1F5F9;
+            padding-bottom: 12px;
+            font-size: 1.6rem;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1.2rem;
+        }
+
+        .box {
+            background-color: #F8FAFC;
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 1.4rem;
+        }
+
+        .box h3 {
+            margin-top: 0;
+            color: var(--primary-navy);
+            font-size: 1.2rem;
+        }
+
+        /* 儲蓄流向圖表示意 */
+        .flow-diagram {
+            background: #F1F5F9;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+
+        .flow-step {
+            display: inline-block;
+            background: white;
+            padding: 10px 18px;
+            border-radius: 6px;
+            border: 1px solid var(--card-border);
+            font-weight: 600;
+            color: var(--primary-navy);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+        }
+
+        .flow-arrow {
+            display: inline-block;
+            margin: 0 10px;
+            color: var(--accent-blue);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.2rem;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        th, td {
+            border: 1px solid var(--card-border);
+            padding: 14px 16px;
+            text-align: left;
+            font-size: 0.95rem;
+        }
+
+        th {
+            background-color: var(--primary-navy);
+            color: white;
+        }
+
+        tr:nth-child(even) { background-color: #F8FAFC; }
+
+        .takeaway-box {
+            background-color: #FFFBEB;
+            border-left: 5px solid var(--accent-amber);
+            padding: 1.2rem 1.5rem;
+            margin-top: 1.5rem;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .takeaway-box strong { color: #92400E; }
+
+        .edition-tag {
+            display: inline-block;
+            background-color: #FEF3C7;
+            color: #92400E;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 6px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 3rem 1.5rem;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            border-top: 1px solid var(--card-border);
+            margin-top: 4rem;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 { grid-template-columns: 1fr; }
+            header h1 { font-size: 1.8rem; }
+            .flow-diagram { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+            .flow-arrow { transform: rotate(90deg); margin: 5px 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>第 2 章：金融市場與資金流向</h1>
+        <p>基於 Brealey Fundamentals of Corporate Finance 核心理論與最新全球案例解析</p>
+    </header>
+
+    <div class="container">
+
+        <!-- 1. Apple 生命週期與融資演進 -->
+        <div class="card">
+            <span class="section-badge">經典個案與最新演進</span>
+            <h2>1. Apple 企業生命週期與資本回饋演進</h2>
+            <p>公開發行公司能透過多樣化管道籌措資金。Apple 的成長歷程精準地詮釋了企業在不同生命週期階段，如何搭配不同的金融市場工具與融資策略：</p>
+
+            <div class="grid-2">
+                <div class="box">
+                    <h3>📜 歷史脈絡 (9e 經典回顧)</h3>
+                    <ul>
+                        <li><strong>創業初期：</strong> 依賴創投資金 (VC) 融資，並於 1980 年公開上市 (IPO)。</li>
+                        <li><strong>1990 年代風暴：</strong> 1996-1997 年遭逢營運巨變，取消股利發放，並向私人投資人借款 $6.61 億美元進行復原計畫。</li>
+                        <li><strong>2000 年代復甦：</strong> iMac 與 iPod 推出後獲利飆升，依靠保留盈餘 (Retained Earnings) 再投資，2015 年累積保留盈餘達 $920 億美元。</li>
+                        <li><strong>2012–2017 年重啟資本回饋：</strong> 坐擁超 $2,000 億美元現金，重新發放股利並實施大規模股票買回 (Share Repurchases)。</li>
+                    </ul>
+                </div>
+
+                <div class="box" style="background-color: #F0F9FF; border-color: #BAE6FD;">
+                    <h3>🚀 最新補充 <span class="edition-tag">14e & 當代實務</span></h3>
+                    <ul>
+                        <li><strong>市值突破 3 兆美元 (2022-2024)：</strong> Apple 累積發放超過 $8,000 億美元的資本回饋，成為歷史上規模最大的股票買回企業。</li>
+                        <li><strong>極致資本效率 (Capital Efficiency)：</strong> 利用頂級信用評等發行低利公司債，一方面優化資本結構，另一方面持續進行 R&D 投資（如 M 系列晶片與 Apple Intelligence）。</li>
+                        <li><strong>科技巨頭發放股利潮：</strong> 2024 年，Meta 與 Alphabet (Google) 紛紛宣佈首次發放現金股利，標誌著成熟科技巨頭全面邁入「營運現金流自給自足 + 資本回饋」階段。</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="takeaway-box">
+                <strong>💡 CFO 關鍵思考：</strong> 如果沒有健全運作的現代金融體系，Apple 無法在早期取得創投與 IPO 資金，更無法在危機時取得救命融資。健全的金融體系是實體經濟繁榮的基礎。
+            </div>
+        </div>
+
+        <!-- 2. 儲蓄如何流向公司 -->
+        <div class="card">
+            <span class="section-badge teal">資金流向機制</span>
+            <h2>2. 儲蓄流向公司：金融市場與金融中介</h2>
+            <p>公司投資在實質資產（Real Assets）的金錢，終究來自投資人的儲蓄。資金流向可以經由金融市場、金融中介，或兩者結合：</p>
+
+            <div class="flow-diagram">
+                <span class="flow-step">投資人儲蓄 (Savers)</span>
+                <span class="flow-arrow">➔</span>
+                <span class="flow-step">金融市場 (初級發行) / 金融中介 (銀行/基金)</span>
+                <span class="flow-arrow">➔</span>
+                <span class="flow-step">公司實質資產投資 (Real Assets)</span>
+            </div>
+
+            <div class="grid-2">
+                <div class="box">
+                    <h3>🏢 小型私人公司 (Small / Private)</h3>
+                    <ul>
+                        <li><strong>途徑一：保留盈餘 (Retained Earnings)</strong><br>公司將獲利留存並再投資，實質上是替現有股東進行再投資。</li>
+                        <li><strong>途徑二：銀行貸款 (Financial Intermediary)</strong><br>大眾儲蓄存入銀行，銀行將資金貸放給公司。</li>
+                    </ul>
+                </div>
+                <div class="box">
+                    <h3>🌐 大型公開發行公司 (Large / Public)</h3>
+                    <ul>
+                        <li><strong>跨國儲蓄池 (Global Capital Pool)</strong><br>可同時吸引全球投資人儲蓄，例如義大利投資人購買 Bank of America 股票，銀行再貸款給 Apple。</li>
+                        <li><strong>多管道融資 (Multichannel Financing)</strong><br>透過股票市場、債券市場、商業本票、銀行聯貸等多種管道籌措資金。</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. 股票市場與次級市場 -->
+        <div class="card">
+            <span class="section-badge amber">市場結構與交易</span>
+            <h2>3. 股票市場 (Equity Market) 與證券交易</h2>
+            <p>金融市場（Financial Market）是發行與交易證券（Securities）的場所。對企業而言，股票市場是最核心的權益融資管道：</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>市場類型</th>
+                        <th>交易性質</th>
+                        <th>對公司的資金影響</th>
+                        <th>最新趨勢與案例 <span class="edition-tag">14e Update</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>首次公開發行 (IPO)</strong></td>
+                        <td>公司首次向不特定大眾發行股票並在交易所（如 NYSE、NASDAQ）掛牌。</td>
+                        <td><strong>注入新現金</strong><br>直接籌集外部資金以投資實質資產。</td>
+                        <td>2023–2024 年 Arm 與 Reddit 的上市案；AI 新創公司在私募階段融資時間拉長，延後 IPO 年限。</td>
+                    </tr>
+                    <tr>
+                        <td><strong>初級市場 (Primary Market)</strong></td>
+                        <td>公司發行新證券（初級發行 Primary Issue）銷售給投資人。</td>
+                        <td><strong>增加公司現金</strong><br>用於擴建、併購或營運資金。</td>
+                        <td>成熟企業透過現金增資 (SEO) 或發行可轉換公司債 (Convertible Bonds) 進行二次籌資。</td>
+                    </tr>
+                    <tr>
+                        <td><strong>次級市場 (Secondary Market)</strong></td>
+                        <td>現有投資人彼此之間買賣已發行的證券（二手交易）。</td>
+                        <td><strong>無直接現金流入</strong><br>僅所有權移轉，但提供<strong>流動性 (Liquidity)</strong> 與<strong>市場評價 (Pricing)</strong>。</td>
+                        <td>高流動性次級市場是吸引初級市場投資的前提。全球化交易所（如美股 ADR）允許外國企業在美二次上市。</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="takeaway-box">
+                <strong>🎓 課堂觀察：</strong> 如果投資人在次級市場上無法隨時變現，他們就不會願意在初級市場上將資金投入公司的長期專案。次級市場的流動性直接決定了初級市場的融資效率。
+            </div>
+        </div>
+
+        <!-- 4. 補充：最新 14e 觀念整合與對照 -->
+        <div class="card" style="background-color: #FAF5FF; border-color: #E9D8FD;">
+            <span class="section-badge purple">14e 觀念延伸</span>
+            <h2>4. Brealey 第 14 版最新補充：當代金融體系新趨勢</h2>
+            <ul>
+                <li><strong>無形資產與風險資本 (Intangible Assets & VC)：</strong> 現代企業（如 AI 與軟體公司）的投資核心由傳統廠房轉向智慧財產權 (IP) 與演算法，創投資金 (VC) 與私募股權 (Private Equity) 在初級市場的作用更加顯著。</li>
+                <li><strong>微型貸款與金融包容性 (Microfinance & Fintech)：</strong> 金融科技 (Fintech) 與平台借貸降低了邊緣地區與小型商家的融資門檻，擴大了儲蓄轉化為實體投資的覆蓋面。</li>
+                <li><strong>ESG 與永續金融市場 (Sustainable Finance)：</strong> 初級市場發行無擔保綠色債券 (Green Bonds) 與 ESG 連結貸款的規模成長迅速，企業融資決策需納入永續指標。</li>
+            </ul>
+        </div>
+
+        <!-- 5. 課堂討論題 -->
+        <div class="card" style="background-color: #F8FAFC; border-color: #CBD5E1;">
+            <h2 style="color: var(--primary-navy);">💬 課堂思考與小組討論題</h2>
+            <ol>
+                <li><strong>次級市場價值：</strong> 既然次級市場上的股票買賣只是投資人之間的資金移轉，公司拿不到一毛錢，為什麼 CFO 依然非常關心公司在次級市場上的股價表現？</li>
+                <li><strong>儲蓄流向決策：</strong> 假設您是一家新創 AI 公司的 CFO，在選擇創投資金 (VC)、銀行貸款與公開 IPO 上市時，您會考量哪些關鍵因素？</li>
+            </ol>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>參考教材：Brealey, Myers, Allen, & Marcus - <i>Fundamentals / Principles of Corporate Finance</i> (9e & 14e)</p>
+        <p>製作：財務經濟學案例教學與互動教材庫</p>
+    </footer>
+
+</body>
+</html>
