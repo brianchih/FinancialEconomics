@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>0050 收盤價預測市場 - 自動化撮合系統</title>
+    <style>
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --text-color: #e0e0e0;
+            --buy-color: #ef5350; /* 臺股習慣：紅買 */
+            --buy-bg: rgba(239, 83, 80, 0.15);
+            --sell-color: #26a69a; /* 臺股習慣：綠賣 */
+            --sell-bg: rgba(38, 166, 154, 0.15);
+            --border-color: #333;
+            --accent-color: #ffb74d;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1, h2, h3 {
+            margin-top: 0;
+            color: #fff;
+        }
+
+        .header-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--card-bg);
+            padding: 15px 25px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .last-price-box {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: 320px 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        /* 表單樣式 */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: #aaa;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            background-color: #2a2a2a;
+            color: #fff;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .btn-buy {
+            background-color: var(--buy-color);
+            color: white;
+        }
+
+        .btn-sell {
+            background-color: var(--sell-color);
+            color: white;
+        }
+
+        /* 五檔圖表樣式 */
+        .orderbook-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            text-align: right;
+        }
+
+        .orderbook-table th {
+            padding: 8px;
+            color: #888;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .orderbook-table td {
+            padding: 8px;
+        }
+
+        .sell-row {
+            background-color: var(--sell-bg);
+            color: var(--sell-color);
+        }
+
+        .buy-row {
+            background-color: var(--buy-bg);
+            color: var(--buy-color);
+        }
+
+        /* 組別資產與紀錄表格 */
+        .full-width-card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: center;
+        }
+
+        .data-table th, .data-table td {
+            padding: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .data-table th {
+            background-color: #2a2a2a;
+            color: #bbb;
+        }
+
+        .log-container {
+            max-height: 200px;
+            overflow-y: auto;
+            background-color: #181818;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 13px;
+        }
+
+        .log-entry {
+            margin-bottom: 5px;
+            border-bottom: 1px solid #222;
+            padding-bottom: 3px;
+        }
+
+        .log-time { color: #666; }
+        .log-match { color: #81c784; font-weight: bold; }
+
+        .system-btn-danger {
+            background-color: #d32f2f;
+            color: white;
+            padding: 6px 12px;
+            font-size: 12px;
+            float: right;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-info">
+        <div>
+            <h2>0050 收盤價預測市場 — 現場撮合系統</h2>
+            <small style="color: #888;">交易標的：今日 0050 收盤價 (元) | 撮合規則：價格優先、時間優先</small>
+        </div>
+        <div class="last-price-box">
+            最新成交價：<span id="last-price">--</span> 元
+        </div>
+    </div>
+
+    <div class="grid-container">
+        <!-- 1. 主持人下單操作區 -->
+        <div class="card">
+            <h3>主持呼叫 / 委託下單</h3>
+            <form id="order-form">
+                <div class="form-group">
+                    <label for="group-select">選擇組別：</label>
+                    <select id="group-select" required></select>
+                </div>
+                <div class="form-group">
+                    <label for="order-type">買賣類別：</label>
+                    <select id="order-type" required>
+                        <option value="BUY">買進 (BUY)</option>
+                        <option value="SELL">賣出 (SELL)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="order-price">委託價格 (元)：</label>
+                    <input type="number" id="order-price" step="0.05" min="1" placeholder="例如: 195.5" required>
+                </div>
+                <div class="form-group">
+                    <label for="order-qty">委託數量 (張)：</label>
+                    <input type="number" id="order-qty" step="1" min="1" value="1" required>
+                </div>
+                <div class="btn-group">
+                    <button type="button" id="btn-submit-buy" class="btn-buy">送出買單</button>
+                    <button type="button" id="btn-submit-sell" class="btn-sell">送出賣單</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- 2. 五檔買賣委託簿 (Order Book) -->
+        <div class="card">
+            <h3>最佳五檔掛單 (Order Book)</h3>
+            <table class="orderbook-table">
+                <thead>
+                    <tr>
+                        <th style="text-align: left;">買/賣</th>
+                        <th>委託價格</th>
+                        <th>委託張數</th>
+                    </tr>
+                </thead>
+                <tbody id="orderbook-body">
+                    <!-- 內容由 JS 動態渲染 -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 3. 撮合即時動態日誌 -->
+        <div class="card">
+            <h3>交易系統日誌 (Market Log)</h3>
+            <div class="log-container" id="market-log">
+                <div class="log-entry"><span class="log-time">[系統啟動]</span> 市場已開盤，準備接受現場喊價...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. 各組資產即時狀態表 -->
+    <div class="full-width-card">
+        <button class="system-btn-danger" id="btn-reset" onclick="resetMarket()">重置市場資料</button>
+        <h3>交易者資產即時監控 (第 1 組 ~ 第 13 組)</h3>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>組別</th>
+                    <th>現金餘額 (Cash)</th>
+                    <th>股票持股 (0050 張數)</th>
+                    <th>凍結現金 (委託中)</th>
+                    <th>凍結股票 (委託中)</th>
+                    <th>參考總資產 (以最新價計)</th>
+                </tr>
+            </thead>
+            <tbody id="trader-asset-body">
+                <!-- 由 JS 自動生成 1~13 組 -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // --- 核心資料結構與初始化 ---
+        const INITIAL_CASH = 1000000;
+        const INITIAL_STOCK = 5;
+        let lastPrice = null;
+        let orderIdCounter = 1;
+
+        // 交易者資料 (第1組至第13組)
+        let traders = {};
+        for (let i = 1; i <= 13; i++) {
+            traders[`第 ${i} 組`] = {
+                cash: INITIAL_CASH,
+                stock: INITIAL_STOCK,
+                frozenCash: 0,
+                frozenStock: 0
+            };
+        }
+
+        // 委託單儲存結構
+        let buyOrders = [];  // 買單：價格由高到低排序，時間由早到晚
+        let sellOrders = []; // 賣單：價格由低到高排序，時間由早到晚
+
+        // --- 初始化頁面 DOM ---
+        window.onload = function() {
+            initTraderSelect();
+            updateTraderTable();
+            renderOrderBook();
+        };
+
+        function initTraderSelect() {
+            const select = document.getElementById('group-select');
+            select.innerHTML = '';
+            Object.keys(traders).forEach(group => {
+                let option = document.createElement('option');
+                option.value = group;
+                option.textContent = group;
+                select.appendChild(option);
+            });
+        }
+
+        // --- 核心邏輯：下單與資產檢核 ---
+        document.getElementById('btn-submit-buy').addEventListener('click', () => processOrderInput('BUY'));
+        document.getElementById('btn-submit-sell').addEventListener('click', () => processOrderInput('SELL'));
+
+        function processOrderInput(type) {
+            const group = document.getElementById('group-select').value;
+            const price = parseFloat(document.getElementById('order-price').value);
+            const qty = parseInt(document.getElementById('order-qty').value);
+
+            if (isNaN(price) || price <= 0 || isNaN(qty) || qty <= 0) {
+                alert("請輸入有效的價格與張數！");
+                return;
+            }
+
+            const trader = traders[group];
+
+            // 檢查資產是否足夠
+            if (type === 'BUY') {
+                const requiredCash = price * qty;
+                if (trader.cash < requiredCash) {
+                    alert(`【委託失敗】${group} 可用現金不足！需要: $${requiredCash.toLocaleString()}，可用: $${trader.cash.toLocaleString()}`);
+                    return;
+                }
+                // 扣除並凍結現金
+                trader.cash -= requiredCash;
+                trader.frozenCash += requiredCash;
+            } else if (type === 'SELL') {
+                if (trader.stock < qty) {
+                    alert(`【委託失敗】${group} 可用股票不足！需要: ${qty} 張，可用: ${trader.stock} 張`);
+                    return;
+                }
+                // 扣除並凍結股票
+                trader.stock -= qty;
+                trader.frozenStock += qty;
+            }
+
+            // 建立委託單
+            const newOrder = {
+                id: orderIdCounter++,
+                group: group,
+                type: type,
+                price: price,
+                qty: qty,
+                timestamp: new Date()
+            };
+
+            logMarket(`[委託成功] ${group} 提出 ${type === 'BUY' ? '買進' : '賣出'} ${qty} 張，委託價: $${price}`);
+
+            // 執行自動撮合引擎
+            matchOrders(newOrder);
+
+            // 更新 UI
+            updateTraderTable();
+            renderOrderBook();
+        }
+
+        // --- 核心邏輯：自動撮合引擎 (Matching Engine) ---
+        function matchOrders(incomingOrder) {
+            if (incomingOrder.type === 'BUY') {
+                // 新進買單，對抗現有賣單 (賣單按價格升序)
+                while (incomingOrder.qty > 0 && sellOrders.length > 0) {
+                    let bestSell = sellOrders[0];
+
+                    // 成交條件：買價 >= 賣價
+                    if (incomingOrder.price >= bestSell.price) {
+                        let matchPrice = bestSell.price; // 以先掛單者的價格成交
+                        let matchQty = Math.min(incomingOrder.qty, bestSell.qty);
+
+                        // 結算交易
+                        executeTrade(incomingOrder.group, bestSell.group, matchPrice, matchQty, 'BUY_INCOMING');
+
+                        incomingOrder.qty -= matchQty;
+                        bestSell.qty -= matchQty;
+
+                        // 如果現有賣單已被吃完，移除該賣單
+                        if (bestSell.qty === 0) {
+                            sellOrders.shift();
+                        }
+                    } else {
+                        break; // 最低賣價高於買價，無法繼續撮合
+                    }
+                }
+
+                // 若買單尚未完全成交，將剩餘數量掛回委託簿
+                if (incomingOrder.qty > 0) {
+                    buyOrders.push(incomingOrder);
+                    // 買單排序：價格降序(大到小)，時間升序(早到晚)
+                    buyOrders.sort((a, b) => b.price - a.price || a.timestamp - b.timestamp);
+                }
+
+            } else {
+                // 新進賣單，對抗現有買單 (買單按價格降序)
+                while (incomingOrder.qty > 0 && buyOrders.length > 0) {
+                    let bestBuy = buyOrders[0];
+
+                    // 成交條件：賣價 <= 買價
+                    if (incomingOrder.price <= bestBuy.price) {
+                        let matchPrice = bestBuy.price; // 以先掛單者的價格成交
+                        let matchQty = Math.min(incomingOrder.qty, bestBuy.qty);
+
+                        // 結算交易
+                        executeTrade(bestBuy.group, incomingOrder.group, matchPrice, matchQty, 'SELL_INCOMING');
+
+                        incomingOrder.qty -= matchQty;
+                        bestBuy.qty -= matchQty;
+
+                        if (bestBuy.qty === 0) {
+                            buyOrders.shift();
+                        }
+                    } else {
+                        break; // 最高買價低於賣價，無法繼續撮合
+                    }
+                }
+
+                // 若賣單尚未完全成交，將剩餘數量掛回委託簿
+                if (incomingOrder.qty > 0) {
+                    sellOrders.push(incomingOrder);
+                    // 賣單排序：價格升序(小到大)，時間升序(早到晚)
+                    sellOrders.sort((a, b) => a.price - b.price || a.timestamp - b.timestamp);
+                }
+            }
+        }
+
+        // --- 結算與資金劃撥 ---
+        function executeTrade(buyerGroup, sellerGroup, price, qty, context) {
+            const tradeAmount = price * qty;
+            const buyer = traders[buyerGroup];
+            const seller = traders[sellerGroup];
+
+            // 1. 買方結算：獲取股票，釋放並扣除凍結資金 (若成交價低於委託價，退還差額)
+            buyer.stock += qty;
+            // 這裡簡化處理：解凍實際所需的金額
+            if (context === 'BUY_INCOMING') {
+                // 新買單主動撞賣單，凍結資金是按買單委託價凍結的
+                // 實際成交價可能更低，退還差額
+                const incomingOrderPrice = parseFloat(document.getElementById('order-price').value); 
+                const frozenAllocated = incomingOrderPrice * qty;
+                buyer.frozenCash -= frozenAllocated;
+                buyer.cash += (frozenAllocated - tradeAmount); // 退還差額
+            } else {
+                // 買單是原本就在簿子上的，價格即為撮合價
+                buyer.frozenCash -= tradeAmount;
+            }
+
+            // 2. 賣方結算：獲取現金，扣除凍結股票
+            seller.cash += tradeAmount;
+            if (context === 'SELL_INCOMING') {
+                seller.frozenStock -= qty;
+            } else {
+                seller.frozenStock -= qty;
+            }
+
+            // 更新最新成交價
+            lastPrice = price;
+            document.getElementById('last-price').textContent = lastPrice;
+
+            logMarket(`<span class="log-match">【成交通知】價格 $${price} | 數量 ${qty} 張 | 買方: ${buyerGroup} | 賣方: ${sellerGroup}</span>`);
+        }
+
+        // --- 畫面更新：五檔圖表渲染 ---
+        function renderOrderBook() {
+            const tbody = document.getElementById('orderbook-body');
+            tbody.innerHTML = '';
+
+            // 彙整賣單 (同價格合併張數)
+            let aggregatedSells = aggregateOrders(sellOrders, 'SELL').slice(0, 5).reverse(); // 取前5檔並反轉，讓最低賣價在最下面靠近買價
+            // 彙整買單
+            let aggregatedBuys = aggregateOrders(buyOrders, 'BUY').slice(0, 5);
+
+            // 渲染賣單 (顯示上層)
+            aggregatedSells.forEach(item => {
+                let tr = document.createElement('tr');
+                tr.className = 'sell-row';
+                tr.innerHTML = `<td>賣出 (Ask)</td><td>$${item.price.toFixed(2)}</td><td>${item.totalQty}</td>`;
+                tbody.appendChild(tr);
+            });
+
+            if (aggregatedSells.length === 0) {
+                tbody.innerHTML += `<tr class="sell-row"><td colspan="3" style="text-align:center; color:#666;">無賣出委託</td></tr>`;
+            }
+
+            // 分隔線
+            tbody.innerHTML += `<tr><td colspan="3" style="border-top:2px solid var(--accent-color); padding:2px;"></td></tr>`;
+
+            // 渲染買單 (顯示下層)
+            if (aggregatedBuys.length === 0) {
+                tbody.innerHTML += `<tr class="buy-row"><td colspan="3" style="text-align:center; color:#666;">無買進委託</td></tr>`;
+            }
+
+            aggregatedBuys.forEach(item => {
+                let tr = document.createElement('tr');
+                tr.className = 'buy-row';
+                tr.innerHTML = `<td>買進 (Bid)</td><td>$${item.price.toFixed(2)}</td><td>${item.totalQty}</td>`;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // 合併同價格的訂單數量
+        function aggregateOrders(orders, type) {
+            let map = new Map();
+            orders.forEach(o => {
+                if (map.has(o.price)) {
+                    map.set(o.price, map.get(o.price) + o.qty);
+                } else {
+                    map.set(o.price, o.qty);
+                }
+            });
+
+            let result = [];
+            map.forEach((totalQty, price) => {
+                result.push({ price, totalQty });
+            });
+
+            if (type === 'BUY') {
+                result.sort((a, b) => b.price - a.price); // 買單降序
+            } else {
+                result.sort((a, b) => a.price - b.price); // 賣單升序
+            }
+            return result;
+        }
+
+        // --- 畫面更新：組別資產監控表 ---
+        function updateTraderTable() {
+            const tbody = document.getElementById('trader-asset-body');
+            tbody.innerHTML = '';
+
+            Object.keys(traders).forEach(group => {
+                const t = traders[group];
+                // 計算總資產：現金 + 凍結現金 + (可用股票+凍結股票)*最新價
+                const priceForCalc = lastPrice || 0;
+                const totalAsset = (t.cash + t.frozenCash) + ((t.stock + t.frozenStock) * priceForCalc);
+
+                let tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${group}</strong></td>
+                    <td>$${Math.round(t.cash).toLocaleString()}</td>
+                    <td>${t.stock} 張</td>
+                    <td style="color:#aaa;">$${Math.round(t.frozenCash).toLocaleString()}</td>
+                    <td style="color:#aaa;">${t.frozenStock} 張</td>
+                    <td style="color:var(--accent-color);">$${Math.round(totalAsset).toLocaleString()}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // --- 雜項功能：系統日誌與重置 ---
+        function logMarket(msg) {
+            const logBox = document.getElementById('market-log');
+            const timeStr = new Date().toLocaleTimeString();
+            const div = document.createElement('div');
+            div.className = 'log-entry';
+            div.innerHTML = `<span class="log-time">[${timeStr}]</span> ${msg}`;
+            logBox.prepend(div);
+        }
+
+        function resetMarket() {
+            if (confirm("確定要重置整個市場嗎？所有交易資料與資產將還原初始狀態！")) {
+                location.reload();
+            }
+        }
+    </script>
+</body>
+</html>
