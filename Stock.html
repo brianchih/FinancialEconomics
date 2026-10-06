@@ -87,6 +87,7 @@
         .btn-group {
             display: flex;
             gap: 10px;
+            margin-top: 20px;
         }
 
         button {
@@ -217,19 +218,18 @@
                     <select id="group-select" required></select>
                 </div>
                 <div class="form-group">
-                    <label for="order-type">買賣類別：</label>
-                    <select id="order-type" required>
-                        <option value="BUY">買進 (BUY)</option>
-                        <option value="SELL">賣出 (SELL)</option>
-                    </select>
-                </div>
-                <div class="form-group">
                     <label for="order-price">委託價格 (元)：</label>
                     <input type="number" id="order-price" step="0.05" min="1" placeholder="例如: 195.5" required>
                 </div>
                 <div class="form-group">
-                    <label for="order-qty">委託數量 (張)：</label>
-                    <input type="number" id="order-qty" step="1" min="1" value="1" required>
+                    <label for="order-qty-select">委託數量 (張)：</label>
+                    <select id="order-qty-select" required>
+                        <option value="1">1 張</option>
+                        <option value="2">2 張</option>
+                        <option value="3">3 張</option>
+                        <option value="4">4 張</option>
+                        <option value="5">5 張</option>
+                    </select>
                 </div>
                 <div class="btn-group">
                     <button type="button" id="btn-submit-buy" class="btn-buy">送出買單</button>
@@ -332,10 +332,10 @@
         function processOrderInput(type) {
             const group = document.getElementById('group-select').value;
             const price = parseFloat(document.getElementById('order-price').value);
-            const qty = parseInt(document.getElementById('order-qty').value);
+            const qty = parseInt(document.getElementById('order-qty-select').value);
 
             if (isNaN(price) || price <= 0 || isNaN(qty) || qty <= 0) {
-                alert("請輸入有效的價格與張數！");
+                alert("請輸入有效的委託價格！");
                 return;
             }
 
@@ -456,10 +456,8 @@
 
             // 1. 買方結算：獲取股票，釋放並扣除凍結資金 (若成交價低於委託價，退還差額)
             buyer.stock += qty;
-            // 這裡簡化處理：解凍實際所需的金額
             if (context === 'BUY_INCOMING') {
-                // 新買單主動撞賣單，凍結資金是按買單委託價凍結的
-                // 實際成交價可能更低，退還差額
+                // 新買單主動撞賣單，凍結資金是按買單委託價凍結的，退還價差
                 const incomingOrderPrice = parseFloat(document.getElementById('order-price').value); 
                 const frozenAllocated = incomingOrderPrice * qty;
                 buyer.frozenCash -= frozenAllocated;
@@ -471,11 +469,7 @@
 
             // 2. 賣方結算：獲取現金，扣除凍結股票
             seller.cash += tradeAmount;
-            if (context === 'SELL_INCOMING') {
-                seller.frozenStock -= qty;
-            } else {
-                seller.frozenStock -= qty;
-            }
+            seller.frozenStock -= qty;
 
             // 更新最新成交價
             lastPrice = price;
@@ -490,7 +484,7 @@
             tbody.innerHTML = '';
 
             // 彙整賣單 (同價格合併張數)
-            let aggregatedSells = aggregateOrders(sellOrders, 'SELL').slice(0, 5).reverse(); // 取前5檔並反轉，讓最低賣價在最下面靠近買價
+            let aggregatedSells = aggregateOrders(sellOrders, 'SELL').slice(0, 5).reverse(); // 取前5檔並反轉
             // 彙整買單
             let aggregatedBuys = aggregateOrders(buyOrders, 'BUY').slice(0, 5);
 
