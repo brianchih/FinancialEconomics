@@ -371,7 +371,7 @@
                 timestamp: new Date()
             };
 
-            logMarket(`[委託成功] ${group} 提出 ${type === 'BUY' ? '買進' : '賣出'} ${qty} 張，委託價: $${price}`);
+            logMarket(`[委託成功] ${group} 提出 ${type === 'BUY' ? '買進' : '賣出'} ${qty} 股，委託價: $${price}`);
 
             // 執行自動撮合引擎
             matchOrders(newOrder);
@@ -475,7 +475,7 @@
             lastPrice = price;
             document.getElementById('last-price').textContent = lastPrice;
 
-            logMarket(`<span class="log-match">【成交通知】價格 $${price} | 數量 ${qty} 張 | 買方: ${buyerGroup} | 賣方: ${sellerGroup}</span>`);
+            logMarket(`<span class="log-match">【成交通知】價格 $${price} | 數量 ${qty} 股 | 買方: ${buyerGroup} | 賣方: ${sellerGroup}</span>`);
         }
 
         // --- 畫面更新：五檔圖表渲染 ---
