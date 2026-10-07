@@ -353,7 +353,7 @@
                 trader.frozenCash += requiredCash;
             } else if (type === 'SELL') {
                 if (trader.stock < qty) {
-                    alert(`【委託失敗】${group} 可用股票不足！需要: ${qty} 張，可用: ${trader.stock} 張`);
+                    alert(`【委託失敗】${group} 可用股票不足！需要: ${qty} 股，可用: ${trader.stock} 股`);
                     return;
                 }
                 // 扣除並凍結股票
