@@ -132,7 +132,7 @@
         <div>
             <h2>0050 收盤價預測市場 — 自動撮合大螢幕</h2>
             <small style="color: #888;">
-                <span class="status-dot"></span>系統連線中 (每 5 秒自動讀取 Google 表單 CSV)
+                <span class="status-dot"></span>系統連線中 (每 5 秒同步 Google 表單 CSV 新資料)
             </small>
         </div>
         <div style="font-size: 24px; font-weight: bold; color: var(--accent-color);">
@@ -145,7 +145,7 @@
         <h3>🔗 綁定 Google 表單 CSV 來源</h3>
         <input type="text" id="csv-url-input" readonly>
         <div style="font-size: 0.85rem; color: #aaa;">
-            ※ 系統自動讀入並進行「價格優先、時間優先」撮合。
+            ※ 系統已開啟「增量去重防護」，已處理過的訂單絕對不會重複執行。
         </div>
     </div>
 
@@ -190,22 +190,20 @@
     </div>
 
     <script>
-        // 預設固定 CSV 網址
+        // 固定 CSV 網址
         const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRTPr70gIiLYz47FcLz0BVXg7TnOsRAuF_z0_garnphHEYGnbt82LFIkLGRqdIoLPtVLZmAOpk83hjw/pub?gid=980221433&single=true&output=csv";
         
-        const DEFAULT_PASSWORD = "0000";
         const INITIAL_CASH = 1000000;
         const INITIAL_STOCK = 5000; // 預設 5,000 股 (等同 5 張)
 
         let lastPrice = null;
-        let processedRowCount = 0; // 記錄已處理的 CSV 行數
+        let processedRowIds = new Set(); // 用於記錄完全處理過的唯一 ID，避免重複觸發！
         let syncTimer = null;
 
         // 初始化 13 組資產 (每組 $1,000,000 + 5,000 股)
         let traders = {};
         for (let i = 1; i <= 13; i++) {
             traders[`第 ${i} 組`] = {
-                password: DEFAULT_PASSWORD,
                 cash: INITIAL_CASH,
                 stock: INITIAL_STOCK,
                 frozenCash: 0,
@@ -232,11 +230,10 @@
         }
 
         function fetchAndProcessCSV() {
-            // 加入時間戳記網址避免瀏覽器快取舊資料
             const requestUrl = CSV_URL + "&t=" + new Date().getTime();
             Papa.parse(requestUrl, {
                 download: true,
-                header: false, // 改用陣列 (Array) 以 Index 存取，徹底解開欄位名稱對不上的問題
+                header: false,
                 skipEmptyLines: true,
                 complete: function(results) {
                     processNewOrders(results.data);
@@ -244,26 +241,18 @@
             });
         }
 
-        // 解析並處理新產生的表單資料
+        // 解析並處理表單資料 (含嚴格去重防護)
         function processNewOrders(rows) {
-            if (rows.length <= 1) return; // 第一列是標題列
+            if (!rows || rows.length <= 1) return; // 無內容或只有標題列
 
-            // 從 processedRowCount 讀取，初始若為 0 則跳過標題列從 index 1 開始
-            let startIdx = processedRowCount === 0 ? 1 : processedRowCount;
-
-            for (let i = startIdx; i < rows.length; i++) {
+            // 跳過第 0 列 (標題列)，從第 1 列開始檢查
+            for (let i = 1; i < rows.length; i++) {
                 const row = rows[i];
                 if (!row || row.length < 5) continue;
-                
-                // 依欄位順序解析：
-                // Index 0: 時間戳記
-                // Index 1: 組別 (例如: 第7組)
-                // Index 2: 驗證密碼 (例如: 0000)
-                // Index 3: 買賣類別 (例如: 買進 / 賣出)
-                // Index 4: 委託價格 (例如: 100)
-                // Index 5: 委託數量 (例如: 1000)
+
+                const timestamp = row[0] ? row[0].trim() : "";
                 const group = row[1] ? row[1].trim() : "";
-                const password = row[2] ? row[2].trim() : "";
+                const password = row[2] ? row[2].trim() : ""; // 保留讀取但不做驗證阻擋
                 const typeRaw = row[3] ? row[3].trim() : "";
                 const price = parseFloat(row[4]);
                 
@@ -273,16 +262,27 @@
                     qty = qtyRaw * 1000; // 自動換算 1~5 張為 1000~5000 股
                 }
 
+                // 建立該列的唯一識別碼 (時間戳記 + 組別 + 價格 + 數量 + 列號)
+                const uniqueRowId = `${timestamp}_${group}_${price}_${qty}_row${i}`;
+
+                // 核心防重邏輯：若該列已經處理過，直接跳過！
+                if (processedRowIds.has(uniqueRowId)) {
+                    continue;
+                }
+
+                // 標記該列為已處理
+                processedRowIds.add(uniqueRowId);
+
                 const type = (typeRaw === "買進") ? "BUY" : "SELL";
 
-                // 驗證組別與密碼
-                if (!traders[group] || traders[group].password !== password) {
-                    logMarket(`[無效委託] 第 ${i+1} 列: 讀取到「${group || '空白'}」密碼或格式不符`);
+                // 驗證組別是否存在 (不驗證密碼)
+                if (!traders[group]) {
+                    logMarket(`[無效委託] 列 ${i+1}: 找不到組別「${group}」`);
                     continue;
                 }
 
                 if (isNaN(price) || price <= 0 || isNaN(qty) || qty < 1000) {
-                    logMarket(`[無效委託] 第 ${i+1} 列: 價格($${row[4]})或股數(${row[5]})無效`);
+                    logMarket(`[無效委託] 列 ${i+1}: 價格($${row[4]})或股數(${row[5]})無效`);
                     continue;
                 }
 
@@ -291,26 +291,25 @@
                 if (type === "BUY") {
                     const reqCash = price * qty;
                     if (trader.cash < reqCash) {
-                        logMarket(`[拒絕委託] 第 ${i+1} 列: ${group} 可用現金不足！需 $${reqCash.toLocaleString()}，現有 $${trader.cash.toLocaleString()}`);
+                        logMarket(`[拒絕委託] ${group} 可用現金不足！需 $${reqCash.toLocaleString()}，現有 $${trader.cash.toLocaleString()}`);
                         continue;
                     }
                     trader.cash -= reqCash;
                     trader.frozenCash += reqCash;
                 } else {
                     if (trader.stock < qty) {
-                        logMarket(`[拒絕委託] 第 ${i+1} 列: ${group} 可用股票不足！需 ${qty.toLocaleString()} 股，現有 ${trader.stock.toLocaleString()} 股`);
+                        logMarket(`[拒絕委託] ${group} 可用股票不足！需 ${qty.toLocaleString()} 股，現有 ${trader.stock.toLocaleString()} 股`);
                         continue;
                     }
                     trader.stock -= qty;
                     trader.frozenStock += qty;
                 }
 
-                // 成立有效委託，進入撮合引擎
-                logMarket(`[收到委託] ${group} ${type === 'BUY' ? '買進' : '賣出'} ${qty.toLocaleString()} 股 @ $${price}`);
+                // 成立全新有效委託，進入撮合引擎 (只執行一次)
+                logMarket(`[收到新委託] ${group} ${type === 'BUY' ? '買進' : '賣出'} ${qty.toLocaleString()} 股 @ $${price}`);
                 matchOrders({ group, type, price, qty, timestamp: new Date() });
             }
 
-            processedRowCount = rows.length; // 更新已處理列數
             updateTraderTable();
             renderOrderBook();
         }
@@ -365,7 +364,7 @@
             buyer.stock += qty;
             const frozenAllocated = buyOrderPrice * qty;
             buyer.frozenCash -= frozenAllocated;
-            buyer.cash += (frozenAllocated - tradeAmount); // 退還差額
+            buyer.cash += (frozenAllocated - tradeAmount); // 退還買價差額
 
             seller.cash += tradeAmount;
             seller.frozenStock -= qty;
