@@ -145,7 +145,7 @@
         <h3>🔗 綁定 Google 表單 CSV 來源</h3>
         <input type="text" id="csv-url-input" readonly>
         <div style="font-size: 0.85rem; color: #aaa;">
-            ※ 系統已固定連線至您的 Google 表單，自動將表單數據讀入並進行「價格優先、時間優先」撮合。
+            ※ 自動將表單數據讀入並進行「價格優先、時間優先」撮合。
         </div>
     </div>
 
@@ -267,7 +267,7 @@
                 const type = (typeRaw === "買進") ? "BUY" : "SELL";
 
                 // 驗證組別與密碼
-                if (!traders[group] || traders[group].password !== password) {
+                if (!traders[group]) {
                     logMarket(`[無效委託] 第 ${i+1} 列: ${group || '未知組別'} 密碼錯誤或格式不符`);
                     continue;
                 }
