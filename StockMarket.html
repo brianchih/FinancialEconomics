@@ -145,7 +145,7 @@
         <h3>🔗 綁定 Google 表單 CSV 來源</h3>
         <input type="text" id="csv-url-input" readonly>
         <div style="font-size: 0.85rem; color: #aaa;">
-            ※ 自動將表單數據讀入並進行「價格優先、時間優先」撮合。
+            ※ 系統自動讀入並進行「價格優先、時間優先」撮合。
         </div>
     </div>
 
@@ -236,7 +236,7 @@
             const requestUrl = CSV_URL + "&t=" + new Date().getTime();
             Papa.parse(requestUrl, {
                 download: true,
-                header: true,
+                header: false, // 改用陣列 (Array) 以 Index 存取，徹底解開欄位名稱對不上的問題
                 skipEmptyLines: true,
                 complete: function(results) {
                     processNewOrders(results.data);
@@ -246,19 +246,28 @@
 
         // 解析並處理新產生的表單資料
         function processNewOrders(rows) {
-            if (rows.length <= processedRowCount) return; // 無新資料
+            if (rows.length <= 1) return; // 第一列是標題列
 
-            for (let i = processedRowCount; i < rows.length; i++) {
+            // 從 processedRowCount 讀取，初始若為 0 則跳過標題列從 index 1 開始
+            let startIdx = processedRowCount === 0 ? 1 : processedRowCount;
+
+            for (let i = startIdx; i < rows.length; i++) {
                 const row = rows[i];
+                if (!row || row.length < 5) continue;
                 
-                // 讀取 Google 表單回應欄位
-                const group = row["組別"] ? row["組別"].trim() : "";
-                const password = row["驗證密碼"] ? row["驗證密碼"].trim() : "";
-                const typeRaw = row["買賣類別"] ? row["買賣類別"].trim() : "";
-                const price = parseFloat(row["委託價格"]);
+                // 依欄位順序解析：
+                // Index 0: 時間戳記
+                // Index 1: 組別 (例如: 第7組)
+                // Index 2: 驗證密碼 (例如: 0000)
+                // Index 3: 買賣類別 (例如: 買進 / 賣出)
+                // Index 4: 委託價格 (例如: 100)
+                // Index 5: 委託數量 (例如: 1000)
+                const group = row[1] ? row[1].trim() : "";
+                const password = row[2] ? row[2].trim() : "";
+                const typeRaw = row[3] ? row[3].trim() : "";
+                const price = parseFloat(row[4]);
                 
-                // 相容處理：若表單填寫的是 "1" (張) 或 "1000" (股)
-                let qtyRaw = parseInt(row["委託數量"]);
+                let qtyRaw = parseInt(row[5]);
                 let qty = qtyRaw;
                 if (!isNaN(qtyRaw) && qtyRaw <= 5) {
                     qty = qtyRaw * 1000; // 自動換算 1~5 張為 1000~5000 股
@@ -267,13 +276,13 @@
                 const type = (typeRaw === "買進") ? "BUY" : "SELL";
 
                 // 驗證組別與密碼
-                if (!traders[group]) {
-                    logMarket(`[無效委託] 第 ${i+1} 列: ${group || '未知組別'} 密碼錯誤或格式不符`);
+                if (!traders[group] || traders[group].password !== password) {
+                    logMarket(`[無效委託] 第 ${i+1} 列: 讀取到「${group || '空白'}」密碼或格式不符`);
                     continue;
                 }
 
                 if (isNaN(price) || price <= 0 || isNaN(qty) || qty < 1000) {
-                    logMarket(`[無效委託] 第 ${i+1} 列: 價格或股數無效 (股數需為 1,000 股以上)`);
+                    logMarket(`[無效委託] 第 ${i+1} 列: 價格($${row[4]})或股數(${row[5]})無效`);
                     continue;
                 }
 
