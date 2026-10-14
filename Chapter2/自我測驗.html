@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第 2 章：自我測驗 2.1 – 2.4 完整複習與答案解析</title>
+    
+    <style>
+        :root {
+            --primary-navy: #0F172A;
+            --accent-blue: #0284C7;
+            --accent-teal: #0D9488;
+            --accent-amber: #D97706;
+            --accent-purple: #7C3AED;
+            --alert-red: #DC2626;
+            --bg-light: #F8FAFC;
+            --card-border: #E2E8F0;
+            --text-dark: #1E293B;
+            --text-muted: #64748B;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Microsoft JhengHei", sans-serif;
+            line-height: 1.8;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-navy), #1E293B);
+            color: white;
+            padding: 3.5rem 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        header h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.3rem;
+            letter-spacing: 1px;
+            font-weight: 700;
+            color: #F8FAFC;
+        }
+
+        header p {
+            margin: 0 auto;
+            font-size: 1.15rem;
+            color: #94A3B8;
+            max-width: 800px;
+        }
+
+        .container {
+            max-width: 1040px;
+            margin: 2.5rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .section-badge {
+            display: inline-block;
+            background-color: var(--accent-blue);
+            color: white;
+            font-size: 0.85rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 6px;
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .section-badge.purple { background-color: var(--accent-purple); }
+        .section-badge.amber { background-color: var(--accent-amber); }
+        .section-badge.teal { background-color: var(--accent-teal); }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid var(--card-border);
+            padding: 2.2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+        }
+
+        .card h2 {
+            color: var(--primary-navy);
+            margin-top: 0;
+            border-bottom: 2px solid #F1F5F9;
+            padding-bottom: 12px;
+            font-size: 1.6rem;
+        }
+
+        .topic-question {
+            background-color: #F0F9FF;
+            border-left: 5px solid var(--accent-blue);
+            padding: 1.2rem 1.5rem;
+            border-radius: 0 8px 8px 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary-navy);
+            margin-bottom: 1.5rem;
+        }
+
+        .topic-question.purple {
+            background-color: #FAF5FF;
+            border-left-color: var(--accent-purple);
+        }
+
+        .topic-question.teal {
+            background-color: #CCFBF1;
+            border-left-color: var(--accent-teal);
+        }
+
+        .topic-question.amber {
+            background-color: #FEF3C7;
+            border-left-color: var(--accent-amber);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1.2rem;
+        }
+
+        .box {
+            background-color: #F8FAFC;
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 1.4rem;
+        }
+
+        .box h3 {
+            margin-top: 0;
+            color: var(--primary-navy);
+            font-size: 1.2rem;
+            border-bottom: 2px solid #E2E8F0;
+            padding-bottom: 6px;
+        }
+
+        /* 自訂 CSS 箭頭 */
+        .arrow {
+            display: inline-block;
+            margin: 0 8px;
+            color: var(--accent-blue);
+            font-weight: bold;
+        }
+        .arrow::after {
+            content: "➔";
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.2rem;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        th, td {
+            border: 1px solid var(--card-border);
+            padding: 14px 16px;
+            text-align: left;
+            font-size: 0.95rem;
+        }
+
+        th {
+            background-color: var(--primary-navy);
+            color: white;
+        }
+
+        tr:nth-child(even) { background-color: #F8FAFC; }
+
+        .speech-box {
+            background-color: #FFFBEB;
+            border-left: 5px solid var(--accent-amber);
+            padding: 1.2rem 1.5rem;
+            margin-top: 1.5rem;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .speech-box strong { color: #92400E; font-size: 1.05rem; }
+
+        footer {
+            text-align: center;
+            padding: 3rem 1.5rem;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            border-top: 1px solid var(--card-border);
+            margin-top: 4rem;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 { grid-template-columns: 1fr; }
+            header h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>第 2 章：自我測驗 2.1 – 2.4 完整複習與解析</h1>
+        <p>基於 Brealey 《企業財務學》核心觀念：金融市場分類、機構投資優勢與金融中介比較</p>
+    </header>
+
+    <div class="container">
+
+        <!-- 自我測驗 2.1 -->
+        <div class="card">
+            <span class="section-badge blue">自我測驗 2.1</span>
+            <h2>金融市場基礎概念對比</h2>
+
+            <div class="topic-question">
+                ❓ 題目：你是否瞭解以下的差異？請扼要解釋每一個例子：<br>
+                a. 初級市場與次級市場。<br>
+                b. 資本市場與貨幣市場。<br>
+                c. 股票市場與固定收益市場。
+            </div>
+
+            <div class="box" style="margin-bottom: 1rem;">
+                <h3>a. 初級市場 (Primary Market) vs. 次級市場 (Secondary Market)</h3>
+                <ul>
+                    <li><strong>初級市場（初級發行）：</strong> 指公司發行新證券（股票或債券）向投資人籌集全新資金的市場（如 IPO 或現金增資）。資金直接流入公司帳上，用以對實質資產進行投資。</li>
+                    <li><strong>次級市場（二手交易）：</strong> 指投資人與投資人之間彼此買賣已發行證券的市場（如在證券交易所買賣股票）。交易僅為所有權移轉，資金在投資人之間流動，公司不會獲得新資金。</li>
+                </ul>
+            </div>
+
+            <div class="box" style="margin-bottom: 1rem;">
+                <h3>b. 資本市場 (Capital Market) vs. 貨幣市場 (Money Market)</h3>
+                <ul>
+                    <li><strong>資本市場：</strong> 交易期限大於一年（長期）的金融證券市場，包含股票市場與長期公司債/國債市場，用於融通企業長期的資本支出（如建廠、買設備）。</li>
+                    <li><strong>貨幣市場：</strong> 交易期限在一年以內（短期）、高流動性、低風險債務證券的市場（如商業本票 CP、銀行定期存單 CD、短期國庫券 T-Bills），用於調劑企業短期的營運資金與流動性。</li>
+                </ul>
+            </div>
+
+            <div class="box">
+                <h3>c. 股票市場 (Equity Market) vs. 固定收益市場 (Fixed-Income Market)</h3>
+                <ul>
+                    <li><strong>股票市場（權益市場）：</strong> 交易代表公司所有權的普通股。投資人成為股東，無固定利息，分享殘餘盈餘（股利與資本利得），風險較高但潛在報酬無上限。</li>
+                    <li><strong>固定收益市場（債券市場）：</strong> 交易代表公司或政府債務的證券。投資人是債權人，發行者承諾支付固定的利息與本金，清償順序優先於股票，風險與收益相對固定。</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 自我測驗 2.2 -->
+        <div class="card">
+            <span class="section-badge purple">自我測驗 2.2</span>
+            <h2>機構投資與共同基金的優勢</h2>
+
+            <div class="topic-question purple">
+                ❓ 題目：個別投資人可以直接購買債券和股票，或者將金錢投資在共同基金或確定提撥退休基金上。試問第二個策略有何優點？
+            </div>
+
+            <div class="grid-2">
+                <div class="box">
+                    <h3>1. 低成本分散風險 (Diversification)</h3>
+                    <p>散戶直接買股難以買足數百檔標的。共同基金集結萬人資金，投資人只需少量金額（如每月數千元）就能立刻擁有涵蓋跨產業、跨國界的投資組合，大幅降低單一公司倒閉風險。</p>
+                </div>
+
+                <div class="box">
+                    <h3>2. 專業投資管理 (Professional Management)</h3>
+                    <p>由專職基金經理人與研究團隊進行全天候市場監測、基本面分析與風險控管，省去散戶自行選股與擇時（Market Timing）的時間與研究負擔。</p>
+                </div>
+
+                <div class="box">
+                    <h3>3. 規模經濟與低交易成本 (Scale Economies)</h3>
+                    <p>機構投資人因交易金額巨大，能享有遠低於散戶的機構級手續費率與交易折讓，有效節省進出市場的交易成本。</p>
+                </div>
+
+                <div class="box">
+                    <h3>4. 稅務優惠與雇主提撥 (Tax & Employer Match)</h3>
+                    <p>確定提撥退休基金（如 401k 或勞退新制）享有當年度提撥免稅（Tax-Deferred）的延遲納稅效益；若享有雇主配對提撥（Employer Match），等同於立刻獲得無風險的額外回報。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 自我測驗 2.3 -->
+        <div class="card">
+            <span class="section-badge teal">自我測驗 2.3</span>
+            <h2>金融中介之比較：共同基金 vs. 銀行與保險</h2>
+
+            <div class="topic-question teal">
+                ❓ 題目：與銀行或保險公司相比，共同基金主要的差異為何？
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>評估維度</th>
+                        <th>共同基金 (Mutual Funds)</th>
+                        <th>商業銀行 (Commercial Banks)</th>
+                        <th>保險公司 (Insurance Companies)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>1. 對客戶的承諾</strong></td>
+                        <td>無保證本金與收益，僅提供按每日單位淨值（NAV）贖回的權利。</td>
+                        <td>保證本金安全與固定/浮動利息（受國家存款保險保護）。</td>
+                        <td>提供契約約定的保險保障、理賠金或年金給付。</td>
+                    </tr>
+                    <tr>
+                        <td><strong>2. 風險承擔者<br>(Risk Bearer)</strong></td>
+                        <td><strong>投資人（客戶）百分之百盈虧自負</strong>。<br>資產波動直接反映於淨值。</td>
+                        <td><strong>銀行本身（股東資本）承擔</strong>。<br>放款違約壞帳由銀行資本吸收。</td>
+                        <td><strong>保險公司本身（股東資本）承擔</strong>。<br>投資標的波動由保險公司吸收。</td>
+                    </tr>
+                    <tr>
+                        <td><strong>3. 核心營利模式</strong></td>
+                        <td>靠收取固定比例的資產管理費（Management Fee）營利。</td>
+                        <td>靠存放款利差（Net Interest Margin, NIM）營利。</td>
+                        <td>靠死費差、利費差與投資利差（Spread）營利。</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 自我測驗 2.4 -->
+        <div class="card">
+            <span class="section-badge amber">自我測驗 2.4</span>
+            <h2>金融市場的核心關鍵功能</h2>
+
+            <div class="topic-question amber">
+                ❓ 題目：本節（2.2 節）所描述的功能中，哪一項需要金融市場？請解釋。
+            </div>
+
+            <p><strong>解答：</strong> 在金融體系的 5 大功能中，<strong>「提供流動性（Providing Liquidity）」</strong> 與 <strong>「提供價格資訊 / 定價機制（Providing Information）」</strong> 這兩項功能，<strong>必須完全依賴組織化的「金融市場（Financial Markets）」</strong>才能實現：</p>
+
+            <div class="grid-2">
+                <div class="box">
+                    <h3>1. 提供流動性 (Providing Liquidity)</h3>
+                    <ul>
+                        <li><strong>原因：</strong> 流動性是指將金融資產快速變現的能力。如果沒有集中交易的次級市場（Secondary Market），投資人買入股票或公司債後，若急需現金將極難找到買家接手。</li>
+                        <li><strong>市場價值：</strong> 金融市場集結了全球無數買賣方，提供高效率撮合，讓投資人隨時變現。</li>
+                    </ul>
+                </div>
+
+                <div class="box">
+                    <h3>2. 提供價格資訊與估值 (Pricing Mechanism)</h3>
+                    <ul>
+                        <li><strong>原因：</strong> 金融市場每天公開撮合交易，產生即時的資產價格（股價、債券殖利率）。</li>
+                        <li><strong>市場價值：</strong> 若沒有公開市場競價，公司財務長（CFO）將無法知道公司價值，也無法為新股或公司債定價。</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 總結 -->
+        <div class="card" style="background-color: #FAF5FF; border-color: #E9D8FD;">
+            <span class="section-badge purple">本章總結</span>
+            <h2>第 2 章自我測驗核心要旨總結</h2>
+            <div class="speech-box">
+                <strong>總結：</strong><br>
+                「本章自我測驗貫穿了現代金融體系的骨幹：初級市場負責『資金注入實體公司』，次級市場負責『提供流動性與價格資訊』；貨幣市場管『短期營運』，資本市場管『長期投資』。而共同基金等金融中介，透過『盈虧自負』的機制幫散戶實現低成本分散風險，與承擔違約風險、保證本金的銀行/保險公司形成鮮明對比。掌握這些基礎，才能進一步理解企業 CFO 如何在不同的金融工具之間做最佳資本配置！」
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>參考教材：Brealey, Myers, Allen & Edmans - <i>Principles of Corporate Finance</i> (Chapter 2 Self-Test)</p>
+        <p>製作：財務經濟學課堂討論與個案分析教材庫</p>
+    </footer>
+
+</body>
+</html>
