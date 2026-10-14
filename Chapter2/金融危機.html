@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>金融危機專題：2007–2009 經驗教訓與歷史相似重大金融事件剖析</title>
+    
+    <style>
+        :root {
+            --primary-navy: #0F172A;
+            --accent-blue: #0284C7;
+            --accent-teal: #0D9488;
+            --accent-amber: #D97706;
+            --accent-purple: #7C3AED;
+            --alert-red: #DC2626;
+            --bg-light: #F8FAFC;
+            --card-border: #E2E8F0;
+            --text-dark: #1E293B;
+            --text-muted: #64748B;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Microsoft JhengHei", sans-serif;
+            line-height: 1.8;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-navy), #1E293B);
+            color: white;
+            padding: 3.5rem 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        header h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.3rem;
+            letter-spacing: 1px;
+            font-weight: 700;
+            color: #F8FAFC;
+        }
+
+        header p {
+            margin: 0 auto;
+            font-size: 1.15rem;
+            color: #94A3B8;
+            max-width: 800px;
+        }
+
+        .container {
+            max-width: 1040px;
+            margin: 2.5rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .section-badge {
+            display: inline-block;
+            background-color: var(--accent-blue);
+            color: white;
+            font-size: 0.85rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 6px;
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .section-badge.purple { background-color: var(--accent-purple); }
+        .section-badge.amber { background-color: var(--accent-amber); }
+        .section-badge.red { background-color: var(--alert-red); }
+        .section-badge.teal { background-color: var(--accent-teal); }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid var(--card-border);
+            padding: 2.2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+        }
+
+        .card h2 {
+            color: var(--primary-navy);
+            margin-top: 0;
+            border-bottom: 2px solid #F1F5F9;
+            padding-bottom: 12px;
+            font-size: 1.6rem;
+        }
+
+        .topic-question {
+            background-color: #FEF2F2;
+            border-left: 5px solid var(--alert-red);
+            padding: 1.2rem 1.5rem;
+            border-radius: 0 8px 8px 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary-navy);
+            margin-bottom: 1.5rem;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1.2rem;
+        }
+
+        .box {
+            background-color: #F8FAFC;
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 1.4rem;
+        }
+
+        .box h3 {
+            margin-top: 0;
+            color: var(--primary-navy);
+            font-size: 1.2rem;
+            border-bottom: 2px solid #E2E8F0;
+            padding-bottom: 6px;
+        }
+
+        /* 自訂 CSS 箭頭 */
+        .arrow {
+            display: inline-block;
+            margin: 0 8px;
+            color: var(--accent-blue);
+            font-weight: bold;
+        }
+        .arrow::after {
+            content: "➔";
+        }
+
+        /* 原生 HTML 數學算式樣式 */
+        .math-symbol {
+            font-family: "Georgia", "Times New Roman", serif;
+            font-style: italic;
+            font-weight: 600;
+            padding: 0 2px;
+            color: #1E293B;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.2rem;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        th, td {
+            border: 1px solid var(--card-border);
+            padding: 14px 16px;
+            text-align: left;
+            font-size: 0.95rem;
+        }
+
+        th {
+            background-color: var(--primary-navy);
+            color: white;
+        }
+
+        tr:nth-child(even) { background-color: #F8FAFC; }
+
+        .speech-box {
+            background-color: #FFFBEB;
+            border-left: 5px solid var(--accent-amber);
+            padding: 1.2rem 1.5rem;
+            margin-top: 1.5rem;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .speech-box strong { color: #92400E; font-size: 1.05rem; }
+
+        footer {
+            text-align: center;
+            padding: 3rem 1.5rem;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            border-top: 1px solid var(--card-border);
+            margin-top: 4rem;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 { grid-template-columns: 1fr; }
+            header h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>2007–2009 金融危機經驗教訓與歷史相似事件深論</h1>
+        <p>對接 Brealey 財務學：體系功能失靈、短期槓桿脆性與代理問題續篇</p>
+    </header>
+
+    <div class="container">
+
+        <!-- 1. 2007-2009 金融危機三大教訓 -->
+        <div class="card">
+            <span class="section-badge red">核心觀念梳理</span>
+            <h2>1. 2007–2009 全球金融危機的 3 大核心教訓</h2>
+
+            <div class="topic-question">
+                📌 課本核心提問：從 2007 年至 2009 年的金融危機中，我們吸取了哪些深遠的教訓？
+            </div>
+
+            <div class="grid-2">
+                <div class="box">
+                    <h3>教訓一：金融體系功能失靈會摧毀實體經濟</h3>
+                    <p>當金融市場與金融機構無法履行<strong>「提供流動性」</strong>、<strong>「風險分散」</strong>與<strong>「價格發現」</strong>等基礎功能時，信貸市場會瞬間凍結，導致企業無法取得營運資金、失業率飆升，引發嚴重的全球實體經濟衰退。</p>
+                </div>
+
+                <div class="box">
+                    <h3>教訓二：高槓桿與短期債務再融資（Refinancing Risk）的脆弱性</h3>
+                    <p>像 Bear Stearns、Lehman Brothers、Merrill Lynch 等投資銀行，財務槓桿比率常高達 30:1 以上（即僅有 3% 的自有資本），且高度依賴<strong>隔夜回購協議（Repo）等短期債務</strong>來融資長期次級房貸資產。一旦市場信任崩塌、短期再融資中斷，銀行會立刻面臨流動性枯竭而倒閉。</p>
+                </div>
+            </div>
+
+            <div class="box" style="margin-top: 1.2rem; background-color: #FAF5FF; border-color: #E9D8FD;">
+                <h3>教訓三：代理問題（Agency Problems）與扭曲的激勵機制</h3>
+                <p>房貸經紀人按發行量抽取佣金（不承擔違約風險）、投資銀行高管按短期帳面盈餘領取天價分紅（績效獎金為單向期權：賺錢分紅、虧錢由股東與政府買單）、評級機構（S&P, Moody's）向債券發行商收取費用而給予垃圾 CDO 鼎級 AAA 評級。這些**「高風險由大眾承擔，短期暴利由個人私有」**的代理問題是誘發危機的主因。</p>
+            </div>
+        </div>
+
+        <!-- 2. 後來發生的相似重大金融事件 -->
+        <div class="card">
+            <span class="section-badge purple">案例延伸</span>
+            <h2>2. 歷史與當代相似重大金融事件對照</h2>
+            <p>歷史不會重複，但總是押著相同的韻腳。以下 4 個重大金融事件，完美再現了「槓桿過高、期限錯配與代理問題」的致命組合：</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>重大金融事件</th>
+                        <th>觸發機制與爆發點</th>
+                        <th>與 2008 金融危機相似的致命脆弱點</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>1. LTCM 資本危機<br>(1998 年)</strong></td>
+                        <td>由諾貝爾獎得主組成的對沖基金，利用極端精密的統計套利模型，以約 <strong>250 億美元資產撬動 1.25 兆美元持倉</strong>。俄羅斯國債違約引發黑天鵝，資產價格暴跌。</td>
+                        <td><strong>極致槓桿與流動性乾涸</strong>：高達 30:1 以上的槓桿比率，對流動性資產有完美假設，結果一旦遭遇市場流動性枯竭直接陷入清算絕境。</td>
+                    </tr>
+                    <tr>
+                        <td><strong>2. 歐洲主權債務危機<br>(2010–2011 年)</strong></td>
+                        <td>希臘、愛爾蘭、葡萄牙等國隱瞞財政赤字或承擔銀行債務，主權債務違約風險大增，導致歐洲銀行業持有的歐債大幅減值。</td>
+                        <td><strong>金融中介連鎖反應與風險定價失靈</strong>：市場長期錯誤地給予希臘國債與德國國債幾乎相同的低風險溢價（代理與評級失靈），最終引發流動性擠兌。</td>
+                    </tr>
+                    <tr>
+                        <td><strong>3. 美國矽谷銀行倒閉<br>(SVB Run, 2023 年)</strong></td>
+                        <td>SVB 將疫情期間吸收的龐大短期科技未投保存款，大量投入長期的「高評級」美國長天期國債與 MBS。美聯儲暴烈升息導致未實現資產虧損，客戶經社交媒體擠兌。</td>
+                        <td><strong>嚴重的期限錯配 (Asset-Liability Mismatch)</strong>：以極度不穩定的短期存款融資長期固定收益資產，雖然資產品質高，但無力承受短期流動性衝擊。</td>
+                    </tr>
+                    <tr>
+                        <td><strong>4. 瑞士信貸倒閉收購<br>(Credit Suisse, 2023 年)</strong></td>
+                        <td>瑞信長期內部治理敗壞，連續踩雷 Archegos 基金（55 億美元虧損）與 Greensill 供應鏈金融，管理層風險控制形同虛設，最終引發信任崩盤，被瑞銀（UBS）強制收購。</td>
+                        <td><strong>極端的代理問題與治理失靈</strong>：高管追求高風險投行業務以獲取巨額花紅，忽略風控機制，最終摧毀這家擁有 167 年歷史的頂級金融機構。</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 3. 財務理論解析：期限錯配與槓桿倍數 -->
+        <div class="card" style="border-left: 5px solid var(--accent-amber);">
+            <span class="section-badge amber">財務模型解析</span>
+            <h2>3. 財務學原理解析：槓桿與資產負債表脆弱性</h2>
+
+            <p><strong>1. 槓桿倍數與權益侵蝕 (Leverage & Equity Wipeout)：</strong> 假設企業資產為 <span class="math-symbol">A</span>，債務為 <span class="math-symbol">D</span>，權益資本為 <span class="math-symbol">E</span>。資產負債表關係為 <span class="math-symbol">A = D + E</span>。財務槓桿定義為：</p>
+
+            <p style="text-align: center; font-size: 1.15rem; background-color: #F8FAFC; padding: 10px; border-radius: 6px;">
+                財務槓桿倍數 = <span class="math-symbol">A / E</span>
+            </p>
+
+            <p>當槓桿倍數高達 30 倍時，代表權益資本 <span class="math-symbol">E</span> 僅占總資產 <span class="math-symbol">A</span> 的 <span class="math-symbol">3.33%</span>。只要資產價值稍微跌落 <strong>3.34%</strong>，股權資本即被完全抹去，公司陷入技術性破產！</p>
+
+            <p><strong>2. 期限錯配與擠兌風險 (Asset-Liability Duration Mismatch)：</strong> 當資產端久期（Duration）遠大於負債端久期時，利率突然上升會導致資產現值大幅縮水：</p>
+            
+            <p style="text-align: center; font-size: 1.15rem; background-color: #F8FAFC; padding: 10px; border-radius: 6px;">
+                資產現值變動 % <span class="math-symbol">≈ - Duration × Δy</span>
+            </p>
+
+            <p>SVB 就是因為持有長久期國債，在美聯儲升息 <span class="math-symbol">Δy = 5%</span> 下，資產價格暴跌，瞬間抹平其有限的權益資本。</p>
+        </div>
+
+        <!-- 4. 總結與課堂思考 -->
+        <div class="card" style="background-color: #FAF5FF; border-color: #E9D8FD;">
+            <span class="section-badge purple">本章總結</span>
+            <h2>金融危機專題總結與課堂思考</h2>
+
+            <div class="speech-box">
+                <strong>總結：</strong><br>
+                「不論是 2008 年的雷曼兄弟、1998 年的 LTCM，還是 2023 年的矽谷銀行與瑞信，金融危機背後的本質邏輯高度一致：**『過度借債的高槓桿』** 加上 **『用短期債務融資長期資產的期限錯配』**，最後在 **『代理人追逐短期績效誘風控』** 的催化下走向崩潰。對 CFO 與財務管理者而言，維護合理的資本結構、控制債務期限與建立無縫的風控治理，才是企業穿越宏觀黑天鵝唯一的生存法寶。」
+            </div>
+
+            <div style="margin-top: 1.5rem;">
+                <h3 style="color: var(--primary-navy); margin-bottom: 0.5rem;">💬 課堂討論思考題：</h3>
+                <ol>
+                    <li><strong>監管與創新：</strong> 2023 年矽谷銀行（SVB）倒閉後，美國政府選擇對所有存款（包含超額未投保存款）提供全額擔保，這是否會引發下一波「道德風險（Moral Hazard）」的代理問題？</li>
+                    <li><strong>槓桿與 ROE 權衡：</strong> 高槓桿能大幅拉升順境時的權益報酬率（ROE），但也極度增加了逆境時的破產機率。作為 CFO，你會如何尋求公司 Optimal Financial Leverage（最佳財務槓桿）？</li>
+                </ol>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>參考教材：Brealey, Myers, Allen & Edmans - <i>Principles of Corporate Finance</i> (Chapter 1 & 2 Case Studies)</p>
+        <p>製作：財務經濟學課堂討論與個案分析教材庫</p>
+    </footer>
+
+</body>
+</html>
