@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>財務經濟學 (Financial Economics) | 課程教材入口網</title>
+    <title>第 2 章：金融市場、金融機構與預測市場專題講義</title>
+    
     <style>
         :root {
             --primary-navy: #0F172A;
@@ -20,7 +21,7 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Microsoft JhengHei", sans-serif;
-            line-height: 1.7;
+            line-height: 1.8;
             color: var(--text-dark);
             background-color: var(--bg-light);
             margin: 0;
@@ -30,109 +31,183 @@
         header {
             background: linear-gradient(135deg, var(--primary-navy), #1E293B);
             color: white;
-            padding: 4rem 1.5rem 3.5rem;
+            padding: 3.5rem 1.5rem;
             text-align: center;
             box-shadow: 0 4px 15px rgba(0,0,0,0.15);
         }
 
         header h1 {
-            margin: 0 0 12px 0;
-            font-size: 2.5rem;
+            margin: 0 0 10px 0;
+            font-size: 2.3rem;
             letter-spacing: 1px;
             font-weight: 700;
+            color: #F8FAFC;
         }
 
         header p {
             margin: 0 auto;
             font-size: 1.15rem;
             color: #94A3B8;
-            max-width: 700px;
+            max-width: 850px;
         }
 
         .container {
-            max-width: 1080px;
-            margin: 3rem auto;
+            max-width: 1040px;
+            margin: 2.5rem auto;
             padding: 0 1.5rem;
         }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 1.8rem;
-        }
-
-        .card {
-            background: white;
-            border-radius: 12px;
-            border: 1px solid var(--card-border);
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-            transition: all 0.25s ease;
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 24px rgba(0,0,0,0.08);
-            border-color: #CBD5E1;
-        }
-
-        .card-header {
-            margin-bottom: 1rem;
-        }
-
-        .tag {
+        .section-badge {
             display: inline-block;
-            font-size: 0.8rem;
+            background-color: var(--accent-blue);
+            color: white;
+            font-size: 0.85rem;
             font-weight: 700;
-            padding: 4px 10px;
+            padding: 4px 12px;
             border-radius: 6px;
             margin-bottom: 0.8rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
-        .tag.blue { background-color: #E0F2FE; color: var(--accent-blue); }
-        .tag.teal { background-color: #CCFBF1; color: var(--accent-teal); }
-        .tag.amber { background-color: #FEF3C7; color: var(--accent-amber); }
-        .tag.purple { background-color: #F3E8FF; color: var(--accent-purple); }
-        .tag.rose { background-color: #FFE4E6; color: var(--accent-rose); }
+        .section-badge.purple { background-color: var(--accent-purple); }
+        .section-badge.amber { background-color: var(--accent-amber); }
+        .section-badge.teal { background-color: var(--accent-teal); }
+        .section-badge.rose { background-color: var(--accent-rose); }
 
-        .card-title {
-            font-size: 1.35rem;
-            font-weight: 700;
-            margin: 0 0 0.8rem 0;
+        .card {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid var(--card-border);
+            padding: 2.2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+        }
+
+        .card h2 {
             color: var(--primary-navy);
-            line-height: 1.4;
+            margin-top: 0;
+            border-bottom: 2px solid #F1F5F9;
+            padding-bottom: 12px;
+            font-size: 1.6rem;
         }
 
-        .card-desc {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            margin: 0;
-        }
-
-        .card-footer {
-            margin-top: 1.8rem;
-            font-size: 0.9rem;
+        .topic-question {
+            background-color: #F0F9FF;
+            border-left: 5px solid var(--accent-blue);
+            padding: 1.2rem 1.5rem;
+            border-radius: 0 8px 8px 0;
+            font-size: 1.1rem;
             font-weight: 600;
+            color: var(--primary-navy);
+            margin-bottom: 1.5rem;
+        }
+
+        .topic-question.purple {
+            background-color: #FAF5FF;
+            border-left-color: var(--accent-purple);
+        }
+
+        .topic-question.rose {
+            background-color: #FFF1F2;
+            border-left-color: var(--accent-rose);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1.2rem;
+        }
+
+        .box {
+            background-color: #F8FAFC;
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 1.4rem;
+        }
+
+        .box h3 {
+            margin-top: 0;
+            color: var(--primary-navy);
+            font-size: 1.2rem;
+            border-bottom: 2px solid #E2E8F0;
+            padding-bottom: 6px;
+        }
+
+        /* 自訂 CSS 箭頭 */
+        .arrow {
+            display: inline-block;
+            margin: 0 8px;
             color: var(--accent-blue);
-            display: flex;
-            align-items: center;
+            font-weight: bold;
+        }
+        .arrow::after {
+            content: "➔";
         }
 
-        .card-footer::after {
-            content: " →";
-            transition: transform 0.2s ease;
+        /* 時間軸與流程圖 */
+        .timeline-container {
+            border-left: 3px solid var(--accent-blue);
+            padding-left: 20px;
+            margin: 1.5rem 0;
         }
 
-        .card:hover .card-footer::after {
-            transform: translateX(4px);
+        .timeline-item {
+            margin-bottom: 1.5rem;
+            position: relative;
         }
+
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            left: -27px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--accent-blue);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.2rem;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        th, td {
+            border: 1px solid var(--card-border);
+            padding: 14px 16px;
+            text-align: left;
+            font-size: 0.95rem;
+        }
+
+        th {
+            background-color: var(--primary-navy);
+            color: white;
+        }
+
+        tr:nth-child(even) { background-color: #F8FAFC; }
+
+        .speech-box {
+            background-color: #FFFBEB;
+            border-left: 5px solid var(--accent-amber);
+            padding: 1.2rem 1.5rem;
+            margin-top: 1.5rem;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .speech-box strong { color: #92400E; font-size: 1.05rem; }
 
         footer {
             text-align: center;
@@ -143,117 +218,183 @@
             margin-top: 4rem;
         }
 
-        @media (max-width: 640px) {
-            header h1 { font-size: 2rem; }
-            .grid { grid-template-columns: 1fr; }
+        @media (max-width: 768px) {
+            .grid-2 { grid-template-columns: 1fr; }
+            header h1 { font-size: 1.8rem; }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>財務經濟學 (Financial Economics)</h1>
-        <p>基於 Brealey 財務學理論演進與當代全球商業個案之互動式 HTML 教材入口網</p>
+        <h1>第 2 章：金融市場、金融機構與預測市場專題講義</h1>
+        <p>財務經濟學課堂整理：課堂交易系統開發邏輯、效率市場假說、預測市場實務與馬斯克資本帝國</p>
     </header>
 
     <div class="container">
-        <div class="grid">
 
-            <!-- 1. 第 2 章：金融市場與預測市場專題 -->
-            <a href="./第 2 章：金融市場與預測市場專題.html" class="card">
-                <div class="card-header">
-                    <span class="tag blue">Chapter 2 課堂講義</span>
-                    <h2 class="card-title">第 2 章：金融市場與預測市場專題</h2>
-                    <p class="card-desc">完整收錄今天上課重點：0050 預測市場系統開發邏輯、效率市場假說、內部預測市場解代理成本與馬斯克案例。</p>
-                </div>
-                <div class="card-footer">開啟教材內容</div>
-            </a>
+        <!-- 1. 課堂互動實驗與系統開發設計邏輯 -->
+        <div class="card">
+            <span class="section-badge blue">課堂實驗設計</span>
+            <h2>1. 課堂預測市場交易系統與無伺服器架構開發</h2>
 
-            <!-- 2. 自我測驗.html -->
-            <a href="./自我測驗.html" class="card">
-                <div class="card-header">
-                    <span class="tag purple">課後自我測驗</span>
-                    <h2 class="card-title">第 2 章：自我測驗 2.1 – 2.4 解析</h2>
-                    <p class="card-desc">完整收錄自我測驗 2.1 到 2.4，對比初級/次級、資本/貨幣、股票/債券市場，並解析共同基金與金融中介之核心差異。</p>
-                </div>
-                <div class="card-footer">開啟教材內容</div>
-            </a>
+            <div class="topic-question">
+                💡 課堂經驗分享：如何利用 AI 生成工具，在零主機預算下打造全班手機即時連線下單系統？
+            </div>
 
-            <!-- 3. 金融危機.html -->
-            <a href="./金融危機.html" class="card">
-                <div class="card-header">
-                    <span class="tag rose">危機專題研討</span>
-                    <h2 class="card-title">2008 金融危機教訓與歷史相似事件</h2>
-                    <p class="card-desc">剖析 2008 次貸危機 3 大教訓，對照 1998 LTCM 資本危機、歐債危機、2023 矽谷銀行 (SVB) 與瑞信倒閉案的脆弱性機制。</p>
-                </div>
-                <div class="card-footer">開啟教材內容</div>
-            </a>
-
-            <!-- 4. 次級市場價值與 AI 新創融資決策 -->
-            <a href="./次級市場價值與 AI 新創融資決策.html" class="card">
-                <div class="card-header">
-                    <span class="tag purple">課堂討論專題</span>
-                    <h2 class="card-title">次級市場價值與 AI 新創融資決策</h2>
-                    <p class="card-desc">探討股價對 CFO 的 5 大戰略價值，並剖析 AI 新創公司在 VC、銀行貸款與 IPO 上市間的資本結構權衡。</p>
-                </div>
-                <div class="card-footer">開啟教材內容</div>
-            </a>
-
-            <!-- 5. 預測市場個案 -->
-            <a href="./預測市場個案.html" class="card">
-                <div class="card-header">
-                    <span class="tag teal">當代實務個案</span>
-                    <h2 class="card-title">預測市場個案 (Prediction Markets)</h2>
-                    <p class="card-desc">介紹預測市場如何透過真實資本下注實現「資訊效率」，並解析企業內部預測市場在風險控管上的應用。</p>
-                </div>
-                <div class="card-footer">開啟教材內容</div>
-            </a>
-
-            <!-- 6. 預測市場討論 -->
-            <a href="./預測市場討論.html" class="card">
-                <div class="card-header">
-                    <span class="tag amber">理論深度研討</span>
-                    <h2 class="card-title">預測市場討論：代理成本與操縱修正</h2>
-                    <p class="card-desc">深度剖析組織內部的資訊不對稱與代理成本，並說明預測市場如何透過二次方曲線與 TWAP 自動修正價格操縱。</p>
-                </div>
-                <div class="card-footer">開啟教材內容</div>
-            </a>
-
-            <!-- 7. 馬斯克帝國的資金歷史與資本結構演進 -->
-            <a href="./馬斯克帝國的資金歷史與資本結構演進.html" class="card">
-                <div class="card-header">
-                    <span class="tag rose">巨擘個案研究</span>
-                    <h2 class="card-title">馬斯克帝國資金歷史與資本結構</h2>
-                    <p class="card-desc">系統化整理 Zip2、PayPal、Tesla、SpaceX 與 xAI 的融資演進，還原 2008 年黑天鵝危機與星鏈 Cash Cow 架構。</p>
-                </div>
-                <div class="card-footer">開啟教材內容</div>
-            </a>
-
-            <!-- 8. 馬斯克個案討論 -->
-            <a href="./馬斯克個案討論.html" class="card">
-                <div class="card-header">
-                    <span class="tag purple">課堂討論專題</span>
-                    <h2 class="card-title">馬斯克個案討論：上市權衡與極端風險</h2>
-                    <p class="card-desc">討論 Tesla (IPO) 與 SpaceX (Private) 的資本戰略差異，並以財務學剖析創辦人孤注一擲與分散風險原則的矛盾。</p>
-                </div>
-                <div class="card-footer">開啟教材內容</div>
-            </a>
-
-            <!-- 9. SpaceX從堅持不上市到世紀 IPO -->
-            <a href="./SpaceX從堅持不上市到世紀 IPO.html" class="card">
-                <div class="card-header">
-                    <span class="tag blue">最新資本轉折</span>
-                    <h2 class="card-title">SpaceX：從堅持不上市到世紀 IPO</h2>
-                    <p class="card-desc">解析 SpaceX 邁向公開市場的關鍵轉折，探討星鏈訂閱現金流、千億級 CapEx 需求與「雙重股權結構」控制權策略。</p>
-                </div>
-                <div class="card-footer">開啟教材內容</div>
-            </a>
-
+            <p><strong>教學實驗背景：</strong></p>
+            <ul>
+                <li><strong>實驗標的與初始資產：</strong> 以當天 <strong>0050 收盤價</strong> 為預測標的。全班分為 <strong>13 組</strong>，每組初始財富完全一致，擁有 <strong>NT$ 1,000,000 現金</strong> 與 <strong>5,000 股 0050 股票（等同 5 張）</strong>。</li>
+                <li><strong>系統演進：從人工輸入到手機自主下單：</strong>
+                    <ul>
+                        <li>第一代系統由主持人手動輸入各組報價，同學下單意願較低。</li>
+                        <li>欲實現同學以手機自主下單，傳統架構需部署 24 小時運行之 WebSocket 伺服器，需付費主機資源。</li>
+                        <li><strong>無伺服器（Serverless）創新解決方案：</strong> 提示 AI 利用 <strong>Google 表單 + 自動輪詢 CSV</strong> 作為前端下單接收端，搭配 PapaParse 解析與 Chart.js 即時繪製成交價格走勢圖，成功實現零成本、高併發之 GitHub Pages 瀏覽器端撮合系統。</li>
+                    </ul>
+                </li>
+            </ul>
         </div>
+
+        <!-- 2. 金融市場與機構核心架構複習 -->
+        <div class="card">
+            <span class="section-badge teal">理論觀念複習</span>
+            <h2>2. 金融市場與金融機構之核心功能</h2>
+
+            <div class="grid-2">
+                <div class="box">
+                    <h3>📈 金融市場 (Financial Markets)</h3>
+                    <p>證券發行與交易的平台，促進資金從儲蓄者有效流向投資者，提升資本配置效率，提供風險管理工具、流動性以及最關鍵的<strong>「價格發現機能（Pricing Mechanism）」</strong>。</p>
+                    <ul>
+                        <li><strong>初級市場 vs. 次級市場：</strong> 初級市場負責發行新股籌集資金給公司；次級市場（二手市場）為投資人之間的買賣，雖不直接提供現金給公司，但決定了公司的<strong>市場價值（Market Capitalization）</strong>與流動性。</li>
+                        <li><strong>貨幣市場 vs. 資本市場：</strong> 貨幣市場處理一年以內的短期融通；資本市場處理一年以上的股票與長期債券。</li>
+                    </ul>
+                </div>
+
+                <div class="box">
+                    <h3>🏦 金融機構 (Financial Institutions)</h3>
+                    <p>連接資金供給者與需求者的中介角色，包含銀行、保險公司、共同基金與退休基金。</p>
+                    <ul>
+                        <li><strong>核心功能：</strong> 資金轉移與中介、風險分散與移轉、期限轉換（短存長貸）、降低資訊搜集與交易成本、提供資產多樣化組合。</li>
+                        <li><strong>運作機制：</strong> 保險公司運用保費進行長期資產配置；共同基金與退休基金集結大眾資金由專業經理人進行分散投資。</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. 預測市場（Prediction Markets）專題研討 -->
+        <div class="card">
+            <span class="section-badge purple">當代個案專題</span>
+            <h2>3. 預測市場 (Prediction Markets) 與效率市場假說 (EMH)</h2>
+
+            <div class="topic-question purple">
+                📌 什麼是預測市場？為什麼預測市場通常比傳統民調更準確？
+            </div>
+
+            <p><strong>1. 定義與運作原理：</strong> 預測市場允許參與者對未來特定事件（如總統大選勝負、聯準會是否降息）進行資本下注。合約價格介於 0 到 1 美元（0% 至 100%）之間，直接反映市場認為該事件發生的累積機率。</p>
+
+            <div class="grid-2">
+                <div class="box">
+                    <h3>預測市場精準的三大原因</h3>
+                    <ol>
+                        <li><strong>利益攸關 (Skin in the Game)：</strong> 參與者必須投入真實資金，杜絕口頭說謊或隨意填寫問卷的行為。</li>
+                        <li><strong>資訊迅速折現：</strong> 掌握獨家數據或最新情報者有極強財務動機迅速進場買賣，推動價格即時反映公開與隱藏資訊。</li>
+                        <li><strong>效率市場假說 (EMH) 的展現：</strong> 完美示範如何將社會各處分散、碎片化的訊息集合起來，形成最有效率的集體智慧。</li>
+                    </ol>
+                </div>
+
+                <div class="box">
+                    <h3>企業內部應用：解決代理成本</h3>
+                    <ul>
+                        <li><strong>打破官僚與消除假真話：</strong> 工程師常知道專案進度落後，但害怕主管斥責而美化進度（產生<strong>代理成本 Agency Costs</strong>）。</li>
+                        <li><strong>匿名與財務獎勵：</strong> Google 與 Microsoft 等企業內部建立預測市場，讓員工匿名對專案成功率下注，正確預測者可獲得報酬，進而挖出被管理層隱瞞的真實狀況。</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="box" style="margin-top: 1.2rem; background-color: #FAF5FF; border-color: #E9D8FD;">
+                <h3>🛡️ 價格操縱與市場自動修復機制</h3>
+                <p>若有心人士試圖砸下巨額資金拉抬某候選人或專案價格，會引發市場自動修復：</p>
+                <ul>
+                    <li><strong>套利者（Arbitrageurs）進場懲罰：</strong> 不合理的偏離價格等同於在市場發放折扣，知情套利者會瘋狂進行反向操作賺取暴利，迅速將價格拉回合理位置。</li>
+                    <li><strong>硬性結算日限制：</strong> 預測市場最終以真實結果（0 或 1）進行結算，操縱者的偏離資金最終會被套利者完全瓜分（財務學稱為<strong>「送錢給知情者」</strong>）。</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 4. 巨擘個案研究：馬斯克的資本帝國與極端風險 -->
+        <div class="card">
+            <span class="section-badge rose">巨擘個案研究</span>
+            <h2>4. 馬斯克（Elon Musk）的資金歷史與資本結構演進</h2>
+
+            <div class="topic-question rose">
+                🔍 案例探索：企業家如何利用金融資產進行跨階段的風險資本轉換？
+            </div>
+
+            <div class="timeline-container">
+                <div class="timeline-item">
+                    <strong>1999 年 (Zip2 出售)：</strong> 與弟弟創立線上黃頁 Zip2，以 3.07 億美元賣給 Compaq，馬斯克獲得 <strong>2,200 萬美元</strong> 創始資本。
+                </div>
+                <div class="timeline-item">
+                    <strong>2002 年 (PayPal 並購)：</strong> 將 1,000 萬美元投入 X.com（後合併為 PayPal），eBay 以 15 億美元收購，馬斯克分得 <strong>1.8 億美元</strong> 淨現金。
+                </div>
+                <div class="timeline-item">
+                    <strong>2008 年 (黑天鵝危機與聖誕夜救援)：</strong> 將 1.8 億美元全數投入 SpaceX 與 Tesla。SpaceX 前 3 次火箭發射失敗；第四次發射成功並拿到 NASA 16 億美元合約起死回生。Tesla 帳上現金僅剩數小時，馬斯克挹注最後個人資產並說服 VC 注資 4,000 萬美元渡過危機。
+                </div>
+                <div class="timeline-item">
+                    <strong>現今 (成熟運作與星鏈現金牛)：</strong> SpaceX 長期維持私有化獨角獸架構，旗下 <strong>星鏈（Starlink）</strong> 低軌衛星服務提供強勁訂閱現金流（Cash Cow），用以支應昂貴的火星研發資本支出。
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>馬斯克旗下企業</th>
+                        <th>上市狀態與融資管道</th>
+                        <th>資本結構與戰略考量</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Tesla</strong></td>
+                        <td>公開發行上市 (NASDAQ: TSLA)<br>已納入 S&P 500</td>
+                        <td>2010 年 IPO 上市，靈活運用可轉債（Convertible Bonds）與增資渡過 Model 3 量產地獄，現已能透過營運現金流自給自足並買回股票。</td>
+                    </tr>
+                    <tr>
+                        <td><strong>SpaceX</strong></td>
+                        <td>大型私有化獨角獸<br>(Unlisted)</td>
+                        <td>長期拒絕上市以避免公開市場短期盈餘（EPS）目標幹擾火星長期願景；依賴私募股權、NASA 預付款合約與星鏈（Starlink）現金流。</td>
+                    </tr>
+                    <tr>
+                        <td><strong>xAI</strong></td>
+                        <td>私募新創 (AI VC)</td>
+                        <td>短期內完成數十億美元風險投資融資，與微軟、甲骨文進行算力戰略合作，購買 NVIDIA GPU 建立巨型 AI 算力中心。</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 5. 課堂討論擬答與總結 -->
+        <div class="card" style="background-color: #FAF5FF; border-color: #E9D8FD;">
+            <span class="section-badge purple">思考與討論擬答</span>
+            <h2>5. 課堂深度討論題解答</h2>
+
+            <p><strong>💬 思考題一：為什麼 Tesla 選擇早早 IPO，而 SpaceX 卻長期堅持不上市？</strong></p>
+            <p><strong>解答：</strong> Tesla 面臨 C 端大眾消費市場，需要極龐大的資本支出建置超級工廠（Gigafactory），透過 IPO 能直接對接全球公開市場的大量資本。而 SpaceX 的主要客戶為 NASA 與國防部，且火星研發屬於超長期專案，維持私有化能保護經營決策不被次級市場短期股價波動與季度損益幹擾。</p>
+
+            <p><strong>💬 思考題二：馬斯克在 2008 年將個人全部資產孤注一擲投入瀕臨破產的公司，符合財務理論嗎？</strong></p>
+            <p><strong>解答：</strong> <strong>不符合傳統投資組合理論。</strong> 傳統財務學強調透過「分散風險（Diversification）」消除非系統性風險。馬斯克的行為屬於極高風險的孤注一擲，包含了極高的倖存者偏誤（Survivor Bias）。專業 CFO 絕不建議創辦人進行此類豪賭。</p>
+
+            <div class="speech-box">
+                <strong>課堂總結：</strong><br>
+                「金融市場與金融機構是實體經濟繁榮的基石。從 0050 預測市場實驗可以看到，市場機制能迅速折現分散的訊息；而從馬斯克的資本歷史可以看到，不同階段的企業必須靈活切換創投 VC、IPO 上市、公司債與私募股權等管道。理解這些工具的特性與運作，是每一位財務管理者與企業家不可或缺的核心能力。」
+            </div>
+        </div>
+
     </div>
 
     <footer>
-        <p>財務經濟學課程教材網頁 | 淡江大學授課平台與實務案例庫</p>
+        <p>參考教材：Brealey, Myers, Allen & Edmans - <i>Principles of Corporate Finance</i> (Chapter 2 Special Seminar)</p>
+        <p>製作：財務經濟學課堂討論與個案分析教材庫</p>
     </footer>
 
 </body>
