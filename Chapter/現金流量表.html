@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第三章：財務報表分析入門 — 3.2 現金流量表與自由現金流量</title>
+    <style>
+        :root {
+            --primary-color: #1e3a8a;
+            --secondary-color: #0284c7;
+            --accent-color: #f59e0b;
+            --success-color: #10b981;
+            --danger-color: #ef4444;
+            --bg-light: #f8fafc;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans TC", sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+            margin: 0;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        header {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .chapter-tag {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: white;
+            font-size: 0.875rem;
+            font-weight: 600;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            margin-bottom: 0.5rem;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin: 0.5rem 0;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            font-size: 1.4rem;
+            border-left: 4px solid var(--secondary-color);
+            padding-left: 0.75rem;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        h3 {
+            color: var(--secondary-color);
+            font-size: 1.15rem;
+            margin-top: 1.5rem;
+        }
+
+        p {
+            margin-bottom: 1.2rem;
+            text-align: justify;
+        }
+
+        .formula-card {
+            background-color: #f1f5f9;
+            border: 2px dashed var(--secondary-color);
+            border-radius: 8px;
+            padding: 1.25rem;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: 1.5rem 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            text-align: left;
+        }
+
+        th {
+            background-color: #f8fafc;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .case-card {
+            background-color: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .case-card.danger {
+            border-top: 4px solid var(--danger-color);
+        }
+
+        .case-card.success {
+            border-top: 4px solid var(--success-color);
+        }
+
+        .case-card .tag-danger {
+            color: var(--danger-color);
+            font-weight: bold;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+        }
+
+        .case-card .tag-success {
+            color: var(--success-color);
+            font-weight: bold;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.25rem;
+            margin: 1.5rem 0;
+        }
+
+        .feature-item {
+            background-color: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.25rem;
+        }
+
+        .feature-item h4 {
+            margin-top: 0;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .key-takeaway {
+            background-color: #fef3c7;
+            border-left: 4px solid var(--accent-color);
+            padding: 1rem 1.25rem;
+            margin-top: 2rem;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .key-takeaway strong {
+            color: #92400e;
+        }
+
+        footer {
+            margin-top: 3rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <span class="chapter-tag">Brealey et al. Corporate Finance — 第三章</span>
+        <h1>3.2 現金流量表與自由現金流量 (Cash Flows & FCF)</h1>
+        <p class="subtitle">追蹤企業實質現金血液、衡量自由現金流量與優質現金流量表特徵</p>
+    </header>
+
+    <section>
+        <h2>一、 現金流量表的三大核心活動 (Statement of Cash Flows)</h2>
+        <p>損益表依據「權責發生制」記錄利潤，而現金流量表則回歸最純粹的「現金收付制」。它詳細記錄了企業在特定期間內，現金及約當現金的實質變動，並劃分為三大活動：</p>
+
+        <div class="formula-card">
+            本期淨現金變動額 = 營業活動現金流 (CFO) + 投資活動現金流 (CFI) + 籌資活動現金流 (CFF)
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>三大現金活動</th>
+                    <th>代號</th>
+                    <th>會計與財務意涵</th>
+                    <th>主要項目與現金流向</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>營業活動現金流量</strong></td>
+                    <td><strong>CFO</strong></td>
+                    <td>核心業務實質產生的現金能力</td>
+                    <td>銷貨收現扣除進貨付現、員工薪資、營運稅捐（通常應為正值）。</td>
+                </tr>
+                <tr>
+                    <td><strong>投資活動現金流量</strong></td>
+                    <td><strong>CFI</strong></td>
+                    <td>擴充設備與長期資產的資金佈局</td>
+                    <td>購買廠房設備的資本支出（CapEx，流出）、出售長期資產或投資（流入）。</td>
+                </tr>
+                <tr>
+                    <td><strong>籌資活動現金流量</strong></td>
+                    <td><strong>CFF</strong></td>
+                    <td>與股東與債權人間的資金往來</td>
+                    <td>舉債或發行新股（流入）；償還借款、買回庫藏股、發放現金股利（流出）。</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section>
+        <h2>二、 企業評價的靈魂：自由現金流量 (Free Cash Flow, FCF)</h2>
+        <p>營業活動現金流量（CFO）雖然反映了本業收現能力，但並未考量企業為了維持競爭力所必須投入的廠房設備更新費用。因此，財務經理人更關注<strong>自由現金流量（FCF）</strong>：</p>
+
+        <div class="formula-card">
+            自由現金流量 (FCF) = 營業活動現金流量 (CFO) − 資本支出 (Capital Expenditures, CapEx)
+        </div>
+
+        <p>如果從營業利益（EBIT）出發進行推導，企業自由現金流量（FCFF）公式為：</p>
+
+        <div class="formula-card" style="font-size: 1.1rem; border-style: solid;">
+            FCF = EBIT × (1 − 公司稅率) + 折舊與攤銷 − 資本支出 − 淨營運資金增加額
+        </div>
+
+        <p>自由現金流量代表企業在滿足所有營運支出與必要的資本再投資後，<strong>可自由分配給所有資金提供者（債權人與股東）的實質現金</strong>。</p>
+    </section>
+
+    <section>
+        <h2>三、 近期現實案例：現金流強健 vs. 斷裂的兩極命運</h2>
+
+        <div class="case-card success">
+            <div class="tag-success">成功案例：微軟 (Microsoft) — 頂級的高自由現金流量機器</div>
+            <h3>高營運現金流與充沛 FCF 支撐的 AI 資本支出擴張</h3>
+            <p><strong>現金流量表特徵：</strong> 微軟擁有強勁的營業現金流量（CFO），每年帶來數百億美元的穩定現金流入。即使近年為了建置 AI 資料中心而大幅調升資本支出（CapEx），其扣除 CapEx 後的自由現金流量（FCF）依然維持極高水準。</p>
+            <p><strong>啟示：</strong> 強大且可持續的自由現金流量，讓企業無需仰賴高利息舉債即可自主支應龐大的研發與資本支出，同時還能發放股利與買回庫藏股回饋股東。</p>
+        </div>
+
+        <div class="case-card danger">
+            <div class="tag-danger">警示案例：中國恒大集團 (Evergrande) — 債務與現金流斷裂</div>
+            <h3>高度依賴融資現金流（CFF）補足營業現金流缺口</h3>
+            <p><strong>現金流量表特徵：</strong> 恒大長期以來本業營運現金流極度匱乏，且淨營運資金高度積壓於未完工建案。公司長期依賴籌資活動（CFF）的大規模新借債務來支付舊債利息與營運支出（即「借新還舊」）。</p>
+            <p><strong>啟示：</strong> 一家公司若長期無法透過營業活動（CFO）創造正向現金流，一旦外部信用市場收緊、無法繼續融資（CFF 轉負），營運便會瞬間陷入流動性崩潰與破產危機。</p>
+        </div>
+    </section>
+
+    <section>
+        <h2>四、 財務學的核心視野：好的現金流量表具備哪些特徵？</h2>
+        <p>一份具備高品質與強健財務韌性的現金流量表，通常展現出以下四大特徵：</p>
+
+        <div class="feature-grid">
+            <div class="feature-item">
+                <h4>💰 1. 營業現金流 (CFO) 為正且品質高於淨利</h4>
+                <p>CFO 長期維持健康正值，且「CFO 與淨利的比率」大於 1。代表公司的帳面獲利能實質轉化為口袋裡的現金，而非留在應收帳款或呆滯存貨中。</p>
+            </div>
+            <div class="feature-item">
+                <h4>🚀 2. 資本支出 (CapEx) 具備戰略效益且維持正向 FCF</h4>
+                <p>投資活動現金流（CFI）為合理的負值（進行必要的設備更新與擴展 CapEx），且在扣除 CapEx 後，自由現金流量（FCF）仍能持續保持充足的正數。</p>
+            </div>
+            <div class="feature-item">
+                <h4>🏛️ 3. 不依賴籌資現金流 (CFF) 來維繫本業生存</h4>
+                <p>企業不必依賴持續變賣股票或不斷舉借高利貸款（CFF 長期大幅流入）來支應日常營運支出。發放股利與還債的資金主要來自於內部產生的自由現金流。</p>
+            </div>
+            <div class="feature-item">
+                <h4>🛡️ 4. 具備抵禦景氣循環的現金安全邊際</h4>
+                <p>期末現金及約當現金儲備充裕，即使面臨突發的總體經濟衰退或產業黑天鵝，公司仍有足夠的現金流存量維持至少 12 到 18 個月的營運，不易爆發流動性危機。</p>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="key-takeaway">
+            <strong>課堂思考與複習重點：</strong>
+            <ol>
+                <li>「淨利是會計的意見，現金才是實質的事實。」評估企業生存能力時，現金流量表比損益表更具決定性。</li>
+                <li>自由現金流量 (FCF = CFO − CapEx) 是衡量企業價值與未來發放股利能力最核心的財務指標。</li>
+                <li>最健康的現金流量表組合通常為：正向的 CFO（本業賺錢）、負向的 CFI（再投資擴張）、以及合理的負向或穩定 CFF（還債或回饋股東）。</li>
+            </ol>
+        </div>
+    </section>
+
+    <footer>
+        <p>財務學講義系列 — 基於 Brealey, Myers, and Allen《Corporate Finance》教材編製</p>
+    </footer>
+</div>
+
+</body>
+</html>
