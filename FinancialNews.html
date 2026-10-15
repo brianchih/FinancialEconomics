@@ -3,185 +3,189 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>通膨數據與晶片股賣壓：財金新聞導讀與教學教案</title>
-    <!-- Tailwind CSS (樣式庫) -->
+    <title>通膨、利率與晶片股：動態視覺化教學網站</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js (動態圖表繪製) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- MathJax (數學公式渲染) -->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
-        .step-card {
-            transition: all 0.3s ease;
-        }
-        .step-card:hover {
-            transform: translateY(-2px);
-        }
-        .node-active {
-            border-color: #3b82f6 !important;
-            background-color: #eff6ff !important;
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+        .active-tab {
+            border-bottom: 3px solid #2563eb;
+            color: #2563eb;
+            font-weight: bold;
         }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans leading-relaxed">
+<body class="bg-slate-100 text-slate-800 font-sans leading-relaxed">
 
     <!-- 頁首 Header -->
-    <header class="bg-gradient-to-r from-blue-900 to-indigo-800 text-white py-10 px-6 shadow-md">
-        <div class="max-w-5xl mx-auto">
-            <span class="bg-blue-500/30 text-blue-200 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">高中/大專 財經素養教案</span>
-            <h1 class="text-3xl md:text-4xl font-bold mt-3 mb-2">通膨數據如何引發晶片股賣壓？</h1>
-            <p class="text-blue-100 text-base md:text-lg">結合折現模型（DCF）與宏觀經濟邏輯鏈的互動式教學模組</p>
+    <header class="bg-slate-900 text-white py-8 px-6 shadow-md">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div>
+                <span class="bg-blue-600 text-white text-xs font-semibold px-2.5 py-1 rounded">財經素養互動教案</span>
+                <h1 class="text-2xl md:text-3xl font-bold mt-2">當通膨數據升溫：晶片股賣壓的經濟邏輯</h1>
+            </div>
+            <div class="text-xs text-slate-400 border-l border-slate-700 pl-4">
+                適用對象：高中/大專 財經與社會領域<br>
+                重點議題：宏觀經濟政策與科技股市
+            </div>
         </div>
     </header>
 
-    <main class="max-w-5xl mx-auto px-6 py-8 space-y-10">
+    <main class="max-w-6xl mx-auto px-6 py-8 space-y-8">
 
-        <!-- 模組一：互動式傳遞鏈模擬器 -->
+        <!-- 區塊一：動態政策影響模擬圖表 -->
         <section class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-200">
-            <h2 class="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                動態邏輯傳遞鏈（互動模擬器）
-            </h2>
-            <p class="text-slate-600 mb-6">請點擊下方步驟按鈕，觀察宏觀經濟數據（如 CPI）如何一步步影響高科技 AI 股的市場估值：</p>
-
-            <!-- 步驟節點 -->
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6" id="node-container">
-                <div id="node-1" onclick="selectNode(1)" class="node-active cursor-pointer p-4 rounded-xl border-2 border-slate-200 bg-slate-50 transition-all">
-                    <div class="text-xs font-semibold text-blue-600 uppercase mb-1">Step 1</div>
-                    <div class="font-bold text-slate-800">通膨數據衝高</div>
-                    <div class="text-xs text-slate-500 mt-1">CPI 超乎預期</div>
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                <div>
+                    <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+                        <span class="w-3 h-3 bg-blue-600 rounded-full"></span>
+                        動態模擬：聯準會政策利率對股票估值的影響
+                    </h2>
+                    <p class="text-sm text-slate-500 mt-1">拖動下方滑桿，觀察利率調升如何衝擊高成長的 AI 科技股與傳統價值股</p>
                 </div>
-                <div id="node-2" onclick="selectNode(2)" class="cursor-pointer p-4 rounded-xl border-2 border-slate-200 bg-slate-50 transition-all">
-                    <div class="text-xs font-semibold text-slate-400 uppercase mb-1">Step 2</div>
-                    <div class="font-bold text-slate-800">央行貨幣緊縮</div>
-                    <div class="text-xs text-slate-500 mt-1">Fed 延後降息/升息</div>
-                </div>
-                <div id="node-3" onclick="selectNode(3)" class="cursor-pointer p-4 rounded-xl border-2 border-slate-200 bg-slate-50 transition-all">
-                    <div class="text-xs font-semibold text-slate-400 uppercase mb-1">Step 3</div>
-                    <div class="font-bold text-slate-800">資金成本上升</div>
-                    <div class="text-xs text-slate-500 mt-1">WACC 折現率升高</div>
-                </div>
-                <div id="node-4" onclick="selectNode(4)" class="cursor-pointer p-4 rounded-xl border-2 border-slate-200 bg-slate-50 transition-all">
-                    <div class="text-xs font-semibold text-slate-400 uppercase mb-1">Step 4</div>
-                    <div class="font-bold text-slate-800">科技股遭遇賣壓</div>
-                    <div class="text-xs text-slate-500 mt-1">輝達、台積電 ADR 修正</div>
+                <!-- 控製滑桿 -->
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 min-w-[280px]">
+                    <div class="flex justify-between text-sm font-semibold mb-2">
+                        <span>預期基準利率：</span>
+                        <span id="rate-display" class="text-blue-600 font-mono text-base">5.25 %</span>
+                    </div>
+                    <input type="range" id="rate-slider" min="2.0" max="8.0" step="0.25" value="5.25" 
+                           class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
+                           oninput="updateChart(this.value)">
+                    <div class="flex justify-between text-xs text-slate-400 mt-1">
+                        <span>2.0% (寬鬆降息)</span>
+                        <span>8.0% (鷹派升息)</span>
+                    </div>
                 </div>
             </div>
 
-            <!-- 動態解釋面板 -->
-            <div id="node-explanation" class="bg-blue-50/50 border border-blue-100 rounded-xl p-5 text-slate-700">
-                <!-- 由 JavaScript 動態填入 -->
+            <!-- 折線圖表呈現 -->
+            <div class="relative h-72 w-full">
+                <canvas id="valuationChart"></canvas>
+            </div>
+            <div class="mt-4 p-4 bg-blue-50/60 rounded-xl border border-blue-100 text-xs text-slate-600 flex items-start gap-2">
+                <span class="font-bold text-blue-800 shrink-0">圖表觀察重點：</span>
+                <span id="chart-insight">科技股（如輝達）的未來現金流集中在遠期，高利率會導致折現率大幅增加，因此其估值下修幅度遠大於傳統價值股。</span>
             </div>
         </section>
 
-        <!-- 模組二：核心經濟學與財務理論說明 -->
+        <!-- 區塊二：傳遞鏈與核心理論（融合視覺） -->
         <section class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-200">
-            <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-2">
-                <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
-                理論說明：為什麼利率會影響科技股價值？
+            <h2 class="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+                <span class="w-3 h-3 bg-indigo-600 rounded-full"></span>
+                因果傳遞鏈與財務理論
             </h2>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- 理論一 -->
-                <div class="border border-slate-100 bg-slate-50/50 rounded-xl p-5">
-                    <h3 class="font-bold text-slate-800 text-lg mb-2">1. 現金流量折現模型（DCF Model）</h3>
-                    <p class="text-sm text-slate-600 mb-4">股票的內在價值等於企業未來所有現金流量的「現在價值」總和：</p>
-                    <div class="bg-white p-4 rounded-lg border border-slate-200 text-center text-lg my-2 overflow-x-auto">
-                        $$PV = \sum_{t=1}^{n} \frac{CF_t}{(1 + r)^t}$$
-                    </div>
-                    <ul class="text-xs text-slate-600 space-y-1.5 mt-3">
-                        <li><strong class="text-slate-800">PV (Present Value)：</strong> 企業目前的估值。</li>
-                        <li><strong class="text-slate-800">CF (Cash Flow)：</strong> 第 t 年的預期自由現金流。</li>
-                        <li><strong class="text-slate-800">r (Discount Rate)：</strong> 折現率（反映資金成本與無風險利率）。</li>
-                    </ul>
-                    <p class="text-xs text-indigo-600 mt-3 font-medium">💡 科技股（如輝達）的盈利大部位於遙遠的未來。當分母的利率 \(r\) 上升時，遠期現金流被折現後的現在價值衰減幅度會遠高於傳統價值股。</p>
+            <!-- 橫向卡片流程 -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+                <!-- 卡片 1 -->
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 relative">
+                    <div class="text-xs font-bold text-blue-600 mb-1">起因 (Cause)</div>
+                    <div class="font-bold text-slate-800 text-sm">通膨高於預期</div>
+                    <div class="text-xs text-slate-500 mt-2">CPI 消費者物價指數居高不下，生活成本未能下降。</div>
                 </div>
+                <!-- 卡片 2 -->
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 relative">
+                    <div class="text-xs font-bold text-indigo-600 mb-1">政策 (Policy)</div>
+                    <div class="font-bold text-slate-800 text-sm">央行延後降息</div>
+                    <div class="text-xs text-slate-500 mt-2">聯準會需要維持高利率政策以抑制經濟過熱。</div>
+                </div>
+                <!-- 卡片 3 -->
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 relative">
+                    <div class="text-xs font-bold text-amber-600 mb-1">傳遞 (Transmission)</div>
+                    <div class="font-bold text-slate-800 text-sm">資金成本上升</div>
+                    <div class="text-xs text-slate-500 mt-2">企業融資利息變貴，模型中的折現率提升。</div>
+                </div>
+                <!-- 卡片 4 -->
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                    <div class="text-xs font-bold text-red-600 mb-1">結果 (Effect)</div>
+                    <div class="font-bold text-slate-800 text-sm">晶片股遭受賣壓</div>
+                    <div class="text-xs text-slate-500 mt-2">投資人重新評估估值，輝達與台積電 ADR 修正。</div>
+                </div>
+            </div>
 
-                <!-- 理論二 -->
-                <div class="border border-slate-100 bg-slate-50/50 rounded-xl p-5">
-                    <h3 class="font-bold text-slate-800 text-lg mb-2">2. 資本資產定價模型（CAPM）</h3>
-                    <p class="text-sm text-slate-600 mb-4">投資人要求高風險資產產生的期望回報率：</p>
-                    <div class="bg-white p-4 rounded-lg border border-slate-200 text-center text-lg my-2 overflow-x-auto">
-                        $$E(R_i) = R_f + \beta_i \big( E(R_m) - R_f \big)$$
+            <!-- 數學理論解釋卡片 -->
+            <div class="bg-slate-900 text-white p-6 rounded-xl space-y-4">
+                <h3 class="text-base font-bold text-blue-400">背後核心公式：現金流量折現模型（DCF）</h3>
+                <div class="text-center text-lg py-2">
+                    $$PV = \sum_{t=1}^{n} \frac{CF_t}{(1 + r)^t}$$
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-300 border-t border-slate-800 pt-4">
+                    <div>
+                        <span class="text-white font-bold">為什麼高利率對科技股傷害更大？</span><br>
+                        科技股（如 AI 晶片業）極度依賴未來多年後的現金流 $CF_t$。當分母中的利率 $r$ 上升時，因為有次方項 $t$ 的加乘效果，越遠期的現金流被折算的現在價值衰減得越劇烈。
                     </div>
-                    <ul class="text-xs text-slate-600 space-y-1.5 mt-3">
-                        <li><strong class="text-slate-800">R_f (Risk-free Rate)：</strong> 無風險利率（如美國公債殖利率）。</li>
-                        <li><strong class="text-slate-800">β (Beta)：</strong> 股票相對於整體市場的波動敏感度（AI 晶片股通常 \(\beta > 1.5\)）。</li>
-                    </ul>
-                    <p class="text-xs text-indigo-600 mt-3 font-medium">💡 當通膨帶動公債殖利率 \(R_f\) 上升時，高 \(\beta\) 值的科技股所要求的報酬率 \(E(R_i)\) 快速提升，壓低了當前的合理股價。</p>
+                    <div>
+                        <span class="text-white font-bold">資產定價模型（CAPM）的影響</span><br>
+                        公式 $E(R_i) = R_f + \beta_i (E(R_m) - R_f)$ 中，通膨使得無風險利率 $R_f$ 上升。高波動（高 $\beta$）的晶片股要求的報酬率提高，進一步壓低了合理的股價買點。
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- 模組三：三階段帶讀教案細節 -->
+        <!-- 區塊三：課堂引導與討論（分頁頁籤呈現） -->
         <section class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-200">
-            <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-2">
-                <svg class="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
-                三階段帶讀教學流程
+            <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                <span class="w-3 h-3 bg-emerald-600 rounded-full"></span>
+                課堂帶讀與互動討論設計
             </h2>
 
-            <div class="space-y-4">
-                <!-- 階段一 -->
-                <div class="border border-slate-200 rounded-xl overflow-hidden">
-                    <div class="bg-slate-100 p-4 font-bold text-slate-800 flex justify-between items-center cursor-pointer" onclick="toggleStage(1)">
-                        <span>階段一：專有名詞拆解（奠定認知）</span>
-                        <span id="arrow-1" class="text-slate-500">▼</span>
+            <!-- 頁籤按鈕 -->
+            <div class="flex border-b border-slate-200 mb-6 text-sm font-medium">
+                <button onclick="switchTab('tab-1')" id="btn-tab-1" class="py-2 px-4 active-tab">Step 1: 概念破冰</button>
+                <button onclick="switchTab('tab-2')" id="btn-tab-2" class="py-2 px-4 text-slate-500 hover:text-slate-700">Step 2: 因果提問</button>
+                <button onclick="switchTab('tab-3')" id="btn-tab-3" class="py-2 px-4 text-slate-500 hover:text-slate-700">Step 3: 深度思辨</button>
+            </div>
+
+            <!-- 頁籤內容 1 -->
+            <div id="tab-1" class="tab-content space-y-4">
+                <p class="text-sm text-slate-600">先協助學生釐清新聞中的四個核心專有名詞，釐清基本認知：</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                    <div class="p-3 bg-slate-50 rounded-lg border border-slate-100">
+                        <span class="font-bold text-blue-700">通氣膨脹/通貨膨脹（Inflation）：</span> 物價持續上漲，錢變小了。當通膨「高於預期」，代表物價比想像中更難控制。
                     </div>
-                    <div id="stage-1" class="p-4 space-y-3 bg-white">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
-                            <div class="p-3 bg-slate-50 rounded-lg">
-                                <span class="font-bold text-blue-700">通氣膨脹/通貨膨脹（Inflation）：</span> 物價持續上漲，貨幣購買力下降。當數據高於預期，意味著生活成本依然居高不下。
-                            </div>
-                            <div class="p-3 bg-slate-50 rounded-lg">
-                                <span class="font-bold text-blue-700">聯邦準備理事會（Fed）：</span> 美國的中央銀行，透過調整基準利率（Interest Rate）來維護物價穩定與經濟成長。
-                            </div>
-                            <div class="p-3 bg-slate-50 rounded-lg">
-                                <span class="font-bold text-blue-700">美國存託憑證（ADR）：</span> 非美國企業在美國股市發行的股票（例如台積電在美發行的 2330.US）。
-                            </div>
-                            <div class="p-3 bg-slate-50 rounded-lg">
-                                <span class="font-bold text-blue-700">輝達（NVIDIA）與台積電：</span> 全球 AI 產業鏈的核心，輝達負責 IC 晶片設計，台積電負責晶圓代工製造。
-                            </div>
-                        </div>
+                    <div class="p-3 bg-slate-50 rounded-lg border border-slate-100">
+                        <span class="font-bold text-blue-700">聯邦準備理事會（Fed）：</span> 美國的中央銀行，透過調控利率當作經濟的煞車與油門。
+                    </div>
+                    <div class="p-3 bg-slate-50 rounded-lg border border-slate-100">
+                        <span class="font-bold text-blue-700">美國存託憑證（ADR）：</span> 台灣企業（如台積電）在美國掛牌發行的股票證券。
+                    </div>
+                    <div class="p-3 bg-slate-50 rounded-lg border border-slate-100">
+                        <span class="font-bold text-blue-700">輝達與台積電：</span> AI 算力產業鏈的兩大心臟，輝達負責設計，台積電負責製造。
                     </div>
                 </div>
+            </div>
 
-                <!-- 階段二 -->
-                <div class="border border-slate-200 rounded-xl overflow-hidden">
-                    <div class="bg-slate-100 p-4 font-bold text-slate-800 flex justify-between items-center cursor-pointer" onclick="toggleStage(2)">
-                        <span>階段二：層層遞進提問（因果拆解）</span>
-                        <span id="arrow-2" class="text-slate-500">▼</span>
+            <!-- 頁籤內容 2 -->
+            <div id="tab-2" class="tab-content hidden space-y-4">
+                <p class="text-sm text-slate-600">透過三個漸進式問題，帶領學生還原新聞事件邏輯：</p>
+                <div class="space-y-3">
+                    <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                        <div class="font-bold text-slate-800 text-sm">問：這篇新聞發生的主要事件是什麼？</div>
+                        <div class="text-xs text-slate-600 mt-1">答：美國公布通膨數據超乎預期的高，導致當晚輝達與台積電 ADR 股價雙雙下跌超過 3%。</div>
                     </div>
-                    <div id="stage-2" class="p-4 space-y-4 bg-white text-sm">
-                        <div class="border-l-4 border-blue-500 pl-4">
-                            <p class="font-bold text-slate-800">提問 1：發生了什麼事？觸發的主因是什麼？</p>
-                            <p class="text-slate-600 mt-1">輝達與台積電 ADR 股價下跌超過 3%。主因是美國最新發布的通膨數據超乎預期高，引發市場不安。</p>
-                        </div>
-                        <div class="border-l-4 border-blue-500 pl-4">
-                            <p class="font-bold text-slate-800">提問 2：為什麼通膨居高不下，股票會下跌？</p>
-                            <p class="text-slate-600 mt-1">通膨偏高促使央行延後降息或維持高利率 $\rightarrow$ 商業借款與融資利息上升 $\rightarrow$ 企業營運成本與資金折現率增加 $\rightarrow$ 股票合理估值下修。</p>
-                        </div>
-                        <div class="border-l-4 border-blue-500 pl-4">
-                            <p class="font-bold text-slate-800">提問 3：為什麼 AI 概念股反應特別強烈？</p>
-                            <p class="text-slate-600 mt-1">建置 AI 基礎設施屬於資本密集投資。高利率環境提高企業採購高效能晶片的資金壓力，促使投資人提前賣出高估值資產保本。</p>
-                        </div>
+                    <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                        <div class="font-bold text-slate-800 text-sm">問：物價居高不上，為什麼會影響到股票？</div>
+                        <div class="text-xs text-slate-600 mt-1">答：因為通膨高 $\rightarrow$ 央行不敢降息 $\rightarrow$ 借錢開公司或投資的利息居高不上 $\rightarrow$ 資金成本變貴降低了企業股票的合理估值。</div>
                     </div>
                 </div>
+            </div>
 
-                <!-- 階段三 -->
-                <div class="border border-slate-200 rounded-xl overflow-hidden">
-                    <div class="bg-slate-100 p-4 font-bold text-slate-800 flex justify-between items-center cursor-pointer" onclick="toggleStage(3)">
-                        <span>階段三：延伸討論與批判性思考</span>
-                        <span id="arrow-3" class="text-slate-500">▼</span>
+            <!-- 頁籤內容 3 -->
+            <div id="tab-3" class="tab-content hidden space-y-4">
+                <p class="text-sm text-slate-600">引導學生跳脫單一新聞，建立宏觀視野：</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="p-4 bg-amber-50 border border-amber-200 rounded-xl text-sm">
+                        <div class="font-bold text-amber-900 mb-1">全球金融市場連動性</div>
+                        <div class="text-xs text-amber-800">美股當晚發生的跌幅，為何第二天的台股通常也會受到衝擊？引導學生認識全球資本無國界的流動特性。</div>
                     </div>
-                    <div id="stage-3" class="p-4 space-y-3 bg-white text-sm">
-                        <div class="p-3 bg-amber-50 border border-amber-100 rounded-lg">
-                            <p class="font-bold text-amber-900">議題 A：全球金融連動性</p>
-                            <p class="text-amber-800 mt-1">美國公佈的經濟數據，為何能在幾小時內直接波及台灣的晶片龍頭？引導學生理解全球資金池與 ADR 的跨國市場聯動。</p>
-                        </div>
-                        <div class="p-3 bg-amber-50 border border-amber-100 rounded-lg">
-                            <p class="font-bold text-amber-900">議題 B：區分「短期資金波動」與「長期產業趨勢」</p>
-                            <p class="text-amber-800 mt-1">單日股價下跌 3% 是否代表 AI 產業前景暗淡？引導學生分辨總體經濟資金面調整與企業長遠基本面之間的差異。</p>
-                        </div>
+                    <div class="p-4 bg-amber-50 border border-amber-200 rounded-xl text-sm">
+                        <div class="font-bold text-amber-900 mb-1">分辨短期波動與長期趨勢</div>
+                        <div class="text-xs text-amber-800">一天下跌 3% 代表 AI 產業要衰退了嗎？還是這只是市場因應利率環境所做的「資金評價調整」？</div>
                     </div>
                 </div>
             </div>
@@ -190,77 +194,92 @@
     </main>
 
     <footer class="text-center py-6 text-xs text-slate-400">
-        © 財經新聞導讀互動教案 | 設計用於高中與大專通識教育
+        互動式財經素養教學模組
     </footer>
 
-    <!-- 腳本邏輯 -->
+    <!-- JavaScript 腳本區 -->
     <script>
-        const nodeData = {
-            1: {
-                title: "Step 1: 通膨數據高於預期",
-                desc: "美國公布的消費者物價指數（CPI）跌幅不如預期，顯示市場上的物價壓力依然居高不下。消費者與企業的日常支出居高不下。",
-                math: "當 \\(CPI_{actual} > CPI_{forecast}\\) 時，顯示通貨膨脹壓力強勁。"
-            },
-            2: {
-                title: "Step 2: 央行（Fed）轉趨鷹派/延後降息",
-                desc: "中央銀行的首要任務是維持物價穩定。為壓抑通膨，央行必須保持高利率或延長緊縮週期，無法如市場原本預期般快速降息。",
-                math: "基準利率保持高位： \\(Rate_{policy} \\uparrow\\)"
-            },
-            3: {
-                title: "Step 3: 資金成本上升與折現率提高",
-                desc: "利率上升意味著無風險利率 \\(R_f\\) 與企業加權平均資金成本（WACC）雙雙提高。對於需要大量資金投資未來的科技公司而言，估值壓力陡增。",
-                math: "折現率 \\(r \\uparrow \\implies \\text{現在價值 } PV = \\sum \\frac{CF_t}{(1+r)^t} \\downarrow\\)"
-            },
-            4: {
-                title: "Step 4: 科技與 AI 晶片股遭遇賣壓",
-                desc: "高估值的 AI 成長股對利率極為敏感。投資人重新評估預期回報後，決定獲利了結或拋售股票，導致輝達、台積電 ADR 等股價修正下降。",
-                math: "市場賣壓加劇 \\(\\implies \\Delta P < 0\\) （股價單日下跌逾 3%）"
-            }
-        };
+        // 初始化 Chart.js 圖表
+        let chartInstance = null;
 
-        function selectNode(index) {
-            // 更新按鈕樣式
-            for (let i = 1; i <= 4; i++) {
-                const node = document.getElementById(`node-${i}`);
-                if (i === index) {
-                    node.className = "node-active cursor-pointer p-4 rounded-xl border-2 border-blue-500 bg-blue-50 transition-all";
-                } else {
-                    node.className = "cursor-pointer p-4 rounded-xl border-2 border-slate-200 bg-slate-50 transition-all";
+        function initChart() {
+            const ctx = document.getElementById('valuationChart').getContext('2d');
+            chartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['低利率 (2%)', '正常利率 (3.5%)', '當前利率 (5.25%)', '高利率 (6.5%)', '極高利率 (8%)'],
+                    datasets: [
+                        {
+                            label: '高成長 AI 科技股估值索引',
+                            data: [150, 125, 100, 80, 65],
+                            borderColor: '#2563eb',
+                            backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                            fill: true,
+                            tension: 0.3,
+                            borderWidth: 3
+                        },
+                        {
+                            label: '傳統價值股估值索引',
+                            data: [110, 105, 100, 95, 90],
+                            borderColor: '#64748b',
+                            backgroundColor: 'transparent',
+                            borderDash: [5, 5],
+                            tension: 0.3,
+                            borderWidth: 2
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'top' }
+                    },
+                    scales: {
+                        y: {
+                            title: { display: true, text: '相對估值指數 (基期=100)' },
+                            min: 50,
+                            max: 160
+                        }
+                    }
                 }
-            }
-
-            // 更新說明面板
-            const data = nodeData[index];
-            const explanationPanel = document.getElementById("node-explanation");
-            explanationPanel.innerHTML = `
-                <h3 class="font-bold text-blue-900 text-lg mb-1">${data.title}</h3>
-                <p class="text-sm text-slate-700 mb-3">${data.desc}</p>
-                <div class="bg-white p-3 rounded-lg border border-blue-100 text-sm font-mono text-indigo-700">
-                    ${data.math}
-                </div>
-            `;
-
-            // 重新渲染公式
-            if (window.MathJax) {
-                MathJax.typesetPromise([explanationPanel]);
-            }
+            });
         }
 
-        function toggleStage(stageNum) {
-            const content = document.getElementById(`stage-${stageNum}`);
-            const arrow = document.getElementById(`arrow-${stageNum}`);
-            if (content.classList.contains("hidden")) {
-                content.classList.remove("hidden");
-                arrow.innerText = "▼";
+        // 動態滑桿更新邏輯
+        function updateChart(rate) {
+            document.getElementById('rate-display').innerText = parseFloat(rate).toFixed(2) + " %";
+            const insight = document.getElementById('chart-insight');
+
+            if (rate > 5.25) {
+                insight.innerText = `目前預期利率升至 ${rate}%：央行展現鷹派態度，折現率顯著拉高，對 AI 科技股估值產生強烈修正壓力。`;
+            } else if (rate < 5.25) {
+                insight.innerText = `目前預期利率降至 ${rate}%：資金成本變便宜，市場願意給予未來高成長的科技股更高的評價倍數。`;
             } else {
-                content.classList.add("hidden");
-                arrow.innerText = "▲";
+                insight.innerText = `目前預期利率為 5.25%：屬於目前市場平衡狀態，但稍有通膨風吹草動即可能打破平衡。`;
             }
         }
 
-        // 初始化顯示第一節點
+        // 頁籤切換邏輯
+        function switchTab(tabId) {
+            // 隱藏所有內容
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            // 取消按鈕高亮
+            document.querySelectorAll('[id^="btn-tab-"]').forEach(el => {
+                el.classList.remove('active-tab');
+                el.classList.add('text-slate-500');
+            });
+
+            // 顯示選擇的內容與按鈕高亮
+            document.getElementById(tabId).classList.remove('hidden');
+            const activeBtn = document.getElementById(`btn-${tabId}`);
+            activeBtn.classList.add('active-tab');
+            activeBtn.classList.remove('text-slate-500');
+        }
+
+        // 頁面載入完成後執行初始化
         window.onload = function() {
-            selectNode(1);
+            initChart();
         };
     </script>
 </body>
