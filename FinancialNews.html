@@ -3,13 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>通膨與科技股賣壓：互動式財務教學</title>
-    <!-- Tailwind CSS -->
+    <title>通膨、公債與科技股：互動式財務教學</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
-    <!-- MathJax 設定與載入 (確保公式絕對正確渲染) -->
     <script>
         window.MathJax = {
             tex: {
@@ -24,242 +21,192 @@
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         .glass-panel {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(226, 232, 240, 1);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
         }
         input[type=range] {
-            accent-color: #4f46e5;
+            accent-color: #0f172a;
         }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen">
+<body class="bg-slate-100 text-slate-800 min-h-screen">
 
-    <!-- 頂部標題列 -->
-    <header class="bg-gradient-to-br from-indigo-900 to-slate-800 text-white py-12 px-6">
+    <header class="bg-slate-900 text-white py-12 px-6">
         <div class="max-w-5xl mx-auto">
-            <div class="inline-block bg-indigo-500 text-white text-xs font-bold px-3 py-1 rounded-full mb-4">
-                經濟學與投資理財教案
+            <div class="inline-block bg-slate-700 text-white text-xs font-bold px-3 py-1 rounded-full mb-4">
+                總體經濟與投資理財教案
             </div>
-            <h1 class="text-3xl md:text-4xl font-extrabold mb-3">通膨數據為何引爆晶片股賣壓？</h1>
-            <p class="text-indigo-200 text-lg">用「現金流量折現模型」看懂聯準會升息對台積電與輝達的真實殺傷力</p>
+            <h1 class="text-3xl md:text-4xl font-extrabold mb-3">通膨如何透過「公債市場」重擊晶片股？</h1>
+            <p class="text-slate-300 text-lg">從現金流量折現與資金排擠效應，看懂美股大跌的真實邏輯</p>
         </div>
     </header>
 
     <main class="max-w-5xl mx-auto px-6 py-10 space-y-12">
 
-        <!-- 區塊一：核心數學理論 (靜態渲染確保公式不破圖) -->
         <section class="glass-panel rounded-2xl p-8">
             <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3">
-                <span class="bg-indigo-100 text-indigo-600 w-8 h-8 flex items-center justify-center rounded-lg">1</span>
-                核心理論：現金流量折現模型 (DCF)
+                <span class="bg-slate-200 text-slate-800 w-8 h-8 flex items-center justify-center rounded-lg">1</span>
+                核心理論：公債殖利率與 DCF 模型
             </h2>
             
-            <div class="grid md:grid-cols-2 gap-8 items-center">
-                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm text-center">
-                    <p class="text-sm text-slate-500 mb-4 font-medium">企業的現在價值 (PV) 公式</p>
-                    <!-- 公式區塊 -->
-                    <div class="text-2xl overflow-x-auto py-2">
-                        $$PV = \sum_{t=1}^{n} \frac{CF_t}{(1 + r)^t}$$
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+                    <h3 class="font-bold text-lg text-slate-800 mb-2">觀念一：公債市場的「資金排擠」</h3>
+                    <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                        美國政府發行的公債被視為<strong class="text-slate-900">無風險資產</strong>。當通膨高漲，央行升息時，公債的殖利率（利息報酬）會隨之飆高。
+                    </p>
+                    <div class="bg-white p-4 rounded-lg border border-slate-200 text-sm text-slate-700">
+                        如果買零風險的美國公債就能穩賺 5% 的利息，投資人就會把資金從高風險的股市（如科技股）抽走，轉入債市。這就是所謂的<span class="text-red-600 font-bold">資金排擠效應</span>。
                     </div>
                 </div>
                 
-                <div class="space-y-4">
-                    <p class="text-slate-700 leading-relaxed">
-                        要理解科技股為何大跌，必須看懂這個公式。科技股（如 AI 晶片業）的特徵是：<strong class="text-indigo-600">它們的獲利往往在遙遠的未來（\(t\) 很大）</strong>。
+                <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+                    <h3 class="font-bold text-lg text-slate-800 mb-2">觀念二：現金流量折現模型 (DCF)</h3>
+                    <p class="text-sm text-slate-600 mb-2 leading-relaxed">
+                        無風險利率上升，會直接墊高折現公式中的分母 \(r\)：
                     </p>
-                    <ul class="text-sm text-slate-600 space-y-2">
-                        <li><b class="text-slate-800">CF (Cash Flow)：</b> 企業未來每年賺到的現金。</li>
-                        <li><b class="text-slate-800">r (Rate)：</b> 市場利率（折現率）。由央行政策決定。</li>
-                        <li><b class="text-slate-800">t (Time)：</b> 時間（第幾年）。</li>
-                    </ul>
-                    <div class="bg-red-50 border-l-4 border-red-500 p-3 text-sm text-red-800">
-                        <b class="block mb-1">💡 致命關鍵：</b>
-                        當通膨過高，央行調升利率 \(r\) 時，因為分母有次方 \(t\)，越遙遠的獲利，折算回現在的價值就會**縮水得越嚴重**。這就是科技股遭遇賣壓的數學真相。
+                    <div class="text-xl overflow-x-auto py-2 text-center">
+                        $$PV = \sum_{t=1}^{n} \frac{CF_t}{(1 + r)^t}$$
                     </div>
+                    <p class="text-sm text-slate-600 mt-2 leading-relaxed">
+                        科技股的獲利 \(CF_t\) 多在遙遠的未來（\(t\) 很大）。分母的 \(r\) 一變大，經過多次方相乘，企業現在的價值 \(PV\) 就會嚴重縮水。
+                    </p>
                 </div>
             </div>
         </section>
 
-        <!-- 區塊二：動態圖表模擬器 (大幅升級互動性) -->
         <section class="glass-panel rounded-2xl p-8">
             <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3">
-                <span class="bg-indigo-100 text-indigo-600 w-8 h-8 flex items-center justify-center rounded-lg">2</span>
-                動態模擬：利率對「未來獲利」的侵蝕效應
+                <span class="bg-slate-200 text-slate-800 w-8 h-8 flex items-center justify-center rounded-lg">2</span>
+                動態模擬：股市與債市的蹺蹺板
             </h2>
 
             <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm mb-6">
                 <div class="flex flex-col md:flex-row justify-between items-center gap-6 mb-6">
                     <div class="w-full md:w-1/2">
                         <label class="block text-sm font-bold text-slate-700 mb-2">
-                            調整聯準會基準利率 (r)： <span id="rateValue" class="text-2xl text-indigo-600 font-mono ml-2">5.0 %</span>
+                            調整聯準會基準利率 (同時牽動公債殖利率)： <span id="rateValue" class="text-2xl text-slate-900 font-mono ml-2">5.0 %</span>
                         </label>
-                        <input type="range" id="rateSlider" min="1" max="15" step="0.5" value="5" class="w-full h-3 bg-slate-200 rounded-lg cursor-pointer">
+                        <input type="range" id="rateSlider" min="1" max="10" step="0.5" value="5" class="w-full h-3 bg-slate-200 rounded-lg cursor-pointer">
                         <div class="flex justify-between text-xs text-slate-400 mt-2">
-                            <span>1% (極度寬鬆)</span>
-                            <span>15% (超級通膨)</span>
+                            <span>1% (資金湧入股市)</span>
+                            <span>10% (資金逃往債市)</span>
                         </div>
                     </div>
                     
-                    <div class="w-full md:w-1/2 bg-indigo-50 p-4 rounded-lg">
-                        <p class="text-sm text-indigo-900">
-                            假設一家 AI 公司未來 10 年，每年都能賺取 <b>100 億元</b>。圖表展示了在不同利率下，這些錢「折算回今天的真實價值」。
-                        </p>
-                        <p id="dynamicInsight" class="text-sm font-bold text-red-600 mt-2">
-                            目前利率 5.0%，第 10 年的 100 億元，現在只值 61.39 億元。
+                    <div class="w-full md:w-1/2 bg-slate-50 border border-slate-200 p-4 rounded-lg">
+                        <p id="dynamicInsight" class="text-sm font-bold text-slate-700">
+                            目前利率 5.0%，無風險公債具備一定吸引力。科技股未來的獲利價值正在縮水。
                         </p>
                     </div>
                 </div>
 
-                <!-- 動態圖表容器 -->
                 <div class="relative h-80 w-full">
-                    <canvas id="dcfChart"></canvas>
+                    <canvas id="marketChart"></canvas>
                 </div>
             </div>
         </section>
 
-        <!-- 區塊三：新聞事件還原與教學引導 -->
         <section class="glass-panel rounded-2xl p-8">
             <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3">
-                <span class="bg-indigo-100 text-indigo-600 w-8 h-8 flex items-center justify-center rounded-lg">3</span>
-                新聞邏輯還原 (課堂討論)
+                <span class="bg-slate-200 text-slate-800 w-8 h-8 flex items-center justify-center rounded-lg">3</span>
+                新聞邏輯還原：為什麼台積電與輝達會跌？
             </h2>
 
-            <!-- 三步邏輯鏈 -->
-            <div class="flex flex-col md:flex-row gap-4 mb-8">
-                <div class="flex-1 bg-white p-5 rounded-xl border-t-4 border-slate-300 shadow-sm text-center">
-                    <div class="text-3xl mb-2">&#128200;</div>
-                    <h3 class="font-bold text-slate-800 mb-2">1. 通膨超乎預期</h3>
-                    <p class="text-sm text-slate-600">物價降不下來，通膨數據火熱，顯示市場資金依然氾濫。</p>
+            <div class="flex flex-col md:flex-row gap-4">
+                <div class="flex-1 bg-white p-6 rounded-xl border border-slate-200 text-center">
+                    <div class="text-3xl mb-3">&#128200;</div>
+                    <h3 class="font-bold text-slate-800 mb-2">步驟一：通膨降不下來</h3>
+                    <p class="text-sm text-slate-600">消費者物價指數居高不下，央行必須踩煞車，市場預期聯準會將「延後降息」甚至升息。</p>
                 </div>
                 <div class="flex items-center justify-center text-slate-400 text-2xl hidden md:block">&#10142;</div>
-                <div class="flex-1 bg-white p-5 rounded-xl border-t-4 border-amber-400 shadow-sm text-center">
-                    <div class="text-3xl mb-2">&#127976;</div>
-                    <h3 class="font-bold text-slate-800 mb-2">2. 央行延後降息</h3>
-                    <p class="text-sm text-slate-600">聯準會為了壓制物價，放棄降息，甚至暗示維持高利率。</p>
+                <div class="flex-1 bg-white p-6 rounded-xl border border-slate-200 text-center">
+                    <div class="text-3xl mb-3">&#128176;</div>
+                    <h3 class="font-bold text-slate-800 mb-2">步驟二：公債殖利率飆升</h3>
+                    <p class="text-sm text-slate-600">無風險的美國公債利息變高，成為投資人的避風港，引發市場資金板塊大挪移。</p>
                 </div>
                 <div class="flex items-center justify-center text-slate-400 text-2xl hidden md:block">&#10142;</div>
-                <div class="flex-1 bg-white p-5 rounded-xl border-t-4 border-red-500 shadow-sm text-center">
-                    <div class="text-3xl mb-2">&#128185;</div>
-                    <h3 class="font-bold text-slate-800 mb-2">3. 晶片股大跌</h3>
-                    <p class="text-sm text-slate-600">利率上升，資金成本變貴，未來獲利嚴重縮水，投資人拋售輝達與台積電 ADR。</p>
+                <div class="flex-1 bg-white p-6 rounded-xl border border-slate-200 text-center">
+                    <div class="text-3xl mb-3">&#128185;</div>
+                    <h3 class="font-bold text-slate-800 mb-2">步驟三：科技股大失血</h3>
+                    <p class="text-sm text-slate-600">資金流向債市，且高利率讓科技股的「未來獲利」折現後大幅縮水，引爆賣壓。</p>
                 </div>
-            </div>
-
-            <!-- 教師提問區 -->
-            <div class="bg-slate-800 text-white rounded-xl p-6">
-                <h3 class="text-lg font-bold text-indigo-400 mb-4">課堂延伸提問</h3>
-                <ul class="space-y-4">
-                    <li class="flex items-start gap-3">
-                        <span class="bg-indigo-500 text-white rounded-full w-6 h-6 flex items-center justify-center flex-shrink-0 text-sm mt-0.5">Q</span>
-                        <div>
-                            <p class="font-semibold">為什麼傳統產業（如食品業、公營事業）股價受影響較小？</p>
-                            <p class="text-sm text-slate-300 mt-1">引導提示：傳產的獲利多集中在「現在」或「近期」，分母的時間 \(t\) 較小，對利率波動較不敏感（屬於價值股特性）。</p>
-                        </div>
-                    </li>
-                    <li class="flex items-start gap-3">
-                        <span class="bg-indigo-500 text-white rounded-full w-6 h-6 flex items-center justify-center flex-shrink-0 text-sm mt-0.5">Q</span>
-                        <div>
-                            <p class="font-semibold">如果台積電與輝達的技術依舊領先，為什麼股價還會跌？</p>
-                            <p class="text-sm text-slate-300 mt-1">引導提示：區分「企業基本面」與「市場資金面」。公司依舊優秀，但市場衡量資產價值的「尺（利率）」改變了。</p>
-                        </div>
-                    </li>
-                </ul>
             </div>
         </section>
 
     </main>
 
-    <!-- JavaScript：處理動態圖表邏輯 -->
     <script>
-        // 設定基礎變數
-        const years = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-        const nominalCashFlow = 100; // 假設每年 100 億
-        let currentRate = 0.05; // 預設 5%
+        const rateSlider = document.getElementById('rateSlider');
+        const rateValueDisplay = document.getElementById('rateValue');
+        const insightText = document.getElementById('dynamicInsight');
+        
+        let currentRate = 5.0;
+        const years = [1, 2, 3, 4, 5];
+        const nominalCashFlow = 100;
 
-        // 計算折現現值
-        function calculatePV(rate) {
-            return years.map(t => nominalCashFlow / Math.pow(1 + rate, t));
+        function calcTechStockPV(rate) {
+            const r = rate / 100;
+            return years.reduce((sum, t) => sum + (nominalCashFlow / Math.pow(1 + r, t)), 0);
         }
 
-        // 初始化圖表
-        const ctx = document.getElementById('dcfChart').getContext('2d');
-        const dcfChart = new Chart(ctx, {
+        function calcBondAttractiveness(rate) {
+            return rate * 15; 
+        }
+
+        const ctx = document.getElementById('marketChart').getContext('2d');
+        const marketChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: years.map(y => `第 ${y} 年`),
+                labels: ['投資資產吸引力比較'],
                 datasets: [
                     {
-                        label: '預估名目獲利 (未折現)',
-                        data: Array(10).fill(nominalCashFlow),
-                        backgroundColor: 'rgba(226, 232, 240, 0.6)', // 淺灰背景
-                        borderWidth: 0,
-                        order: 2
+                        label: '科技股估值 (DCF現值)',
+                        data: [calcTechStockPV(currentRate)],
+                        backgroundColor: 'rgba(59, 130, 246, 0.8)',
+                        borderRadius: 4
                     },
                     {
-                        label: '折算回現在的真實價值 (PV)',
-                        data: calculatePV(currentRate),
-                        backgroundColor: 'rgba(79, 70, 229, 0.8)', // 靛藍色
-                        borderRadius: 4,
-                        borderWidth: 0,
-                        order: 1
+                        label: '公債市場吸引力指數',
+                        data: [calcBondAttractiveness(currentRate)],
+                        backgroundColor: 'rgba(16, 185, 129, 0.8)',
+                        borderRadius: 4
                     }
                 ]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                animation: {
-                    duration: 400, // 滑動時的平滑動畫
-                    easing: 'easeOutQuart'
-                },
+                animation: { duration: 300 },
                 scales: {
                     y: {
                         beginAtZero: true,
-                        max: 110,
-                        title: { display: true, text: '價值 (億元)' }
-                    }
-                },
-                plugins: {
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                return context.dataset.label + ': ' + context.raw.toFixed(2) + ' 億';
-                            }
-                        }
+                        max: 500,
+                        title: { display: true, text: '指數評分 / 現值' }
                     }
                 }
             }
         });
 
-        // 監聽滑桿變化
-        const slider = document.getElementById('rateSlider');
-        const rateDisplay = document.getElementById('rateValue');
-        const insightText = document.getElementById('dynamicInsight');
+        rateSlider.addEventListener('input', function(e) {
+            currentRate = parseFloat(e.target.value);
+            rateValueDisplay.innerText = currentRate.toFixed(1) + ' %';
+            
+            const newTechPV = calcTechStockPV(currentRate);
+            const newBondScore = calcBondAttractiveness(currentRate);
+            
+            marketChart.data.datasets[0].data = [newTechPV];
+            marketChart.data.datasets[1].data = [newBondScore];
+            marketChart.update();
 
-        slider.addEventListener('input', function(e) {
-            const ratePercentage = parseFloat(e.target.value);
-            currentRate = ratePercentage / 100;
-            
-            // 更新數字顯示
-            rateDisplay.innerText = ratePercentage.toFixed(1) + ' %';
-            
-            // 重新計算並更新圖表數據
-            const newData = calculatePV(currentRate);
-            dcfChart.data.datasets[1].data = newData;
-            dcfChart.update();
-
-            // 更新洞察文字
-            const year10Value = newData[9].toFixed(2);
-            let insightHtml = `目前利率 <b>${ratePercentage.toFixed(1)}%</b>，第 10 年的 100 億元，現在只值 <b>${year10Value} 億元</b>。`;
-            
-            if(ratePercentage >= 10) {
-                insightHtml += ' <span class="text-red-600">（高利率將未來的獲利吃光了！）</span>';
-            } else if(ratePercentage <= 2) {
-                insightHtml += ' <span class="text-emerald-600">（低利率環境，未來的錢很值錢，科技股大漲！）</span>';
+            if (currentRate >= 7.0) {
+                insightText.innerHTML = `<span class="text-red-600">目前利率高達 ${currentRate.toFixed(1)}%！公債殖利率極具吸引力，大量資金從股市逃往債市，科技股面臨嚴重賣壓。</span>`;
+            } else if (currentRate <= 3.0) {
+                insightText.innerHTML = `<span class="text-blue-600">目前利率僅 ${currentRate.toFixed(1)}%。公債利息太低，資金湧入高風險的科技股尋求成長，推升輝達與台積電股價。</span>`;
+            } else {
+                insightText.innerHTML = `<span class="text-slate-700">目前利率 ${currentRate.toFixed(1)}%，市場處於債市與股市的動態平衡拉鋸中。</span>`;
             }
-            insightText.innerHTML = insightHtml;
         });
     </script>
 </body>
