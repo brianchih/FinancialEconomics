@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第三章：財務報表分析入門 — 會計的起源背景與現實重要性</title>
+    <style>
+        :root {
+            --primary-color: #1e3a8a;
+            --secondary-color: #0284c7;
+            --accent-color: #f59e0b;
+            --bg-light: #f8fafc;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans TC", sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+            margin: 0;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        header {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .chapter-tag {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: white;
+            font-size: 0.875rem;
+            font-weight: 600;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            margin-bottom: 0.5rem;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin: 0.5rem 0;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            font-size: 1.4rem;
+            border-left: 4px solid var(--secondary-color);
+            padding-left: 0.75rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        h3 {
+            color: var(--secondary-color);
+            font-size: 1.15rem;
+            margin-top: 1.5rem;
+        }
+
+        p {
+            margin-bottom: 1.2rem;
+            text-align: justify;
+        }
+
+        .highlight-box {
+            background-color: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+        }
+
+        .highlight-box header {
+            border: none;
+            padding: 0;
+            margin-bottom: 0.5rem;
+        }
+
+        .highlight-box h4 {
+            margin: 0;
+            color: var(--primary-color);
+            font-size: 1.05rem;
+        }
+
+        .timeline-container {
+            position: relative;
+            margin: 2rem 0;
+            padding-left: 1.5rem;
+            border-left: 2px solid var(--secondary-color);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -1.95rem;
+            top: 0.35rem;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--secondary-color);
+            border: 3px solid white;
+        }
+
+        .timeline-title {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .case-card {
+            background-color: #fff;
+            border: 1px solid var(--border-color);
+            border-top: 4px solid var(--accent-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .case-card .tag {
+            color: var(--accent-color);
+            font-weight: bold;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .key-takeaway {
+            background-color: #fef3c7;
+            border-left: 4px solid var(--accent-color);
+            padding: 1rem 1.25rem;
+            margin-top: 1.5rem;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .key-takeaway strong {
+            color: #92400e;
+        }
+
+        footer {
+            margin-top: 3rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <span class="chapter-tag">Brealey et al. Corporate Finance — 第三章導論</span>
+        <h1>第一節：會計的起源背景與現代企業監督機制</h1>
+        <p class="subtitle">從業主經營到工業革命，再到現代資本市場的誠信基石</p>
+    </header>
+
+    <section>
+        <h2>一、 導言：為什麼財務學第一步要先懂會計？</h2>
+        <p>在財務學的學習中，我們常說「會計是商業的語言」（Accounting is the Language of Business）。正如第一章所述，現代大型企業並非單打獨鬥，而是一個<strong>團隊共同努力（Team Effort）</strong>的成果。</p>
+        <p>在這個利益共同體中，包含兩大核心群體：</p>
+        <ul>
+            <li><strong>內部參與者：</strong>管理階層、董事會與執行團隊、基層員工。</li>
+            <li><strong>外部利害關係人：</strong>提供資金的股東（Equity Holders）、債權人與銀行（Debt Holders）、供應商以及政府稅務機關。</li>
+        </ul>
+        <p>這些參與者的權益與公司經營成敗緊密相連。然而，外部投資人並不親自參與日常經營，他們如何得知經理人有沒有把錢花在對的地方？這時，就必須透過編製定期的財務帳目，並聘請獨立的第三方會計師事務所查核，以證實這些帳目是否達到了<strong>「真實與公正呈現」（True and Fair View）</strong>。</p>
+    </section>
+
+    <section>
+        <h2>二、 歷史演進：會計專業的誕生與工業革命</h2>
+        <p>會計資訊的需求並非一開始就如此複雜，它的演化歷程反映了商業組織型態的轉變：</p>
+
+        <div class="timeline-container">
+            <div class="timeline-item">
+                <div class="timeline-title">19 世紀中葉以前：業主經營時代 (Owner-Operated Era)</div>
+                <p>當時大多數公司規模較小，屬於個人或家族自負盈虧的獨資/合夥事業。除了向親友或私人借貸款項外，企業很少需要向外部大眾募集資金，因此經營者對複雜綜合的會計資訊需求極低。</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-title">19 世紀中後葉：工業革命與巨型基礎建設 (Industrial Revolution)</div>
+                <p>隨著跨州<strong>大型鐵路公司（Railroads）與運河公司（Canals）</strong>的建立，興建動輒需要跨國、跨區域募集鉅額資金。個人的財力已無法滿足需求，股份公司（Joint-Stock Corporations）隨之蓬勃發展。</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-title">會計師專業時代的來臨 (Rise of Professional Accountants)</div>
+                <p>股東（所有權）與經理人（經營權）開始出現分離（Agency Relationship）。遠在異地的股東與銀行急需標準化、客觀且可信賴的資訊，來評估公司的財務強度與經營成果，會計師這一專業職業應運而生。</p>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>三、 現實生活經典案例：資訊不透明與審計失敗的代價</h2>
+        <p>如果沒有客觀真實的會計資訊與公正的審計機制，商業體系會發生什麼事？歷史給了我們極為深刻的教訓：</p>
+
+        <div class="case-card">
+            <div class="tag">經典案例 1：安隆案 (Enron Scandal) 與《薩班斯-奧克斯利法案》</div>
+            <h3>當會計報表失去「真實與公正」：資本市場的信譽崩塌</h3>
+            <p><strong>背景：</strong> 2001 年底，全球最大的能源交易公司之一安隆（Enron）宣告破產。安隆透過複雜的特殊目的實體（SPE）將鉅額債務隱藏在資產負債表外，並利用不當的會計認列手法虛構獲利。</p>
+            <p><strong>影響與啟示：</strong> 此案不僅導致當時全球五大會計師事務所之一的安達信（Arthur Andersen）倒閉，更促使美國國會於 2002 年迅速通過《薩班斯-奧克斯利法案》（SOX Act），強制要求企業管理階層與會計師對財務報表的內部控制與真實性負起嚴厲的法律責任。</p>
+        </div>
+
+        <div class="case-card">
+            <div class="tag">經典案例 2：德國 Wirecard 破產案 (2020)</div>
+            <h3>現代版的「消失的資產」</h3>
+            <p><strong>背景：</strong> 德國著名的金融科技巨頭 Wirecard 曾被視為歐洲科技之光。然而在 2020 年，審計師與調查人員發現，該公司資產負債表中宣稱存在於信託帳戶中的 <strong>19 億歐元（約合新台幣 600 多億元）現金「根本不存在」</strong>。</p>
+            <p><strong>影響與啟示：</strong> 這個案例讓全球投資人再次明白：如果缺乏獨立、嚴謹的審計程序去「驗證」資產的真實性（True and Fair View），看似華麗的獲利與現金數據都可能是虛幻的空中樓閣。</p>
+        </div>
+    </section>
+
+    <section>
+        <h2>四、 本章學習範疇與核心課題preview</h2>
+        <p>本章是我們在財務學中第一次系統性地檢視財務報表。我們並非要深入探討繁瑣的會計記帳細節，而是要建立財務經理人所需的全局視野：</p>
+
+        <div class="highlight-box">
+            <header>
+                <h4>💡 本章將建立的三大財務核心觀念差異：</h4>
+            </header>
+            <ol>
+                <li><strong>三大基礎財務報表：</strong> 資產負債表（Balance Sheet）、損益表（Income Statement）、現金流量表（Statement of Cash Flows）。</li>
+                <li><strong>淨利 vs. 現金流量（Net Income vs. Cash Flow）：</strong> 為什麼帳面上賺錢的公司可能會因為現金枯竭而倒閉？</li>
+                <li><strong>帳面價值 vs. 市場價值（Book Value vs. Market Value）：</strong> 會計上記錄的歷史成本與公開市場上投資人願付的價格有何巨大落差？</li>
+            </ol>
+        </div>
+
+        <div class="key-takeaway">
+            <strong>核心總結：</strong> 會計報表是財務分析的「原材料」。在下一章中，我們將學習管理者如何進一步運用這些財報數據計算財務比率，以精準分析企業的營運績效並評估其財務強度！
+        </div>
+    </section>
+
+    <footer>
+        <p>財務學講義系列 — 基於 Bradley, Myers, and Allen《Corporate Finance》教材編製</p>
+    </footer>
+</div>
+
+</body>
+</html>
