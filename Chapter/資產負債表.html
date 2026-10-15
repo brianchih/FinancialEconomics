@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第三章：財務報表分析入門 — 3.1 資產負債表 (The Balance Sheet)</title>
+    <style>
+        :root {
+            --primary-color: #1e3a8a;
+            --secondary-color: #0284c7;
+            --accent-color: #f59e0b;
+            --success-color: #10b981;
+            --danger-color: #ef4444;
+            --bg-light: #f8fafc;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans TC", sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+            margin: 0;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        header {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .chapter-tag {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: white;
+            font-size: 0.875rem;
+            font-weight: 600;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            margin-bottom: 0.5rem;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin: 0.5rem 0;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            font-size: 1.4rem;
+            border-left: 4px solid var(--secondary-color);
+            padding-left: 0.75rem;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        h3 {
+            color: var(--secondary-color);
+            font-size: 1.15rem;
+            margin-top: 1.5rem;
+        }
+
+        p {
+            margin-bottom: 1.2rem;
+            text-align: justify;
+        }
+
+        .formula-card {
+            background-color: #f1f5f9;
+            border: 2px dashed var(--secondary-color);
+            border-radius: 8px;
+            padding: 1.25rem;
+            text-align: center;
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: 1.5rem 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            text-align: left;
+        }
+
+        th {
+            background-color: #f8fafc;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .table-highlight {
+            background-color: #eff6ff;
+            font-weight: bold;
+        }
+
+        .case-card {
+            background-color: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .case-card.danger {
+            border-top: 4px solid var(--danger-color);
+        }
+
+        .case-card.success {
+            border-top: 4px solid var(--success-color);
+        }
+
+        .case-card .tag-danger {
+            color: var(--danger-color);
+            font-weight: bold;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+        }
+
+        .case-card .tag-success {
+            color: var(--success-color);
+            font-weight: bold;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.25rem;
+            margin: 1.5rem 0;
+        }
+
+        .feature-item {
+            background-color: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.25rem;
+        }
+
+        .feature-item h4 {
+            margin-top: 0;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .key-takeaway {
+            background-color: #fef3c7;
+            border-left: 4px solid var(--accent-color);
+            padding: 1rem 1.25rem;
+            margin-top: 2rem;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .key-takeaway strong {
+            color: #92400e;
+        }
+
+        footer {
+            margin-top: 3rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <span class="chapter-tag">Brealey et al. Corporate Finance — 第三章</span>
+        <h1>3.1 資產負債表 (The Balance Sheet)</h1>
+        <p class="subtitle">解讀特定時點的財務快照、資產結構與健全資產負債表的關鍵特徵</p>
+    </header>
+
+    <section>
+        <h2>一、 申報義務與資產負債表的基本概念</h2>
+        <p>公開發行公司（Public Companies）有義務定期向美國證券交易委員會（SEC）申報財務報告，向市場透露公司最新的財務狀況與營運成果：</p>
+        <ul>
+            <li><strong>季報 (Form 10-Q)：</strong> 提供投資人公司當季的盈餘表現，以及當季結束時的最新資產與負債狀況。</li>
+            <li><strong>年報 (Form 10-K)：</strong> 提供全年度營運成果與財務結構更加詳細、經審計的全面資訊。</li>
+        </ul>
+        <p>資產負債表（Balance Sheet）是公司在<strong>某一特定時點（特定日期）</strong>資產與負債狀況的<strong>「瞬間快照」（Snapshot）</strong>。它完美遵循會計恆等式：</p>
+
+        <div class="formula-card">
+            資產 (Assets) = 負債 (Liabilities) + 股東權益 (Equity)
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>報表位置</th>
+                    <th>會計意涵</th>
+                    <th>財務意涵</th>
+                    <th>主要項目與排列順序</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>左邊 (Left Side)</strong></td>
+                    <td>資產 (Assets)</td>
+                    <td><strong>資金的使用 (Uses of Funds)</strong></td>
+                    <td>按<strong>流動性由高至低</strong>排列（流動資產、固定資產、無形資產）</td>
+                </tr>
+                <tr>
+                    <td><strong>右邊 (Right Side)</strong></td>
+                    <td>負債與權益 (Liabilities & Equity)</td>
+                    <td><strong>資金的來源 (Sources of Funds)</strong></td>
+                    <td>按<strong>到期日由近至遠</strong>排列（流動負債、長期負債、股東權益）</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section>
+        <h2>二、 資產端與負債端項目深度拆解 (以 Home Depot 為例)</h2>
+
+        <h3>1. 流動資產 (Current Assets)</h3>
+        <p>預期可在一年內變現或消耗的資產。在 Home Depot (HD) 的合併資產負債表中包含：</p>
+        <ul>
+            <li><strong>現金與有價證券：</strong> 最具流動性的項目（案例中 Home Depot 擁有 17.23 億美元）。</li>
+            <li><strong>應收帳款 (Accounts Receivable)：</strong> 已向顧客交付商品（銷售 14.84 億美元商品）但尚未收到的賒銷款項。</li>
+            <li><strong>存貨 (Inventory)：</strong> 零售業大部分為賣場貨架上或倉庫中的成品商品；製造業則包含原料、在製品與製成品。</li>
+            <li><strong>其他流動資產：</strong> 無法歸類於上述項目的短期資產。</li>
+        </ul>
+        <p class="table-highlight">Home Depot 流動資產總計為：153.02 億美元</p>
+
+        <h3>2. 長期資產與固定資產 (Fixed Assets)</h3>
+        <p>使用年限超過一年的資產。例如不動產、廠房及設備（PP&E）：</p>
+        <ul>
+            <li><strong>原始成本毛額 (Gross PP&E)：</strong> 買入資產時的原始取得成本（Home Depot 為 403.53 億美元）。</li>
+            <li><strong>歷史成本原則與折舊 (Depreciation)：</strong> 會計上基於客觀性與成本考量，不個案估算市場價值，而是按經驗法則逐年扣除累計折舊。
+                <br><em>範例：若兩年前以 15,000 美元買入運輸貨車，每年折舊 5,000 美元，則累積折舊為 10,000 美元，帳面淨值僅剩 5,000 美元。</em>
+            </li>
+        </ul>
+
+        <div class="formula-card" style="font-size: 1.1rem; border-style: solid;">
+            淨固定資產 = 原始成本毛額 (403.53 億) − 累計折舊 (176.33 億) = 227.20 億美元
+        </div>
+
+        <h3>3. 無形資產 (Intangible Assets) 與商譽 (Goodwill)</h3>
+        <p>企業擁有具有價值的無形資源（如品牌名稱、經訓練的員工團隊），但會計原則通常不主動記載自行產生的無形資產。<strong>重要的例外是「商譽 (Goodwill)」</strong>：當公司收購其他企業時，所支付的價格超過該企業帳面資產淨值的差額，即列為商譽。</p>
+
+        <h3>4. 流動負債 (Current Liabilities)</h3>
+        <p>一年內必須償還的債務。Home Depot 包括即將到期的短期借款（3.28 億美元）以及欠供應商的應付帳款（94.73 億美元）。</p>
+    </section>
+
+    <section>
+        <h2>三、 近期現實案例：資產負債表失衡的巨大代價</h2>
+
+        <div class="case-card danger">
+            <div class="tag-danger">警示案例：美國矽谷銀行 (Silicon Valley Bank, SVB) 倒閉事件</div>
+            <h3>表面資本充足，實則「期限錯配」與未實現虧損引爆擠兌</h3>
+            <p><strong>背景：</strong> SVB 在 2020 至 2021 年間吸收了大量科技新創的短期存款（流動負債）。為了追求收益，SVB 將這些短期資金大量投入長達 10 年期的美國公債與抵押擔保證券（長期資產）。</p>
+            <p><strong>問題根源：</strong> 當聯準會於 2022 年大幅升息時，長天期債券的市場價值暴跌。儘管在會計帳面上被歸類為持有至到期（Hold-to-Maturity, HTM）而無需即時反映虧損，但當客戶開始提款、SVB 迫不得已變賣資產時，隱藏的虧損瞬間實現，最終導致 48 小時內資產負債表急劇崩潰倒閉。</p>
+        </div>
+    </section>
+
+    <section>
+        <h2>四、 財務學的核心視野：好的資產負債表具備哪些特徵？</h2>
+        <p>一份健康的資產負債表不僅僅是「借貸平衡」，更代表公司具備抵禦風險與持續擴張的財務韌性。優質資產負債表通常具備以下四大特徵：</p>
+
+        <div class="feature-grid">
+            <div class="feature-item">
+                <h4>🛡️ 1. 強大的流動性與安全邊際</h4>
+                <p>具備充裕的現金儲備，且營運資金（流動資產減流動負債）保持健康正值。流動比率（Current Ratio）合理，確保在經濟衰退或突發危機時，無須被迫賤賣長期資產。</p>
+            </div>
+            <div class="feature-item">
+                <h4>⚖️ 2. 合理的資本結構與利息保障</h4>
+                <p>債務比例（Debt Ratio）與公司行業特性相匹配。負債以固定利率長期債務為主，避免過高比例的短期變動利率債務，降低升息循環帶來的利息負擔壓力。</p>
+            </div>
+            <div class="feature-item">
+                <h4>🎯 3. 高效率的資產運轉品質</h4>
+                <p>應收帳款收回天數（DSO）短、存貨週轉率（Inventory Turnover）高，代表公司資產「含金量高」，沒有堆積大量難以變現的壞帳或過期呆滯存貨。</p>
+            </div>
+            <div class="feature-item">
+                <h4>✨ 4. 清爽的資產品質（低商譽風險）</h4>
+                <p>資產負債表不過度依賴高額的「商譽（Goodwill）」來撐起資產總額。適度的商譽反映優質併購，但過高的商譽易在收購標的營運不佳時引發鉅額減損（Impairment）。</p>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="key-takeaway">
+            <strong>課堂思考與複習重點：</strong>
+            <ol>
+                <li>資產負債表兩端呈現的是「資金使用」與「資金來源」的對應關係。</li>
+                <li>歷史成本原則保護了會計的可驗證性，但也意味著我們無法直接從資產負債表看出公司的真實「市場價值」。</li>
+                <li>評價資產負債表健全與否，必須同步觀察資產的「變現能力」與負債的「到期結構匹配度」。</li>
+            </ol>
+        </div>
+    </section>
+
+    <footer>
+        <p>財務學講義系列 — 基於 Brealey, Myers, and Allen《Corporate Finance》教材編製</p>
+    </footer>
+</div>
+
+</body>
+</html>
