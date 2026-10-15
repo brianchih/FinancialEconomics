@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>第三章：財務報表分析入門 — 3.2 分辨市場價值與帳面價值</title>
+    <title>第三章：財務報表分析入門 — 3.4 公司稅與個人所得稅</title>
     <style>
         :root {
             --primary-color: #1e3a8a;
@@ -133,6 +133,10 @@
             border-top: 4px solid var(--success-color);
         }
 
+        .case-card.info {
+            border-top: 4px solid var(--secondary-color);
+        }
+
         .case-card .tag-danger {
             color: var(--danger-color);
             font-weight: bold;
@@ -142,6 +146,13 @@
 
         .case-card .tag-success {
             color: var(--success-color);
+            font-weight: bold;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+        }
+
+        .case-card .tag-info {
+            color: var(--secondary-color);
             font-weight: bold;
             font-size: 0.85rem;
             letter-spacing: 0.05em;
@@ -196,108 +207,93 @@
 <div class="container">
     <header>
         <span class="chapter-tag">Brealey et al. Corporate Finance — 第三章</span>
-        <h1>3.2 分辨市場價值與帳面價值 (Market Value vs. Book Value)</h1>
-        <p class="subtitle">區分歷史會計紀錄與市場真實評價、衡量 P/B 比率與優質公司價值的核心特徵</p>
+        <h1>3.4 公司稅與個人所得稅 (Corporate & Individual Taxes)</h1>
+        <p class="subtitle">邊際稅率、利息稅盾、股利雙重課稅、美台稅制比較與跨國租稅規劃實務</p>
     </header>
 
     <section>
-        <h2>一、 核心概念：歷史紀錄 vs. 未來期望</h2>
-        <p>在財務管理學中，理解「會計人員看歷史，財務經理人看未來」是極為關鍵的思維轉換：</p>
+        <h2>一、 財務決策核心觀念：邊際稅率與利息稅盾</h2>
+        <p>租稅是企業最實質的現金流出之一。在財務管理中，估計新投資專案的稅後現金流量時，必須採用<strong>邊際稅率（Marginal Tax Rate）</strong>，而非平均稅率：</p>
+
+        <div class="formula-card">
+            邊際稅率 = 每增加 1 美元應課稅所得所需要繳納的稅金比率
+        </div>
+
+        <h3>1. 利息費用與股利負擔之稅務不對稱性</h3>
+        <p>稅法對企業融資資金成本的處理存在極大不對稱：</p>
+        <ul>
+            <li><strong>債務利息 (Interest Expense)：</strong> 可在稅前申報扣除，進而減少應課稅所得，產生<strong>「利息稅盾（Interest Tax Shield）」</strong>（省稅額 = 利息費用 × 邊際稅率）。</li>
+            <li><strong>股東股利 (Dividends Paid)：</strong> 屬稅後盈餘分派，<strong>無法抵扣企業所得稅</strong>。</li>
+        </ul>
+
+        <h3>2. 雙重課稅現象 (Double Taxation)</h3>
+        <p>公司型企業的獲利在分配給個人股東時，需經過兩層課稅：公司階段先繳納公司所得稅，個人股東收到現金股利後，需再繳納個人股利所得稅。</p>
+    </section>
+
+    <section>
+        <h2>二、 美國聯邦稅制 vs. 台灣租稅制度比較</h2>
 
         <table>
             <thead>
                 <tr>
                     <th>比較維度</th>
-                    <th>帳面價值 (Book Value)</th>
-                    <th>市場價值 (Market Value)</th>
+                    <th>美國聯邦稅制 (U.S. Federal Tax System)</th>
+                    <th>台灣租稅制度 (Taiwan Tax System)</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>核心定義</strong></td>
-                    <td>依據一般公認會計原則（GAAP）記錄於資產負債表上的淨額。</td>
-                    <td>資產或公司股權在當前公開市場上實際買賣交易的價格。</td>
+                    <td><strong>公司所得稅率</strong></td>
+                    <td>聯邦單一稅率 <strong>21%</strong>（加上州稅後綜合約 25%~28%）。</td>
+                    <td>營利事業所得稅 (營所稅) 單一稅率 <strong>20%</strong>。</td>
                 </tr>
                 <tr>
-                    <td><strong>計算基準</strong></td>
-                    <td><strong>歷史成本 (Historical Cost)</strong> 扣除累積折舊或攤銷。</td>
-                    <td>反映市場對企業<strong>未來現金流量與成長性</strong>的期望折現值。</td>
+                    <td><strong>未分配盈餘加徵</strong></td>
+                    <td>無直接對未分配盈餘加徵之稅制。</td>
+                    <td>未分配盈餘加徵 <strong>5%</strong> 營所稅（鼓勵分配或進行實質投資）。</td>
                 </tr>
                 <tr>
-                    <td><strong>時間導向</strong></td>
-                    <td><strong>面向過去</strong>（記錄已經發生的資金投入與累積盈餘）。</td>
-                    <td><strong>面向未來</strong>（評價企業創造未來獲利的能力）。</td>
+                    <td><strong>股利所得稅</strong></td>
+                    <td>適用優惠資本利得稅率（0%、15% 或 20%）。</td>
+                    <td>採<strong>合併計稅（抵減 8.5%）</strong>或<strong>單一稅率 28% 分開計稅</strong>雙軌制。</td>
                 </tr>
                 <tr>
-                    <td><strong>無形資產處理</strong></td>
-                    <td>大多未列入（如自創品牌、專利、團隊研發實力）。</td>
-                    <td>完全反映在投資人願意支付的股價溢價中。</td>
+                    <td><strong>證券交易所得稅</strong></td>
+                    <td>資本利得併入課稅（長期資本利得享優惠稅率）。</td>
+                    <td>證券交易所得停徵，但按交易金額徵收<strong>證券交易稅（證交稅 0.3%）</strong>；個人設有最低稅負制（CFC/IBT）。</td>
                 </tr>
             </tbody>
         </table>
-
-        <h3>股東權益的市場價值（總市值）計算：</h3>
-        <div class="formula-card">
-            股東權益總市場價值 (市值) = 每股市價 × 流通在外總股數
-        </div>
-        <div class="formula-card" style="font-size: 1.1rem; border-style: solid;">
-            股東權益總帳面價值 = 資產總額帳面價值 − 負債總額帳面價值
-        </div>
     </section>
 
     <section>
-        <h2>二、 衡量指標：市價帳面價值比 (Market-to-Book Ratio, P/B)</h2>
-        <p>財務分析師常透過市價帳面價值比（P/B Ratio）來觀察市場對企業資產創造力賦予的溢價倍數：</p>
-
-        <div class="formula-card">
-            市價帳面價值比 (P/B) = 每股市價 ÷ 每股帳面價值 = 股東權益總市場價值 ÷ 股東權益總帳面價值
-        </div>
-
-        <ul>
-            <li><strong>P/B 大於 1：</strong> 市場認同公司的競爭護城河與未來成長潛力，願意以高於歷史投入成本的溢價購買其股票（常見於高科技、半導體與輕資產創新企業）。</li>
-            <li><strong>P/B 小於 1：</strong> 市場認為公司資產回報率低下，或面臨產業衰退與財務危機，股票市值甚至低於清算淨資產價值。</li>
-        </ul>
-    </section>
-
-    <section>
-        <h2>三、 近期現實案例：市價與帳面價值的極端對比</h2>
-
-        <div class="case-card success">
-            <div class="tag-success">成功案例：輝達 (NVIDIA) — 輕資產與 AI 護城河創造高 P/B 倍數</div>
-            <h3>無形資產與未來成長期望創造遠超帳面資產的市場價值</h3>
-            <p><strong>市場價值特徵：</strong> 輝達（NVIDIA）的資產負債表上，固定資產（如廠房設備）相對較輕，因為其晶片製造外包給台積電。然而，其市值高達數兆美元，P/B 比率遠高於一般傳統製造業。</p>
-            <p><strong>啟示：</strong> 輝達最核心的資產——CUDA 軟體生態系、晶片架構設計能力與頂尖人才，在會計資產負債表上無法作為實體資產列入；但公開市場精確捕捉到了這些無形護城河所能帶來的龐大未來自由現金流，因而賦予極高的市場價值。</p>
-        </div>
-
-        <div class="case-card danger">
-            <div class="tag-danger">警示案例：傳統銀行與房地產企業 — P/B 長期低於 1</div>
-            <h3>重資產與不良資產疑慮導致市場價值折價 (P/B < 1)</h3>
-            <p><strong>市場價值特徵：</strong> 部分歐洲傳統商業銀行與面臨債務危機的房企，其資產負債表上的股東權益帳面價值看似龐大，但股價長期低於淨值（P/B 倍數小於 1）。</p>
-            <p><strong>啟示：</strong> 這反映了市場對其帳面資產品質的深層疑慮（例如潛在的不良貸款未充分提列壞帳，或不動產市場價值暴跌但帳面尚未減損），證明「帳面價值高」並不等於「公司價值好」。</p>
-        </div>
-    </section>
-
-    <section>
-        <h2>四、 財務學的核心視野：好的公司價值具備哪些特徵？</h2>
-        <p>財務管理的終極目標是**極大化現有股票的每股市價（Maximize Current Market Value per Share）**。一份優質且能持續獲得市場高價值的企業，通常具備以下四大特徵：</p>
+        <h2>三、 深度探討：為何許多公司將課稅主體/控股公司設在境外？</h2>
+        <p>在國際財務管理中，經常看到知名企業（如 Apple、Google）或台灣許多上市公司（如開曼群島控股之 F-股 / KY-股）將頂層控股公司（Holding Company）設立於境外避稅天堂（如開曼群島、英屬維京群島 BVI、百慕達或愛爾蘭）。其核心財務動機包含以下四大原因：</p>
 
         <div class="feature-grid">
             <div class="feature-item">
-                <h4>🏰 1. 具備深厚的經濟護城河 (Economic Moats)</h4>
-                <p>擁有品牌溢價能力、專利技術、強大的網路效應（Network Effects）或高轉置成本，使得競爭對手難以複製其獲利模式，進而保護高於資本成本的超額報酬（ROIC > WACC）。</p>
+                <h4>🌴 1. 法定企業所得稅率極低或為零</h4>
+                <p>開曼群島 (Cayman Islands) 與 BVI 等地區對境外公司不徵收企業所得稅、資本利得稅與股利預扣稅，大幅降低頂層控股架構的稅負成本。</p>
             </div>
             <div class="feature-item">
-                <h4>💡 2. 未列入財報的高價值無形資產</h4>
-                <p>擁有效率極高的研發團隊、先進的演算法技術、忠誠的客戶群體與強大的供應鏈管理能力。這些關鍵資產雖未顯現於資產負債表中，卻是市場價值溢價的最核心來源。</p>
+                <h4>🌐 2. 避免跨國雙重課稅與盈餘匯回稅</h4>
+                <p>跨國企業在世界各地營運賺取的利潤，可留在境外控股公司帳上重新全球配置，避免直接匯回母國時被立即課徵高額的盈餘匯回所得稅。</p>
             </div>
             <div class="feature-item">
-                <h4>🚀 3. 卓越的高投入資本回報率 (ROIC)</h4>
-                <p>企業每投入一元的資本，能創造出遠高於資金成本的未來自由現金流。市場價值的溢價反映的是企業「將資金高效轉化為利潤」的能力，而非單純堆疊資產規模。</p>
+                <h4>🚀 3. 資本市場上市與併購（M&A）彈性</h4>
+                <p>境外地公司法規對股份種類（如雙重股權結構/特別股設計）、企業併購手續與資本變更管理較具彈性，利於吸引國際風險投資（VC）與海外上市（如美股或台股 KY 股）。</p>
             </div>
             <div class="feature-item">
-                <h4>🛡️ 4. 資產真實性高且透明度強</h4>
-                <p>市場價值不易因壞帳疑慮或資產減損威脅而遭受折價。企業資產品質精純、流動性佳，讓投資人能夠清晰預測並賦予穩定的估值溢價。</p>
+                <h4>⚖️ 4. 智慧財產權 (IP) 與轉移計價（Transfer Pricing）配置</h4>
+                <p>將品牌、專利等無形資產持有權設於低稅率國家，向全球子公司收取高額權利金（Royalties），合法地將利潤從高稅率國家轉移至低稅率國家。</p>
             </div>
+        </div>
+
+        <div class="case-card info">
+            <div class="tag-info">經典國際稅務案例：「雙重愛爾蘭與荷蘭三明治 (Double Irish With A Dutch Sandwich)」</div>
+            <h3>科技巨頭過往如何透過境外架構合法避稅數百億美元</h3>
+            <p><strong>架構運作：</strong> 過去科技巨頭（如 Google、Apple）將美國本土以外的全球智慧財產權授權給設立於「愛爾蘭」但「稅務居民設於百慕達」的公司。海外銷售利潤先匯入愛爾蘭公司，再經由「荷蘭」轉支付權利金，最終安全存放在零稅率的百慕達，使其全球非美利潤的有效稅率降至個位數（甚至不到 2%）。</p>
+            <p><strong>國際反避稅浪潮（OECD 條款）：</strong> 為反制此現象，經濟合作暨發展組織（OECD）推出全球最低稅負制（GMoT / Pillar Two，規定全球營收達標企業最低實質稅率須達 15%），以及受控外國公司法案（CFC 法案），全球租稅避稅空間正加速收窄。</p>
         </div>
     </section>
 
@@ -305,15 +301,15 @@
         <div class="key-takeaway">
             <strong>課堂思考與複習重點：</strong>
             <ol>
-                <li>帳面價值代表歷史投入的資金成本，市場價值代表投資人對未來的現金流期望。</li>
-                <li>財務經理人決策時（如增資、併購或投資評估），應永遠以「市場價值」為核心考量，而非帳面數字。</li>
-                <li>高 P/B 比率通常反映市場對企業無形資產與未來高成長回報的肯定，但投資人仍須警惕過高估值帶來的修整風險。</li>
+                <li>評估新增投資專案與籌資架構時，必須採用「邊際稅率」來估計稅後現金流量。</li>
+                <li>「利息稅盾」使舉債籌資具備稅務優勢，但過高債務亦會引發財務危機風險。</li>
+                <li>企業將課稅主體設於境外，主要是為了極小化全球租稅負擔、維持資金靈活調度及獲得資本市場國際化募資的法律彈性。</li>
             </ol>
         </div>
     </section>
 
     <footer>
-        <p>財務學講義系列 — 基於 Brealey, Myers, and Allen《Corporate Finance》教材編製</p>
+        <p>財務学講義系列 — 基於 Brealey, Myers, and Allen《Corporate Finance》教材編製</p>
     </footer>
 </div>
 
