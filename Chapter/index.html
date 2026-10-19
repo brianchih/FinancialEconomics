@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>財務會計與公司財務 | 課程教學主目錄</title>
+    <style>
+        :root {
+            --primary-navy: #0F172A;
+            --accent-blue: #0284C7;
+            --accent-teal: #0D9488;
+            --accent-amber: #D97706;
+            --bg-light: #F8FAFC;
+            --card-border: #E2E8F0;
+            --text-dark: #1E293B;
+            --text-muted: #64748B;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Microsoft JhengHei", sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-navy), #1E293B);
+            color: white;
+            padding: 3.5rem 1.5rem 3rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        header h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.3rem;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        header p {
+            margin: 0 auto;
+            font-size: 1.1rem;
+            color: #94A3B8;
+            max-width: 700px;
+        }
+
+        .container {
+            max-width: 1040px;
+            margin: 2.5rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .category-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-navy);
+            margin: 2rem 0 1rem 0;
+            display: flex;
+            align-items: center;
+            border-left: 4px solid var(--accent-blue);
+            padding-left: 10px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid var(--card-border);
+            padding: 1.8rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            transition: all 0.25s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+            border-color: #CBD5E1;
+        }
+
+        .card-header {
+            margin-bottom: 0.8rem;
+        }
+
+        .tag {
+            display: inline-block;
+            font-size: 0.78rem;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-bottom: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .tag.blue { background-color: #E0F2FE; color: var(--accent-blue); }
+        .tag.teal { background-color: #CCFBF1; color: var(--accent-teal); }
+        .tag.amber { background-color: #FEF3C7; color: var(--accent-amber); }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin: 0 0 0.5rem 0;
+            color: var(--primary-navy);
+            line-height: 1.4;
+        }
+
+        .card-desc {
+            font-size: 0.92rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        .card-footer {
+            margin-top: 1.5rem;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--accent-blue);
+            display: flex;
+            align-items: center;
+        }
+
+        .card-footer::after {
+            content: " →";
+            transition: transform 0.2s ease;
+        }
+
+        .card:hover .card-footer::after {
+            transform: translateX(4px);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2.5rem 1.5rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--card-border);
+            margin-top: 3.5rem;
+        }
+
+        @media (max-width: 640px) {
+            header h1 { font-size: 1.8rem; }
+            .grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>財務會計與公司財務線上課程</h1>
+        <p>從會計演進、三大財務報表到公司估值與稅務決策的完整數位學習地圖</p>
+    </header>
+
+    <div class="container">
+
+        <!-- 模組一：會計基礎與資產負債 -->
+        <div class="category-title">模組一：會計起源與資產價值</div>
+        <div class="grid">
+
+            <a href="./會計的起源.html" class="card">
+                <div class="card-header">
+                    <span class="tag blue">單元 01</span>
+                    <h2 class="card-title">會計的起源</h2>
+                    <p class="card-desc">探索商業簿記歷史、複式簿記演進，以及現代會計語言如何成為企業經營的基礎。</p>
+                </div>
+                <div class="card-footer">開啟學習內容</div>
+            </a>
+
+            <a href="./資產負債表.html" class="card">
+                <div class="card-header">
+                    <span class="tag blue">單元 02</span>
+                    <h2 class="card-title">資產負債表</h2>
+                    <p class="card-desc">解析「資產 = 負債 + 股東權益」恆等式，掌握企業特定時間點的財務狀況快照與資本結構。</p>
+                </div>
+                <div class="card-footer">開啟學習內容</div>
+            </a>
+
+            <a href="./公司價值.html" class="card">
+                <div class="card-header">
+                    <span class="tag blue">單元 03</span>
+                    <h2 class="card-title">公司價值</h2>
+                    <p class="card-desc">區分帳面價值與市場價值，探討企業如何創造經濟附加價值與衡量企業真實價值。</p>
+                </div>
+                <div class="card-footer">開啟學習內容</div>
+            </a>
+
+        </div>
+
+        <!-- 模組二：營運績效與損益分析 -->
+        <div class="category-title">模組二：經營績效與損益品質</div>
+        <div class="grid">
+
+            <a href="./損益表.html" class="card">
+                <div class="card-header">
+                    <span class="tag teal">單元 04</span>
+                    <h2 class="card-title">損益表</h2>
+                    <p class="card-desc">剖析營收、成本、營業費用至淨利之結構，評估企業在一段期間內的獲利能力。</p>
+                </div>
+                <div class="card-footer">開啟學習內容</div>
+            </a>
+
+            <a href="./損益非現金流.html" class="card">
+                <div class="card-header">
+                    <span class="tag teal">單元 05</span>
+                    <h2 class="card-title">損益非現金流</h2>
+                    <p class="card-desc">深入探討折舊、攤銷與權責發生制，理解「帳面獲利」與「實際現金」之間的關鍵差異。</p>
+                </div>
+                <div class="card-footer">開啟學習內容</div>
+            </a>
+
+        </div>
+
+        <!-- 模組三：現金流量與稅務決策 -->
+        <div class="category-title">模組三：現金流量與企業稅務</div>
+        <div class="grid">
+
+            <a href="./現金流量表.html" class="card">
+                <div class="card-header">
+                    <span class="tag amber">單元 06</span>
+                    <h2 class="card-title">現金流量表</h2>
+                    <p class="card-desc">追蹤營業、投資及籌資三大活動現金流量，評估企業的真實血液流動與流動性風險。</p>
+                </div>
+                <div class="card-footer">開啟學習內容</div>
+            </a>
+
+            <a href="./公司稅與所得稅.html" class="card">
+                <div class="card-header">
+                    <span class="tag amber">單元 07</span>
+                    <h2 class="card-title">公司稅與所得稅</h2>
+                    <p class="card-desc">解析企業所得稅計算、邊際稅率與有效稅率，以及稅務對企業資本支出與財務決策的影響。</p>
+                </div>
+                <div class="card-footer">開啟學習內容</div>
+            </a>
+
+        </div>
+
+    </div>
+
+    <footer>
+        <p>財務會計與公司財務 線上課程學習網頁 | 適用於自學與課堂輔助教學</p>
+    </footer>
+
+</body>
+</html>
