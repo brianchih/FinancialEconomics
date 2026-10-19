@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第三章：財務報表分析入門 — 3.3 解釋為何淨利不同於現金流量</title>
+    <style>
+        :root {
+            --primary-color: #1e3a8a;
+            --secondary-color: #0284c7;
+            --accent-color: #f59e0b;
+            --success-color: #10b981;
+            --danger-color: #ef4444;
+            --bg-light: #f8fafc;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans TC", sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+            margin: 0;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        header {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .chapter-tag {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: white;
+            font-size: 0.875rem;
+            font-weight: 600;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            margin-bottom: 0.5rem;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin: 0.5rem 0;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            font-size: 1.4rem;
+            border-left: 4px solid var(--secondary-color);
+            padding-left: 0.75rem;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        h3 {
+            color: var(--secondary-color);
+            font-size: 1.15rem;
+            margin-top: 1.5rem;
+        }
+
+        p {
+            margin-bottom: 1.2rem;
+            text-align: justify;
+        }
+
+        .formula-card {
+            background-color: #f1f5f9;
+            border: 2px dashed var(--secondary-color);
+            border-radius: 8px;
+            padding: 1.25rem;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: 1.5rem 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            text-align: left;
+        }
+
+        th {
+            background-color: #f8fafc;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .case-card {
+            background-color: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .case-card.danger {
+            border-top: 4px solid var(--danger-color);
+        }
+
+        .case-card.success {
+            border-top: 4px solid var(--success-color);
+        }
+
+        .case-card .tag-danger {
+            color: var(--danger-color);
+            font-weight: bold;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+        }
+
+        .case-card .tag-success {
+            color: var(--success-color);
+            font-weight: bold;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.25rem;
+            margin: 1.5rem 0;
+        }
+
+        .feature-item {
+            background-color: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.25rem;
+        }
+
+        .feature-item h4 {
+            margin-top: 0;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .key-takeaway {
+            background-color: #fef3c7;
+            border-left: 4px solid var(--accent-color);
+            padding: 1rem 1.25rem;
+            margin-top: 2rem;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .key-takeaway strong {
+            color: #92400e;
+        }
+
+        footer {
+            margin-top: 3rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <span class="chapter-tag">Brealey et al. Corporate Finance — 第三章</span>
+        <h1>3.3 解釋為何淨利不同於現金流量 (Net Income vs. Cash Flow)</h1>
+        <p class="subtitle">權責發生制 vs. 現金收付制、非現金費用與營運資金變動對企業生存的決定性影響</p>
+    </header>
+
+    <section>
+        <h2>一、 核心觀念：權責發生制與現金收付制的本質差異</h2>
+        <p>在財務管理中，最常見且最危險的誤解，莫過於將損益表上的「會計淨利（Net Income）」直接等同於銀行帳戶裡的「現金（Cash）」。企業完全可能在損益表上展現亮眼的帳面獲利，卻同時因為現金流枯竭而走向破產（即所謂的「黑字倒閉」）。</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>比較維度</th>
+                    <th>會計淨利 (Net Income)</th>
+                    <th>現金流量 (Cash Flow)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>計量基礎</strong></td>
+                    <td><strong>權責發生制 (Accrual Basis)</strong></td>
+                    <td><strong>現金收付制 (Cash Basis)</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>認列原則</strong></td>
+                    <td>商品已交付或服務已提供，即認列為收入；與該收入相關的成本即認列為費用。</td>
+                    <td>只有當現金實質流入（Inflow）或流出（Outflow）銀行帳戶時才做記錄。</td>
+                </tr>
+                <tr>
+                    <td><strong>主要關注</strong></td>
+                    <td>企業在特定期間內的經營獲利能力。</td>
+                    <td>企業即時的流動性（Liquidity）與清償債務的生存能力。</td>
+                </tr>
+                <tr>
+                    <td><strong>金句總結</strong></td>
+                    <td>"Profit is an opinion."（利潤是會計政策與估計的表達）</td>
+                    <td>"Cash is a fact."（現金是不可動搖的事實）</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section>
+        <h2>二、 造成淨利與現金流量不相等的 3 大主因</h2>
+
+        <h3>1. 賒銷與營運資金變動 (Working Capital Changes)</h3>
+        <p>當企業進行銷貨時，若客戶採用賒購方式（如 90 天後付款），損益表會立即認列營業收入與會計淨利，但當期的現金流入卻為零，同時在資產負債表上記錄一筆「應收帳款（Accounts Receivable）」。</p>
+        <p>反之，若企業向供應商採購原料但尚未付款，雖產生應付帳款，當期現金卻並未流出。營運資金（如應收帳款與存貨）的積壓會大量消耗企業的現金流。</p>
+
+        <h3>2. 非現金費用 (Non-Cash Expenses)</h3>
+        <p>損益表中包含了許多不涉及任何實質現金流出的會計費用，其中最關鍵的就是<strong>折舊（Depreciation）與攤銷（Amortization）</strong>：</p>
+        <ul>
+            <li>企業購買一台價值 1,000 萬元的設備，會計上按 10 年分期提列折舊，每年扣除 100 萬元折舊費用。</li>
+            <li>這 100 萬元的折舊會減少當期的會計淨利，但公司在當年度<strong>完全沒有為這筆折舊支付任何一毛現金</strong>（設備款項早在購買時一次付清）。</li>
+        </ul>
+
+        <h3>3. 資本支出與營業費用的劃分 (CapEx vs. OpEx)</h3>
+        <p>當企業支出 5,000 萬元興建新廠房（資本支出, CapEx）時，這筆鉅額現金會在當期一次性流出；但在會計上，這筆支出會被列為資產負債表上的固定資產，<strong>不會直接扣減當期的損益淨利</strong>，導致當期淨利看起來很高，但現金早已大量流出。</p>
+
+        <div class="formula-card">
+            營業現金流量 (CFO) = 淨利 (Net Income) + 折舊與非現金費用 − 淨營運資金 (NWC) 增加額
+        </div>
+    </section>
+
+    <section>
+        <h2>三、 近期現實案例：黑字倒閉 vs. 現金流保護傘</h2>
+
+        <div class="case-card danger">
+            <div class="tag-danger">警示案例：英國知名建設公司 Carillion 破產案 (2018)</div>
+            <h3>帳面獲利亮眼，實則營運現金流極度匱乏（黑字倒閉）</h3>
+            <p><strong>背景與問題：</strong> 英國大型基礎建設與承包商 Carillion 在破產前夕，損益表仍顯示出相當穩健的會計淨利與每股盈餘（EPS），並持續發放高額股利。然而，深入分析其財務報表會發現，其淨利主要來自於激進認列尚未收回的「應收工程款」（應收帳款），而實質的營業現金流量（CFO）早已連續多年嚴重惡化。</p>
+            <p><strong>結果與啟示：</strong> 當工程追繳款無法如期變現，加上供應商與銀行拒絕再借款時，公司即便損益表上「賺錢」，仍因無法支付員工薪資與到期債務，於 2018 年突發性宣告強制清算。這充分展現了忽視現金流品質的致命代價。</p>
+        </div>
+
+        <div class="case-card success">
+            <div class="tag-success">成功案例：亞馬遜 (Amazon) — 負營運資金與強勁現金流轉輪</div>
+            <h3>會計淨利長期微薄，但營業現金流極度充沛</h3>
+            <p><strong>背景與優勢：</strong> 亞馬遜在成立的前十幾年裡，損益表上的淨利（Net Income）經常接近零甚至虧損，因為公司將毛利大量投入研發與擴充。然而，亞馬遜的營業現金流（CFO）卻極度強勁，原因是其具備強大的「現金轉化週期（Cash Conversion Cycle）」：先向消費者收取現款，再隔 60 至 90 天才支付給供應商（負營運資金模式）。</p>
+            <p><strong>結果與啟示：</strong> 充沛的營業現金流讓亞馬遜無需仰賴高風險融資，就能自主支應雲端（AWS）與物流中心龐大的資本支出（CapEx），一舉打造出不可震撼的產業巨頭地位。</p>
+        </div>
+    </section>
+
+    <section>
+        <h2>四、 財務學的核心視野：區分淨利與現金流量的重要性</h2>
+
+        <div class="feature-grid">
+            <div class="feature-item">
+                <h4>⚠️ 1. 防範獲利品質虛胖與財務造假</h4>
+                <p>淨利較容易透過會計政策調整（如改變折舊年限、激進認列未實現收入）來進行盈餘管理（Earnings Management）；而現金流量則是實打實的銀行入帳，極難被假造。</p>
+            </div>
+            <div class="feature-item">
+                <h4>🛡️ 2. 精確評估企業即時生存與還債能力</h4>
+                <p>債務利息、供應商貨款與員工薪資都必須以「現金」支付，而非用「應收帳款」支付。現金流分析能及時預警企業是否面臨資金鏈斷裂的清償危機。</p>
+            </div>
+            <div class="feature-item">
+                <h4>⚙️ 3. 掌握企業營運資金（NWC）的管控效率</h4>
+                <p>透過追蹤淨利與現金流的差額，財務經理人能及時發現存貨堆積或催收無力的問題，進而優化應收帳款與庫存管理，提升營運效率。</p>
+            </div>
+            <div class="feature-item">
+                <h4>🎯 4. 作為企業真實估值 (DCF) 的基石</h4>
+                <p>在資本預算與企業評價中，財務經理人與投資人評估的是投資專案未來能產生的「實質現金流折現」，而非會計認列的損益數字。</p>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="key-takeaway">
+            <strong>課堂思考與複習重點：</strong>
+            <ol>
+                <li>會計淨利基於「權責發生制」，反映經營績效；現金流量基於「現金收付制」，反映生存與流動性。</li>
+                <li>折舊與攤銷屬於「非現金費用」，會減少淨利但不消耗現金；應收帳款與存貨的增加則會扣減現金流。</li>
+                <li>評價一家企業時，切記「淨利是會計的意見，現金才是實質的事實」，必須時刻關注營業現金流 (CFO) 與淨利的比率。</li>
+            </ol>
+        </div>
+    </section>
+
+    <footer>
+        <p>財務學講義系列 — 基於 Brealey, Myers, and Allen《Corporate Finance》教材編製</p>
+    </footer>
+</div>
+
+</body>
+</html>

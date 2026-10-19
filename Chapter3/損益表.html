@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第三章：財務報表分析入門 — 3.1（續）損益表 (The Income Statement)</title>
+    <style>
+        :root {
+            --primary-color: #1e3a8a;
+            --secondary-color: #0284c7;
+            --accent-color: #f59e0b;
+            --success-color: #10b981;
+            --danger-color: #ef4444;
+            --bg-light: #f8fafc;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans TC", sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+            margin: 0;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        header {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .chapter-tag {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: white;
+            font-size: 0.875rem;
+            font-weight: 600;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            margin-bottom: 0.5rem;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin: 0.5rem 0;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            font-size: 1.4rem;
+            border-left: 4px solid var(--secondary-color);
+            padding-left: 0.75rem;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        h3 {
+            color: var(--secondary-color);
+            font-size: 1.15rem;
+            margin-top: 1.5rem;
+        }
+
+        p {
+            margin-bottom: 1.2rem;
+            text-align: justify;
+        }
+
+        .formula-card {
+            background-color: #f1f5f9;
+            border: 2px dashed var(--secondary-color);
+            border-radius: 8px;
+            padding: 1.25rem;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: 1.5rem 0;
+        }
+
+        .flow-container {
+            background-color: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .flow-step {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px dashed #93c5fd;
+        }
+
+        .flow-step:last-child {
+            border-bottom: none;
+            font-weight: bold;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            text-align: left;
+        }
+
+        th {
+            background-color: #f8fafc;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .case-card {
+            background-color: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .case-card.danger {
+            border-top: 4px solid var(--danger-color);
+        }
+
+        .case-card.success {
+            border-top: 4px solid var(--success-color);
+        }
+
+        .case-card .tag-danger {
+            color: var(--danger-color);
+            font-weight: bold;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+        }
+
+        .case-card .tag-success {
+            color: var(--success-color);
+            font-weight: bold;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.25rem;
+            margin: 1.5rem 0;
+        }
+
+        .feature-item {
+            background-color: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.25rem;
+        }
+
+        .feature-item h4 {
+            margin-top: 0;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .key-takeaway {
+            background-color: #fef3c7;
+            border-left: 4px solid var(--accent-color);
+            padding: 1rem 1.25rem;
+            margin-top: 2rem;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .key-takeaway strong {
+            color: #92400e;
+        }
+
+        footer {
+            margin-top: 3rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <span class="chapter-tag">Brealey et al. Corporate Finance — 第三章</span>
+        <h1>3.1（續）損益表 (The Income Statement)</h1>
+        <p class="subtitle">衡量一段期間經營績效的「動態影片」、獲利結構與優質損益表的特徵</p>
+    </header>
+
+    <section>
+        <h2>一、 損益表的核心概念與基本架構</h2>
+        <p>如果說資產負債表是紀錄特定時點的「靜態照片」（Snapshot），那麼損益表（Income Statement）就是紀錄公司在<strong>一段特定會計期間內（例如一年或一季）</strong>營運績效的<strong>「動態影片」（Video Stream）</strong>。</p>
+        <p>損益表的核心原則非常直觀：<strong>收入減去費用即為利潤</strong>。但在實務上，會計人員採用多步式結構（Multi-step Format），由上至下層層扣除各類營業成本、管理費用、折舊、財務利息與稅負：</p>
+
+        <div class="formula-card">
+            淨利 (Net Income) = 營業收入 (Revenues) − 營業成本與費用 (Expenses)
+        </div>
+
+        <div class="flow-container">
+            <div class="flow-step">
+                <span>營業收入淨額 (Net Sales / Top Line)</span>
+                <span>核心業務取得之總營收</span>
+            </div>
+            <div class="flow-step">
+                <span>扣除：銷貨成本 (Cost of Goods Sold, COGS)</span>
+                <span>直接生產或進貨成本</span>
+            </div>
+            <div class="flow-step">
+                <span><strong>= 銷貨毛利 (Gross Profit)</strong></span>
+                <span>基本定價與產品競爭力</span>
+            </div>
+            <div class="flow-step">
+                <span>扣除：銷售及管理費用 (SG&A) 與研發費用 (R&D)</span>
+                <span>日常營運與技術研發支出</span>
+            </div>
+            <div class="flow-step">
+                <span>扣除：折舊與攤銷 (Depreciation & Amortization)</span>
+                <span>固定資產非現金成本分攤</span>
+            </div>
+            <div class="flow-step">
+                <span><strong>= 營業利益 (Operating Income / EBIT)</strong></span>
+                <span>本業實質獲利能力</span>
+            </div>
+            <div class="flow-step">
+                <span>扣除：利息費用與營業外損失</span>
+                <span>資本結構籌資成本</span>
+            </div>
+            <div class="flow-step">
+                <span><strong>= 稅前淨利 (EBT)</strong></span>
+                <span>課稅前的總收益</span>
+            </div>
+            <div class="flow-step">
+                <span>扣除：所得稅費用 (Income Taxes)</span>
+                <span>政府企業所得稅</span>
+            </div>
+            <div class="flow-step">
+                <span><strong>= 本期淨利 (Net Income / Bottom Line)</strong></span>
+                <span>股東最終可得之淨收益</span>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>二、 損益表關鍵指標與會計細節拆解</h2>
+
+        <h3>1. EBIT 與 EBITDA 的財務差異</h3>
+        <p>財務分析師在評價公司營運品質時，經常關注以下兩個指標：</p>
+        <ul>
+            <li><strong>營業利益 (EBIT, Earnings Before Interest and Taxes)：</strong> 衡量公司單純靠本業運作所創造的利潤，排除融資架構（利息）與政府稅率的影響。</li>
+            <li><strong>EBITDA (息前稅前折舊攤銷前淨利)：</strong> 營業利益加上非現金的折舊與攤銷。它經常用於粗略估算本業營運所產生的<strong>現金獲利能力</strong>。</li>
+        </ul>
+
+        <div class="formula-card" style="font-size: 1.1rem; border-style: solid;">
+            EBITDA = 營業利益 (EBIT) + 折舊費用 (Depreciation) + 攤銷費用 (Amortization)
+        </div>
+
+        <h3>2. 每一股含金量：每股盈餘 (EPS)</h3>
+        <p>對於公開市場的股東而言，最終歸屬於公司股東的淨利（Bottom Line）會進一步按發行股數計算為每股盈餘：</p>
+
+        <div class="formula-card" style="font-size: 1.1rem; border-style: solid;">
+            每股盈餘 (EPS) = 淨利 (Net Income) ÷ 流通在外普通股總數 (Weighted Average Shares)
+        </div>
+
+        <h3>3. 損益表與資產負債表的動態連結</h3>
+        <p>當期損益表產生的「淨利」，在扣除發放給股東的「現金股利」後，剩餘金額會轉入資產負債表股東權益項下的<strong>累計留存盈餘（Retained Earnings）</strong>，作為公司未來再投資與擴張的資金底氣。</p>
+    </section>
+
+    <section>
+        <h2>三、 近期現實案例：損益表結構差異帶來的啟示</h2>
+
+        <div class="case-card success">
+            <div class="tag-success">成功案例：台積電 (TSMC) — 頂級毛利率與研發護城河</div>
+            <h3>高毛利率與持續研發投入構成的競爭優勢</h3>
+            <p><strong>損益表特徵：</strong> 台積電長期保持高達 50% 以上的極高毛利率（Gross Margin），反映其在先進製程（如 3 奈米與 2 奈米）上無可取代的定價權與良率優勢。同時，台積電將大量的營業利益重新投入研發費用（R&D Expense），持續擴大技術領先差距。</p>
+            <p><strong>啟示：</strong> 優秀的損益表不僅看營運規模（Top Line）的成長，更看毛利率是否具備高定價能力，以及公司是否願意將利潤轉化為研發支出以保護未來的盈利能力。</p>
+        </div>
+
+        <div class="case-card danger">
+            <div class="tag-danger">警示案例：瑞幸咖啡 (Luckin Coffee) — 虛構營業收入案</div>
+            <h3>過度追求「Top Line」成長引發的會計造假</h3>
+            <p><strong>損益表特徵：</strong> 瑞幸咖啡在上市初期為了營造營收爆炸性成長的假象，於 2019 年間透過虛構交易與偽造銷售數據，捏造了高達 22 億元人民幣的營業收入（Sales Revenue），同時虛增相關成本費用。</p>
+            <p><strong>啟示：</strong> 投資人若只單純追逐營收成長率，而忽視營收認列的真實性（True and Fair View）與營業利潤的質量，極易落入財務造假的陷阱。</p>
+        </div>
+    </section>
+
+    <section>
+        <h2>四、 財務學的核心視野：好的損益表具備哪些特徵？</h2>
+        <p>一份健全且具備高含金量的損益表，通常展現出以下四大核心品質特徵：</p>
+
+        <div class="feature-grid">
+            <div class="feature-item">
+                <h4>📈 1. 收入具備實質含金量與持續性</h4>
+                <p>營業收入成長主要來自於「量增（Sales Volume）」或「價揚（Pricing Power）」，而非靠一次性變賣資產或短期會計調整。收入來源多元且顧客黏著度高。</p>
+            </div>
+            <div class="feature-item">
+                <h4>🛡️ 2. 穩定且優於同業的毛利率</h4>
+                <p>高毛利率代表產品具備經濟護城河（如品牌力、專利技術或成本優勢），即使面對原材料價格上漲或通膨壓力，公司仍有能力將成本轉嫁給客戶。</p>
+            </div>
+            <div class="feature-item">
+                <h4>⚙️ 3. 良好控管的營運槓桿與費用</h4>
+                <p>銷售及管理費用（SG&A）佔營收比重隨規模擴大而下降（展現規模經濟 effect），且本業營業利益（EBIT）隨營收穩定成長，而非靠削減核心研發來維持表面獲利。</p>
+            </div>
+            <div class="feature-item">
+                <h4>💎 4. 高獲利品質（High Quality of Earnings）</h4>
+                <p>損益表上的會計淨利（Net Income）能實質轉化為營業現金流。沒有大量的非經常性損益（Non-recurring gains/losses）或極端激進的會計認列估計。</p>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="key-takeaway">
+            <strong>課堂思考與複習重點：</strong>
+            <ol>
+                <li>損益表呈現的是一段時間內的經營成果，核心邏輯為收入減費用等於淨利。</li>
+                <li>營業利益 (EBIT) 排除融資與稅負干擾，是評估公司本業獲利能力最客觀的指標。</li>
+                <li>評估損益表切忌只看營收（Top Line）或淨利（Bottom Line），必須綜合觀察毛利率走勢與獲利品質。</li>
+            </ol>
+        </div>
+    </section>
+
+    <footer>
+        <p>財務學講義系列 — 基於 Brealey, Myers, and Allen《Corporate Finance》教材編製</p>
+    </footer>
+</div>
+
+</body>
+</html>
