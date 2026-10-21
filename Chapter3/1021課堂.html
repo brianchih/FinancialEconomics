@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第 3 章：會計、財務報表與現金流量分析</title>
+    
+    <style>
+        :root {
+            --primary-navy: #0F172A;
+            --accent-blue: #0284C7;
+            --accent-teal: #0D9488;
+            --accent-amber: #D97706;
+            --accent-purple: #7C3AED;
+            --alert-red: #DC2626;
+            --bg-light: #F8FAFC;
+            --card-border: #E2E8F0;
+            --text-dark: #1E293B;
+            --text-muted: #64748B;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Microsoft JhengHei", sans-serif;
+            line-height: 1.8;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-navy), #1E293B);
+            color: white;
+            padding: 3.5rem 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        header h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.3rem;
+            letter-spacing: 1px;
+            font-weight: 700;
+            color: #F8FAFC;
+        }
+
+        header p {
+            margin: 0 auto;
+            font-size: 1.15rem;
+            color: #94A3B8;
+            max-width: 850px;
+        }
+
+        .container {
+            max-width: 1040px;
+            margin: 2.5rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .section-badge {
+            display: inline-block;
+            background-color: var(--accent-blue);
+            color: white;
+            font-size: 0.85rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 6px;
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .section-badge.purple { background-color: var(--accent-purple); }
+        .section-badge.amber { background-color: var(--accent-amber); }
+        .section-badge.teal { background-color: var(--accent-teal); }
+        .section-badge.rose { background-color: #E11D48; }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid var(--card-border);
+            padding: 2.2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+        }
+
+        .card h2 {
+            color: var(--primary-navy);
+            margin-top: 0;
+            border-bottom: 2px solid #F1F5F9;
+            padding-bottom: 12px;
+            font-size: 1.6rem;
+        }
+
+        .topic-question {
+            background-color: #F0F9FF;
+            border-left: 5px solid var(--accent-blue);
+            padding: 1.2rem 1.5rem;
+            border-radius: 0 8px 8px 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary-navy);
+            margin-bottom: 1.5rem;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1.2rem;
+        }
+
+        .box {
+            background-color: #F8FAFC;
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 1.4rem;
+        }
+
+        .box h3 {
+            margin-top: 0;
+            color: var(--primary-navy);
+            font-size: 1.2rem;
+            border-bottom: 2px solid #E2E8F0;
+            padding-bottom: 6px;
+        }
+
+        /* 自訂 CSS 箭頭 */
+        .arrow {
+            display: inline-block;
+            margin: 0 8px;
+            color: var(--accent-blue);
+            font-weight: bold;
+        }
+        .arrow::after {
+            content: "➔";
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.2rem;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        th, td {
+            border: 1px solid var(--card-border);
+            padding: 14px 16px;
+            text-align: left;
+            font-size: 0.95rem;
+        }
+
+        th {
+            background-color: var(--primary-navy);
+            color: white;
+        }
+
+        tr:nth-child(even) { background-color: #F8FAFC; }
+
+        .speech-box {
+            background-color: #FFFBEB;
+            border-left: 5px solid var(--accent-amber);
+            padding: 1.2rem 1.5rem;
+            margin-top: 1.5rem;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .speech-box strong { color: #92400E; font-size: 1.05rem; }
+
+        footer {
+            text-align: center;
+            padding: 3rem 1.5rem;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            border-top: 1px solid var(--card-border);
+            margin-top: 4rem;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 { grid-template-columns: 1fr; }
+            header h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>第 3 章：會計、財務報表與現金流量分析</h1>
+        <p>財務經濟學課堂講義：三大財務報表剖析、帳面與市場價值、稅盾效應與自由現金流計算</p>
+    </header>
+
+    <div class="container">
+
+        <!-- 1. 三大財務報表總覽 -->
+        <div class="card">
+            <span class="section-badge blue">報表基礎</span>
+            <h2>1. 三大財務報表與功能定位</h2>
+
+            <div class="topic-question">
+                💡 導讀：財務報表是企業對外傳遞資訊的共同語言。財務經理人必須站在 CFO 的視角解讀報表，而非僅停留在記帳層面。
+            </div>
+
+            <div class="grid-2">
+                <div class="box">
+                    <h3>📊 資產負債表 (Balance Sheet)</h3>
+                    <p>呈現企業在<strong>特定時間點（時點快照）</strong>的財務狀況。呈現「資產 = 負債 + 股東權益」的恆等關係。通常以會計年度最後一天（12 月 31 日，學校則為 7 月 31 日學年度終）為基準日。</p>
+                </div>
+
+                <div class="box">
+                    <h3>📈 損益表 (Income Statement)</h3>
+                    <p>衡量企業在<strong>一段特定期間（時期流量）</strong>內的經營績效。依據權責發生制（Accrual Basis）認列營收與費用，計算得出息前稅前淨利（EBIT）與最終淨利。</p>
+                </div>
+            </div>
+
+            <div class="box" style="margin-top: 1.2rem;">
+                <h3>💵 現金流量表 (Statement of Cash Flows)</h3>
+                <p>將損益表之淨利還原為<strong>現金基礎（Cash Basis）</strong>，明確記錄營運活動、投資活動與籌資活動在特定期間內的真實現金流入與流出，解決「有獲利卻沒現金」的流動性盲點。</p>
+            </div>
+        </div>
+
+        <!-- 2. 資產負債表與流動性排序 -->
+        <div class="card">
+            <span class="section-badge teal">報表結構</span>
+            <h2>2. 資產負債表項目與流動性 (Liquidity) 排序</h2>
+
+            <p>資產與負債項目皆依照<strong>流動性（變現速度與到期日）由高至低</strong>排列：</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>科目類別</th>
+                        <th>代表科目與排列順序</th>
+                        <th>財務學與會計學定義</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>流動資產<br>(Current Assets)</strong></td>
+                        <td>現金及約當現金 <span class="arrow"></span> 有價證券 <span class="arrow"></span> 應收帳款 <span class="arrow"></span> 存貨</td>
+                        <td>變現速度最快者列於最上方。存貨需透過銷售轉換為應收帳款再變現，故流動性相較應收帳款低。</td>
+                    </tr>
+                    <tr>
+                        <td><strong>非流動資產<br>(Non-Current Assets)</strong></td>
+                        <td>不動產、廠房及設備（扣除累計折舊）<span class="arrow"></span> 無形資產（軟體、專利、商譽）</td>
+                        <td>變現速度慢且供長期營運使用。<strong>商譽（Goodwill）</strong> 僅於企業進行併購（M&A）且溢價購買時認列。</td>
+                    </tr>
+                    <tr>
+                        <td><strong>負債類別<br>(Liabilities)</strong></td>
+                        <td>短期借款、應付帳款（一年內到期）<span class="arrow"></span> 長期負債、發行公司債（一年以上）</td>
+                        <td>需於短期內清償者為流動負債。若企業長期虧損導致淨值為負，稱為<strong>資不抵債（Insolvency）</strong>。</td>
+                    </tr>
+                    <tr>
+                        <td><strong>股東權益<br>(Shareholders' Equity)</strong></td>
+                        <td>普通股股本 + 保留盈餘 - 庫藏股（買回自家股票之減項）</td>
+                        <td>代表資產扣除負債後的殘餘權益（Residual Claim）。保留盈餘為公司歷年未分配給股東之累積盈餘。</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 3. 帳面價值 vs. 市場價值 -->
+        <div class="card">
+            <span class="section-badge purple">價值評估</span>
+            <h2>3. 帳面價值（Book Value）與市場價值（Market Value）</h2>
+
+            <div class="topic-question purple">
+                📌 觀念解析：為什麼企業的市場價值通常會高於帳面價值？
+            </div>
+
+            <ul>
+                <li><strong>帳面價值：</strong> 依據一般公認會計原則（GAAP），按歷史成本及會計折舊記錄於帳冊上的資產淨值。</li>
+                <li><strong>市場價值：</strong> 由公開市場投資人交易評估出來的價格，反映了市場對公司未來持續經營與現金流量成長的預期。</li>
+                <li><strong>權益承受原則：</strong> 當公司市場價值增加時，負債金額（契約固定欠款）不會改變，<strong>增加的市場價值將完全反映在股東權益上</strong>。</li>
+            </ul>
+
+            <div class="box" style="background-color: #FAF5FF; border-color: #E9D8FD;">
+                <h3>🧮 課堂算式演練 (Home Depot 案例範例)</h3>
+                <p>假設某公司帳面負債為 <strong>$40 億美元</strong>，帳面權益為 <strong>$60 億美元</strong>（總資產 $100 億）。若公司發行在外股票為 <strong>1 億股</strong>，當前每股市價為 <strong>$75 美元</strong>：</p>
+                <ul>
+                    <li><strong>市場權益價值（市值）</strong> = 1 億股 × $75 = <strong>$75 億美元</strong></li>
+                    <li><strong>市場總資產價值</strong> = 負債 $40 億 + 市場權益 $75 億 = <strong>$115 億美元</strong></li>
+                    <li><em>結論：市場價值比帳面價值高出了 <strong>$15 億美元</strong>（溢價反映企業未來獲利能力）。</em></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 4. 損益表與利息稅盾 -->
+        <div class="card">
+            <span class="section-badge amber">稅務與損益</span>
+            <h2>4. 損益表結構與利息稅盾效應 (Tax Shield)</h2>
+
+            <p><strong>損益表計算階梯：</strong></p>
+            <p style="text-align: center; font-weight: bold; background: #F8FAFC; padding: 10px; border-radius: 6px;">
+                銷貨收入 - 銷貨成本 - 營業費用 - 折舊與攤銷 = 息前稅前淨利 (EBIT)<br>
+                EBIT - 利息費用 = 應稅所得 (EBT) <span class="arrow"></span> EBT - 所得稅 = 稅後淨利 (Net Income)
+            </p>
+
+            <div class="speech-box">
+                <strong>💡 財務長 (CFO) 視角 — 利息稅盾 (Interest Tax Shield)：</strong><br>
+                「利息費用可以在課稅前作為費用扣除，因此借債經營能降低企業的應稅所得（EBT），進而減少應繳納的所得稅額。這是債務融資相比權益融資非常重要的財務優勢。」
+            </div>
+        </div>
+
+        <!-- 5. 現金流量表與自由現金流 -->
+        <div class="card">
+            <span class="section-badge rose">現金流分析</span>
+            <h2>5. 現金流量表調節與自由現金流 (Free Cash Flow)</h2>
+
+            <p><strong>1. 現金流量表三大活動調節：</strong></p>
+            <ul>
+                <li><strong>營業活動現金流 (CFO)：</strong> 以稅後淨利為起點，<strong>加回非現金費用（如折舊）</strong>，並調整營運資金變動（應收帳款與存貨增加為現金流出/扣除；應付帳款增加為現金流入/加回）。</li>
+                <li><strong>投資活動現金流 (CFI)：</strong> 記錄資本支出（CapEx，如購買不動產、廠房及設備）與出售資產之現金流動。</li>
+                <li><strong>籌資活動現金流 (CFF)：</strong> 記錄舉借或償還債務、發行股票、支付股利及買回庫藏股之現金流動。</li>
+            </ul>
+
+            <p><strong>2. 自由現金流（FCF）公式：</strong> 代表企業支付營運與必要資本支出後，能真正自由分配給投資者（債權人與股東）的現金：</p>
+            <div class="box" style="text-align: center; font-weight: bold; background-color: #FFF1F2; border-color: #FECDD3;">
+                自由現金流 (FCF) = 營業活動現金流 - 資本支出 (Capital Expenditures)
+            </div>
+        </div>
+
+        <!-- 6. 會計演進與審計失敗個案 -->
+        <div class="card">
+            <span class="section-badge purple">治理歷史</span>
+            <h2>6. 所有權分離、會計師誕生與審計失敗歷史案例</h2>
+
+            <p>工業革命後，大型企業（如鐵路公司）興起，導致<strong>所有權（股東）與經營權（經理人）分離</strong>。遠在異地的股東與銀行需要第三方獨立查核且標準化的財務資訊，促成了會計師與審計制度的誕生。</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>歷史舞弊個案</th>
+                        <th>舞弊手法與審計失敗原因</th>
+                        <th>對現代法規與治理之深遠影響</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>安隆案<br>(Enron, 2001 年)</strong></td>
+                        <td>透過複雜的表外特殊目的實體（SPE）隱藏巨額負債，並以不當會計認列手法虛構獲利。</td>
+                        <td>導致安達信事務所倒閉，美國國會於 2002 年通過<strong>《薩班斯-奧克斯利法案》（SOX Act）</strong>，大幅提高管理層與審計師對財報真實性的法律責任。</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Wirecard 破產案<br>(德國, 2020 年)</strong></td>
+                        <td>宣稱存在於海外信託帳戶中的 19 億歐元（約 600 多億新台幣）現金根本不存在，假造資產。</td>
+                        <td>警示全球投資人：缺乏嚴謹的資產真實性驗證，看似亮眼的獲利數字僅是空中樓閣。</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>參考教材：Brealey, Myers, Allen & Edmans - <i>Principles of Corporate Finance</i> (Chapter 3 Accounting Master Class)</p>
+        <p>製作：財務經濟學課堂討論與個案分析教材庫</p>
+    </footer>
+
+</body>
+</html>
