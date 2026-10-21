@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>財務經濟學：提案與預測市場競賽 - 實施指南</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            500: '#0284c7',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        emerald: {
+                            500: '#10b981',
+                            700: '#047857',
+                        },
+                        amber: {
+                            500: '#f59e0b',
+                            600: '#d97706',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- MathJax for LaTeX Rendering -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0c4a6e 100%);
+        }
+        .tab-btn.active {
+            border-bottom: 3px solid #0284c7;
+            color: #0284c7;
+            font-weight: 700;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans leading-relaxed">
+
+    <!-- Header / Hero Section -->
+    <header class="gradient-bg text-white py-12 px-4 sm:px-6 lg:px-8 shadow-xl">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                <div>
+                    <div class="inline-flex items-center gap-2 bg-sky-500/20 text-sky-300 text-xs font-semibold px-3 py-1 rounded-full border border-sky-400/30 mb-3">
+                        <i class="fa-solid fa-graduation-cap"></i> 教學創新與課程機制
+                    </div>
+                    <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">財務經濟學：漸進式提案與預測市場競賽</h1>
+                    <p class="mt-2 text-slate-300 text-base sm:text-lg max-w-3xl">
+                        融合「漸進式引導 (Guided Discovery)」、「集體智慧 (Collective Evaluation)」與「CFO 實戰決策」的引導手冊
+                    </p>
+                </div>
+                <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700 text-right min-w-[200px]">
+                    <span class="block text-xs text-slate-400 font-medium">適用對象</span>
+                    <span class="text-sm font-bold text-sky-400">大學部財務經濟學</span>
+                    <span class="block text-xs text-slate-400 font-medium mt-2">核心機制</span>
+                    <span class="text-sm font-bold text-emerald-400">4 階段引導 × 預測市場</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex space-x-6 overflow-x-auto no-scrollbar">
+                <button onclick="switchTab('tab-philosophy')" id="btn-tab-philosophy" class="tab-btn active py-4 px-2 text-sm font-medium text-slate-600 hover:text-sky-600 whitespace-nowrap transition-colors flex items-center gap-2">
+                    <i class="fa-solid fa-lightbulb"></i> 核心教學哲學
+                </button>
+                <button onclick="switchTab('tab-roadmap')" id="btn-tab-roadmap" class="tab-btn py-4 px-2 text-sm font-medium text-slate-600 hover:text-sky-600 whitespace-nowrap transition-colors flex items-center gap-2">
+                    <i class="fa-solid fa-route"></i> 4階段實施路線圖
+                </button>
+                <button onclick="switchTab('tab-rubric')" id="btn-tab-rubric" class="tab-btn py-4 px-2 text-sm font-medium text-slate-600 hover:text-sky-600 whitespace-nowrap transition-colors flex items-center gap-2">
+                    <i class="fa-solid fa-clipboard-check"></i> 四大提案與CFO審查
+                </button>
+                <button onclick="switchTab('tab-calculator')" id="btn-tab-calculator" class="tab-btn py-4 px-2 text-sm font-medium text-slate-600 hover:text-sky-600 whitespace-nowrap transition-colors flex items-center gap-2">
+                    <i class="fa-solid fa-calculator"></i> 財務公式與試算工具
+                </button>
+                <button onclick="switchTab('tab-risk')" id="btn-tab-risk" class="tab-btn py-4 px-2 text-sm font-medium text-slate-600 hover:text-sky-600 whitespace-nowrap transition-colors flex items-center gap-2">
+                    <i class="fa-solid fa-shield-halved"></i> 風險控制與市場防炒作
+                </button>
+                <button onclick="switchTab('tab-toolkit')" id="btn-tab-toolkit" class="tab-btn py-4 px-2 text-sm font-medium text-slate-600 hover:text-sky-600 whitespace-nowrap transition-colors flex items-center gap-2">
+                    <i class="fa-solid fa-bullhorn"></i> 教師公告與導引工具箱
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- 1. 核心教學哲學 Tab -->
+        <section id="tab-philosophy" class="tab-content space-y-8">
+            <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200">
+                <h2 class="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
+                    <span class="p-2 bg-sky-100 text-sky-800 rounded-lg text-lg"><i class="fa-solid fa-brain"></i></span>
+                    為什麼採用「漸進式引導」與「預測市場」機制？
+                </h2>
+                <p class="text-slate-600 leading-relaxed mb-6">
+                    傳統財務學報告常面臨兩大痛點：一是同學易陷入「為了做報告而硬套模型」的空洞分析，二是期末評分缺乏動態互動。本課程機制透過兩大核心經濟學理論，打造兼具深度與參與感的教學閉環。
+                </p>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-slate-50 rounded-xl p-6 border border-slate-200">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="w-8 h-8 rounded-full bg-brand-800 text-white flex items-center justify-center font-bold text-sm">1</span>
+                            <h3 class="text-lg font-bold text-slate-900">漸進式引導 (Guided Discovery)</h3>
+                        </div>
+                        <p class="text-sm text-slate-600 mb-3">
+                            避免在第一天就給予龐大的「期末提案」壓力。將學習歷程拆解為「發現痛點 ➔ 機制發想 ➔ 財務打磨」，讓同學在探索過程中自然找到有價值的題目。
+                        </p>
+                        <div class="bg-white p-3 rounded-lg border border-slate-200 text-xs text-slate-500">
+                            <span class="font-semibold text-slate-700">學習優勢：</span> 降低認知負擔，啟發主動學習與創新思維，同學不需要再套用網路舊報告。
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50 rounded-xl p-6 border border-slate-200">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="w-8 h-8 rounded-full bg-emerald-700 text-white flex items-center justify-center font-bold text-sm">2</span>
+                            <h3 class="text-lg font-bold text-slate-900">效率市場假說與價格發現 (Prediction Market)</h3>
+                        </div>
+                        <p class="text-sm text-slate-600 mb-3">
+                            全班每位同學化身「市場投資人」，利用虛擬資金對同儕提案進行動態投資。提案價格即時反映全班對該提案商業與財務價值的集體預期。
+                        </p>
+                        <div class="bg-white p-3 rounded-lg border border-slate-200 text-xs text-slate-500">
+                            <span class="font-semibold text-slate-700">學習優勢：</span> 讓同學親身體驗資訊集合機制（Information Aggregation），強化作為投資人與 CFO 的雙重視角。
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 理論邏輯對照 -->
+            <div class="bg-gradient-to-r from-sky-900 to-slate-900 rounded-2xl p-6 sm:p-8 text-white shadow-lg">
+                <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-arrows-split-up-and-left text-sky-400"></i> 學術概念與實務體驗之連結
+                </h3>
+                <div class="grid sm:grid-cols-3 gap-4">
+                    <div class="bg-white/10 backdrop-blur-md p-4 rounded-xl border border-white/10">
+                        <span class="text-xs text-sky-300 font-semibold block mb-1">課堂學術概念</span>
+                        <h4 class="font-bold text-base mb-2">資本配置 (Capital Allocation)</h4>
+                        <p class="text-xs text-slate-300">提案組扮演 CFO，爭取有限的市場虛擬資本與投資人青睞。</p>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-md p-4 rounded-xl border border-white/10">
+                        <span class="text-xs text-emerald-300 font-semibold block mb-1">課堂學術概念</span>
+                        <h4 class="font-bold text-base mb-2">資訊不對稱與揭露 (Disclosure)</h4>
+                        <p class="text-xs text-slate-300">期中財報衝擊（Earnings Release）強迫團隊揭露數據並重塑市場信心。</p>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-md p-4 rounded-xl border border-white/10">
+                        <span class="text-xs text-amber-300 font-semibold block mb-1">課堂學術概念</span>
+                        <h4 class="font-bold text-base mb-2">集體智慧 (Market Wisdom)</h4>
+                        <p class="text-xs text-slate-300">同儕預測價格與老師評分之雙軌加權計算最終期末成績。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. 4階段實施路線圖 Tab -->
+        <section id="tab-roadmap" class="tab-content hidden space-y-8">
+            <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200">
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-900">4 階段漸進式教學路線圖</h2>
+                        <p class="text-sm text-slate-500">從第 6 週的痛點觀察，到第 16 週的預測市場封盤結算</p>
+                    </div>
+                    <span class="text-xs font-semibold bg-sky-100 text-sky-800 px-3 py-1 rounded-full">全程共 11 週</span>
+                </div>
+
+                <!-- Timeline Steps -->
+                <div class="space-y-8 relative before:absolute before:inset-0 before:left-4 md:before:left-1/2 before:-ml-px before:w-0.5 before:bg-slate-200">
+
+                    <!-- Week 6 -->
+                    <div class="relative flex flex-col md:flex-row items-center">
+                        <div class="flex items-center justify-end w-full md:w-1/2 md:pr-8 mb-4 md:mb-0">
+                            <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm w-full">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-xs font-bold text-sky-600 bg-sky-50 px-2.5 py-1 rounded-md">第 6 週</span>
+                                    <span class="text-xs text-slate-400"><i class="fa-solid fa-magnifying-glass"></i> 第一階段</span>
+                                </div>
+                                <h3 class="text-lg font-bold text-slate-900 mb-2">痛點觀察與拆解</h3>
+                                <p class="text-sm text-slate-600 mb-4">只談真實問題，完全不討論解決方案與財務模型。</p>
+                                
+                                <div class="bg-slate-50 p-3 rounded-lg text-xs space-y-2 border border-slate-100">
+                                    <div><span class="font-bold text-slate-700">同學階段產出：</span> 3 個生活/企業真實痛點貼紙 (Padlet/Miro)</div>
+                                    <div><span class="font-bold text-slate-700">思考引導語境：</span> 「請大家這週當個觀察者，找出讓你覺得『又貴又難用』的真實痛點。」</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="absolute left-4 md:left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-sky-600 text-white flex items-center justify-center font-bold text-xs shadow">1</div>
+                        <div class="w-full md:w-1/2 md:pl-8"></div>
+                    </div>
+
+                    <!-- Week 7 -->
+                    <div class="relative flex flex-col md:flex-row items-center">
+                        <div class="w-full md:w-1/2 md:pr-8"></div>
+                        <div class="absolute left-4 md:left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-sky-600 text-white flex items-center justify-center font-bold text-xs shadow">2</div>
+                        <div class="flex items-center justify-start w-full md:w-1/2 md:pl-8 mb-4 md:mb-0">
+                            <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm w-full">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-xs font-bold text-sky-600 bg-sky-50 px-2.5 py-1 rounded-md">第 7 週</span>
+                                    <span class="text-xs text-slate-400"><i class="fa-solid fa-gears"></i> 第二階段</span>
+                                </div>
+                                <h3 class="text-lg font-bold text-slate-900 mb-2">機制與方案發想</h3>
+                                <p class="text-sm text-slate-600 mb-4">引導同學結合課堂學過的動態定價、預測市場、避險機制提出初步構想。</p>
+                                
+                                <div class="bg-slate-50 p-3 rounded-lg text-xs space-y-2 border border-slate-100">
+                                    <div><span class="font-bold text-slate-700">同學階段產出：</span> 300 字提案機制草案與初步商業模式</div>
+                                    <div><span class="font-bold text-slate-700">思考引導語境：</span> 「這個點子聽起來很酷，但誰會願意為此付錢？現有財務工具能否幫上忙？」</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Week 8 -->
+                    <div class="relative flex flex-col md:flex-row items-center">
+                        <div class="flex items-center justify-end w-full md:w-1/2 md:pr-8 mb-4 md:mb-0">
+                            <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm w-full">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md">第 8 週</span>
+                                    <span class="text-xs text-slate-400"><i class="fa-solid fa-chart-line"></i> 第三階段</span>
+                                </div>
+                                <h3 class="text-lg font-bold text-slate-900 mb-2">CFO 財務驗證與打磨 (提案上架)</h3>
+                                <p class="text-sm text-slate-600 mb-4">引入 CFO 視角，檢核 CapEx、損益兩平點 (BEP) 與單位經濟 (Unit Economics)。</p>
+                                
+                                <div class="bg-slate-50 p-3 rounded-lg text-xs space-y-2 border border-slate-100">
+                                    <div><span class="font-bold text-slate-700">同學階段產出：</span> 1 頁提案 Summary + 3 分鐘 Pitch 影片/導覽簡報</div>
+                                    <div><span class="font-bold text-slate-700">思考引導語境：</span> 「如果全班要拿出資金投你，你拿什麼證明這個提案不會燒光資金？」</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="absolute left-4 md:left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-xs shadow">3</div>
+                        <div class="w-full md:w-1/2 md:pl-8"></div>
+                    </div>
+
+                    <!-- Week 9-16 -->
+                    <div class="relative flex flex-col md:flex-row items-center">
+                        <div class="w-full md:w-1/2 md:pr-8"></div>
+                        <div class="absolute left-4 md:left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-amber-500 text-white flex items-center justify-center font-bold text-xs shadow">4</div>
+                        <div class="flex items-center justify-start w-full md:w-1/2 md:pl-8">
+                            <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm w-full">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-xs font-bold text-amber-600 bg-amber-50 px-2.5 py-1 rounded-md">第 9–16 週</span>
+                                    <span class="text-xs text-slate-400"><i class="fa-solid fa-coins"></i> 第四階段</span>
+                                </div>
+                                <h3 class="text-lg font-bold text-slate-900 mb-2">預測市場交易與期末 Presentation</h3>
+                                <p class="text-sm text-slate-600 mb-4">第 9 週開盤注資下注、第 12 週財報 Update、第 14-16 週現場簡報與 23:59 封盤結算。</p>
+                                
+                                <div class="bg-slate-50 p-3 rounded-lg text-xs space-y-2 border border-slate-100">
+                                    <div><span class="font-bold text-slate-700">同學階段產出：</span> 現場 Presentation 15 分鐘 + 預測市場持倉操作</div>
+                                    <div><span class="font-bold text-slate-700">關鍵時點：</span> 第 16 週週日 23:59 正式封盤 (Market Freeze)</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. 四大提案與CFO審查 Tab -->
+        <section id="tab-rubric" class="tab-content hidden space-y-8">
+            
+            <!-- 白話通俗導讀卡片 -->
+            <div class="bg-amber-50/80 rounded-2xl p-6 sm:p-8 border border-amber-200 shadow-sm">
+                <div class="flex items-center gap-3 mb-3">
+                    <span class="p-2 bg-amber-500 text-white rounded-lg"><i class="fa-solid fa-comments"></i></span>
+                    <h3 class="text-xl font-bold text-amber-950">老師對同學白話解讀：這兩個名詞到底是什麼意思？</h3>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6 text-sm text-slate-700">
+                    <div class="bg-white p-4 rounded-xl border border-amber-200">
+                        <span class="font-bold text-amber-900 text-base block mb-2">💡 1. 什麼是「四大提案類型」？</span>
+                        <p class="leading-relaxed">
+                            這只是給同學的 <span class="bg-amber-100 text-amber-900 font-semibold px-1.5 py-0.5 rounded">4 選 1 靈感選單</span>！避免大家想不出點子。同學只要從「科技 AI」、「金融工具」、「校園實體生意」、「企業真實危機應對」中選一種最感興趣的方向發想即可。
+                        </p>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl border border-amber-200">
+                        <span class="font-bold text-amber-900 text-base block mb-2">🔍 2. 什麼是「CFO 審查」？</span>
+                        <p class="leading-relaxed">
+                            做提案時不能只寫「很有創意」，必須把自己當成 <span class="bg-amber-100 text-amber-900 font-semibold px-1.5 py-0.5 rounded">企業財務長 (CFO)</span>，回答 4 個商業現實問題：<br>
+                            ① 痛點在哪？ ② 怎麼賺錢？ ③ 啟動要花多少錢 (CapEx)？ ④ 賣多少才會保本 (BEP)？
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200">
+                <h2 class="text-2xl font-bold text-slate-900 mb-2">四大提案類型與 CFO 財務審查對照</h2>
+                <p class="text-sm text-slate-500 mb-6">引導同學從不同領域發想提案，並用對應的財務指標進行驗證</p>
+
+                <div class="grid md:grid-cols-2 gap-6">
+
+                    <!-- Category 1 -->
+                    <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center gap-3 mb-3">
+                                <span class="p-2.5 bg-blue-100 text-blue-700 rounded-lg"><i class="fa-solid fa-robot text-lg"></i></span>
+                                <div>
+                                    <h3 class="font-bold text-slate-900">1. 前沿科技與 AI 應用創業</h3>
+                                    <span class="text-xs text-slate-500">Tech & AI Startups</span>
+                                </div>
+                            </div>
+                            <p class="text-xs text-slate-600 mb-4">例如：AI 法律合約自動審查平台、個人化 AI 財富管理助理、SaaS 碳足跡計算系統。</p>
+                            
+                            <div class="space-y-2 bg-white p-3 rounded-lg border border-slate-200 text-xs">
+                                <span class="font-semibold text-blue-800 block">CFO 財務審查關鍵指標：</span>
+                                <ul class="list-disc list-inside space-y-1 text-slate-600">
+                                    <li>CAC (顧客獲取成本) vs. LTV (顧客終身價值) 比率</li>
+                                    <li>邊際成本結構與月度燒錢率 (Burn Rate)</li>
+                                    <li>訂閱制 ARR / MRR 現金流滾動預測</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Category 2 -->
+                    <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center gap-3 mb-3">
+                                <span class="p-2.5 bg-emerald-100 text-emerald-700 rounded-lg"><i class="fa-solid fa-chart-pie text-lg"></i></span>
+                                <div>
+                                    <h3 class="font-bold text-slate-900">2. 金融科技與機制創新</h3>
+                                    <span class="text-xs text-slate-500">FinTech & Mechanism Design</span>
+                                </div>
+                            </div>
+                            <p class="text-xs text-slate-600 mb-4">例如：同學租屋 P2P 微型信用評分、企業內部預測市場風控系統、綠債代幣化眾籌。</p>
+                            
+                            <div class="space-y-2 bg-white p-3 rounded-lg border border-slate-200 text-xs">
+                                <span class="font-semibold text-emerald-800 block">CFO 財務審查關鍵指標：</span>
+                                <ul class="list-disc list-inside space-y-1 text-slate-600">
+                                    <li>加權平均資本成本 (WACC) 與資金槓桿</li>
+                                    <li>違約率預期模型與壞帳準備金計提</li>
+                                    <li>合規監管成本 (Regulatory Risk) 估算</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Category 3 -->
+                    <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center gap-3 mb-3">
+                                <span class="p-2.5 bg-amber-100 text-amber-700 rounded-lg"><i class="fa-solid fa-store text-lg"></i></span>
+                                <div>
+                                    <h3 class="font-bold text-slate-900">3. 校園與生活型實體創業</h3>
+                                    <span class="text-xs text-slate-500">Campus & Lifestyle Business</span>
+                                </div>
+                            </div>
+                            <p class="text-xs text-slate-600 mb-4">例如：二手課本循環租賃平台、共享專注空間動態計費、智慧健康餐盒自動櫃。</p>
+                            
+                            <div class="space-y-2 bg-white p-3 rounded-lg border border-slate-200 text-xs">
+                                <span class="font-semibold text-amber-800 block">CFO 財務審查關鍵指標：</span>
+                                <ul class="list-disc list-inside space-y-1 text-slate-600">
+                                    <li>損益兩平銷售量 (Break-Even Quantity)</li>
+                                    <li>固定成本 (CapEx) 與變動成本 (OpEx) 比例</li>
+                                    <li>設備資產翻桌率與存貨週轉天數</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Category 4 -->
+                    <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center gap-3 mb-3">
+                                <span class="p-2.5 bg-purple-100 text-purple-700 rounded-lg"><i class="fa-solid fa-building-shield text-lg"></i></span>
+                                <div>
+                                    <h3 class="font-bold text-slate-900">4. 企業戰略與黑天鵝危機劇本</h3>
+                                    <span class="text-xs text-slate-500">Corporate Strategy & Crisis Response</span>
+                                </div>
+                            </div>
+                            <p class="text-xs text-slate-600 mb-4">例如：xAI 數百億美元 CapEx 融資結構、台積電海外建廠外匯避險、SVB 利率久期匹配。</p>
+                            
+                            <div class="space-y-2 bg-white p-3 rounded-lg border border-slate-200 text-xs">
+                                <span class="font-semibold text-purple-800 block">CFO 財務審查關鍵指標：</span>
+                                <ul class="list-disc list-inside space-y-1 text-slate-600">
+                                    <li>資產負債表久期缺口 (Duration Gap)</li>
+                                    <li>股權稀釋 vs. 債務違約風險權衡</li>
+                                    <li>VaR (風險價值) 與壓力測試 (Stress Testing)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. 財務公式與試算工具 Tab -->
+        <section id="tab-calculator" class="tab-content hidden space-y-8">
+            <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200">
+                <h2 class="text-2xl font-bold text-slate-900 mb-2">財務經濟學核心公式與教學試算器</h2>
+                <p class="text-sm text-slate-500 mb-6">提供強大的公式渲染與現場教學示範工具</p>
+
+                <!-- Formula Cards Section -->
+                <div class="grid md:grid-cols-2 gap-6 mb-8">
+                    <!-- Formula 1 -->
+                    <div class="bg-slate-900 text-white p-6 rounded-xl space-y-3">
+                        <span class="text-xs text-sky-400 font-bold tracking-wider uppercase">公式 1：損益兩平點 (Break-Even Point, BEP)</span>
+                        <div class="text-lg py-2 overflow-x-auto">
+                            $$Q_{BEP} = \frac{FC}{P - VC}$$
+                        </div>
+                        <p class="text-xs text-slate-400">
+                            其中 $FC$ 為固定成本 (Fixed Cost)，$P$ 為單價 (Price)，$VC$ 為單位變動成本 (Variable Cost)。$P - VC$ 即為邊際貢獻 (Contribution Margin)。
+                        </p>
+                    </div>
+
+                    <!-- Formula 2 -->
+                    <div class="bg-slate-900 text-white p-6 rounded-xl space-y-3">
+                        <span class="text-xs text-emerald-400 font-bold tracking-wider uppercase">公式 2：預測市場期望價值與加權評分</span>
+                        <div class="text-lg py-2 overflow-x-auto">
+                            $$Final\_Score_i = w_1 \cdot \bar{P}_{market, i} + w_2 \cdot Score_{prof, i}$$
+                        </div>
+                        <p class="text-xs text-slate-400">
+                            雙軌加權評分機制。$\bar{P}_{market, i}$ 為第 $i$ 提案封盤時市場價格 (40%)，$Score_{prof, i}$ 為老師與評審團專業評分 (60%)。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Interactive Calculator -->
+                <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+                    <h3 class="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-sliders text-sky-600"></i> 互動式 CFO 單元經濟與損益兩平試算工具
+                    </h3>
+                    <p class="text-xs text-slate-500 mb-6">授課教師可在課堂上直接操作，向同學展示定價與成本結構對財務可行性的衝擊。</p>
+
+                    <div class="grid lg:grid-cols-3 gap-6">
+                        <!-- Inputs -->
+                        <div class="space-y-4 bg-white p-4 rounded-lg border border-slate-200 text-sm">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">初期固定成本 CapEx / FC ($)</label>
+                                <input type="number" id="calc-fc" value="50000" class="w-full p-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-sky-500 focus:outline-none" oninput="calculateBEP()">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">預計單位售價 Price ($)</label>
+                                <input type="number" id="calc-price" value="100" class="w-full p-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-sky-500 focus:outline-none" oninput="calculateBEP()">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">單位變動成本 VC ($)</label>
+                                <input type="number" id="calc-vc" value="40" class="w-full p-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-sky-500 focus:outline-none" oninput="calculateBEP()">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">預估銷售數量 (Units)</label>
+                                <input type="number" id="calc-qty" value="1000" class="w-full p-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-sky-500 focus:outline-none" oninput="calculateBEP()">
+                            </div>
+                        </div>
+
+                        <!-- Results Dashboard -->
+                        <div class="lg:col-span-2 bg-white p-6 rounded-lg border border-slate-200 flex flex-col justify-between">
+                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-4">
+                                <div class="bg-sky-50 p-3 rounded-lg border border-sky-100">
+                                    <span class="block text-xs text-sky-700 font-medium">邊際貢獻 (P - VC)</span>
+                                    <span id="res-cm" class="text-xl font-bold text-sky-900">$60</span>
+                                </div>
+                                <div class="bg-emerald-50 p-3 rounded-lg border border-emerald-100">
+                                    <span class="block text-xs text-emerald-700 font-medium">損益兩平銷售量 (BEP)</span>
+                                    <span id="res-bep" class="text-xl font-bold text-emerald-900">834 件</span>
+                                </div>
+                                <div class="bg-amber-50 p-3 rounded-lg border border-amber-100">
+                                    <span class="block text-xs text-amber-700 font-medium">邊際貢獻率 (CMR)</span>
+                                    <span id="res-cmr" class="text-xl font-bold text-amber-900">60%</span>
+                                </div>
+                            </div>
+
+                            <div class="p-4 rounded-lg bg-slate-900 text-white space-y-2">
+                                <div class="flex justify-between items-center text-xs">
+                                    <span class="text-slate-400">總營業收入 (Total Revenue):</span>
+                                    <span id="res-tr" class="font-bold text-sky-400">$100,000</span>
+                                </div>
+                                <div class="flex justify-between items-center text-xs">
+                                    <span class="text-slate-400">總成本 (Total Cost = FC + VC*Q):</span>
+                                    <span id="res-tc" class="font-bold text-slate-300">$90,000</span>
+                                </div>
+                                <hr class="border-slate-800">
+                                <div class="flex justify-between items-center text-sm font-bold">
+                                    <span>預估營業利潤 (Net Profit):</span>
+                                    <span id="res-profit" class="text-emerald-400">$10,000</span>
+                                </div>
+                            </div>
+
+                            <div id="bep-status" class="mt-4 p-2.5 rounded-md text-xs font-semibold text-center bg-emerald-100 text-emerald-800">
+                                提案已超越損益兩平點！具備財務可行性。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. 風險控制與市場防炒作 Tab -->
+        <section id="tab-risk" class="tab-content hidden space-y-8">
+            <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200">
+                <h2 class="text-2xl font-bold text-slate-900 mb-2">風險控制與市場防炒作機制</h2>
+                <p class="text-sm text-slate-500 mb-6">確保預測市場能真實反映集體智慧，防止人為操縱與惡意炒作</p>
+
+                <div class="grid md:grid-cols-3 gap-6">
+
+                    <!-- Rule 1 -->
+                    <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 relative overflow-hidden">
+                        <div class="w-2 h-full bg-red-500 absolute left-0 top-0"></div>
+                        <div class="pl-2">
+                            <span class="text-xs font-bold text-red-600 bg-red-50 px-2 py-0.5 rounded uppercase">防護條款 1</span>
+                            <h3 class="font-bold text-slate-900 text-base mt-2 mb-2">組內持倉迴避與上限限制</h3>
+                            <p class="text-xs text-slate-600 leading-relaxed mb-3">
+                                為避免同學將所有虛擬資金盲目灌給「自己小組」的提案，強制設定個人資金配置規範。
+                            </p>
+                            <div class="bg-white p-3 rounded border border-slate-200 text-xs text-slate-700 font-medium">
+                                個人資金投給自有提案上限：不得超過總資產的 <span class="text-red-600 font-bold">30%</span>。強迫同學必須尋找市場其他優質標的。
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Rule 2 -->
+                    <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 relative overflow-hidden">
+                        <div class="w-2 h-full bg-amber-500 absolute left-0 top-0"></div>
+                        <div class="pl-2">
+                            <span class="text-xs font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded uppercase">防護條款 2</span>
+                            <h3 class="font-bold text-slate-900 text-base mt-2 mb-2">單一提案流動性與持倉巨頭上限</h3>
+                            <p class="text-xs text-slate-600 leading-relaxed mb-3">
+                                避免少數資金巨頭（Whales）壟斷單一提案價格，造成市場失真與不公。
+                            </p>
+                            <div class="bg-white p-3 rounded border border-slate-200 text-xs text-slate-700 font-medium">
+                                單一投資人對單一提案的持倉量上限：不得超過該提案總發行股份的 <span class="text-amber-600 font-bold">15%</span>。
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Rule 3 -->
+                    <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 relative overflow-hidden">
+                        <div class="w-2 h-full bg-sky-500 absolute left-0 top-0"></div>
+                        <div class="pl-2">
+                            <span class="text-xs font-bold text-sky-600 bg-sky-50 px-2 py-0.5 rounded uppercase">機制設計 3</span>
+                            <h3 class="font-bold text-slate-900 text-base mt-2 mb-2">期中財報衝擊 (Earnings Release)</h3>
+                            <p class="text-xs text-slate-600 leading-relaxed mb-3">
+                                在第 12 週安排各組發布「進度修正與最新數據」，創造市場資訊衝擊 (Market Shock)。
+                            </p>
+                            <div class="bg-white p-3 rounded border border-slate-200 text-xs text-slate-700 font-medium">
+                                誘發預測市場價格重新尋求均衡（Price Discovery），給予前期落後的優秀提案翻盤機會。
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Incentive Alignment -->
+                <div class="mt-8 p-6 bg-slate-900 text-white rounded-xl flex flex-col sm:flex-row justify-between items-center gap-6">
+                    <div>
+                        <h4 class="text-lg font-bold text-sky-400 mb-1">雙重激勵相容機制 (Incentive Alignment)</h4>
+                        <p class="text-xs text-slate-300">獎勵不只給優秀提案組，也給最精明的同儕投資人，全面提升全班參與度。</p>
+                    </div>
+                    <div class="flex gap-4 w-full sm:w-auto">
+                        <div class="bg-white/10 p-3 rounded-lg text-center flex-1 sm:w-36">
+                            <span class="block text-xs text-amber-300 font-semibold">最佳 CFO 團隊獎</span>
+                            <span class="text-xs text-slate-200">期末結算價前 3 名組別總分加 5%</span>
+                        </div>
+                        <div class="bg-white/10 p-3 rounded-lg text-center flex-1 sm:w-36">
+                            <span class="block text-xs text-emerald-300 font-semibold">最佳巴菲特投資人</span>
+                            <span class="text-xs text-slate-200">個人 ROI 前 3 名同學平時分加 10 分</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. 教師公告與導引工具箱 Tab -->
+        <section id="tab-toolkit" class="tab-content hidden space-y-8">
+            <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200">
+                <div class="flex justify-between items-center mb-4">
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-900">可直接複製的「學生競賽公告」文案範本</h2>
+                        <p class="text-sm text-slate-500">教師可直接複製以下文字發布於 Google Classroom, iClass 或課程平台</p>
+                    </div>
+                    <button onclick="copyAnnouncement()" class="bg-sky-600 hover:bg-sky-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors flex items-center gap-2">
+                        <i class="fa-regular fa-copy"></i> 複製公告文案
+                    </button>
+                </div>
+
+                <div class="relative">
+                    <pre id="announcement-text" class="bg-slate-900 text-slate-100 p-6 rounded-xl text-xs sm:text-sm font-mono whitespace-pre-wrap leading-relaxed overflow-x-auto border border-slate-800">
+【財務經濟學：CFO 創新提案與預測市場評鑑競賽】
+
+各位 CFO 團隊夥伴好！
+本學期的期末分組報告將結合我們課堂所學的「預測市場 (Prediction Market) 與價格發現機能」！
+
+🎮 遊戲規則與時程規劃：
+
+1. 痛點探索與提案打磨（第 6–8 週）：
+   - 第 6 週：尋找生活或企業的真實痛點（不需列複雜模型）。
+   - 第 7 週：結合經濟學機制提出解決方案。
+   - 第 8 週：以 CFO 角度進行 CapEx 與損益兩平 (BEP) 驗證，完成 1 頁 Summary 與 3 分鐘 Pitch 影片上架。
+
+2. 全民預測市場與下注（第 9–13 週）：
+   - 全班每位同學獲得 10,000 點虛擬資金，身兼「市場投資人」對 13 個提案進行看好度下注買賣。
+   - 價格將動態反映全班對該提案商業與財務價值的集體預期！
+   - 防炒作限制：投給自家提案上限 30%，單一標的持倉上限 15%。
+
+3. 期末 Presentation 與封盤結算（第 14–16 週）：
+   - 各組進行現場 CFO 董事會簡報。
+   - 市場交易將於第 16 週週日 23:59 正式劃下句點封盤！
+   - 最終期末成績 = 市場結算價格 (40%) + 老師評分 (60%)。
+
+🏆 額外加分獎勵：
+- 最佳 CFO 團隊獎：最終結算價前 3 名之提案組，期末成績加高。
+- 精明巴菲特投資人獎：個人投資組合 ROI 前 3 名同學，平時成績大加分！
+
+請大家拿出 CFO 的戰略視野與市場敏銳度，打造出最吸引資本市場的優質提案！
+                    </pre>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-8 px-4 sm:px-6 lg:px-8 mt-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4 text-xs">
+            <div>
+                <span class="font-bold text-slate-200">財務經濟學教學創新指南</span> - Designed for Higher Education
+            </div>
+            <div class="flex items-center gap-4">
+                <span><i class="fa-solid fa-code"></i> HTML5 Single File Template</span>
+                <span><i class="fa-solid fa-shield"></i> Standard Responsive Architecture</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="fixed bottom-5 right-5 bg-emerald-600 text-white px-4 py-3 rounded-lg shadow-xl text-sm font-semibold flex items-center gap-2 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none z-50">
+        <i class="fa-solid fa-circle-check"></i> 公告文案已成功複製到剪貼簿！
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Tab Switching Logic
+        function switchTab(tabId) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.add('hidden'));
+
+            // Deactivate all tab buttons
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            // Show target content
+            document.getElementById(tabId).classList.remove('hidden');
+
+            // Activate target button
+            document.getElementById('btn-' + tabId).classList.add('active');
+
+            // Re-render MathJax if entering calculator tab
+            if (tabId === 'tab-calculator' && window.MathJax) {
+                MathJax.typesetPromise();
+            }
+        }
+
+        // Break-Even Point Calculation Logic
+        function calculateBEP() {
+            const fc = parseFloat(document.getElementById('calc-fc').value) || 0;
+            const price = parseFloat(document.getElementById('calc-price').value) || 0;
+            const vc = parseFloat(document.getElementById('calc-vc').value) || 0;
+            const qty = parseFloat(document.getElementById('calc-qty').value) || 0;
+
+            const cm = price - vc; // Contribution Margin
+            const cmr = price > 0 ? (cm / price) * 100 : 0; // Contribution Margin Ratio
+            const bep = cm > 0 ? Math.ceil(fc / cm) : 0; // BEP Quantity
+
+            const totalRevenue = price * qty;
+            const totalCost = fc + (vc * qty);
+            const netProfit = totalRevenue - totalCost;
+
+            // UI Updates
+            document.getElementById('res-cm').innerText = '$' + cm.toLocaleString();
+            document.getElementById('res-cmr').innerText = cmr.toFixed(1) + '%';
+            document.getElementById('res-bep').innerText = cm > 0 ? bep.toLocaleString() + ' 件' : '無法達成';
+            
+            document.getElementById('res-tr').innerText = '$' + totalRevenue.toLocaleString();
+            document.getElementById('res-tc').innerText = '$' + totalCost.toLocaleString();
+            
+            const profitEl = document.getElementById('res-profit');
+            profitEl.innerText = (netProfit >= 0 ? '$' : '-$') + Math.abs(netProfit).toLocaleString();
+            profitEl.className = netProfit >= 0 ? 'text-emerald-400 font-bold' : 'text-red-400 font-bold';
+
+            const statusEl = document.getElementById('bep-status');
+            if (cm <= 0) {
+                statusEl.innerText = '警告：售價低於或等於變動成本，永遠無法達到損益兩平！';
+                statusEl.className = 'mt-4 p-2.5 rounded-md text-xs font-semibold text-center bg-red-100 text-red-800';
+            } else if (qty >= bep) {
+                statusEl.innerText = '提案已超越損益兩平點！預估達成獲利，具備財務可行性。';
+                statusEl.className = 'mt-4 p-2.5 rounded-md text-xs font-semibold text-center bg-emerald-100 text-emerald-800';
+            } else {
+                statusEl.innerText = '目前預估銷量尚未達損益兩平點 (還差 ' + (bep - qty).toLocaleString() + ' 件)，需優化定價或降低成本。';
+                statusEl.className = 'mt-4 p-2.5 rounded-md text-xs font-semibold text-center bg-amber-100 text-amber-800';
+            }
+        }
+
+        // Copy Announcement Function
+        function copyAnnouncement() {
+            const text = document.getElementById('announcement-text').innerText;
+            
+            // Clipboard Copy Fallback mechanism
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(showToast);
+            } else {
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                textArea.style.position = 'fixed';
+                textArea.style.left = '-999999px';
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    showToast();
+                } catch (err) {
+                    console.error('Copy failed', err);
+                }
+                document.body.removeChild(textArea);
+            }
+        }
+
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        // Initialize on Load
+        window.onload = function() {
+            calculateBEP();
+        };
+    </script>
+</body>
+</html>
