@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CFO 創新提案預測市場終端機 (Prediction Contracts Terminal)</title>
+    <title>CFO 創新提案期貨預測市場終端機 (Prediction Contracts Terminal)</title>
     <!-- Chart.js & PapaParse CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
@@ -95,6 +95,22 @@
         .status-dot.offline {
             background: var(--accent-red);
         }
+
+        /* Dynamic Price Color Badges */
+        .price-up { color: var(--accent-red) !important; }
+        .price-down { color: var(--accent-green) !important; }
+        .price-flat { color: var(--text-muted) !important; }
+
+        .change-badge {
+            font-size: 0.8rem;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 6px;
+        }
+        .change-badge.up { background: rgba(239, 68, 68, 0.2); color: var(--accent-red); }
+        .change-badge.down { background: rgba(16, 185, 129, 0.2); color: var(--accent-green); }
+        .change-badge.flat { background: rgba(148, 163, 184, 0.15); color: var(--text-muted); }
 
         /* Navigation Tabs */
         nav.tabs {
@@ -292,7 +308,6 @@
         .proposal-card .price {
             font-size: 1.6rem;
             font-weight: 800;
-            color: #f8fafc;
         }
 
         /* Tab 4: Login & Portfolio */
@@ -428,8 +443,8 @@
                         <p>表單下單時請填寫您的<strong>「學號」</strong>與<strong>「專屬安全密碼」</strong>。密碼錯誤將自動退單，確保資產安全。</p>
                     </div>
                     <div class="rule-box">
-                        <h3>2. 零門檻多空雙向交易</h3>
-                        <p>無須事先持有股票即可建立部位！看好提案選<strong>「買進做多 (Bid)」</strong>；看壞提案選<strong>「賣出做空 (Ask)」</strong>。</p>
+                        <h3>2. 零門檻多空雙向交易 (以「口」為單位)</h3>
+                        <p>下單數量直接以<strong>「口」</strong>為單位（例如：填 1 代表 1 口，填 10 代表 10 口合約）。看好選<strong>「買進做多 (Bid)」</strong>；看壞選<strong>「賣出做空 (Ask)」</strong>。</p>
                     </div>
                     <div class="rule-box">
                         <h3>3. 保證金與期末現金結算</h3>
@@ -439,7 +454,7 @@
 
                 <div style="text-align: center; margin-top: 2rem; padding: 1.5rem; background: rgba(59, 130, 246, 0.05); border-radius: 10px; border: 1px dashed var(--accent-blue);">
                     <h3 style="color: #f8fafc; margin-bottom: 0.5rem;">📱 開啟手機 Google 表單進行下單 / 撤單</h3>
-                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">請填寫學號、個人安全密碼、選擇交易提案與委託價格/數量（單位：股）：</p>
+                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">請填寫學號、個人安全密碼、選擇交易提案與委託價格/數量（單位：口）：</p>
                     <a href="https://docs.google.com/forms/d/e/1FAIpQLSc-AQzp4eLml3fQ4N-bLySd74-UY6HmpOmdd18kiNOjwDhbRw/viewform?usp=header" target="_blank" class="btn-form-link">🚀 前往 Google 表單下單</a>
                 </div>
             </div>
@@ -460,9 +475,10 @@
                     <div class="card">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
                             <h2 id="targetTitle">【第1組】二手書循環平台</h2>
-                            <div>
-                                <span style="font-size: 0.85rem; color: var(--text-muted);">最新成交價</span>
-                                <span id="targetPrice" style="font-size: 1.8rem; font-weight: 800; color: var(--accent-blue); margin-left: 8px;">$50</span>
+                            <div style="text-align: right;">
+                                <span style="font-size: 0.85rem; color: var(--text-muted); display: block;">最新成交價 (較前日 $50)</span>
+                                <span id="targetPrice" style="font-size: 1.8rem; font-weight: 800;">$50</span>
+                                <span id="targetChangeBadge" class="change-badge flat">0.0%</span>
                             </div>
                         </div>
                         <p id="targetDesc" style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">--</p>
@@ -481,7 +497,7 @@
                                 <tr>
                                     <th>類型</th>
                                     <th>價格 (元)</th>
-                                    <th>委託數量 (股)</th>
+                                    <th>委託數量 (口)</th>
                                 </tr>
                             </thead>
                             <tbody id="orderBookBody">
@@ -496,7 +512,7 @@
         <!-- TAB 3: 13 Groups Overview Dashboard -->
         <div id="tab3" class="tab-content">
             <div class="card">
-                <h2>全市場 13 組提案即時價格與成交總覽</h2>
+                <h2>全市場 13 組提案即時價格與成交總覽 (基準參考價 $50)</h2>
                 <div class="overview-grid" id="overviewGrid">
                     <!-- Cards injected by JS -->
                 </div>
@@ -574,13 +590,13 @@
     <!-- JavaScript Engine -->
     <script>
         const HIDDEN_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQfApKfasgSB280g9npxxx2IGq-MBGNX_j-uBuyE7Buz1d40ha_dXHaVu5EJbXajxJdTH4Cz9he5GIu/pub?gid=1079449082&single=true&output=csv";
+        const BASE_REF_PRICE = 50.0; // 開盤參考基準價 $50
 
         function cleanStr(s) {
             if (!s) return "";
             return s.toString().trim().replace(/\s+/g, '');
         }
 
-        // 全班 59 位學生名冊、組別與專屬密碼表
         const STUDENT_LIST = [
             { id: "413576538", name: "李雨庭", group: "第1組", pass: "7392" },
             { id: "413570721", name: "林玟均", group: "第1組", pass: "1845" },
@@ -676,7 +692,6 @@
                 };
             });
 
-            // Initialize Trader Futures Margin Accounts
             for (let i = 1; i <= 13; i++) {
                 const gName = `第${i}組`;
                 traders[gName] = {
@@ -736,8 +751,8 @@
                 if (!row || row.length < 5) continue;
 
                 const rawTimestamp = row[0] ? row[0].trim() : "";
-                const studentId = cleanStr(row[1]); // 欄位 1: 學號
-                const inputPass = cleanStr(row[2]); // 欄位 2: 專屬密碼
+                const studentId = cleanStr(row[1]);
+                const inputPass = cleanStr(row[2]);
                 const targetTitle = row[3] ? row[3].trim() : "";
                 const typeRaw = row[4] ? row[4].trim() : "";
                 const price = parseFloat(row[5]) || 0;
@@ -754,7 +769,6 @@
                 if (processedRowIds.has(rowId)) continue;
                 processedRowIds.add(rowId);
 
-                // Security & Authentication Check
                 const matchedStudent = STUDENT_LIST.find(s => s.id === studentId);
                 if (!matchedStudent) {
                     addAuditLog(`[安全拒絕] 無效學號 ${studentId} 欲下單，拒絕受理`);
@@ -766,7 +780,6 @@
                     continue;
                 }
 
-                // Authorized Submission
                 handleOrderSubmission(matchedStudent.group, targetTitle, typeRaw, price, qty, rawTimestamp, matchedStudent.name);
             }
 
@@ -802,10 +815,10 @@
 
             if (isBuy) {
                 mData.bids.push({ group, price, qty, timestamp, studentName });
-                addAuditLog(`[委託成功] ${studentName} (${group}) 掛單【買進做多】 ${targetTitle} @ $${price} / ${qty}股`);
+                addAuditLog(`[委託成功] ${studentName} (${group}) 掛單【買進做多】 ${targetTitle} @ $${price} / ${qty}口`);
             } else {
                 mData.asks.push({ group, price, qty, timestamp, studentName });
-                addAuditLog(`[委託成功] ${studentName} (${group}) 掛單【賣出做空】 ${targetTitle} @ $${price} / ${qty}股`);
+                addAuditLog(`[委託成功] ${studentName} (${group}) 掛單【賣出做空】 ${targetTitle} @ $${price} / ${qty}口`);
             }
 
             matchOrdersForTarget(targetTitle);
@@ -842,7 +855,7 @@
                     const timeStr = new Date().toLocaleTimeString('zh-TW', { hour12: false });
                     mData.history.push({ time: timeStr, price: matchPrice });
 
-                    addAuditLog(`⚡ [期貨撮合成交] ${targetTitle} 成交價 $${matchPrice} / ${matchQty}股 (做多買方: ${topBid.studentName}, 做空賣方: ${topAsk.studentName})`);
+                    addAuditLog(`⚡ [期貨撮合成交] ${targetTitle} 成交價 $${matchPrice} / ${matchQty}口 (做多買方: ${topBid.studentName}, 做空賣方: ${topAsk.studentName})`);
 
                     topBid.qty -= matchQty;
                     topAsk.qty -= matchQty;
@@ -920,7 +933,28 @@
             if (!pObj || !mData) return;
 
             document.getElementById('targetTitle').innerText = pObj.title;
-            document.getElementById('targetPrice').innerText = `$${mData.lastPrice}`;
+            
+            // Dynamic Price Color vs Ref Price ($50)
+            const priceEl = document.getElementById('targetPrice');
+            const badgeEl = document.getElementById('targetChangeBadge');
+            const priceDiff = mData.lastPrice - BASE_REF_PRICE;
+            const pctDiff = ((priceDiff / BASE_REF_PRICE) * 100).toFixed(1);
+
+            priceEl.innerText = `$${mData.lastPrice}`;
+            if (priceDiff > 0) {
+                priceEl.className = 'price-up';
+                badgeEl.className = 'change-badge up';
+                badgeEl.innerText = `▲ +${priceDiff} (+${pctDiff}%)`;
+            } else if (priceDiff < 0) {
+                priceEl.className = 'price-down';
+                badgeEl.className = 'change-badge down';
+                badgeEl.innerText = `▼ ${priceDiff} (${pctDiff}%)`;
+            } else {
+                priceEl.className = 'price-flat';
+                badgeEl.className = 'change-badge flat';
+                badgeEl.innerText = `0.0%`;
+            }
+
             document.getElementById('targetDesc').innerText = pObj.desc;
 
             const obBody = document.getElementById('orderBookBody');
@@ -928,12 +962,12 @@
 
             const topAsks = [...mData.asks].sort((a,b) => b.price - a.price).slice(-5);
             topAsks.forEach(a => {
-                obBody.innerHTML += `<tr class="ask-row"><td>賣出做空 (Ask)</td><td class="ask-price">$${a.price}</td><td>${a.qty} 股</td></tr>`;
+                obBody.innerHTML += `<tr class="ask-row"><td>賣出做空 (Ask)</td><td class="ask-price">$${a.price}</td><td>${a.qty} 口</td></tr>`;
             });
 
             const topBids = [...mData.bids].sort((a,b) => b.price - a.price).slice(0, 5);
             topBids.forEach(b => {
-                obBody.innerHTML += `<tr class="bid-row"><td>買進做多 (Bid)</td><td class="bid-price">$${b.price}</td><td>${b.qty} 股</td></tr>`;
+                obBody.innerHTML += `<tr class="bid-row"><td>買進做多 (Bid)</td><td class="bid-price">$${b.price}</td><td>${b.qty} 口</td></tr>`;
             });
 
             if (topAsks.length === 0 && topBids.length === 0) {
@@ -983,11 +1017,28 @@
 
             PROPOSALS.forEach(p => {
                 const mData = marketData[p.title];
+                const priceDiff = mData.lastPrice - BASE_REF_PRICE;
+                const pctDiff = ((priceDiff / BASE_REF_PRICE) * 100).toFixed(1);
+
+                let priceClass = "price-flat";
+                let badgeHtml = `<span class="change-badge flat">0.0%</span>`;
+
+                if (priceDiff > 0) {
+                    priceClass = "price-up";
+                    badgeHtml = `<span class="change-badge up">▲ +${priceDiff}</span>`;
+                } else if (priceDiff < 0) {
+                    priceClass = "price-down";
+                    badgeHtml = `<span class="change-badge down">▼ ${priceDiff}</span>`;
+                }
+
                 grid.innerHTML += `
                     <div class="proposal-card" onclick="selectAndSwitchTarget('${p.title}')">
                         <div class="card-head">
                             <span class="group-badge">${p.group}</span>
-                            <span class="price">$${mData.lastPrice}</span>
+                            <div>
+                                <span class="price ${priceClass}">$${mData.lastPrice}</span>
+                                ${badgeHtml}
+                            </div>
                         </div>
                         <h3 style="font-size: 1.05rem; color: #f8fafc; margin-bottom: 6px;">${p.title}</h3>
                         <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.4;">${p.desc}</p>
@@ -1070,14 +1121,14 @@
 
                     totalUnrealizedPnL += pnl;
 
-                    const pnlColor = pnl >= 0 ? "var(--accent-green)" : "var(--accent-red)";
+                    const pnlColor = pnl >= 0 ? "var(--accent-red)" : "var(--accent-green)"; // 期貨損益：正盈餘紅字、負盈餘綠字
                     const pnlText = pnl >= 0 ? `+$${Math.round(pnl)}` : `-$${Math.round(Math.abs(pnl))}`;
 
                     tableBody.innerHTML += `
                         <tr>
                             <td>${title}</td>
                             <td>${isLong ? '<span class="badge-long">多頭 (Long)</span>' : '<span class="badge-short">空頭 (Short)</span>'}</td>
-                            <td>${qty.toLocaleString()} 股</td>
+                            <td>${qty.toLocaleString()} 口</td>
                             <td>$${pos.avgPrice.toFixed(1)}</td>
                             <td>$${price}</td>
                             <td style="color: ${pnlColor}; font-weight: bold;">${pnlText}</td>
@@ -1092,7 +1143,7 @@
 
             const pnlBox = document.getElementById('unrealizedPnL');
             pnlBox.innerText = totalUnrealizedPnL >= 0 ? `+$${Math.round(totalUnrealizedPnL)}` : `-$${Math.round(Math.abs(totalUnrealizedPnL))}`;
-            pnlBox.style.color = totalUnrealizedPnL >= 0 ? "var(--accent-green)" : "var(--accent-red)";
+            pnlBox.style.color = totalUnrealizedPnL >= 0 ? "var(--accent-red)" : "var(--accent-green)";
         }
 
         function addAuditLog(msg) {
