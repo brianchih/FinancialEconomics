@@ -306,7 +306,7 @@
             text-align: center;
         }
 
-        .login-box input, .login-box select {
+        .login-box input {
             width: 100%;
             padding: 0.75rem;
             margin-top: 0.8rem;
@@ -349,7 +349,7 @@
         }
 
         .stat-box .value {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             font-weight: 700;
             margin-top: 4px;
         }
@@ -422,7 +422,7 @@
                 <div class="rules-grid">
                     <div class="rule-box">
                         <h3>1. 初始資產與 IPO 底價</h3>
-                        <p>每位同學獲派 <strong>10,000 點虛擬資金</strong>。所有 13 個提案之 IPO 開盤基準底價統一訂為 <strong>$50 元</strong>（初始可行性 50%）。</p>
+                        <p>每位同學獲派 <strong>10,000 點虛擬資金</strong>。所有 13 個提案之 IPO 開盤基準底價統一訂為 <strong>$50 元</strong>（初始可行性 50%）。未分組同學為獨立個人投資人。</p>
                     </div>
                     <div class="rule-box">
                         <h3>2. 交易與風控規則</h3>
@@ -504,11 +504,8 @@
         <div id="tab4" class="tab-content">
             <div id="loginSection" class="login-box">
                 <h2 style="font-size: 1.2rem; color: #f8fafc;">🔒 個人對帳單登入系統</h2>
-                <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">請選擇組別並輸入學號或姓名驗證身分</p>
-                <select id="loginGroup">
-                    <!-- Groups injected by JS -->
-                </select>
-                <input type="text" id="loginId" placeholder="請輸入學號 (如 411571069) 或姓名">
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">請輸入學號或姓名驗證身分（系統將自動判定所屬組別）</p>
+                <input type="text" id="loginId" placeholder="請輸入學號 (如 411571069) 或姓名 (如 周書宇)">
                 <button onclick="authenticateUser()">登入個人對帳單</button>
             </div>
 
@@ -525,6 +522,10 @@
                             <div class="value" id="studentInfoName" style="font-size: 1.1rem; color: #f8fafc;">--</div>
                         </div>
                         <div class="stat-box">
+                            <label>所屬小組與身份</label>
+                            <div class="value" id="studentInfoGroup" style="font-size: 1.1rem; color: var(--accent-blue);">--</div>
+                        </div>
+                        <div class="stat-box">
                             <label>可用現金餘額</label>
                             <div class="value" id="cashBalance" style="color: var(--accent-green);">$10,000</div>
                         </div>
@@ -532,10 +533,11 @@
                             <label>股票持股總市值</label>
                             <div class="value" id="stockValuation" style="color: var(--accent-blue);">$0</div>
                         </div>
-                        <div class="stat-box">
-                            <label>總資產 (淨值)</label>
-                            <div class="value" id="totalNetValue">$10,000</div>
-                        </div>
+                    </div>
+
+                    <div class="card" style="background: rgba(255,255,255,0.02); margin-top: 1rem;">
+                        <h3 style="font-size: 0.95rem; color: var(--text-muted);">同組組員名單：</h3>
+                        <p id="groupTeammatesList" style="font-size: 0.9rem; color: #f8fafc; margin-top: 4px;">--</p>
                     </div>
 
                     <h3 style="font-size: 1rem; margin-top: 1.5rem; margin-bottom: 0.5rem; color: #f8fafc;">目前庫存持股明細</h3>
@@ -568,67 +570,82 @@
         // Pre-configured Hidden CSV Source URL
         const HIDDEN_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQfApKfasgSB280g9npxxx2IGq-MBGNX_j-uBuyE7Buz1d40ha_dXHaVu5EJbXajxJdTH4Cz9he5GIu/pub?gid=1079449082&single=true&output=csv";
 
-        // 全班 59 位學生名冊對照表
+        // 全班 59 位學生名冊與組別對照表 (含未分組獨立投資人)
         const STUDENT_LIST = [
-            { id: "411571069", name: "周書宇" },
-            { id: "412547175", name: "闕劭恩" },
-            { id: "412570391", name: "吳丰玄" },
-            { id: "412570540", name: "游嵉旭" },
-            { id: "412570771", name: "劉鈺傑" },
-            { id: "412571159", name: "張茹微" },
-            { id: "412576521", name: "許于廷" },
-            { id: "412590183", name: "黃兆瑋" },
-            { id: "413051045", name: "鄧云華" },
-            { id: "413570036", name: "卓湧勝" },
-            { id: "413570069", name: "陳子函" },
-            { id: "413570093", name: "彭亮怡" },
-            { id: "413570150", name: "邱俊傑" },
-            { id: "413570218", name: "陳品安" },
-            { id: "413570242", name: "閔振宇" },
-            { id: "413570275", name: "陳冠瑋" },
-            { id: "413570309", name: "吳立丞" },
-            { id: "413570424", name: "林琮洧" },
-            { id: "413570457", name: "林旻翰" },
-            { id: "413570481", name: "林國仁" },
-            { id: "413570515", name: "鄒采慈" },
-            { id: "413570549", name: "鄭博仁" },
-            { id: "413570572", name: "周裕凱" },
-            { id: "413570606", name: "林宜庭" },
-            { id: "413570697", name: "蔡文睿" },
-            { id: "413570721", name: "林玟均" },
-            { id: "413570739", name: "陳冠宇" },
-            { id: "413570754", name: "蕭凱陽" },
-            { id: "413570788", name: "王羽倢" },
-            { id: "413570812", name: "陳玥彤" },
-            { id: "413570846", name: "陳珮姍" },
-            { id: "413570879", name: "鍾筱雯" },
-            { id: "413570960", name: "高士勛" },
-            { id: "413570994", name: "張家齊" },
-            { id: "413571026", name: "郭競凱" },
-            { id: "413571059", name: "林雨璇" },
-            { id: "413571083", name: "楊丞愷" },
-            { id: "413571117", name: "許巽雯" },
-            { id: "413571141", name: "高愷壕" },
-            { id: "413571174", name: "古哲勳" },
-            { id: "413571208", name: "方翊鴻" },
-            { id: "413571232", name: "駱駿昊" },
-            { id: "413571265", name: "酈乾恩" },
-            { id: "413571299", name: "廖奕捷" },
-            { id: "413571323", name: "陳勁宏" },
-            { id: "413571356", name: "阮妤瑄" },
-            { id: "413571380", name: "林芯楹" },
-            { id: "413571414", name: "劉皓翔" },
-            { id: "413571471", name: "沈彥志" },
-            { id: "413576538", name: "李雨庭" },
-            { id: "414577113", name: "王采妍" },
-            { id: "414577626", name: "黄柏皓" },
-            { id: "414577659", name: "陳宜鍹" },
-            { id: "414577683", name: "陳柏瑋" },
-            { id: "414577717", name: "吳承澤" },
-            { id: "414578095", name: "周子瑜" },
-            { id: "414578111", name: "閻姝伶" },
-            { id: "415578011", name: "黃士杰" },
-            { id: "415578045", name: "吳嘉珊" }
+            // 第 01 組
+            { id: "413576538", name: "李雨庭", group: "第1組" },
+            { id: "413570721", name: "林玟均", group: "第1組" },
+            { id: "413571059", name: "林雨璇", group: "第1組" },
+            { id: "413571117", name: "許巽雯", group: "第1組" },
+            // 第 02 組
+            { id: "413570549", name: "鄭博仁", group: "第2組" },
+            { id: "413570572", name: "周裕凱", group: "第2組" },
+            { id: "413570150", name: "邱俊傑", group: "第2組" },
+            { id: "413571208", name: "方翊鴻", group: "第2組" },
+            // 第 03 組
+            { id: "413570515", name: "鄒采慈", group: "第3組" },
+            { id: "413570788", name: "王羽倢", group: "第3組" },
+            { id: "413570812", name: "陳玥彤", group: "第3組" },
+            { id: "413571356", name: "阮妤瑄", group: "第3組" },
+            // 第 04 組
+            { id: "411571069", name: "周書宇", group: "第4組" },
+            { id: "412570391", name: "吳丰玄", group: "第4組" },
+            { id: "412571159", name: "張茹微", group: "第4組" },
+            { id: "413570457", name: "林旻翰", group: "第4組" },
+            { id: "414577659", name: "陳宜鍹", group: "第4組" },
+            // 第 05 組
+            { id: "412590183", name: "黃兆瑋", group: "第5組" },
+            { id: "412570771", name: "劉鈺傑", group: "第5組" },
+            { id: "413571232", name: "駱駿昊", group: "第5組" },
+            { id: "413571471", name: "沈彥志", group: "第5組" },
+            { id: "414577683", name: "陳柏瑋", group: "第5組" },
+            // 第 06 組
+            { id: "413570093", name: "彭亮怡", group: "第6組" },
+            { id: "413570606", name: "林宜庭", group: "第6組" },
+            { id: "413570069", name: "陳子函", group: "第6組" },
+            { id: "413570879", name: "鍾筱雯", group: "第6組" },
+            { id: "413571380", name: "林芯楹", group: "第6組" },
+            // 第 07 組
+            { id: "413570242", name: "閔振宇", group: "第7組" },
+            { id: "413570275", name: "陳冠瑋", group: "第7組" },
+            { id: "413570994", name: "張家齊", group: "第7組" },
+            { id: "413571265", name: "酈乾恩", group: "第7組" },
+            // 第 08 組
+            { id: "413570481", name: "林國仁", group: "第8組" },
+            { id: "413571083", name: "楊丞愷", group: "第8組" },
+            { id: "414577626", name: "黄柏皓", group: "第8組" },
+            { id: "415578011", name: "黃士杰", group: "第8組" },
+            // 第 09 組
+            { id: "413570036", name: "卓湧勝", group: "第9組" },
+            { id: "413051045", name: "鄧云華", group: "第9組" },
+            { id: "413570739", name: "陳冠宇", group: "第9組" },
+            { id: "413570846", name: "陳珮姍", group: "第9組" },
+            { id: "414577113", name: "王采妍", group: "第9組" },
+            // 第 10 組
+            { id: "413570218", name: "陳品安", group: "第10組" },
+            { id: "413570424", name: "林琮洧", group: "第10組" },
+            { id: "413570754", name: "蕭凱陽", group: "第10組" },
+            { id: "413571141", name: "高愷壕", group: "第10組" },
+            { id: "413571174", name: "古哲勳", group: "第10組" },
+            // 第 11 組
+            { id: "413570697", name: "蔡文睿", group: "第11組" },
+            { id: "413570960", name: "高士勛", group: "第11組" },
+            { id: "413571026", name: "郭競凱", group: "第11組" },
+            { id: "413571323", name: "陳勁宏", group: "第11組" },
+            { id: "413571414", name: "劉皓翔", group: "第11組" },
+            // 第 12 組
+            { id: "414578095", name: "周子瑜", group: "第12組" },
+            { id: "414578111", name: "閻姝伶", group: "第12組" },
+            { id: "415578045", name: "吳嘉珊", group: "第12組" },
+            // 第 13 組
+            { id: "412576521", name: "許于廷", group: "第13組" },
+            { id: "412570540", name: "游嵉旭", group: "第13組" },
+            { id: "413570309", name: "吳立丞", group: "第13組" },
+            { id: "413571299", name: "廖奕捷", group: "第13組" },
+            { id: "414577717", name: "吳承澤", group: "第13組" },
+            // 未分組（個別投資人）
+            { id: "412547175", name: "闕劭恩", group: "未分組" },
+            { id: "414578095", name: "周子瑜", group: "第12組" } // Default mapped above
         ];
 
         // 13 Proposals Definition
@@ -653,7 +670,7 @@
         let marketData = {};
         let processedRowIds = new Set();
         let chartInstance = null;
-        let activeStudent = null; // Currently logged in student object
+        let activeStudent = null;
 
         // Initialize Engine
         function initEngine() {
@@ -668,7 +685,7 @@
                 };
             });
 
-            // Setup 13 Groups Trader Accounts
+            // Setup 13 Groups Trader Accounts + Unassigned
             for (let i = 1; i <= 13; i++) {
                 const gName = `第${i}組`;
                 traders[gName] = {
@@ -677,24 +694,24 @@
                     frozenCash: 0,
                     stocks: {}
                 };
-                // Initialize stock holdings (Treasury 2000 shares for own group)
                 const ownProposal = PROPOSALS[i-1].title;
                 traders[gName].stocks[ownProposal] = 2000;
             }
 
+            // Unassigned Individual Account
+            traders["未分組"] = {
+                group: "未分組",
+                cash: 10000,
+                frozenCash: 0,
+                stocks: {}
+            };
+
             // Populate UI Selects
             const targetSelect = document.getElementById('targetSelect');
-            const loginGroup = document.getElementById('loginGroup');
             targetSelect.innerHTML = '';
-            loginGroup.innerHTML = '';
-
             PROPOSALS.forEach(p => {
                 targetSelect.innerHTML += `<option value="${p.title}">${p.title}</option>`;
             });
-
-            for (let i = 1; i <= 13; i++) {
-                loginGroup.innerHTML += `<option value="第${i}組">第${i}組</option>`;
-            }
 
             renderOverviewCards();
             renderTargetDetail();
@@ -741,7 +758,7 @@
                 const price = parseFloat(row[5]) || 0;
                 let qty = parseInt(row[6]) || 0;
 
-                // Day Order Validation (Skip if not today)
+                // Day Order Validation
                 if (rawTimestamp) {
                     const orderDate = new Date(rawTimestamp);
                     if (!isNaN(orderDate.getTime()) && orderDate.toLocaleDateString('zh-TW') !== todayStr) {
@@ -749,32 +766,27 @@
                     }
                 }
 
-                // Scale quantity (1-5 -> 1000-5000)
                 if (qty > 0 && qty <= 5) qty *= 1000;
 
-                // Deduplication ID
                 const rowId = `${rawTimestamp}_${group}_${targetTitle}_${typeRaw}_${price}_${qty}`;
                 if (processedRowIds.has(rowId)) continue;
                 processedRowIds.add(rowId);
 
-                // Execute Order Logic
                 handleOrderSubmission(group, targetTitle, typeRaw, price, qty, rawTimestamp);
             }
 
-            // Refresh UI
             renderTargetDetail();
             renderOverviewCards();
             if (activeStudent) renderPortfolioUI();
         }
 
-        // Handle Single Order Logic
+        // Handle Single Order
         function handleOrderSubmission(group, targetTitle, typeRaw, price, qty, timestamp) {
-            const trader = traders[group];
+            const trader = traders[group] || traders["未分組"];
             const mData = marketData[targetTitle];
 
             if (!trader || !mData) return;
 
-            // Cancellation Logic
             if (typeRaw.includes('撤') || qty === 0) {
                 cancelGroupOrdersForTarget(group, targetTitle);
                 addAuditLog(`[撤單成功] ${group} 撤銷對 ${targetTitle} 之所有未成交單`);
@@ -823,14 +835,14 @@
                     const matchPrice = topAsk.price;
                     const matchQty = Math.min(topBid.qty, topAsk.qty);
 
-                    const buyer = traders[topBid.group];
+                    const buyer = traders[topBid.group] || traders["未分組"];
                     const buyCost = topBid.price * matchQty;
                     const actualCost = matchPrice * matchQty;
                     buyer.frozenCash -= buyCost;
                     buyer.cash += (buyCost - actualCost);
                     buyer.stocks[targetTitle] = (buyer.stocks[targetTitle] || 0) + matchQty;
 
-                    const seller = traders[topAsk.group];
+                    const seller = traders[topAsk.group] || traders["未分組"];
                     seller.cash += actualCost;
 
                     mData.lastPrice = matchPrice;
@@ -853,7 +865,7 @@
         // Cancel Group Orders
         function cancelGroupOrdersForTarget(group, targetTitle) {
             const mData = marketData[targetTitle];
-            const trader = traders[group];
+            const trader = traders[group] || traders["未分組"];
 
             mData.bids = mData.bids.filter(b => {
                 if (b.group === group) {
@@ -969,7 +981,6 @@
 
         // Student Authentication for Tab 4
         function authenticateUser() {
-            const group = document.getElementById('loginGroup').value;
             const inputVal = document.getElementById('loginId').value.trim();
 
             if (!inputVal) {
@@ -977,16 +988,10 @@
                 return;
             }
 
-            // Find matching student
             const matched = STUDENT_LIST.find(s => s.id === inputVal || s.name === inputVal);
 
             if (matched) {
-                activeStudent = {
-                    group: group,
-                    id: matched.id,
-                    name: matched.name
-                };
-
+                activeStudent = matched;
                 document.getElementById('loginSection').style.display = 'none';
                 document.getElementById('portfolioSection').style.display = 'block';
                 renderPortfolioUI();
@@ -1006,9 +1011,20 @@
         function renderPortfolioUI() {
             if (!activeStudent) return;
 
-            const t = traders[activeStudent.group];
-            document.getElementById('portfolioTitle').innerText = `【${activeStudent.group}】學生對帳單`;
+            const tGroup = activeStudent.group;
+            const t = traders[tGroup] || traders["未分組"];
+
+            document.getElementById('portfolioTitle').innerText = `【${activeStudent.name}】個人對帳單`;
             document.getElementById('studentInfoName').innerText = `${activeStudent.name} (${activeStudent.id})`;
+            document.getElementById('studentInfoGroup').innerText = tGroup === "未分組" ? "未分組 (純粹個別投資人)" : tGroup;
+
+            // Teammates List
+            const teammates = STUDENT_LIST.filter(s => s.group === tGroup && tGroup !== "未分組");
+            if (teammates.length > 0) {
+                document.getElementById('groupTeammatesList').innerText = teammates.map(m => `${m.name} (${m.id})`).join('、 ');
+            } else {
+                document.getElementById('groupTeammatesList').innerText = "個別投資人（無組員）";
+            }
 
             document.getElementById('cashBalance').innerText = `$${t.cash.toLocaleString()}`;
 
