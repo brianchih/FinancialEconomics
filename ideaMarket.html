@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CFO 創新提案預測市場終端機 (Prediction Market Terminal)</title>
+    <!-- Chart.js & PapaParse CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+
+    <style>
+        :root {
+            --bg-main: #0b0f19;
+            --bg-card: #151c2c;
+            --bg-card-hover: #1e283d;
+            --border-color: #2a364f;
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --accent-green: #10b981;
+            --accent-green-bg: rgba(16, 185, 129, 0.15);
+            --accent-red: #ef4444;
+            --accent-red-bg: rgba(239, 68, 68, 0.15);
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --accent-amber: #f59e0b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            line-height: 1.5;
+            padding-bottom: 2rem;
+        }
+
+        /* Top Header */
+        header {
+            background: #0f172a;
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .brand h1 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #f8fafc;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .brand span {
+            font-size: 0.8rem;
+            background: var(--accent-blue);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        .header-status {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 0.88rem;
+        }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--bg-card);
+            padding: 4px 12px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-green);
+        }
+
+        .status-dot.offline {
+            background: var(--accent-red);
+        }
+
+        /* CSV Configuration Bar */
+        .csv-bar {
+            background: #111827;
+            padding: 0.75rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.85rem;
+            flex-wrap: wrap;
+        }
+
+        .csv-bar input {
+            flex: 1;
+            min-width: 280px;
+            background: var(--bg-main);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+        }
+
+        .csv-bar button {
+            background: var(--accent-blue);
+            color: white;
+            border: none;
+            padding: 6px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: opacity 0.2s;
+        }
+
+        .csv-bar button:hover {
+            opacity: 0.9;
+        }
+
+        /* Navigation Tabs */
+        nav.tabs {
+            display: flex;
+            background: #172136;
+            border-bottom: 1px solid var(--border-color);
+            padding: 0 1.5rem;
+            overflow-x: auto;
+        }
+
+        nav.tabs button {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            padding: 1rem 1.5rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        nav.tabs button.active {
+            color: #f8fafc;
+            border-bottom-color: var(--accent-blue);
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        nav.tabs button:hover:not(.active) {
+            color: var(--text-main);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1280px;
+            margin: 1.5rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* General Card */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card h2 {
+            font-size: 1.25rem;
+            color: #f8fafc;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Tab 1: Rules & Form Link */
+        .rules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.2rem;
+            margin-top: 1rem;
+        }
+
+        .rule-box {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.2rem;
+        }
+
+        .rule-box h3 {
+            color: var(--accent-blue);
+            font-size: 1.05rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .btn-form-link {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            color: white;
+            text-decoration: none;
+            padding: 0.8rem 1.8rem;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1.05rem;
+            margin-top: 1rem;
+            box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3);
+            transition: transform 0.2s;
+        }
+
+        .btn-form-link:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Tab 2: Target Detail Layout */
+        .target-select-bar {
+            margin-bottom: 1.5rem;
+        }
+
+        .target-select-bar select {
+            width: 100%;
+            max-width: 500px;
+            background: #0f172a;
+            color: white;
+            border: 1px solid var(--accent-blue);
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .market-grid {
+            display: grid;
+            grid-template-columns: 2fr 1.2fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 900px) {
+            .market-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Order Book Table */
+        .orderbook-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.88rem;
+        }
+
+        .orderbook-table th, .orderbook-table td {
+            padding: 8px 12px;
+            text-align: right;
+        }
+
+        .orderbook-table th {
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border-color);
+            font-weight: 600;
+        }
+
+        .orderbook-table td.ask-price { color: var(--accent-red); font-weight: 700; }
+        .orderbook-table td.bid-price { color: var(--accent-green); font-weight: 700; }
+        .orderbook-table tr.ask-row { background: var(--accent-red-bg); }
+        .orderbook-table tr.bid-row { background: var(--accent-green-bg); }
+
+        /* Tab 3: Overview Grid */
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.2rem;
+        }
+
+        .proposal-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1.2rem;
+            transition: border-color 0.2s, transform 0.2s;
+            cursor: pointer;
+        }
+
+        .proposal-card:hover {
+            border-color: var(--accent-blue);
+            transform: translateY(-3px);
+        }
+
+        .proposal-card .card-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+        }
+
+        .proposal-card .group-badge {
+            background: rgba(59, 130, 246, 0.2);
+            color: var(--accent-blue);
+            font-size: 0.78rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        .proposal-card .price {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #f8fafc;
+        }
+
+        /* Tab 4: Login & Portfolio */
+        .login-box {
+            max-width: 400px;
+            margin: 3rem auto;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .login-box input, .login-box select {
+            width: 100%;
+            padding: 0.75rem;
+            margin-top: 0.8rem;
+            background: #0f172a;
+            border: 1px solid var(--border-color);
+            color: white;
+            border-radius: 6px;
+        }
+
+        .login-box button {
+            width: 100%;
+            padding: 0.75rem;
+            margin-top: 1.2rem;
+            background: var(--accent-blue);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .portfolio-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .stat-box label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            display: block;
+        }
+
+        .stat-box .value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-top: 4px;
+        }
+
+        table.data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.88rem;
+            margin-top: 1rem;
+        }
+
+        table.data-table th, table.data-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--border-color);
+            text-align: left;
+        }
+
+        table.data-table th {
+            background: #0f172a;
+            color: var(--text-muted);
+        }
+
+        .log-box {
+            background: #090d16;
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.82rem;
+            max-height: 200px;
+            overflow-y: auto;
+            color: #38bdf8;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="brand">
+            <h1>CFO 預測市場交易大盤系統 <span>LIVE</span></h1>
+        </div>
+        <div class="header-status">
+            <div class="status-badge">
+                <div class="status-dot" id="statusDot"></div>
+                <span id="statusText">正在連線...</span>
+            </div>
+            <span id="lastUpdated" style="color: var(--text-muted);">最後更新: --:--:--</span>
+        </div>
+    </header>
+
+    <!-- CSV URL Settings Bar (Pre-configured) -->
+    <div class="csv-bar">
+        <span>🔗 Google 表單 CSV 來源網址:</span>
+        <input type="text" id="csvUrlInput" value="https://docs.google.com/spreadsheets/d/e/2PACX-1vQfApKfasgSB280g9npxxx2IGq-MBGNX_j-uBuyE7Buz1d40ha_dXHaVu5EJbXajxJdTH4Cz9he5GIu/pub?gid=1079449082&single=true&output=csv">
+        <button onclick="applyCsvUrl()">重新套用</button>
+        <button onclick="fetchAndProcessData()" style="background: #059669;">立即同步撮合</button>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <nav class="tabs">
+        <button class="active" onclick="switchTab('tab1', this)">📋 競賽說明 & 下單入口</button>
+        <button onclick="switchTab('tab2', this)">📈 標的行情與五檔明細</button>
+        <button onclick="switchTab('tab3', this)">📊 全市場 13 組即時看板</button>
+        <button onclick="switchTab('tab4', this)">🔒 個人對帳單 (個人清算)</button>
+    </nav>
+
+    <div class="container">
+
+        <!-- TAB 1: Rules & Form Link -->
+        <div id="tab1" class="tab-content active">
+            <div class="card">
+                <h2>【財務經濟學：CFO 創新提案與預測市場評鑑競賽】說明</h2>
+                <p style="color: var(--text-muted); margin-bottom: 1rem;">
+                    本系統利用「預測市場 (Prediction Market)」機制集合全班對於 13 個 CFO 創新提案可行性之預期。價格介於 0 到 100 元，代表市場認可之成功機率！
+                </p>
+
+                <div class="rules-grid">
+                    <div class="rule-box">
+                        <h3>1. 初始資產與 IPO 底價</h3>
+                        <p>每位同學獲派 <strong>10,000 點虛擬資金</strong>。所有 13 個提案之 IPO 開盤基準底價統一訂為 <strong>$50 元</strong>（初始可行性 50%）。</p>
+                    </div>
+                    <div class="rule-box">
+                        <h3>2. 交易與風控規則</h3>
+                        <p>單一投資人對「自家提案」下注累積金額上限為 <strong>30%</strong>；對「單一標的」持股上限不得超過該提案總發行量之 <strong>15%</strong>。</p>
+                    </div>
+                    <div class="rule-box">
+                        <h3>3. 當日有效單 (ROD) 與撤單</h3>
+                        <p>未成交掛單於跨日自動逾期失效。當日若欲撤銷未成交單，請於表單選擇「撤單」或數量填寫 <code>0</code>。</p>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 2rem; padding: 1.5rem; background: rgba(59, 130, 246, 0.05); border-radius: 10px; border: 1px dashed var(--accent-blue);">
+                    <h3 style="color: #f8fafc; margin-bottom: 0.5rem;">📱 開啟手機 Google 表單進行下單 / 撤單</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">請填寫組別、學號密碼、選擇交易提案與委託價格/數量：</p>
+                    <a href="https://docs.google.com/forms" target="_blank" class="btn-form-link">🚀 前往 Google 表單下單</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: Single Target Room & Orderbook -->
+        <div id="tab2" class="tab-content">
+            <div class="target-select-bar">
+                <label style="font-size: 0.9rem; color: var(--text-muted); display: block; margin-bottom: 6px;">選擇看盤提案標的：</label>
+                <select id="targetSelect" onchange="renderTargetDetail()">
+                    <!-- Options populated by JS -->
+                </select>
+            </div>
+
+            <div class="market-grid">
+                <!-- Left: Chart & Details -->
+                <div>
+                    <div class="card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <h2 id="targetTitle">【第1組】二手書循環平台</h2>
+                            <div>
+                                <span style="font-size: 0.85rem; color: var(--text-muted);">最新成交價</span>
+                                <span id="targetPrice" style="font-size: 1.8rem; font-weight: 800; color: var(--accent-blue); margin-left: 8px;">$50</span>
+                            </div>
+                        </div>
+                        <p id="targetDesc" style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">--</p>
+                        <div style="height: 320px;">
+                            <canvas id="priceChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: 5-Level Order Book -->
+                <div>
+                    <div class="card">
+                        <h2>五檔委託買賣價量 (Order Book)</h2>
+                        <table class="orderbook-table">
+                            <thead>
+                                <tr>
+                                    <th>類型</th>
+                                    <th>價格 (元)</th>
+                                    <th>委託數量 (股)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="orderBookBody">
+                                <!-- Order book injected by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: 13 Groups Overview Dashboard -->
+        <div id="tab3" class="tab-content">
+            <div class="card">
+                <h2>全市場 13 組提案即時價格與成交總覽</h2>
+                <div class="overview-grid" id="overviewGrid">
+                    <!-- Cards injected by JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: Protected Personal Portfolio -->
+        <div id="tab4" class="tab-content">
+            <div id="loginSection" class="login-box">
+                <h2 style="font-size: 1.2rem; color: #f8fafc;">🔒 個人對帳單登入</h2>
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">請選擇您的組別並輸入驗證密碼</p>
+                <select id="loginGroup">
+                    <!-- Groups injected by JS -->
+                </select>
+                <input type="password" id="loginPass" placeholder="請輸入學號或密碼 (預設 0000)">
+                <button onclick="authenticateUser()">登入對帳單</button>
+            </div>
+
+            <div id="portfolioSection" style="display: none;">
+                <div class="card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <h2 id="portfolioTitle">帳戶資產清算明細</h2>
+                        <button onclick="logoutUser()" style="background: var(--border-color); color: white; border: none; padding: 4px 12px; border-radius: 4px; cursor: pointer;">切換帳號</button>
+                    </div>
+
+                    <div class="portfolio-summary">
+                        <div class="stat-box">
+                            <label>可用現金餘額</label>
+                            <div class="value" id="cashBalance" style="color: var(--accent-green);">$10,000</div>
+                        </div>
+                        <div class="stat-box">
+                            <label>委託凍結資金</label>
+                            <div class="value" id="frozenCash">$0</div>
+                        </div>
+                        <div class="stat-box">
+                            <label>股票持股總市值</label>
+                            <div class="value" id="stockValuation" style="color: var(--accent-blue);">$0</div>
+                        </div>
+                        <div class="stat-box">
+                            <label>總資產 (淨值)</label>
+                            <div class="value" id="totalNetValue">$10,000</div>
+                        </div>
+                    </div>
+
+                    <h3 style="font-size: 1rem; margin-top: 1.5rem; margin-bottom: 0.5rem; color: #f8fafc;">目前庫存持股明細</h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>提案標的</th>
+                                <th>持有股數</th>
+                                <th>最新市價</th>
+                                <th>估計總市值</th>
+                            </tr>
+                        </thead>
+                        <tbody id="portfolioTableBody">
+                            <!-- Injected by JS -->
+                        </tbody>
+                    </table>
+
+                    <h3 style="font-size: 1rem; margin-top: 1.5rem; margin-bottom: 0.5rem; color: #f8fafc;">撮合執行日誌 (Audit Log)</h3>
+                    <div class="log-box" id="auditLogBox">
+                        系統清算日誌載入中...
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- JavaScript Engine -->
+    <script>
+        // 13 Proposals Definition
+        const PROPOSALS = [
+            { id: 1, title: "【第1組】二手書循環平台", group: "第1組", desc: "去中心化學長姐教科書與筆記租借平台，採訂閱制與高資產周轉率。" },
+            { id: 2, title: "【第2組】共享專注膠囊", group: "第2組", desc: "校園閒置空間專注艙，採用尖離峰動態計費機制極大化坪效。" },
+            { id: 3, title: "【第3組】低碳健康餐盒櫃", group: "第3組", desc: "C2B 預購制智慧取餐櫃，實現零庫存損耗與高續訂率。" },
+            { id: 4, title: "【第4組】校園即時外送媒合", group: "第4組", desc: "空閒學生順路外送媒合，邊際成本極低之雙邊網絡效應。" },
+            { id: 5, title: "【第5組】AI財富管理助理", group: "第5組", desc: "結合 GPT 語意分析之機器人理財，高客戶終身價值 (LTV)。" },
+            { id: 6, title: "【第6組】AI法律合約審查", group: "第6組", desc: "中小企業 10 秒合約風險掃描，高毛利率 SaaS 訂閱模型。" },
+            { id: 7, title: "【第7組】SaaS碳足跡系統", group: "第7組", desc: "出口企業 CBAM 碳盤查軟體，高切換成本與政策紅利。" },
+            { id: 8, title: "【第8組】校園點對點信用評分", group: "第8組", desc: "無信用歷史學生微型信用模型，降低租房與貸款違約率。" },
+            { id: 9, title: "【第9組】企業預測市場風控", group: "第9組", desc: "匿名預測市場解決代理成本與專案延期預算超支。" },
+            { id: 10, title: "【第10組】綠色債務代幣化", group: "第10組", desc: "綠能收益代幣化眾籌發債，兼具 ESG 與固定收益殖利率。" },
+            { id: 11, title: "【第11組】xAI算力CapEx融資", group: "第11組", desc: "GPU 算力中心龐大 CapEx 之可轉債與租賃最佳融資架構。" },
+            { id: 12, title: "【第12組】台積電海外建廠避險", group: "第12組", desc: "跨國建廠地緣政治與匯率遠期契約避險劇本。" },
+            { id: 13, title: "【第13組】久期匹配風控模型", group: "第13組", desc: "吸取 SVB 教訓之短期流動性與長期資產久期匹配模型。" }
+        ];
+
+        // Global State
+        let csvUrl = document.getElementById('csvUrlInput').value;
+        let traders = {}; // Group assets
+        let marketData = {}; // Per proposal market state
+        let processedRowIds = new Set();
+        let chartInstance = null;
+        let activeUserGroup = null;
+
+        // Initialize Engine
+        function initEngine() {
+            // Setup Proposals Market State
+            PROPOSALS.forEach(p => {
+                marketData[p.title] = {
+                    title: p.title,
+                    lastPrice: 50,
+                    history: [{ time: "09:00", price: 50 }],
+                    bids: [], // Buy orders
+                    asks: []  // Sell orders
+                };
+            });
+
+            // Setup 13 Groups Trader Accounts
+            for (let i = 1; i <= 13; i++) {
+                const gName = `第${i}組`;
+                traders[gName] = {
+                    group: gName,
+                    cash: 10000,
+                    frozenCash: 0,
+                    stocks: {} // proposalTitle -> quantity
+                };
+                // Initialize stock holdings (Treasury 2000 shares for own group)
+                const ownProposal = PROPOSALS[i-1].title;
+                traders[gName].stocks[ownProposal] = 2000;
+            }
+
+            // Populate UI Selects
+            const targetSelect = document.getElementById('targetSelect');
+            const loginGroup = document.getElementById('loginGroup');
+            targetSelect.innerHTML = '';
+            loginGroup.innerHTML = '';
+
+            PROPOSALS.forEach(p => {
+                targetSelect.innerHTML += `<option value="${p.title}">${p.title}</option>`;
+            });
+
+            for (let i = 1; i <= 13; i++) {
+                loginGroup.innerHTML += `<option value="第${i}組">第${i}組</option>`;
+            }
+
+            renderOverviewCards();
+            renderTargetDetail();
+
+            // Start CSV Polling
+            fetchAndProcessData();
+            setInterval(fetchAndProcessData, 5000);
+        }
+
+        // Apply Custom CSV URL
+        function applyCsvUrl() {
+            csvUrl = document.getElementById('csvUrlInput').value.trim();
+            processedRowIds.clear();
+            initEngine();
+            alert('已更新 CSV URL 並重新同步！');
+        }
+
+        // Fetch CSV from Google Sheet
+        function fetchAndProcessData() {
+            if (!csvUrl) return;
+
+            Papa.parse(csvUrl, {
+                download: true,
+                header: false,
+                skipEmptyLines: true,
+                complete: function(results) {
+                    document.getElementById('statusDot').className = 'status-dot';
+                    document.getElementById('statusText').innerText = '🟢 系統連線正常';
+                    document.getElementById('lastUpdated').innerText = '最後更新: ' + new Date().toLocaleTimeString();
+
+                    processCSVRows(results.data);
+                },
+                error: function(err) {
+                    document.getElementById('statusDot').className = 'status-dot offline';
+                    document.getElementById('statusText').innerText = '🔴 連線異常 / 請確認網址';
+                }
+            });
+        }
+
+        // Process CSV Rows with Day Order & Order Matching
+        function processCSVRows(rows) {
+            if (!rows || rows.length <= 1) return;
+
+            const todayStr = new Date().toLocaleDateString('zh-TW');
+
+            for (let i = 1; i < rows.length; i++) {
+                const row = rows[i];
+                if (!row || row.length < 5) continue;
+
+                const rawTimestamp = row[0] ? row[0].trim() : "";
+                const group = row[1] ? row[1].trim() : "";
+                const targetTitle = row[3] ? row[3].trim() : "";
+                const typeRaw = row[4] ? row[4].trim() : "";
+                const price = parseFloat(row[5]) || 0;
+                let qty = parseInt(row[6]) || 0;
+
+                // Day Order Validation (Skip if not today)
+                if (rawTimestamp) {
+                    const orderDate = new Date(rawTimestamp);
+                    if (!isNaN(orderDate.getTime()) && orderDate.toLocaleDateString('zh-TW') !== todayStr) {
+                        continue; // Expired day order
+                    }
+                }
+
+                // Scale quantity (1-5 -> 1000-5000)
+                if (qty > 0 && qty <= 5) qty *= 1000;
+
+                // Deduplication ID
+                const rowId = `${rawTimestamp}_${group}_${targetTitle}_${typeRaw}_${price}_${qty}`;
+                if (processedRowIds.has(rowId)) continue;
+                processedRowIds.add(rowId);
+
+                // Execute Order Logic
+                handleOrderSubmission(group, targetTitle, typeRaw, price, qty, rawTimestamp);
+            }
+
+            // Refresh UI
+            renderTargetDetail();
+            renderOverviewCards();
+            if (activeUserGroup) renderPortfolioUI();
+        }
+
+        // Handle Single Order Logic
+        function handleOrderSubmission(group, targetTitle, typeRaw, price, qty, timestamp) {
+            const trader = traders[group];
+            const mData = marketData[targetTitle];
+
+            if (!trader || !mData) return;
+
+            // Cancellation Logic (Type contains "撤" or Qty is 0)
+            if (typeRaw.includes('撤') || qty === 0) {
+                cancelGroupOrdersForTarget(group, targetTitle);
+                addAuditLog(`[撤單成功] ${group} 撤銷對 ${targetTitle} 之所有未成交單`);
+                return;
+            }
+
+            // Validation: Price Range
+            if (price < 0 || price > 100) return;
+
+            const isBuy = typeRaw.includes('買');
+
+            if (isBuy) {
+                const cost = price * qty;
+                if (trader.cash < cost) {
+                    addAuditLog(`[委託失敗] ${group} 欲買進 ${targetTitle} 但現金餘額不足`);
+                    return;
+                }
+                // Lock cash
+                trader.cash -= cost;
+                trader.frozenCash += cost;
+                mData.bids.push({ group, price, qty, timestamp });
+            } else { // Sell
+                const currentStock = trader.stocks[targetTitle] || 0;
+                if (currentStock < qty) {
+                    addAuditLog(`[委託失敗] ${group} 欲賣出 ${targetTitle} 但持股庫存不足`);
+                    return;
+                }
+                // Lock stock
+                trader.stocks[targetTitle] -= qty;
+                mData.asks.push({ group, price, qty, timestamp });
+            }
+
+            addAuditLog(`[委託成功] ${group} 發出 ${typeRaw} ${targetTitle} @ $${price} / ${qty}股`);
+
+            // Match Orders
+            matchOrdersForTarget(targetTitle);
+        }
+
+        // Match Bids & Asks
+        function matchOrdersForTarget(targetTitle) {
+            const mData = marketData[targetTitle];
+
+            // Sort Bids Descending, Asks Ascending
+            mData.bids.sort((a, b) => b.price - a.price);
+            mData.asks.sort((a, b) => a.price - b.price);
+
+            while (mData.bids.length > 0 && mData.asks.length > 0) {
+                const topBid = mData.bids[0];
+                const topAsk = mData.asks[0];
+
+                if (topBid.price >= topAsk.price) {
+                    const matchPrice = topAsk.price; // Execution at ask price
+                    const matchQty = Math.min(topBid.qty, topAsk.qty);
+
+                    // Settle Buyer
+                    const buyer = traders[topBid.group];
+                    const buyCost = topBid.price * matchQty;
+                    const actualCost = matchPrice * matchQty;
+                    buyer.frozenCash -= buyCost;
+                    buyer.cash += (buyCost - actualCost); // Refund price difference
+                    buyer.stocks[targetTitle] = (buyer.stocks[targetTitle] || 0) + matchQty;
+
+                    // Settle Seller
+                    const seller = traders[topAsk.group];
+                    seller.cash += actualCost;
+
+                    // Update Market State
+                    mData.lastPrice = matchPrice;
+                    const timeStr = new Date().toLocaleTimeString('zh-TW', { hour12: false });
+                    mData.history.push({ time: timeStr, price: matchPrice });
+
+                    addAuditLog(`⚡ [成功撮合] ${targetTitle} 成交價 $${matchPrice} / 成交量 ${matchQty}股 (買方: ${topBid.group}, 賣方: ${topAsk.group})`);
+
+                    // Deduct Quantities
+                    topBid.qty -= matchQty;
+                    topAsk.qty -= matchQty;
+
+                    if (topBid.qty === 0) mData.bids.shift();
+                    if (topAsk.qty === 0) mData.asks.shift();
+                } else {
+                    break; // No overlap
+                }
+            }
+        }
+
+        // Cancel Group Orders
+        function cancelGroupOrdersForTarget(group, targetTitle) {
+            const mData = marketData[targetTitle];
+            const trader = traders[group];
+
+            mData.bids = mData.bids.filter(b => {
+                if (b.group === group) {
+                    const refund = b.price * b.qty;
+                    trader.frozenCash -= refund;
+                    trader.cash += refund;
+                    return false;
+                }
+                return true;
+            });
+
+            mData.asks = mData.asks.filter(a => {
+                if (a.group === group) {
+                    trader.stocks[targetTitle] = (trader.stocks[targetTitle] || 0) + a.qty;
+                    return false;
+                }
+                return true;
+            });
+        }
+
+        // Render Tab 2 Details
+        function renderTargetDetail() {
+            const title = document.getElementById('targetSelect').value;
+            const pObj = PROPOSALS.find(p => p.title === title);
+            const mData = marketData[title];
+
+            if (!pObj || !mData) return;
+
+            document.getElementById('targetTitle').innerText = pObj.title;
+            document.getElementById('targetPrice').innerText = `$${mData.lastPrice}`;
+            document.getElementById('targetDesc').innerText = pObj.desc;
+
+            // Orderbook
+            const obBody = document.getElementById('orderBookBody');
+            obBody.innerHTML = '';
+
+            // Top 5 Asks
+            const topAsks = [...mData.asks].sort((a,b) => b.price - a.price).slice(-5);
+            topAsks.forEach(a => {
+                obBody.innerHTML += `<tr class="ask-row"><td>賣出 (Ask)</td><td class="ask-price">$${a.price}</td><td>${a.qty}</td></tr>`;
+            });
+
+            // Top 5 Bids
+            const topBids = [...mData.bids].sort((a,b) => b.price - a.price).slice(0, 5);
+            topBids.forEach(b => {
+                obBody.innerHTML += `<tr class="bid-row"><td>買進 (Bid)</td><td class="bid-price">$${b.price}</td><td>${b.qty}</td></tr>`;
+            });
+
+            if (topAsks.length === 0 && topBids.length === 0) {
+                obBody.innerHTML = `<tr><td colspan="3" style="text-align:center; color: var(--text-muted);">目前無掛單紀錄</td></tr>`;
+            }
+
+            renderChart(mData.history);
+        }
+
+        // Render Chart.js
+        function renderChart(historyData) {
+            const ctx = document.getElementById('priceChart').getContext('2d');
+
+            const labels = historyData.map(h => h.time);
+            const data = historyData.map(h => h.price);
+
+            if (chartInstance) {
+                chartInstance.destroy();
+            }
+
+            chartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: '估值成交價 ($)',
+                        data: data,
+                        borderColor: '#3b82f6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        fill: true,
+                        tension: 0.2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { min: 0, max: 100, grid: { color: '#2a364f' } },
+                        x: { grid: { color: '#2a364f' } }
+                    },
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
+
+        // Render Tab 3 Overview Cards
+        function renderOverviewCards() {
+            const grid = document.getElementById('overviewGrid');
+            grid.innerHTML = '';
+
+            PROPOSALS.forEach(p => {
+                const mData = marketData[p.title];
+                grid.innerHTML += `
+                    <div class="proposal-card" onclick="selectAndSwitchTarget('${p.title}')">
+                        <div class="card-head">
+                            <span class="group-badge">${p.group}</span>
+                            <span class="price">$${mData.lastPrice}</span>
+                        </div>
+                        <h3 style="font-size: 1.05rem; color: #f8fafc; margin-bottom: 6px;">${p.title}</h3>
+                        <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.4;">${p.desc}</p>
+                    </div>
+                `;
+            });
+        }
+
+        function selectAndSwitchTarget(title) {
+            document.getElementById('targetSelect').value = title;
+            switchTab('tab2', document.querySelectorAll('nav.tabs button')[1]);
+            renderTargetDetail();
+        }
+
+        // Authentication for Tab 4
+        function authenticateUser() {
+            const group = document.getElementById('loginGroup').value;
+            const pass = document.getElementById('loginPass').value.trim();
+
+            if (pass !== "") {
+                activeUserGroup = group;
+                document.getElementById('loginSection').style.display = 'none';
+                document.getElementById('portfolioSection').style.display = 'block';
+                renderPortfolioUI();
+            } else {
+                alert('請輸入密碼！');
+            }
+        }
+
+        function logoutUser() {
+            activeUserGroup = null;
+            document.getElementById('loginSection').style.display = 'block';
+            document.getElementById('portfolioSection').style.display = 'none';
+        }
+
+        // Render Tab 4 Portfolio
+        function renderPortfolioUI() {
+            if (!activeUserGroup) return;
+
+            const t = traders[activeUserGroup];
+            document.getElementById('portfolioTitle').innerText = `【${t.group}】資產清算對帳單`;
+            document.getElementById('cashBalance').innerText = `$${t.cash.toLocaleString()}`;
+            document.getElementById('frozenCash').innerText = `$${t.frozenCash.toLocaleString()}`;
+
+            let stockTotalValue = 0;
+            const tableBody = document.getElementById('portfolioTableBody');
+            tableBody.innerHTML = '';
+
+            Object.keys(t.stocks).forEach(title => {
+                const qty = t.stocks[title];
+                if (qty > 0) {
+                    const price = marketData[title] ? marketData[title].lastPrice : 50;
+                    const val = qty * price;
+                    stockTotalValue += val;
+
+                    tableBody.innerHTML += `
+                        <tr>
+                            <td>${title}</td>
+                            <td>${qty.toLocaleString()} 股</td>
+                            <td>$${price}</td>
+                            <td>$${val.toLocaleString()}</td>
+                        </tr>
+                    `;
+                }
+            });
+
+            if (tableBody.innerHTML === '') {
+                tableBody.innerHTML = `<tr><td colspan="4" style="text-align:center; color: var(--text-muted);">目前無任何股票持股</td></tr>`;
+            }
+
+            document.getElementById('stockValuation').innerText = `$${stockTotalValue.toLocaleString()}`;
+            const totalNet = t.cash + t.frozenCash + stockTotalValue;
+            document.getElementById('totalNetValue').innerText = `$${totalNet.toLocaleString()}`;
+        }
+
+        function addAuditLog(msg) {
+            const logBox = document.getElementById('auditLogBox');
+            const time = new Date().toLocaleTimeString();
+            logBox.innerHTML = `[${time}] ${msg}<br>` + logBox.innerHTML;
+        }
+
+        // Switch Tabs
+        function switchTab(tabId, btn) {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('nav.tabs button').forEach(b => b.classList.remove('active'));
+
+            document.getElementById(tabId).classList.add('active');
+            btn.classList.add('active');
+
+            if (tabId === 'tab2') renderTargetDetail();
+        }
+
+        // Start App
+        window.onload = initEngine;
+    </script>
+</body>
+</html>
