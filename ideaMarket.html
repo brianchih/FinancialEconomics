@@ -96,44 +96,6 @@
             background: var(--accent-red);
         }
 
-        /* CSV Configuration Bar */
-        .csv-bar {
-            background: #111827;
-            padding: 0.75rem 1.5rem;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-size: 0.85rem;
-            flex-wrap: wrap;
-        }
-
-        .csv-bar input {
-            flex: 1;
-            min-width: 280px;
-            background: var(--bg-main);
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 0.85rem;
-        }
-
-        .csv-bar button {
-            background: var(--accent-blue);
-            color: white;
-            border: none;
-            padding: 6px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: opacity 0.2s;
-        }
-
-        .csv-bar button:hover {
-            opacity: 0.9;
-        }
-
         /* Navigation Tabs */
         nav.tabs {
             display: flex;
@@ -335,7 +297,7 @@
 
         /* Tab 4: Login & Portfolio */
         .login-box {
-            max-width: 400px;
+            max-width: 440px;
             margin: 3rem auto;
             background: var(--bg-card);
             border: 1px solid var(--border-color);
@@ -439,20 +401,12 @@
         </div>
     </header>
 
-    <!-- CSV URL Settings Bar (Pre-configured) -->
-    <div class="csv-bar">
-        <span>🔗 Google 表單 CSV 來源網址:</span>
-        <input type="text" id="csvUrlInput" value="https://docs.google.com/spreadsheets/d/e/2PACX-1vQfApKfasgSB280g9npxxx2IGq-MBGNX_j-uBuyE7Buz1d40ha_dXHaVu5EJbXajxJdTH4Cz9he5GIu/pub?gid=1079449082&single=true&output=csv">
-        <button onclick="applyCsvUrl()">重新套用</button>
-        <button onclick="fetchAndProcessData()" style="background: #059669;">立即同步撮合</button>
-    </div>
-
     <!-- Navigation Tabs -->
     <nav class="tabs">
         <button class="active" onclick="switchTab('tab1', this)">📋 競賽說明 & 下單入口</button>
         <button onclick="switchTab('tab2', this)">📈 標的行情與五檔明細</button>
         <button onclick="switchTab('tab3', this)">📊 全市場 13 組即時看板</button>
-        <button onclick="switchTab('tab4', this)">🔒 個人對帳單 (個人清算)</button>
+        <button onclick="switchTab('tab4', this)">🔒 個人對帳單 (學生對帳)</button>
     </nav>
 
     <div class="container">
@@ -483,7 +437,7 @@
                 <div style="text-align: center; margin-top: 2rem; padding: 1.5rem; background: rgba(59, 130, 246, 0.05); border-radius: 10px; border: 1px dashed var(--accent-blue);">
                     <h3 style="color: #f8fafc; margin-bottom: 0.5rem;">📱 開啟手機 Google 表單進行下單 / 撤單</h3>
                     <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">請填寫組別、學號密碼、選擇交易提案與委託價格/數量：</p>
-                    <a href="https://docs.google.com/forms" target="_blank" class="btn-form-link">🚀 前往 Google 表單下單</a>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSc-AQzp4eLml3fQ4N-bLySd74-UY6HmpOmdd18kiNOjwDhbRw/viewform?usp=header" target="_blank" class="btn-form-link">🚀 前往 Google 表單下單</a>
                 </div>
             </div>
         </div>
@@ -549,30 +503,30 @@
         <!-- TAB 4: Protected Personal Portfolio -->
         <div id="tab4" class="tab-content">
             <div id="loginSection" class="login-box">
-                <h2 style="font-size: 1.2rem; color: #f8fafc;">🔒 個人對帳單登入</h2>
-                <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">請選擇您的組別並輸入驗證密碼</p>
+                <h2 style="font-size: 1.2rem; color: #f8fafc;">🔒 個人對帳單登入系統</h2>
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">請選擇組別並輸入學號或姓名驗證身分</p>
                 <select id="loginGroup">
                     <!-- Groups injected by JS -->
                 </select>
-                <input type="password" id="loginPass" placeholder="請輸入學號或密碼 (預設 0000)">
-                <button onclick="authenticateUser()">登入對帳單</button>
+                <input type="text" id="loginId" placeholder="請輸入學號 (如 411571069) 或姓名">
+                <button onclick="authenticateUser()">登入個人對帳單</button>
             </div>
 
             <div id="portfolioSection" style="display: none;">
                 <div class="card">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                        <h2 id="portfolioTitle">帳戶資產清算明細</h2>
-                        <button onclick="logoutUser()" style="background: var(--border-color); color: white; border: none; padding: 4px 12px; border-radius: 4px; cursor: pointer;">切換帳號</button>
+                        <h2 id="portfolioTitle">學生個人對帳單明細</h2>
+                        <button onclick="logoutUser()" style="background: var(--border-color); color: white; border: none; padding: 4px 12px; border-radius: 4px; cursor: pointer;">切換身分</button>
                     </div>
 
                     <div class="portfolio-summary">
                         <div class="stat-box">
-                            <label>可用現金餘額</label>
-                            <div class="value" id="cashBalance" style="color: var(--accent-green);">$10,000</div>
+                            <label>學生姓名 / 學號</label>
+                            <div class="value" id="studentInfoName" style="font-size: 1.1rem; color: #f8fafc;">--</div>
                         </div>
                         <div class="stat-box">
-                            <label>委託凍結資金</label>
-                            <div class="value" id="frozenCash">$0</div>
+                            <label>可用現金餘額</label>
+                            <div class="value" id="cashBalance" style="color: var(--accent-green);">$10,000</div>
                         </div>
                         <div class="stat-box">
                             <label>股票持股總市值</label>
@@ -611,6 +565,72 @@
 
     <!-- JavaScript Engine -->
     <script>
+        // Pre-configured Hidden CSV Source URL
+        const HIDDEN_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQfApKfasgSB280g9npxxx2IGq-MBGNX_j-uBuyE7Buz1d40ha_dXHaVu5EJbXajxJdTH4Cz9he5GIu/pub?gid=1079449082&single=true&output=csv";
+
+        // 全班 59 位學生名冊對照表
+        const STUDENT_LIST = [
+            { id: "411571069", name: "周書宇" },
+            { id: "412547175", name: "闕劭恩" },
+            { id: "412570391", name: "吳丰玄" },
+            { id: "412570540", name: "游嵉旭" },
+            { id: "412570771", name: "劉鈺傑" },
+            { id: "412571159", name: "張茹微" },
+            { id: "412576521", name: "許于廷" },
+            { id: "412590183", name: "黃兆瑋" },
+            { id: "413051045", name: "鄧云華" },
+            { id: "413570036", name: "卓湧勝" },
+            { id: "413570069", name: "陳子函" },
+            { id: "413570093", name: "彭亮怡" },
+            { id: "413570150", name: "邱俊傑" },
+            { id: "413570218", name: "陳品安" },
+            { id: "413570242", name: "閔振宇" },
+            { id: "413570275", name: "陳冠瑋" },
+            { id: "413570309", name: "吳立丞" },
+            { id: "413570424", name: "林琮洧" },
+            { id: "413570457", name: "林旻翰" },
+            { id: "413570481", name: "林國仁" },
+            { id: "413570515", name: "鄒采慈" },
+            { id: "413570549", name: "鄭博仁" },
+            { id: "413570572", name: "周裕凱" },
+            { id: "413570606", name: "林宜庭" },
+            { id: "413570697", name: "蔡文睿" },
+            { id: "413570721", name: "林玟均" },
+            { id: "413570739", name: "陳冠宇" },
+            { id: "413570754", name: "蕭凱陽" },
+            { id: "413570788", name: "王羽倢" },
+            { id: "413570812", name: "陳玥彤" },
+            { id: "413570846", name: "陳珮姍" },
+            { id: "413570879", name: "鍾筱雯" },
+            { id: "413570960", name: "高士勛" },
+            { id: "413570994", name: "張家齊" },
+            { id: "413571026", name: "郭競凱" },
+            { id: "413571059", name: "林雨璇" },
+            { id: "413571083", name: "楊丞愷" },
+            { id: "413571117", name: "許巽雯" },
+            { id: "413571141", name: "高愷壕" },
+            { id: "413571174", name: "古哲勳" },
+            { id: "413571208", name: "方翊鴻" },
+            { id: "413571232", name: "駱駿昊" },
+            { id: "413571265", name: "酈乾恩" },
+            { id: "413571299", name: "廖奕捷" },
+            { id: "413571323", name: "陳勁宏" },
+            { id: "413571356", name: "阮妤瑄" },
+            { id: "413571380", name: "林芯楹" },
+            { id: "413571414", name: "劉皓翔" },
+            { id: "413571471", name: "沈彥志" },
+            { id: "413576538", name: "李雨庭" },
+            { id: "414577113", name: "王采妍" },
+            { id: "414577626", name: "黄柏皓" },
+            { id: "414577659", name: "陳宜鍹" },
+            { id: "414577683", name: "陳柏瑋" },
+            { id: "414577717", name: "吳承澤" },
+            { id: "414578095", name: "周子瑜" },
+            { id: "414578111", name: "閻姝伶" },
+            { id: "415578011", name: "黃士杰" },
+            { id: "415578045", name: "吳嘉珊" }
+        ];
+
         // 13 Proposals Definition
         const PROPOSALS = [
             { id: 1, title: "【第1組】二手書循環平台", group: "第1組", desc: "去中心化學長姐教科書與筆記租借平台，採訂閱制與高資產周轉率。" },
@@ -629,12 +649,11 @@
         ];
 
         // Global State
-        let csvUrl = document.getElementById('csvUrlInput').value;
-        let traders = {}; // Group assets
-        let marketData = {}; // Per proposal market state
+        let traders = {};
+        let marketData = {};
         let processedRowIds = new Set();
         let chartInstance = null;
-        let activeUserGroup = null;
+        let activeStudent = null; // Currently logged in student object
 
         // Initialize Engine
         function initEngine() {
@@ -644,8 +663,8 @@
                     title: p.title,
                     lastPrice: 50,
                     history: [{ time: "09:00", price: 50 }],
-                    bids: [], // Buy orders
-                    asks: []  // Sell orders
+                    bids: [],
+                    asks: []
                 };
             });
 
@@ -656,7 +675,7 @@
                     group: gName,
                     cash: 10000,
                     frozenCash: 0,
-                    stocks: {} // proposalTitle -> quantity
+                    stocks: {}
                 };
                 // Initialize stock holdings (Treasury 2000 shares for own group)
                 const ownProposal = PROPOSALS[i-1].title;
@@ -680,24 +699,14 @@
             renderOverviewCards();
             renderTargetDetail();
 
-            // Start CSV Polling
+            // Start Polling Hidden CSV
             fetchAndProcessData();
             setInterval(fetchAndProcessData, 5000);
         }
 
-        // Apply Custom CSV URL
-        function applyCsvUrl() {
-            csvUrl = document.getElementById('csvUrlInput').value.trim();
-            processedRowIds.clear();
-            initEngine();
-            alert('已更新 CSV URL 並重新同步！');
-        }
-
-        // Fetch CSV from Google Sheet
+        // Fetch CSV
         function fetchAndProcessData() {
-            if (!csvUrl) return;
-
-            Papa.parse(csvUrl, {
+            Papa.parse(HIDDEN_CSV_URL, {
                 download: true,
                 header: false,
                 skipEmptyLines: true,
@@ -715,7 +724,7 @@
             });
         }
 
-        // Process CSV Rows with Day Order & Order Matching
+        // Process CSV Rows
         function processCSVRows(rows) {
             if (!rows || rows.length <= 1) return;
 
@@ -736,7 +745,7 @@
                 if (rawTimestamp) {
                     const orderDate = new Date(rawTimestamp);
                     if (!isNaN(orderDate.getTime()) && orderDate.toLocaleDateString('zh-TW') !== todayStr) {
-                        continue; // Expired day order
+                        continue;
                     }
                 }
 
@@ -755,7 +764,7 @@
             // Refresh UI
             renderTargetDetail();
             renderOverviewCards();
-            if (activeUserGroup) renderPortfolioUI();
+            if (activeStudent) renderPortfolioUI();
         }
 
         // Handle Single Order Logic
@@ -765,14 +774,13 @@
 
             if (!trader || !mData) return;
 
-            // Cancellation Logic (Type contains "撤" or Qty is 0)
+            // Cancellation Logic
             if (typeRaw.includes('撤') || qty === 0) {
                 cancelGroupOrdersForTarget(group, targetTitle);
                 addAuditLog(`[撤單成功] ${group} 撤銷對 ${targetTitle} 之所有未成交單`);
                 return;
             }
 
-            // Validation: Price Range
             if (price < 0 || price > 100) return;
 
             const isBuy = typeRaw.includes('買');
@@ -783,24 +791,20 @@
                     addAuditLog(`[委託失敗] ${group} 欲買進 ${targetTitle} 但現金餘額不足`);
                     return;
                 }
-                // Lock cash
                 trader.cash -= cost;
                 trader.frozenCash += cost;
                 mData.bids.push({ group, price, qty, timestamp });
-            } else { // Sell
+            } else {
                 const currentStock = trader.stocks[targetTitle] || 0;
                 if (currentStock < qty) {
                     addAuditLog(`[委託失敗] ${group} 欲賣出 ${targetTitle} 但持股庫存不足`);
                     return;
                 }
-                // Lock stock
                 trader.stocks[targetTitle] -= qty;
                 mData.asks.push({ group, price, qty, timestamp });
             }
 
             addAuditLog(`[委託成功] ${group} 發出 ${typeRaw} ${targetTitle} @ $${price} / ${qty}股`);
-
-            // Match Orders
             matchOrdersForTarget(targetTitle);
         }
 
@@ -808,7 +812,6 @@
         function matchOrdersForTarget(targetTitle) {
             const mData = marketData[targetTitle];
 
-            // Sort Bids Descending, Asks Ascending
             mData.bids.sort((a, b) => b.price - a.price);
             mData.asks.sort((a, b) => a.price - b.price);
 
@@ -817,36 +820,32 @@
                 const topAsk = mData.asks[0];
 
                 if (topBid.price >= topAsk.price) {
-                    const matchPrice = topAsk.price; // Execution at ask price
+                    const matchPrice = topAsk.price;
                     const matchQty = Math.min(topBid.qty, topAsk.qty);
 
-                    // Settle Buyer
                     const buyer = traders[topBid.group];
                     const buyCost = topBid.price * matchQty;
                     const actualCost = matchPrice * matchQty;
                     buyer.frozenCash -= buyCost;
-                    buyer.cash += (buyCost - actualCost); // Refund price difference
+                    buyer.cash += (buyCost - actualCost);
                     buyer.stocks[targetTitle] = (buyer.stocks[targetTitle] || 0) + matchQty;
 
-                    // Settle Seller
                     const seller = traders[topAsk.group];
                     seller.cash += actualCost;
 
-                    // Update Market State
                     mData.lastPrice = matchPrice;
                     const timeStr = new Date().toLocaleTimeString('zh-TW', { hour12: false });
                     mData.history.push({ time: timeStr, price: matchPrice });
 
                     addAuditLog(`⚡ [成功撮合] ${targetTitle} 成交價 $${matchPrice} / 成交量 ${matchQty}股 (買方: ${topBid.group}, 賣方: ${topAsk.group})`);
 
-                    // Deduct Quantities
                     topBid.qty -= matchQty;
                     topAsk.qty -= matchQty;
 
                     if (topBid.qty === 0) mData.bids.shift();
                     if (topAsk.qty === 0) mData.asks.shift();
                 } else {
-                    break; // No overlap
+                    break;
                 }
             }
         }
@@ -887,17 +886,14 @@
             document.getElementById('targetPrice').innerText = `$${mData.lastPrice}`;
             document.getElementById('targetDesc').innerText = pObj.desc;
 
-            // Orderbook
             const obBody = document.getElementById('orderBookBody');
             obBody.innerHTML = '';
 
-            // Top 5 Asks
             const topAsks = [...mData.asks].sort((a,b) => b.price - a.price).slice(-5);
             topAsks.forEach(a => {
                 obBody.innerHTML += `<tr class="ask-row"><td>賣出 (Ask)</td><td class="ask-price">$${a.price}</td><td>${a.qty}</td></tr>`;
             });
 
-            // Top 5 Bids
             const topBids = [...mData.bids].sort((a,b) => b.price - a.price).slice(0, 5);
             topBids.forEach(b => {
                 obBody.innerHTML += `<tr class="bid-row"><td>買進 (Bid)</td><td class="bid-price">$${b.price}</td><td>${b.qty}</td></tr>`;
@@ -913,7 +909,6 @@
         // Render Chart.js
         function renderChart(historyData) {
             const ctx = document.getElementById('priceChart').getContext('2d');
-
             const labels = historyData.map(h => h.time);
             const data = historyData.map(h => h.price);
 
@@ -972,35 +967,50 @@
             renderTargetDetail();
         }
 
-        // Authentication for Tab 4
+        // Student Authentication for Tab 4
         function authenticateUser() {
             const group = document.getElementById('loginGroup').value;
-            const pass = document.getElementById('loginPass').value.trim();
+            const inputVal = document.getElementById('loginId').value.trim();
 
-            if (pass !== "") {
-                activeUserGroup = group;
+            if (!inputVal) {
+                alert('請輸入學號或姓名！');
+                return;
+            }
+
+            // Find matching student
+            const matched = STUDENT_LIST.find(s => s.id === inputVal || s.name === inputVal);
+
+            if (matched) {
+                activeStudent = {
+                    group: group,
+                    id: matched.id,
+                    name: matched.name
+                };
+
                 document.getElementById('loginSection').style.display = 'none';
                 document.getElementById('portfolioSection').style.display = 'block';
                 renderPortfolioUI();
             } else {
-                alert('請輸入密碼！');
+                alert('查無此學號或姓名，請確認後重新輸入！');
             }
         }
 
         function logoutUser() {
-            activeUserGroup = null;
+            activeStudent = null;
             document.getElementById('loginSection').style.display = 'block';
             document.getElementById('portfolioSection').style.display = 'none';
+            document.getElementById('loginId').value = '';
         }
 
         // Render Tab 4 Portfolio
         function renderPortfolioUI() {
-            if (!activeUserGroup) return;
+            if (!activeStudent) return;
 
-            const t = traders[activeUserGroup];
-            document.getElementById('portfolioTitle').innerText = `【${t.group}】資產清算對帳單`;
+            const t = traders[activeStudent.group];
+            document.getElementById('portfolioTitle').innerText = `【${activeStudent.group}】學生對帳單`;
+            document.getElementById('studentInfoName').innerText = `${activeStudent.name} (${activeStudent.id})`;
+
             document.getElementById('cashBalance').innerText = `$${t.cash.toLocaleString()}`;
-            document.getElementById('frozenCash').innerText = `$${t.frozenCash.toLocaleString()}`;
 
             let stockTotalValue = 0;
             const tableBody = document.getElementById('portfolioTableBody');
