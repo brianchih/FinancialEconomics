@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CFO 創新提案期貨預測市場終端機 (Prediction Contracts Terminal)</title>
+    <title>CFO 創新提案預測市場終端機 (Prediction Contracts Terminal)</title>
     <!-- Chart.js & PapaParse CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
@@ -424,22 +424,22 @@
 
                 <div class="rules-grid">
                     <div class="rule-box">
-                        <h3>1. 零門檻多空雙向交易</h3>
-                        <p>無須事先持有股票即可建立部位！<strong>看好（做多 Buy）</strong>或 <strong>看壞（做空 Sell）</strong> 皆可自由下單，保證金足夠即撮合成立。</p>
+                        <h3>1. 雙重安全身分驗證</h3>
+                        <p>表單下單時請填寫您的<strong>「學號」</strong>與<strong>「專屬安全密碼」</strong>。密碼錯誤將自動退單，確保資產安全。</p>
                     </div>
                     <div class="rule-box">
-                        <h3>2. 初始保證金與清算</h3>
-                        <p>每人/組獲得 <strong>10,000 點初始資金（保證金）</strong>。每下單 1 股只需扣除相當於價格的保證金（例如以 $50 買/賣 10 股，扣除保證金 $500）。</p>
+                        <h3>2. 零門檻多空雙向交易</h3>
+                        <p>無須事先持有股票即可建立部位！看好提案選<strong>「買進做多 (Bid)」</strong>；看壞提案選<strong>「賣出做空 (Ask)」</strong>。</p>
                     </div>
                     <div class="rule-box">
-                        <h3>3. 當日有效單 (ROD) 與期末現金結算</h3>
-                        <p>未成交單於跨日自動失效。期末封盤時，各合約將依據最終評分（$0~$100）進行<strong>現金差額清算（Cash Settlement）</strong>！</p>
+                        <h3>3. 保證金與期末現金結算</h3>
+                        <p>每人/組獲 10,000 點保證金。期末依最終評分 ($0~$100) 進行<strong>現金差額清算 (Cash Settlement)</strong>。</p>
                     </div>
                 </div>
 
                 <div style="text-align: center; margin-top: 2rem; padding: 1.5rem; background: rgba(59, 130, 246, 0.05); border-radius: 10px; border: 1px dashed var(--accent-blue);">
                     <h3 style="color: #f8fafc; margin-bottom: 0.5rem;">📱 開啟手機 Google 表單進行下單 / 撤單</h3>
-                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">請填寫組別、學號密碼、選擇交易提案與委託價格/數量（單位：股）：</p>
+                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">請填寫學號、個人安全密碼、選擇交易提案與委託價格/數量（單位：股）：</p>
                     <a href="https://docs.google.com/forms/d/e/1FAIpQLSc-AQzp4eLml3fQ4N-bLySd74-UY6HmpOmdd18kiNOjwDhbRw/viewform?usp=header" target="_blank" class="btn-form-link">🚀 前往 Google 表單下單</a>
                 </div>
             </div>
@@ -507,8 +507,9 @@
         <div id="tab4" class="tab-content">
             <div id="loginSection" class="login-box">
                 <h2 style="font-size: 1.2rem; color: #f8fafc;">🔒 個人期貨帳戶登入</h2>
-                <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">請輸入學號或姓名驗證身分（系統將自動判定所屬組別）</p>
-                <input type="text" id="loginId" placeholder="請輸入學號 (如 411571069) 或姓名 (如 周書宇)">
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">請輸入學號與專屬密碼進行安全驗證</p>
+                <input type="text" id="loginId" placeholder="請輸入學號 (如 411571069)">
+                <input type="password" id="loginPass" placeholder="請輸入個人專屬密碼">
                 <button onclick="authenticateUser()">登入個人對帳單</button>
             </div>
 
@@ -574,71 +575,72 @@
     <script>
         const HIDDEN_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQfApKfasgSB280g9npxxx2IGq-MBGNX_j-uBuyE7Buz1d40ha_dXHaVu5EJbXajxJdTH4Cz9he5GIu/pub?gid=1079449082&single=true&output=csv";
 
-        function cleanGroupStr(g) {
-            if (!g) return "未分組";
-            return g.replace(/\s+/g, '');
+        function cleanStr(s) {
+            if (!s) return "";
+            return s.toString().trim().replace(/\s+/g, '');
         }
 
+        // 全班 59 位學生名冊、組別與專屬密碼表
         const STUDENT_LIST = [
-            { id: "413576538", name: "李雨庭", group: "第1組" },
-            { id: "413570721", name: "林玟均", group: "第1組" },
-            { id: "413571059", name: "林雨璇", group: "第1組" },
-            { id: "413571117", name: "許巽雯", group: "第1組" },
-            { id: "413570549", name: "鄭博仁", group: "第2組" },
-            { id: "413570572", name: "周裕凱", group: "第2組" },
-            { id: "413570150", name: "邱俊傑", group: "第2組" },
-            { id: "413571208", name: "方翊鴻", group: "第2組" },
-            { id: "413570515", name: "鄒采慈", group: "第3組" },
-            { id: "413570788", name: "王羽倢", group: "第3組" },
-            { id: "413570812", name: "陳玥彤", group: "第3組" },
-            { id: "413571356", name: "阮妤瑄", group: "第3組" },
-            { id: "411571069", name: "周書宇", group: "第4組" },
-            { id: "412570391", name: "吳丰玄", group: "第4組" },
-            { id: "412571159", name: "張茹微", group: "第4組" },
-            { id: "413570457", name: "林旻翰", group: "第4組" },
-            { id: "414577659", name: "陳宜鍹", group: "第4組" },
-            { id: "412590183", name: "黃兆瑋", group: "第5組" },
-            { id: "412570771", name: "劉鈺傑", group: "第5組" },
-            { id: "413571232", name: "駱駿昊", group: "第5組" },
-            { id: "413571471", name: "沈彥志", group: "第5組" },
-            { id: "414577683", name: "陳柏瑋", group: "第5組" },
-            { id: "413570093", name: "彭亮怡", group: "第6組" },
-            { id: "413570606", name: "林宜庭", group: "第6組" },
-            { id: "413570069", name: "陳子函", group: "第6組" },
-            { id: "413570879", name: "鍾筱雯", group: "第6組" },
-            { id: "413571380", name: "林芯楹", group: "第6組" },
-            { id: "413570242", name: "閔振宇", group: "第7組" },
-            { id: "413570275", name: "陳冠瑋", group: "第7組" },
-            { id: "413570994", name: "張家齊", group: "第7組" },
-            { id: "413571265", name: "酈乾恩", group: "第7組" },
-            { id: "413570481", name: "林國仁", group: "第8組" },
-            { id: "413571083", name: "楊丞愷", group: "第8組" },
-            { id: "414577626", name: "黄柏皓", group: "第8組" },
-            { id: "415578011", name: "黃士杰", group: "第8組" },
-            { id: "413570036", name: "卓湧勝", group: "第9組" },
-            { id: "413051045", name: "鄧云華", group: "第9組" },
-            { id: "413570739", name: "陳冠宇", group: "第9組" },
-            { id: "413570846", name: "陳珮姍", group: "第9組" },
-            { id: "414577113", name: "王采妍", group: "第9組" },
-            { id: "413570218", name: "陳品安", group: "第10組" },
-            { id: "413570424", name: "林琮洧", group: "第10組" },
-            { id: "413570754", name: "蕭凱陽", group: "第10組" },
-            { id: "413571141", name: "高愷壕", group: "第10組" },
-            { id: "413571174", name: "古哲勳", group: "第10組" },
-            { id: "413570697", name: "蔡文睿", group: "第11組" },
-            { id: "413570960", name: "高士勛", group: "第11組" },
-            { id: "413571026", name: "郭競凱", group: "第11組" },
-            { id: "413571323", name: "陳勁宏", group: "第11組" },
-            { id: "413571414", name: "劉皓翔", group: "第11組" },
-            { id: "414578095", name: "周子瑜", group: "第12組" },
-            { id: "414578111", name: "閻姝伶", group: "第12組" },
-            { id: "415578045", name: "吳嘉珊", group: "第12組" },
-            { id: "412576521", name: "許于廷", group: "第13組" },
-            { id: "412570540", name: "游嵉旭", group: "第13組" },
-            { id: "413570309", name: "吳立丞", group: "第13組" },
-            { id: "413571299", name: "廖奕捷", group: "第13組" },
-            { id: "414577717", name: "吳承澤", group: "第13組" },
-            { id: "412547175", name: "闕劭恩", group: "未分組" }
+            { id: "413576538", name: "李雨庭", group: "第1組", pass: "7392" },
+            { id: "413570721", name: "林玟均", group: "第1組", pass: "1845" },
+            { id: "413571059", name: "林雨璇", group: "第1組", pass: "6023" },
+            { id: "413571117", name: "許巽雯", group: "第1組", pass: "9514" },
+            { id: "413570549", name: "鄭博仁", group: "第2組", pass: "3268" },
+            { id: "413570572", name: "周裕凱", group: "第2組", pass: "8419" },
+            { id: "413570150", name: "邱俊傑", group: "第2組", pass: "5731" },
+            { id: "413571208", name: "方翊鴻", group: "第2組", pass: "2064" },
+            { id: "413570515", name: "鄒采慈", group: "第3組", pass: "4195" },
+            { id: "413570788", name: "王羽倢", group: "第3組", pass: "8632" },
+            { id: "413570812", name: "陳玥彤", group: "第3組", pass: "1470" },
+            { id: "413571356", name: "阮妤瑄", group: "第3組", pass: "5289" },
+            { id: "411571069", name: "周書宇", group: "第4組", pass: "6351" },
+            { id: "412570391", name: "吳丰玄", group: "第4組", pass: "2894" },
+            { id: "412571159", name: "張茹微", group: "第4組", pass: "7416" },
+            { id: "413570457", name: "林旻翰", group: "第4組", pass: "3085" },
+            { id: "414577659", name: "陳宜鍹", group: "第4組", pass: "9127" },
+            { id: "412590183", name: "黃兆瑋", group: "第5組", pass: "5642" },
+            { id: "412570771", name: "劉鈺傑", group: "第5組", pass: "1389" },
+            { id: "413571232", name: "駱駿昊", group: "第5組", pass: "7953" },
+            { id: "413571471", name: "沈彥志", group: "第5組", pass: "4216" },
+            { id: "414577683", name: "陳柏瑋", group: "第5組", pass: "8034" },
+            { id: "413570093", name: "彭亮怡", group: "第6組", pass: "2671" },
+            { id: "413570606", name: "林宜庭", group: "第6組", pass: "6518" },
+            { id: "413570069", name: "陳子函", group: "第6組", pass: "9342" },
+            { id: "413570879", name: "鍾筱雯", group: "第6組", pass: "1805" },
+            { id: "413571380", name: "林芯楹", group: "第6組", pass: "5493" },
+            { id: "413570242", name: "閔振宇", group: "第7組", pass: "3721" },
+            { id: "413570275", name: "陳冠瑋", group: "第7組", pass: "8164" },
+            { id: "413570994", name: "張家齊", group: "第7組", pass: "2950" },
+            { id: "413571265", name: "酈乾恩", group: "第7組", pass: "6417" },
+            { id: "413570481", name: "林國仁", group: "第8組", pass: "7039" },
+            { id: "413571083", name: "楊丞愷", group: "第8組", pass: "1582" },
+            { id: "414577626", name: "黄柏皓", group: "第8組", pass: "4926" },
+            { id: "415578011", name: "黃士杰", group: "第8組", pass: "8361" },
+            { id: "413570036", name: "卓湧勝", group: "第9組", pass: "5104" },
+            { id: "413051045", name: "鄧云華", group: "第9組", pass: "9748" },
+            { id: "413570739", name: "陳冠宇", group: "第9組", pass: "2365" },
+            { id: "413570846", name: "陳珮姍", group: "第9組", pass: "6812" },
+            { id: "414577113", name: "王采妍", group: "第9組", pass: "3479" },
+            { id: "413570218", name: "陳品安", group: "第10組", pass: "8923" },
+            { id: "413570424", name: "林琮洧", group: "第10組", pass: "4567" },
+            { id: "413570754", name: "蕭凱陽", group: "第10組", pass: "1230" },
+            { id: "413571141", name: "高愷壕", group: "第10組", pass: "7894" },
+            { id: "413571174", name: "古哲勳", group: "第10組", pass: "3158" },
+            { id: "413570697", name: "蔡文睿", group: "第11組", pass: "6721" },
+            { id: "413570960", name: "高士勛", group: "第11組", pass: "2485" },
+            { id: "413571026", name: "郭競凱", group: "第11組", pass: "9041" },
+            { id: "413571323", name: "陳勁宏", group: "第11組", pass: "5613" },
+            { id: "413571414", name: "劉皓翔", group: "第11組", pass: "1279" },
+            { id: "414578095", name: "周子瑜", group: "第12組", pass: "8394" },
+            { id: "414578111", name: "閻姝伶", group: "第12組", pass: "4751" },
+            { id: "415578045", name: "吳嘉珊", group: "第12組", pass: "2036" },
+            { id: "412576521", name: "許于廷", group: "第13組", pass: "6182" },
+            { id: "412570540", name: "游嵉旭", group: "第13組", pass: "9527" },
+            { id: "413570309", name: "吳立丞", group: "第13組", pass: "3841" },
+            { id: "413571299", name: "廖奕捷", group: "第13組", pass: "7496" },
+            { id: "414577717", name: "吳承澤", group: "第13組", pass: "1063" },
+            { id: "412547175", name: "闕劭恩", group: "未分組", pass: "5938" }
         ];
 
         const PROPOSALS = [
@@ -679,9 +681,9 @@
                 const gName = `第${i}組`;
                 traders[gName] = {
                     group: gName,
-                    cash: 10000,       // Free Margin
-                    frozenCash: 0,     // Locked Margin
-                    positions: {}      // title -> { netQty: +X (Long) or -X (Short), avgPrice: Y }
+                    cash: 10000,
+                    frozenCash: 0,
+                    positions: {}
                 };
             }
 
@@ -734,7 +736,8 @@
                 if (!row || row.length < 5) continue;
 
                 const rawTimestamp = row[0] ? row[0].trim() : "";
-                const group = cleanGroupStr(row[1]);
+                const studentId = cleanStr(row[1]); // 欄位 1: 學號
+                const inputPass = cleanStr(row[2]); // 欄位 2: 專屬密碼
                 const targetTitle = row[3] ? row[3].trim() : "";
                 const typeRaw = row[4] ? row[4].trim() : "";
                 const price = parseFloat(row[5]) || 0;
@@ -747,11 +750,24 @@
                     }
                 }
 
-                const rowId = `${rawTimestamp}_${group}_${targetTitle}_${typeRaw}_${price}_${qty}`;
+                const rowId = `${rawTimestamp}_${studentId}_${targetTitle}_${typeRaw}_${price}_${qty}`;
                 if (processedRowIds.has(rowId)) continue;
                 processedRowIds.add(rowId);
 
-                handleOrderSubmission(group, targetTitle, typeRaw, price, qty, rawTimestamp);
+                // Security & Authentication Check
+                const matchedStudent = STUDENT_LIST.find(s => s.id === studentId);
+                if (!matchedStudent) {
+                    addAuditLog(`[安全拒絕] 無效學號 ${studentId} 欲下單，拒絕受理`);
+                    continue;
+                }
+
+                if (matchedStudent.pass !== inputPass) {
+                    addAuditLog(`[安全拒絕] 學號 ${studentId} (${matchedStudent.name}) 密碼不正確，疑為冒用下單！`);
+                    continue;
+                }
+
+                // Authorized Submission
+                handleOrderSubmission(matchedStudent.group, targetTitle, typeRaw, price, qty, rawTimestamp, matchedStudent.name);
             }
 
             renderTargetDetail();
@@ -759,8 +775,7 @@
             if (activeStudent) renderPortfolioUI();
         }
 
-        // Futures Order Submission Logic (No Stock Check!)
-        function handleOrderSubmission(group, targetTitle, typeRaw, price, qty, timestamp) {
+        function handleOrderSubmission(group, targetTitle, typeRaw, price, qty, timestamp, studentName) {
             const trader = traders[group] || traders["未分組"];
             const mData = marketData[targetTitle];
 
@@ -768,7 +783,7 @@
 
             if (typeRaw.includes('撤') || qty === 0) {
                 cancelGroupOrdersForTarget(group, targetTitle);
-                addAuditLog(`[撤單成功] ${group} 撤銷對 ${targetTitle} 之所有未成交委託`);
+                addAuditLog(`[撤單成功] ${studentName} (${group}) 撤銷對 ${targetTitle} 之所有委託`);
                 return;
             }
 
@@ -777,28 +792,25 @@
             const isBuy = typeRaw.includes('買');
             const requiredMargin = price * qty;
 
-            // Margin Balance Check
             if (trader.cash < requiredMargin) {
-                addAuditLog(`[委託失敗] ${group} 欲下單 ${targetTitle} 但可用保證金不足 ($${trader.cash} < $${requiredMargin})`);
+                addAuditLog(`[委託失敗] ${studentName} (${group}) 保證金不足 ($${trader.cash} < $${requiredMargin})`);
                 return;
             }
 
-            // Lock Margin
             trader.cash -= requiredMargin;
             trader.frozenCash += requiredMargin;
 
             if (isBuy) {
-                mData.bids.push({ group, price, qty, timestamp });
-                addAuditLog(`[委託成功] ${group} 掛單【買進做多】 ${targetTitle} @ $${price} / ${qty}股`);
+                mData.bids.push({ group, price, qty, timestamp, studentName });
+                addAuditLog(`[委託成功] ${studentName} (${group}) 掛單【買進做多】 ${targetTitle} @ $${price} / ${qty}股`);
             } else {
-                mData.asks.push({ group, price, qty, timestamp });
-                addAuditLog(`[委託成功] ${group} 掛單【賣出做空】 ${targetTitle} @ $${price} / ${qty}股`);
+                mData.asks.push({ group, price, qty, timestamp, studentName });
+                addAuditLog(`[委託成功] ${studentName} (${group}) 掛單【賣出做空】 ${targetTitle} @ $${price} / ${qty}股`);
             }
 
             matchOrdersForTarget(targetTitle);
         }
 
-        // Futures Contract Order Matching
         function matchOrdersForTarget(targetTitle) {
             const mData = marketData[targetTitle];
 
@@ -813,26 +825,24 @@
                     const matchPrice = topAsk.price;
                     const matchQty = Math.min(topBid.qty, topAsk.qty);
 
-                    // Long Trader (Buyer)
                     const buyer = traders[topBid.group] || traders["未分組"];
                     const buyFrozen = topBid.price * matchQty;
                     const buyActualCost = matchPrice * matchQty;
                     buyer.frozenCash -= buyFrozen;
-                    buyer.cash += (buyFrozen - buyActualCost); // Refund margin diff
+                    buyer.cash += (buyFrozen - buyActualCost);
                     updatePosition(buyer, targetTitle, +matchQty, matchPrice);
 
-                    // Short Trader (Seller)
                     const seller = traders[topAsk.group] || traders["未分組"];
                     const sellFrozen = topAsk.price * matchQty;
                     seller.frozenCash -= sellFrozen;
-                    seller.cash += sellFrozen; // Release locked margin
+                    seller.cash += sellFrozen;
                     updatePosition(seller, targetTitle, -matchQty, matchPrice);
 
                     mData.lastPrice = matchPrice;
                     const timeStr = new Date().toLocaleTimeString('zh-TW', { hour12: false });
                     mData.history.push({ time: timeStr, price: matchPrice });
 
-                    addAuditLog(`⚡ [期貨撮合成交] ${targetTitle} 成交價 $${matchPrice} / ${matchQty}股 (做多買方: ${topBid.group}, 做空賣方: ${topAsk.group})`);
+                    addAuditLog(`⚡ [期貨撮合成交] ${targetTitle} 成交價 $${matchPrice} / ${matchQty}股 (做多買方: ${topBid.studentName}, 做空賣方: ${topAsk.studentName})`);
 
                     topBid.qty -= matchQty;
                     topAsk.qty -= matchQty;
@@ -845,7 +855,6 @@
             }
         }
 
-        // Update Position Net Quantity & Weighted Average Price
         function updatePosition(trader, title, changeQty, price) {
             if (!trader.positions[title]) {
                 trader.positions[title] = { netQty: 0, avgPrice: 0 };
@@ -858,22 +867,20 @@
                 pos.netQty = changeQty;
                 pos.avgPrice = price;
             } else if ((currentQty > 0 && changeQty > 0) || (currentQty < 0 && changeQty < 0)) {
-                // Same direction: average up
                 const totalQty = currentQty + changeQty;
                 pos.avgPrice = (Math.abs(currentQty) * pos.avgPrice + Math.abs(changeQty) * price) / Math.abs(totalQty);
                 pos.netQty = totalQty;
             } else {
-                // Opposite direction: Realize PnL / Reduce Position
                 const closeQty = Math.min(Math.abs(currentQty), Math.abs(changeQty));
                 let realizedPnL = 0;
 
-                if (currentQty > 0) { // Closing Long
+                if (currentQty > 0) {
                     realizedPnL = (price - pos.avgPrice) * closeQty;
-                } else { // Closing Short
+                } else {
                     realizedPnL = (pos.avgPrice - price) * closeQty;
                 }
 
-                trader.cash += realizedPnL; // Add realized profit/loss
+                trader.cash += realizedPnL;
                 pos.netQty = currentQty + changeQty;
 
                 if (pos.netQty === 0) pos.avgPrice = 0;
@@ -996,14 +1003,15 @@
         }
 
         function authenticateUser() {
-            const inputVal = document.getElementById('loginId').value.trim();
+            const inputId = cleanStr(document.getElementById('loginId').value);
+            const inputPass = cleanStr(document.getElementById('loginPass').value);
 
-            if (!inputVal) {
-                alert('請輸入學號或姓名！');
+            if (!inputId || !inputPass) {
+                alert('請輸入學號與專屬密碼！');
                 return;
             }
 
-            const matched = STUDENT_LIST.find(s => s.id === inputVal || s.name === inputVal);
+            const matched = STUDENT_LIST.find(s => s.id === inputId && s.pass === inputPass);
 
             if (matched) {
                 activeStudent = matched;
@@ -1011,7 +1019,7 @@
                 document.getElementById('portfolioSection').style.display = 'block';
                 renderPortfolioUI();
             } else {
-                alert('查無此學號或姓名，請確認後重新輸入！');
+                alert('學號或密碼不正確，請重新確認！');
             }
         }
 
@@ -1020,6 +1028,7 @@
             document.getElementById('loginSection').style.display = 'block';
             document.getElementById('portfolioSection').style.display = 'none';
             document.getElementById('loginId').value = '';
+            document.getElementById('loginPass').value = '';
         }
 
         function renderPortfolioUI() {
