@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CFO 創新提案預測市場終端機 (Prediction Market Terminal)</title>
+    <title>CFO 創新提案期貨預測市場終端機 (Prediction Contracts Terminal)</title>
     <!-- Chart.js & PapaParse CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
@@ -62,7 +62,7 @@
 
         .brand span {
             font-size: 0.8rem;
-            background: var(--accent-blue);
+            background: var(--accent-purple);
             color: white;
             padding: 2px 8px;
             border-radius: 4px;
@@ -383,6 +383,9 @@
             overflow-y: auto;
             color: #38bdf8;
         }
+
+        .badge-long { background: rgba(16, 185, 129, 0.2); color: var(--accent-green); padding: 2px 6px; border-radius: 4px; font-weight: bold; }
+        .badge-short { background: rgba(239, 68, 68, 0.2); color: var(--accent-red); padding: 2px 6px; border-radius: 4px; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -390,7 +393,7 @@
     <!-- Header -->
     <header>
         <div class="brand">
-            <h1>CFO 預測市場交易大盤系統 <span>LIVE</span></h1>
+            <h1>CFO 創新提案預測市場終端機 <span>FUTURES</span></h1>
         </div>
         <div class="header-status">
             <div class="status-badge">
@@ -406,7 +409,7 @@
         <button class="active" onclick="switchTab('tab1', this)">📋 競賽說明 & 下單入口</button>
         <button onclick="switchTab('tab2', this)">📈 標的行情與五檔明細</button>
         <button onclick="switchTab('tab3', this)">📊 全市場 13 組即時看板</button>
-        <button onclick="switchTab('tab4', this)">🔒 個人對帳單 (學生對帳)</button>
+        <button onclick="switchTab('tab4', this)">🔒 個人對帳單 (期貨合約清算)</button>
     </nav>
 
     <div class="container">
@@ -416,27 +419,27 @@
             <div class="card">
                 <h2>【財務經濟學：CFO 創新提案與預測市場評鑑競賽】說明</h2>
                 <p style="color: var(--text-muted); margin-bottom: 1rem;">
-                    本系統利用「預測市場 (Prediction Market)」機制集合全班對於 13 個 CFO 創新提案可行性之預期。價格介於 0 到 100 元，代表市場認可之成功機率！
+                    本市場採用<strong>「現金結算事件期貨合約 (Cash-Settled Prediction Contracts)」</strong>機制。價格介於 0 到 100 元，代表全班對該提案成功可行性之機率預期！
                 </p>
 
                 <div class="rules-grid">
                     <div class="rule-box">
-                        <h3>1. 初始資產與 IPO 底價</h3>
-                        <p>每位同學獲派 <strong>10,000 點虛擬資金</strong>。所有 13 個提案之 IPO 開盤基準底價統一訂為 <strong>$50 元</strong>（初始可行性 50%）。未分組同學為獨立個人投資人。</p>
+                        <h3>1. 零門檻多空雙向交易</h3>
+                        <p>無須事先持有股票即可建立部位！<strong>看好（做多 Buy）</strong>或 <strong>看壞（做空 Sell）</strong> 皆可自由下單，保證金足夠即撮合成立。</p>
                     </div>
                     <div class="rule-box">
-                        <h3>2. 交易與風控規則 (以「股」為單位)</h3>
-                        <p>交易數量直接以<strong>「股」</strong>為單位（例如：填 1 代表 1 股，填 500 代表 500 股）。單一投資人對「自家提案」下注累積金額上限為 <strong>30%</strong>。</p>
+                        <h3>2. 初始保證金與清算</h3>
+                        <p>每人/組獲得 <strong>10,000 點初始資金（保證金）</strong>。每下單 1 股只需扣除相當於價格的保證金（例如以 $50 買/賣 10 股，扣除保證金 $500）。</p>
                     </div>
                     <div class="rule-box">
-                        <h3>3. 當日有效單 (ROD) 與撤單</h3>
-                        <p>未成交掛單於跨日自動逾期失效。當日若欲撤銷未成交單，請於表單選擇「撤單」或數量填寫 <code>0</code>。</p>
+                        <h3>3. 當日有效單 (ROD) 與期末現金結算</h3>
+                        <p>未成交單於跨日自動失效。期末封盤時，各合約將依據最終評分（$0~$100）進行<strong>現金差額清算（Cash Settlement）</strong>！</p>
                     </div>
                 </div>
 
                 <div style="text-align: center; margin-top: 2rem; padding: 1.5rem; background: rgba(59, 130, 246, 0.05); border-radius: 10px; border: 1px dashed var(--accent-blue);">
                     <h3 style="color: #f8fafc; margin-bottom: 0.5rem;">📱 開啟手機 Google 表單進行下單 / 撤單</h3>
-                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">請填寫組別、學號密碼、選擇交易提案與委託價格/數量：</p>
+                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">請填寫組別、學號密碼、選擇交易提案與委託價格/數量（單位：股）：</p>
                     <a href="https://docs.google.com/forms/d/e/1FAIpQLSc-AQzp4eLml3fQ4N-bLySd74-UY6HmpOmdd18kiNOjwDhbRw/viewform?usp=header" target="_blank" class="btn-form-link">🚀 前往 Google 表單下單</a>
                 </div>
             </div>
@@ -445,7 +448,7 @@
         <!-- TAB 2: Single Target Room & Orderbook -->
         <div id="tab2" class="tab-content">
             <div class="target-select-bar">
-                <label style="font-size: 0.9rem; color: var(--text-muted); display: block; margin-bottom: 6px;">選擇看盤提案標的：</label>
+                <label style="font-size: 0.9rem; color: var(--text-muted); display: block; margin-bottom: 6px;">選擇看盤提案合約標的：</label>
                 <select id="targetSelect" onchange="renderTargetDetail()">
                     <!-- Options populated by JS -->
                 </select>
@@ -503,7 +506,7 @@
         <!-- TAB 4: Protected Personal Portfolio -->
         <div id="tab4" class="tab-content">
             <div id="loginSection" class="login-box">
-                <h2 style="font-size: 1.2rem; color: #f8fafc;">🔒 個人對帳單登入系統</h2>
+                <h2 style="font-size: 1.2rem; color: #f8fafc;">🔒 個人期貨帳戶登入</h2>
                 <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">請輸入學號或姓名驗證身分（系統將自動判定所屬組別）</p>
                 <input type="text" id="loginId" placeholder="請輸入學號 (如 411571069) 或姓名 (如 周書宇)">
                 <button onclick="authenticateUser()">登入個人對帳單</button>
@@ -512,7 +515,7 @@
             <div id="portfolioSection" style="display: none;">
                 <div class="card">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                        <h2 id="portfolioTitle">學生個人對帳單明細</h2>
+                        <h2 id="portfolioTitle">學生個人期貨對帳單明細</h2>
                         <button onclick="logoutUser()" style="background: var(--border-color); color: white; border: none; padding: 4px 12px; border-radius: 4px; cursor: pointer;">切換身分</button>
                     </div>
 
@@ -523,15 +526,15 @@
                         </div>
                         <div class="stat-box">
                             <label>所屬小組與身份</label>
-                            <div class="value" id="studentInfoGroup" style="font-size: 1.1rem; color: var(--accent-blue);">--</div>
+                            <div class="value" id="studentInfoGroup" style="font-size: 1.1rem; color: var(--accent-purple);">--</div>
                         </div>
                         <div class="stat-box">
-                            <label>可用現金餘額</label>
+                            <label>可用現金 (保證金)</label>
                             <div class="value" id="cashBalance" style="color: var(--accent-green);">$10,000</div>
                         </div>
                         <div class="stat-box">
-                            <label>股票持股總市值</label>
-                            <div class="value" id="stockValuation" style="color: var(--accent-blue);">$0</div>
+                            <label>未實現期貨總損益 (Unrealized PnL)</label>
+                            <div class="value" id="unrealizedPnL" style="color: var(--accent-blue);">$0</div>
                         </div>
                     </div>
 
@@ -540,14 +543,16 @@
                         <p id="groupTeammatesList" style="font-size: 0.9rem; color: #f8fafc; margin-top: 4px;">--</p>
                     </div>
 
-                    <h3 style="font-size: 1rem; margin-top: 1.5rem; margin-bottom: 0.5rem; color: #f8fafc;">目前庫存持股明細</h3>
+                    <h3 style="font-size: 1rem; margin-top: 1.5rem; margin-bottom: 0.5rem; color: #f8fafc;">當前持有期貨合約部位 (Positions)</h3>
                     <table class="data-table">
                         <thead>
                             <tr>
                                 <th>提案標的</th>
-                                <th>持有股數</th>
+                                <th>部位方向</th>
+                                <th>持倉數量</th>
+                                <th>平均建倉價</th>
                                 <th>最新市價</th>
-                                <th>估計總市值</th>
+                                <th>未實現損益 (PnL)</th>
                             </tr>
                         </thead>
                         <tbody id="portfolioTableBody">
@@ -569,7 +574,6 @@
     <script>
         const HIDDEN_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQfApKfasgSB280g9npxxx2IGq-MBGNX_j-uBuyE7Buz1d40ha_dXHaVu5EJbXajxJdTH4Cz9he5GIu/pub?gid=1079449082&single=true&output=csv";
 
-        // Helper: Clean group string (e.g. "第 11 組 " -> "第11組")
         function cleanGroupStr(g) {
             if (!g) return "未分組";
             return g.replace(/\s+/g, '');
@@ -670,23 +674,22 @@
                 };
             });
 
+            // Initialize Trader Futures Margin Accounts
             for (let i = 1; i <= 13; i++) {
                 const gName = `第${i}組`;
                 traders[gName] = {
                     group: gName,
-                    cash: 10000,
-                    frozenCash: 0,
-                    stocks: {}
+                    cash: 10000,       // Free Margin
+                    frozenCash: 0,     // Locked Margin
+                    positions: {}      // title -> { netQty: +X (Long) or -X (Short), avgPrice: Y }
                 };
-                const ownProposal = PROPOSALS[i-1].title;
-                traders[gName].stocks[ownProposal] = 2000; // Treasury shares
             }
 
             traders["未分組"] = {
                 group: "未分組",
                 cash: 10000,
                 frozenCash: 0,
-                stocks: {}
+                positions: {}
             };
 
             const targetSelect = document.getElementById('targetSelect');
@@ -735,7 +738,7 @@
                 const targetTitle = row[3] ? row[3].trim() : "";
                 const typeRaw = row[4] ? row[4].trim() : "";
                 const price = parseFloat(row[5]) || 0;
-                let qty = parseInt(row[6]) || 0; // 💡 數量直接代表「股」！
+                let qty = parseInt(row[6]) || 0;
 
                 if (rawTimestamp) {
                     const orderDate = new Date(rawTimestamp);
@@ -756,6 +759,7 @@
             if (activeStudent) renderPortfolioUI();
         }
 
+        // Futures Order Submission Logic (No Stock Check!)
         function handleOrderSubmission(group, targetTitle, typeRaw, price, qty, timestamp) {
             const trader = traders[group] || traders["未分組"];
             const mData = marketData[targetTitle];
@@ -764,37 +768,37 @@
 
             if (typeRaw.includes('撤') || qty === 0) {
                 cancelGroupOrdersForTarget(group, targetTitle);
-                addAuditLog(`[撤單成功] ${group} 撤銷對 ${targetTitle} 之所有未成交單`);
+                addAuditLog(`[撤單成功] ${group} 撤銷對 ${targetTitle} 之所有未成交委託`);
                 return;
             }
 
             if (price < 0 || price > 100) return;
 
             const isBuy = typeRaw.includes('買');
+            const requiredMargin = price * qty;
 
-            if (isBuy) {
-                const cost = price * qty; // 💡 直接以股數計算金額！
-                if (trader.cash < cost) {
-                    addAuditLog(`[委託失敗] ${group} 欲買進 ${targetTitle} 但現金餘額不足 ($${trader.cash} < $${cost})`);
-                    return;
-                }
-                trader.cash -= cost;
-                trader.frozenCash += cost;
-                mData.bids.push({ group, price, qty, timestamp });
-            } else {
-                const currentStock = trader.stocks[targetTitle] || 0;
-                if (currentStock < qty) {
-                    addAuditLog(`[委託失敗] ${group} 欲賣出 ${targetTitle} 但持股庫存不足 (${currentStock}股 < ${qty}股)`);
-                    return;
-                }
-                trader.stocks[targetTitle] -= qty;
-                mData.asks.push({ group, price, qty, timestamp });
+            // Margin Balance Check
+            if (trader.cash < requiredMargin) {
+                addAuditLog(`[委託失敗] ${group} 欲下單 ${targetTitle} 但可用保證金不足 ($${trader.cash} < $${requiredMargin})`);
+                return;
             }
 
-            addAuditLog(`[委託成功] ${group} 發出 ${typeRaw} ${targetTitle} @ $${price} / ${qty}股`);
+            // Lock Margin
+            trader.cash -= requiredMargin;
+            trader.frozenCash += requiredMargin;
+
+            if (isBuy) {
+                mData.bids.push({ group, price, qty, timestamp });
+                addAuditLog(`[委託成功] ${group} 掛單【買進做多】 ${targetTitle} @ $${price} / ${qty}股`);
+            } else {
+                mData.asks.push({ group, price, qty, timestamp });
+                addAuditLog(`[委託成功] ${group} 掛單【賣出做空】 ${targetTitle} @ $${price} / ${qty}股`);
+            }
+
             matchOrdersForTarget(targetTitle);
         }
 
+        // Futures Contract Order Matching
         function matchOrdersForTarget(targetTitle) {
             const mData = marketData[targetTitle];
 
@@ -809,21 +813,26 @@
                     const matchPrice = topAsk.price;
                     const matchQty = Math.min(topBid.qty, topAsk.qty);
 
+                    // Long Trader (Buyer)
                     const buyer = traders[topBid.group] || traders["未分組"];
-                    const buyCost = topBid.price * matchQty;
-                    const actualCost = matchPrice * matchQty;
-                    buyer.frozenCash -= buyCost;
-                    buyer.cash += (buyCost - actualCost);
-                    buyer.stocks[targetTitle] = (buyer.stocks[targetTitle] || 0) + matchQty;
+                    const buyFrozen = topBid.price * matchQty;
+                    const buyActualCost = matchPrice * matchQty;
+                    buyer.frozenCash -= buyFrozen;
+                    buyer.cash += (buyFrozen - buyActualCost); // Refund margin diff
+                    updatePosition(buyer, targetTitle, +matchQty, matchPrice);
 
+                    // Short Trader (Seller)
                     const seller = traders[topAsk.group] || traders["未分組"];
-                    seller.cash += actualCost;
+                    const sellFrozen = topAsk.price * matchQty;
+                    seller.frozenCash -= sellFrozen;
+                    seller.cash += sellFrozen; // Release locked margin
+                    updatePosition(seller, targetTitle, -matchQty, matchPrice);
 
                     mData.lastPrice = matchPrice;
                     const timeStr = new Date().toLocaleTimeString('zh-TW', { hour12: false });
                     mData.history.push({ time: timeStr, price: matchPrice });
 
-                    addAuditLog(`⚡ [成功撮合] ${targetTitle} 成交價 $${matchPrice} / 成交量 ${matchQty}股 (買方: ${topBid.group}, 賣方: ${topAsk.group})`);
+                    addAuditLog(`⚡ [期貨撮合成交] ${targetTitle} 成交價 $${matchPrice} / ${matchQty}股 (做多買方: ${topBid.group}, 做空賣方: ${topAsk.group})`);
 
                     topBid.qty -= matchQty;
                     topAsk.qty -= matchQty;
@@ -833,6 +842,41 @@
                 } else {
                     break;
                 }
+            }
+        }
+
+        // Update Position Net Quantity & Weighted Average Price
+        function updatePosition(trader, title, changeQty, price) {
+            if (!trader.positions[title]) {
+                trader.positions[title] = { netQty: 0, avgPrice: 0 };
+            }
+
+            const pos = trader.positions[title];
+            const currentQty = pos.netQty;
+
+            if (currentQty === 0) {
+                pos.netQty = changeQty;
+                pos.avgPrice = price;
+            } else if ((currentQty > 0 && changeQty > 0) || (currentQty < 0 && changeQty < 0)) {
+                // Same direction: average up
+                const totalQty = currentQty + changeQty;
+                pos.avgPrice = (Math.abs(currentQty) * pos.avgPrice + Math.abs(changeQty) * price) / Math.abs(totalQty);
+                pos.netQty = totalQty;
+            } else {
+                // Opposite direction: Realize PnL / Reduce Position
+                const closeQty = Math.min(Math.abs(currentQty), Math.abs(changeQty));
+                let realizedPnL = 0;
+
+                if (currentQty > 0) { // Closing Long
+                    realizedPnL = (price - pos.avgPrice) * closeQty;
+                } else { // Closing Short
+                    realizedPnL = (pos.avgPrice - price) * closeQty;
+                }
+
+                trader.cash += realizedPnL; // Add realized profit/loss
+                pos.netQty = currentQty + changeQty;
+
+                if (pos.netQty === 0) pos.avgPrice = 0;
             }
         }
 
@@ -852,7 +896,9 @@
 
             mData.asks = mData.asks.filter(a => {
                 if (a.group === group) {
-                    trader.stocks[targetTitle] = (trader.stocks[targetTitle] || 0) + a.qty;
+                    const refund = a.price * a.qty;
+                    trader.frozenCash -= refund;
+                    trader.cash += refund;
                     return false;
                 }
                 return true;
@@ -875,16 +921,16 @@
 
             const topAsks = [...mData.asks].sort((a,b) => b.price - a.price).slice(-5);
             topAsks.forEach(a => {
-                obBody.innerHTML += `<tr class="ask-row"><td>賣出 (Ask)</td><td class="ask-price">$${a.price}</td><td>${a.qty} 股</td></tr>`;
+                obBody.innerHTML += `<tr class="ask-row"><td>賣出做空 (Ask)</td><td class="ask-price">$${a.price}</td><td>${a.qty} 股</td></tr>`;
             });
 
             const topBids = [...mData.bids].sort((a,b) => b.price - a.price).slice(0, 5);
             topBids.forEach(b => {
-                obBody.innerHTML += `<tr class="bid-row"><td>買進 (Bid)</td><td class="bid-price">$${b.price}</td><td>${b.qty} 股</td></tr>`;
+                obBody.innerHTML += `<tr class="bid-row"><td>買進做多 (Bid)</td><td class="bid-price">$${b.price}</td><td>${b.qty} 股</td></tr>`;
             });
 
             if (topAsks.length === 0 && topBids.length === 0) {
-                obBody.innerHTML = `<tr><td colspan="3" style="text-align:center; color: var(--text-muted);">目前無掛單紀錄</td></tr>`;
+                obBody.innerHTML = `<tr><td colspan="3" style="text-align:center; color: var(--text-muted);">目前無委託掛單</td></tr>`;
             }
 
             renderChart(mData.history);
@@ -904,10 +950,10 @@
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: '估值成交價 ($)',
+                        label: '期貨合約成交價 ($)',
                         data: data,
-                        borderColor: '#3b82f6',
-                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        borderColor: '#8b5cf6',
+                        backgroundColor: 'rgba(139, 92, 246, 0.1)',
                         fill: true,
                         tension: 0.2
                     }]
@@ -982,48 +1028,62 @@
             const tGroup = activeStudent.group;
             const t = traders[tGroup] || traders["未分組"];
 
-            document.getElementById('portfolioTitle').innerText = `【${activeStudent.name}】個人對帳單`;
+            document.getElementById('portfolioTitle').innerText = `【${activeStudent.name}】期貨清算對帳單`;
             document.getElementById('studentInfoName').innerText = `${activeStudent.name} (${activeStudent.id})`;
-            document.getElementById('studentInfoGroup').innerText = tGroup === "未分組" ? "未分組 (純粹個別投資人)" : tGroup;
+            document.getElementById('studentInfoGroup').innerText = tGroup === "未分組" ? "未分組 (獨立個人投資人)" : tGroup;
 
             const teammates = STUDENT_LIST.filter(s => s.group === tGroup && tGroup !== "未分組");
             if (teammates.length > 0) {
                 document.getElementById('groupTeammatesList').innerText = teammates.map(m => `${m.name} (${m.id})`).join('、 ');
             } else {
-                document.getElementById('groupTeammatesList').innerText = "個別投資人（無組員）";
+                document.getElementById('groupTeammatesList').innerText = "個人獨立投資人（無組員）";
             }
 
-            document.getElementById('cashBalance').innerText = `$${t.cash.toLocaleString()}`;
+            document.getElementById('cashBalance').innerText = `$${Math.round(t.cash).toLocaleString()}`;
 
-            let stockTotalValue = 0;
+            let totalUnrealizedPnL = 0;
             const tableBody = document.getElementById('portfolioTableBody');
             tableBody.innerHTML = '';
 
-            Object.keys(t.stocks).forEach(title => {
-                const qty = t.stocks[title];
-                if (qty > 0) {
+            Object.keys(t.positions).forEach(title => {
+                const pos = t.positions[title];
+                if (pos.netQty !== 0) {
                     const price = marketData[title] ? marketData[title].lastPrice : 50;
-                    const val = qty * price;
-                    stockTotalValue += val;
+                    const isLong = pos.netQty > 0;
+                    const qty = Math.abs(pos.netQty);
+                    
+                    let pnl = 0;
+                    if (isLong) {
+                        pnl = (price - pos.avgPrice) * qty;
+                    } else {
+                        pnl = (pos.avgPrice - price) * qty;
+                    }
+
+                    totalUnrealizedPnL += pnl;
+
+                    const pnlColor = pnl >= 0 ? "var(--accent-green)" : "var(--accent-red)";
+                    const pnlText = pnl >= 0 ? `+$${Math.round(pnl)}` : `-$${Math.round(Math.abs(pnl))}`;
 
                     tableBody.innerHTML += `
                         <tr>
                             <td>${title}</td>
+                            <td>${isLong ? '<span class="badge-long">多頭 (Long)</span>' : '<span class="badge-short">空頭 (Short)</span>'}</td>
                             <td>${qty.toLocaleString()} 股</td>
+                            <td>$${pos.avgPrice.toFixed(1)}</td>
                             <td>$${price}</td>
-                            <td>$${val.toLocaleString()}</td>
+                            <td style="color: ${pnlColor}; font-weight: bold;">${pnlText}</td>
                         </tr>
                     `;
                 }
             });
 
             if (tableBody.innerHTML === '') {
-                tableBody.innerHTML = `<tr><td colspan="4" style="text-align:center; color: var(--text-muted);">目前無任何股票持股</td></tr>`;
+                tableBody.innerHTML = `<tr><td colspan="6" style="text-align:center; color: var(--text-muted);">目前無任何期貨合約持倉部位</td></tr>`;
             }
 
-            document.getElementById('stockValuation').innerText = `$${stockTotalValue.toLocaleString()}`;
-            const totalNet = t.cash + t.frozenCash + stockTotalValue;
-            document.getElementById('totalNetValue').innerText = `$${totalNet.toLocaleString()}`;
+            const pnlBox = document.getElementById('unrealizedPnL');
+            pnlBox.innerText = totalUnrealizedPnL >= 0 ? `+$${Math.round(totalUnrealizedPnL)}` : `-$${Math.round(Math.abs(totalUnrealizedPnL))}`;
+            pnlBox.style.color = totalUnrealizedPnL >= 0 ? "var(--accent-green)" : "var(--accent-red)";
         }
 
         function addAuditLog(msg) {
