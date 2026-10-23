@@ -425,8 +425,8 @@
                         <p>每位同學獲派 <strong>10,000 點虛擬資金</strong>。所有 13 個提案之 IPO 開盤基準底價統一訂為 <strong>$50 元</strong>（初始可行性 50%）。未分組同學為獨立個人投資人。</p>
                     </div>
                     <div class="rule-box">
-                        <h3>2. 交易與風控規則</h3>
-                        <p>單一投資人對「自家提案」下注累積金額上限為 <strong>30%</strong>；對「單一標的」持股上限不得超過該提案總發行量之 <strong>15%</strong>。</p>
+                        <h3>2. 交易與風控規則 (以「股」為單位)</h3>
+                        <p>交易數量直接以<strong>「股」</strong>為單位（例如：填 1 代表 1 股，填 500 代表 500 股）。單一投資人對「自家提案」下注累積金額上限為 <strong>30%</strong>。</p>
                     </div>
                     <div class="rule-box">
                         <h3>3. 當日有效單 (ROD) 與撤單</h3>
@@ -567,88 +567,76 @@
 
     <!-- JavaScript Engine -->
     <script>
-        // Pre-configured Hidden CSV Source URL
         const HIDDEN_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQfApKfasgSB280g9npxxx2IGq-MBGNX_j-uBuyE7Buz1d40ha_dXHaVu5EJbXajxJdTH4Cz9he5GIu/pub?gid=1079449082&single=true&output=csv";
 
-        // 全班 59 位學生名冊與組別對照表 (含未分組獨立投資人)
+        // Helper: Clean group string (e.g. "第 11 組 " -> "第11組")
+        function cleanGroupStr(g) {
+            if (!g) return "未分組";
+            return g.replace(/\s+/g, '');
+        }
+
         const STUDENT_LIST = [
-            // 第 01 組
             { id: "413576538", name: "李雨庭", group: "第1組" },
             { id: "413570721", name: "林玟均", group: "第1組" },
             { id: "413571059", name: "林雨璇", group: "第1組" },
             { id: "413571117", name: "許巽雯", group: "第1組" },
-            // 第 02 組
             { id: "413570549", name: "鄭博仁", group: "第2組" },
             { id: "413570572", name: "周裕凱", group: "第2組" },
             { id: "413570150", name: "邱俊傑", group: "第2組" },
             { id: "413571208", name: "方翊鴻", group: "第2組" },
-            // 第 03 組
             { id: "413570515", name: "鄒采慈", group: "第3組" },
             { id: "413570788", name: "王羽倢", group: "第3組" },
             { id: "413570812", name: "陳玥彤", group: "第3組" },
             { id: "413571356", name: "阮妤瑄", group: "第3組" },
-            // 第 04 組
             { id: "411571069", name: "周書宇", group: "第4組" },
             { id: "412570391", name: "吳丰玄", group: "第4組" },
             { id: "412571159", name: "張茹微", group: "第4組" },
             { id: "413570457", name: "林旻翰", group: "第4組" },
             { id: "414577659", name: "陳宜鍹", group: "第4組" },
-            // 第 05 組
             { id: "412590183", name: "黃兆瑋", group: "第5組" },
             { id: "412570771", name: "劉鈺傑", group: "第5組" },
             { id: "413571232", name: "駱駿昊", group: "第5組" },
             { id: "413571471", name: "沈彥志", group: "第5組" },
             { id: "414577683", name: "陳柏瑋", group: "第5組" },
-            // 第 06 組
             { id: "413570093", name: "彭亮怡", group: "第6組" },
             { id: "413570606", name: "林宜庭", group: "第6組" },
             { id: "413570069", name: "陳子函", group: "第6組" },
             { id: "413570879", name: "鍾筱雯", group: "第6組" },
             { id: "413571380", name: "林芯楹", group: "第6組" },
-            // 第 07 組
             { id: "413570242", name: "閔振宇", group: "第7組" },
             { id: "413570275", name: "陳冠瑋", group: "第7組" },
             { id: "413570994", name: "張家齊", group: "第7組" },
             { id: "413571265", name: "酈乾恩", group: "第7組" },
-            // 第 08 組
             { id: "413570481", name: "林國仁", group: "第8組" },
             { id: "413571083", name: "楊丞愷", group: "第8組" },
             { id: "414577626", name: "黄柏皓", group: "第8組" },
             { id: "415578011", name: "黃士杰", group: "第8組" },
-            // 第 09 組
             { id: "413570036", name: "卓湧勝", group: "第9組" },
             { id: "413051045", name: "鄧云華", group: "第9組" },
             { id: "413570739", name: "陳冠宇", group: "第9組" },
             { id: "413570846", name: "陳珮姍", group: "第9組" },
             { id: "414577113", name: "王采妍", group: "第9組" },
-            // 第 10 組
             { id: "413570218", name: "陳品安", group: "第10組" },
             { id: "413570424", name: "林琮洧", group: "第10組" },
             { id: "413570754", name: "蕭凱陽", group: "第10組" },
             { id: "413571141", name: "高愷壕", group: "第10組" },
             { id: "413571174", name: "古哲勳", group: "第10組" },
-            // 第 11 組
             { id: "413570697", name: "蔡文睿", group: "第11組" },
             { id: "413570960", name: "高士勛", group: "第11組" },
             { id: "413571026", name: "郭競凱", group: "第11組" },
             { id: "413571323", name: "陳勁宏", group: "第11組" },
             { id: "413571414", name: "劉皓翔", group: "第11組" },
-            // 第 12 組
             { id: "414578095", name: "周子瑜", group: "第12組" },
             { id: "414578111", name: "閻姝伶", group: "第12組" },
             { id: "415578045", name: "吳嘉珊", group: "第12組" },
-            // 第 13 組
             { id: "412576521", name: "許于廷", group: "第13組" },
             { id: "412570540", name: "游嵉旭", group: "第13組" },
             { id: "413570309", name: "吳立丞", group: "第13組" },
             { id: "413571299", name: "廖奕捷", group: "第13組" },
             { id: "414577717", name: "吳承澤", group: "第13組" },
-            // 未分組（個別投資人）
-            { id: "412547175", name: "闕劭恩", group: "未分組" },
-            { id: "414578095", name: "周子瑜", group: "第12組" } // Default mapped above
+            { id: "412547175", name: "闕劭恩", group: "未分組" }
         ];
 
-        // 13 Proposals Definition
         const PROPOSALS = [
             { id: 1, title: "【第1組】二手書循環平台", group: "第1組", desc: "去中心化學長姐教科書與筆記租借平台，採訂閱制與高資產周轉率。" },
             { id: 2, title: "【第2組】共享專注膠囊", group: "第2組", desc: "校園閒置空間專注艙，採用尖離峰動態計費機制極大化坪效。" },
@@ -665,16 +653,13 @@
             { id: 13, title: "【第13組】久期匹配風控模型", group: "第13組", desc: "吸取 SVB 教訓之短期流動性與長期資產久期匹配模型。" }
         ];
 
-        // Global State
         let traders = {};
         let marketData = {};
         let processedRowIds = new Set();
         let chartInstance = null;
         let activeStudent = null;
 
-        // Initialize Engine
         function initEngine() {
-            // Setup Proposals Market State
             PROPOSALS.forEach(p => {
                 marketData[p.title] = {
                     title: p.title,
@@ -685,7 +670,6 @@
                 };
             });
 
-            // Setup 13 Groups Trader Accounts + Unassigned
             for (let i = 1; i <= 13; i++) {
                 const gName = `第${i}組`;
                 traders[gName] = {
@@ -695,10 +679,9 @@
                     stocks: {}
                 };
                 const ownProposal = PROPOSALS[i-1].title;
-                traders[gName].stocks[ownProposal] = 2000;
+                traders[gName].stocks[ownProposal] = 2000; // Treasury shares
             }
 
-            // Unassigned Individual Account
             traders["未分組"] = {
                 group: "未分組",
                 cash: 10000,
@@ -706,7 +689,6 @@
                 stocks: {}
             };
 
-            // Populate UI Selects
             const targetSelect = document.getElementById('targetSelect');
             targetSelect.innerHTML = '';
             PROPOSALS.forEach(p => {
@@ -716,12 +698,10 @@
             renderOverviewCards();
             renderTargetDetail();
 
-            // Start Polling Hidden CSV
             fetchAndProcessData();
             setInterval(fetchAndProcessData, 5000);
         }
 
-        // Fetch CSV
         function fetchAndProcessData() {
             Papa.parse(HIDDEN_CSV_URL, {
                 download: true,
@@ -741,7 +721,6 @@
             });
         }
 
-        // Process CSV Rows
         function processCSVRows(rows) {
             if (!rows || rows.length <= 1) return;
 
@@ -752,21 +731,18 @@
                 if (!row || row.length < 5) continue;
 
                 const rawTimestamp = row[0] ? row[0].trim() : "";
-                const group = row[1] ? row[1].trim() : "";
+                const group = cleanGroupStr(row[1]);
                 const targetTitle = row[3] ? row[3].trim() : "";
                 const typeRaw = row[4] ? row[4].trim() : "";
                 const price = parseFloat(row[5]) || 0;
-                let qty = parseInt(row[6]) || 0;
+                let qty = parseInt(row[6]) || 0; // 💡 數量直接代表「股」！
 
-                // Day Order Validation
                 if (rawTimestamp) {
                     const orderDate = new Date(rawTimestamp);
                     if (!isNaN(orderDate.getTime()) && orderDate.toLocaleDateString('zh-TW') !== todayStr) {
                         continue;
                     }
                 }
-
-                if (qty > 0 && qty <= 5) qty *= 1000;
 
                 const rowId = `${rawTimestamp}_${group}_${targetTitle}_${typeRaw}_${price}_${qty}`;
                 if (processedRowIds.has(rowId)) continue;
@@ -780,7 +756,6 @@
             if (activeStudent) renderPortfolioUI();
         }
 
-        // Handle Single Order
         function handleOrderSubmission(group, targetTitle, typeRaw, price, qty, timestamp) {
             const trader = traders[group] || traders["未分組"];
             const mData = marketData[targetTitle];
@@ -798,9 +773,9 @@
             const isBuy = typeRaw.includes('買');
 
             if (isBuy) {
-                const cost = price * qty;
+                const cost = price * qty; // 💡 直接以股數計算金額！
                 if (trader.cash < cost) {
-                    addAuditLog(`[委託失敗] ${group} 欲買進 ${targetTitle} 但現金餘額不足`);
+                    addAuditLog(`[委託失敗] ${group} 欲買進 ${targetTitle} 但現金餘額不足 ($${trader.cash} < $${cost})`);
                     return;
                 }
                 trader.cash -= cost;
@@ -809,7 +784,7 @@
             } else {
                 const currentStock = trader.stocks[targetTitle] || 0;
                 if (currentStock < qty) {
-                    addAuditLog(`[委託失敗] ${group} 欲賣出 ${targetTitle} 但持股庫存不足`);
+                    addAuditLog(`[委託失敗] ${group} 欲賣出 ${targetTitle} 但持股庫存不足 (${currentStock}股 < ${qty}股)`);
                     return;
                 }
                 trader.stocks[targetTitle] -= qty;
@@ -820,7 +795,6 @@
             matchOrdersForTarget(targetTitle);
         }
 
-        // Match Bids & Asks
         function matchOrdersForTarget(targetTitle) {
             const mData = marketData[targetTitle];
 
@@ -862,7 +836,6 @@
             }
         }
 
-        // Cancel Group Orders
         function cancelGroupOrdersForTarget(group, targetTitle) {
             const mData = marketData[targetTitle];
             const trader = traders[group] || traders["未分組"];
@@ -886,7 +859,6 @@
             });
         }
 
-        // Render Tab 2 Details
         function renderTargetDetail() {
             const title = document.getElementById('targetSelect').value;
             const pObj = PROPOSALS.find(p => p.title === title);
@@ -903,12 +875,12 @@
 
             const topAsks = [...mData.asks].sort((a,b) => b.price - a.price).slice(-5);
             topAsks.forEach(a => {
-                obBody.innerHTML += `<tr class="ask-row"><td>賣出 (Ask)</td><td class="ask-price">$${a.price}</td><td>${a.qty}</td></tr>`;
+                obBody.innerHTML += `<tr class="ask-row"><td>賣出 (Ask)</td><td class="ask-price">$${a.price}</td><td>${a.qty} 股</td></tr>`;
             });
 
             const topBids = [...mData.bids].sort((a,b) => b.price - a.price).slice(0, 5);
             topBids.forEach(b => {
-                obBody.innerHTML += `<tr class="bid-row"><td>買進 (Bid)</td><td class="bid-price">$${b.price}</td><td>${b.qty}</td></tr>`;
+                obBody.innerHTML += `<tr class="bid-row"><td>買進 (Bid)</td><td class="bid-price">$${b.price}</td><td>${b.qty} 股</td></tr>`;
             });
 
             if (topAsks.length === 0 && topBids.length === 0) {
@@ -918,7 +890,6 @@
             renderChart(mData.history);
         }
 
-        // Render Chart.js
         function renderChart(historyData) {
             const ctx = document.getElementById('priceChart').getContext('2d');
             const labels = historyData.map(h => h.time);
@@ -953,7 +924,6 @@
             });
         }
 
-        // Render Tab 3 Overview Cards
         function renderOverviewCards() {
             const grid = document.getElementById('overviewGrid');
             grid.innerHTML = '';
@@ -979,7 +949,6 @@
             renderTargetDetail();
         }
 
-        // Student Authentication for Tab 4
         function authenticateUser() {
             const inputVal = document.getElementById('loginId').value.trim();
 
@@ -1007,7 +976,6 @@
             document.getElementById('loginId').value = '';
         }
 
-        // Render Tab 4 Portfolio
         function renderPortfolioUI() {
             if (!activeStudent) return;
 
@@ -1018,7 +986,6 @@
             document.getElementById('studentInfoName').innerText = `${activeStudent.name} (${activeStudent.id})`;
             document.getElementById('studentInfoGroup').innerText = tGroup === "未分組" ? "未分組 (純粹個別投資人)" : tGroup;
 
-            // Teammates List
             const teammates = STUDENT_LIST.filter(s => s.group === tGroup && tGroup !== "未分組");
             if (teammates.length > 0) {
                 document.getElementById('groupTeammatesList').innerText = teammates.map(m => `${m.name} (${m.id})`).join('、 ');
@@ -1065,7 +1032,6 @@
             logBox.innerHTML = `[${time}] ${msg}<br>` + logBox.innerHTML;
         }
 
-        // Switch Tabs
         function switchTab(tabId, btn) {
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
             document.querySelectorAll('nav.tabs button').forEach(b => b.classList.remove('active'));
@@ -1076,7 +1042,6 @@
             if (tabId === 'tab2') renderTargetDetail();
         }
 
-        // Start App
         window.onload = initEngine;
     </script>
 </body>
