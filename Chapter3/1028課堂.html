@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第七週：會計、財務報表與現金流量分析</title>
+    
+    <style>
+        :root {
+            --primary-navy: #0F172A;
+            --accent-blue: #0284C7;
+            --accent-teal: #0D9488;
+            --accent-amber: #D97706;
+            --accent-purple: #7C3AED;
+            --alert-red: #DC2626;
+            --bg-light: #F8FAFC;
+            --card-border: #E2E8F0;
+            --text-dark: #1E293B;
+            --text-muted: #64748B;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Microsoft JhengHei", sans-serif;
+            line-height: 1.8;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-navy), #1E293B);
+            color: white;
+            padding: 3.5rem 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        header h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.3rem;
+            letter-spacing: 1px;
+            font-weight: 700;
+            color: #F8FAFC;
+        }
+
+        header p {
+            margin: 0 auto;
+            font-size: 1.15rem;
+            color: #94A3B8;
+            max-width: 850px;
+        }
+
+        .container {
+            max-width: 1040px;
+            margin: 2.5rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .section-badge {
+            display: inline-block;
+            background-color: var(--accent-blue);
+            color: white;
+            font-size: 0.85rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 6px;
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .section-badge.purple { background-color: var(--accent-purple); }
+        .section-badge.amber { background-color: var(--accent-amber); }
+        .section-badge.teal { background-color: var(--accent-teal); }
+        .section-badge.rose { background-color: #E11D48; }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid var(--card-border);
+            padding: 2.2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+        }
+
+        .card h2 {
+            color: var(--primary-navy);
+            margin-top: 0;
+            border-bottom: 2px solid #F1F5F9;
+            padding-bottom: 12px;
+            font-size: 1.6rem;
+        }
+
+        .topic-question {
+            background-color: #F0F9FF;
+            border-left: 5px solid var(--accent-blue);
+            padding: 1.2rem 1.5rem;
+            border-radius: 0 8px 8px 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary-navy);
+            margin-bottom: 1.5rem;
+        }
+
+        .math-box {
+            background-color: #F1F5F9;
+            border: 1px solid #CBD5E1;
+            border-radius: 8px;
+            padding: 1.2rem;
+            margin: 1rem 0;
+            text-align: center;
+            font-family: "Georgia", "Times New Roman", serif;
+            font-size: 1.15rem;
+            color: var(--primary-navy);
+        }
+
+        .math-variable {
+            font-style: italic;
+            font-weight: bold;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1.2rem;
+        }
+
+        .box {
+            background-color: #F8FAFC;
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 1.4rem;
+        }
+
+        .box h3 {
+            margin-top: 0;
+            color: var(--primary-navy);
+            font-size: 1.2rem;
+            border-bottom: 2px solid #E2E8F0;
+            padding-bottom: 6px;
+        }
+
+        .arrow {
+            display: inline-block;
+            margin: 0 8px;
+            color: var(--accent-blue);
+            font-weight: bold;
+        }
+        .arrow::after {
+            content: "➔";
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.2rem;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        th, td {
+            border: 1px solid var(--card-border);
+            padding: 14px 16px;
+            text-align: left;
+            font-size: 0.95rem;
+        }
+
+        th {
+            background-color: var(--primary-navy);
+            color: white;
+        }
+
+        tr:nth-child(even) { background-color: #F8FAFC; }
+
+        .speech-box {
+            background-color: #FFFBEB;
+            border-left: 5px solid var(--accent-amber);
+            padding: 1.2rem 1.5rem;
+            margin-top: 1.5rem;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .speech-box strong { color: #92400E; font-size: 1.05rem; }
+
+        footer {
+            text-align: center;
+            padding: 3rem 1.5rem;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            border-top: 1px solid var(--card-border);
+            margin-top: 4rem;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 { grid-template-columns: 1fr; }
+            header h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>第七週：會計、財務報表與現金流量分析</h1>
+        <p>財務經濟學課堂講義：損益表與現金流量表差異、三大活動編制、自由現金流公式與租稅規劃</p>
+    </header>
+
+    <div class="container">
+
+        <!-- 1. 損益表與現金流量表本質差異 -->
+        <div class="card">
+            <span class="section-badge blue">核心概念</span>
+            <h2>1. 損益表（權責發生制）vs. 現金流量表（現金收付制）</h2>
+
+            <div class="topic-question">
+                💡 財務學經典格言：獲利（Profit）是會計估計與政策的表達（An Opinion），現金（Cash）才是不可動搖的事實（A Fact）。
+            </div>
+
+            <div class="grid-2">
+                <div class="box">
+                    <h3>📊 損益表 (Income Statement)</h3>
+                    <p>採<strong>權責發生制 (Accrual Basis)</strong>。當商品或服務已提供即認列營收，相關成本亦隨之認列。衡量企業在特定期間內的經營獲利能力。</p>
+                </div>
+
+                <div class="box">
+                    <h3>💵 現金流量表 (Statement of Cash Flows)</h3>
+                    <p>採<strong>現金收付制 (Cash Basis)</strong>。僅於真實現金流入或流出時做記錄。衡量企業即時的流動性與清償債務的生存能力。</p>
+                </div>
+            </div>
+
+            <div class="box" style="margin-top: 1.2rem;">
+                <h3>⚠️ 為什麼「淨利好看」的公司仍可能面臨資金斷裂破產？</h3>
+                <ul>
+                    <li><strong>賒銷與營運資金積壓：</strong> 銷售採 90 天賒購，損益表立即認列淨利，但當期現金流入為零，錢被積壓在應收帳款與存貨中。</li>
+                    <li><strong>非現金費用的扣除：</strong> 提列折舊與攤銷會減少損益表淨利，但當期實際上沒有付出任何一毛現金。</li>
+                    <li><strong>資本支出未扣除損益：</strong> 支出數千萬購買廠房列為資產，不直接扣減當期淨利，導致損益表帳面獲利亮眼，但現金早已大量流出。</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 2. 現金流量表三大活動編制 -->
+        <div class="card">
+            <span class="section-badge teal">報表編制</span>
+            <h2>2. 現金流量表三大活動與 Home Depot 實例拆解</h2>
+
+            <p>本期總現金變動額度可表示為：</p>
+            <div class="math-box">
+                <span class="math-variable">ΔCash</span> = <span class="math-variable">CFO</span> (營業現金流) + <span class="math-variable">CFI</span> (投資現金流) + <span class="math-variable">CFF</span> (籌資現金流)
+            </div>
+
+            <h3>第一部分：營業活動現金流量 (CFO) 間接法推導</h3>
+            <p>由損益表的稅後淨利開始，將「非現金費用」與「營運資金變動」還原：</p>
+            
+            <div class="math-box" style="text-align: left; font-size: 1.05rem;">
+                <span class="math-variable">CFO</span> = 稅後淨利 (Net Income)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ 非現金費用 (折舊與攤銷)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 流動資產增加額 (Δ應收帳款 + Δ存貨 + Δ其他流動資產)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ 流動負債增加額 (Δ應付帳款 + Δ其他流動負債)
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>活動類別</th>
+                        <th>Home Depot (2014) 實例數值拆解</th>
+                        <th>金額 (百萬美元)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td rowspan="4"><strong>營業活動<br>(CFO)</strong></td>
+                        <td>稅後淨利 (Net Income)</td>
+                        <td>$6,345</td>
+                    </tr>
+                    <tr>
+                        <td>加回折舊費用 (Depreciation)</td>
+                        <td>+$1,786</td>
+                    </tr>
+                    <tr>
+                        <td>營運資金調整 (Δ應收 -$86, Δ存貨 -$22, Δ其他流動資產 -$112, Δ應付 +$94, Δ其他流動負債 +$122)</td>
+                        <td>-$4</td>
+                    </tr>
+                    <tr>
+                        <td><strong>營業活動現金流量 (CFO) 小計</strong></td>
+                        <td><strong>$8,127</strong></td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2"><strong>投資活動<br>(CFI)</strong></td>
+                        <td>不動產廠房設備增加 (CapEx 資本支出) + 處分資產 (+$31)</td>
+                        <td>-$1,258</td>
+                    </tr>
+                    <tr>
+                        <td><strong>投資活動現金流量 (CFI) 小計</strong></td>
+                        <td><strong>-$1,258</strong></td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2"><strong>籌資活動<br>(CFF)</strong></td>
+                        <td>短期負債增加 (+$295) + 長期負債增加 (+$2,178) - 支付股利 (-$2,530) - 股票買回 (-$7,000) - 其他 (-$18)</td>
+                        <td>-$7,075</td>
+                    </tr>
+                    <tr>
+                        <td><strong>籌資活動現金流量 (CFF) 小計</strong></td>
+                        <td><strong>-$7,075</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 3. 自由現金流 (FCF) 與企業估值 -->
+        <div class="card">
+            <span class="section-badge purple">企業估值</span>
+            <h2>3. 自由現金流 (Free Cash Flow, FCF) 衡量</h2>
+
+            <p>自由現金流代表企業支付營運與必要資本再投資後，機能自由分配給所有資金提供者（債權人與股東）的實質現金：</p>
+
+            <div class="math-box">
+                <span class="math-variable">FCF</span> = <span class="math-variable">CFO</span> (營業活動現金流) - <span class="math-variable">CapEx</span> (資本支出)
+            </div>
+
+            <div class="box" style="background-color: #FAF5FF; border-color: #E9D8FD;">
+                <h3>🧮 Home Depot 自由現金流計算</h3>
+                <p>根據 2014 年財報數據：</p>
+                <div class="math-box" style="background: white;">
+                    <span class="math-variable">FCF</span> = $8,127 百萬 (CFO) - $1,258 百萬 (CapEx) = <strong>$6,869 百萬美元</strong>
+                </div>
+                <p>從 EBIT 營業利益出發之推導公式：</p>
+                <div class="math-box" style="background: white; font-size: 1rem;">
+                    <span class="math-variable">FCF</span> = <span class="math-variable">EBIT</span> × (1 - <span class="math-variable">t</span>) + 折舊 - 資本支出 - Δ營運資金
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. 企業實物個案對比 -->
+        <div class="card">
+            <span class="section-badge rose">實務個案</span>
+            <h2>4. 經典企業現金流案例剖析</h2>
+
+            <div class="grid-2">
+                <div class="box" style="border-top: 4px solid var(--alert-red);">
+                    <h3>❌ Carillion 破產案 (2018)</h3>
+                    <p>英國基建巨頭破產前損益表顯示亮眼獲利與高 EPS，但淨利全來自<strong>未收回之應收工程款</strong>，營業現金流 (CFO) 長期嚴重惡化，最終因無法支付員工薪資與到期債務而強制清算。</p>
+                </div>
+
+                <div class="box" style="border-top: 4px solid var(--accent-teal);">
+                    <h3>正向案例：Amazon 負營運資金</h3>
+                    <p>早期損益表淨利接近零或虧損，但具備<strong>負營運資金 (Negative Working Capital)</strong> 機制：向消費者收現，隔 60 至 90 天才付給供應商，創造無比強勁的 CFO，無須融資即可自主支應 AWS 與物流中心龐大資本支出。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. 公司稅與租稅規劃 -->
+        <div class="card">
+            <span class="section-badge amber">租稅規劃</span>
+            <h2>5. 稅務決策、利息稅盾與境外控股架構</h2>
+
+            <div class="topic-question amber">
+                📌 財務長 (CFO) 稅務視角：評估新投資專案之稅後現金流時，必須採用「邊際稅率 (Marginal Tax Rate)」，而非平均稅率。
+            </div>
+
+            <h3>1. 利息與股利的稅務不對稱性 (利息稅盾)</h3>
+            <ul>
+                <li><strong>債務利息：</strong> 可於稅前申報扣除，產生<strong>利息稅盾 (Interest Tax Shield)</strong>。省稅額 = 利息費用 × 邊際稅率。</li>
+                <li><strong>股東股利：</strong> 屬於稅後盈餘分配，無法扣抵所得稅，造成企業與個人層面的<strong>雙重課稅 (Double Taxation)</strong>。</li>
+            </ul>
+
+            <h3>2. 台灣與美國公司稅制比較</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>比較維度</th>
+                        <th>美國聯邦稅制</th>
+                        <th>台灣稅制</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>企業所得稅率</strong></td>
+                        <td>單一稅率 21% (加州/州稅綜合約 25~28%)</td>
+                        <td>營利事業所得稅單一稅率 20%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>未分配盈餘加徵</strong></td>
+                        <td>無直接加徵機制</td>
+                        <td>加徵 5% 營所稅 (鼓勵分配或實質投資)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>證券交易所得稅</strong></td>
+                        <td>資本利得併入課稅 (長期持有享優惠稅率)</td>
+                        <td>證交所得稅停徵，但徵收 0.3% (千分之三) 證券交易稅</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="speech-box">
+                <strong>境外控股公司 (KY 股 / 避稅天堂) 財務動機：</strong><br>
+                將頂層控股公司設立於開曼群島或百慕達等地區，核心目的在於享用零企業所得稅、資本利得稅與股利預扣稅，避免跨國雙重課稅，並透過智慧財產權與轉移計價 (Transfer Pricing) 將利潤合法配置於低稅率地區。
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>參考教材：Brealey, Myers, Allen & Edmans - <i>Principles of Corporate Finance</i> (Chapter 3 Accounting & Cash Flow Master Class)</p>
+        <p>製作：財務經濟學課堂討論與個案分析教材庫</p>
+    </footer>
+
+</body>
+</html>
