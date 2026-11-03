@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>財務經濟學：Apple 財報案例與不確定性情境評估指南</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- MathJax for LaTeX Rendering -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0c4a6e 100%);
+        }
+        .tab-btn.active {
+            border-bottom: 3px solid #0284c7;
+            color: #0284c7;
+            font-weight: 700;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans leading-relaxed">
+
+    <!-- Header / Hero Section -->
+    <header class="gradient-bg text-white py-12 px-4 sm:px-6 lg:px-8 shadow-xl">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                <div>
+                    <div class="inline-flex items-center gap-2 bg-sky-500/20 text-sky-300 text-xs font-semibold px-3 py-1 rounded-full border border-sky-400/30 mb-3">
+                        <i class="fa-solid fa-chart-line"></i> CFO 實戰案例與風險管理指南
+                    </div>
+                    <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">財務經濟學：不確定性與情境評估指南</h1>
+                    <p class="mt-2 text-slate-300 text-base sm:text-lg max-w-3xl">
+                        從 Apple 財報庫存異動看商業不確定性：學習如何進行樂觀、基準與悲觀三情境（Scenario Analysis）財務預測
+                    </p>
+                </div>
+                <div class="bg-slate-800/90 p-4 rounded-xl border border-slate-700 text-right min-w-[220px]">
+                    <span class="block text-xs text-slate-400 font-medium">真實案例標竿</span>
+                    <span class="text-sm font-bold text-sky-400">Apple 26Q3 財報庫存賽局</span>
+                    <span class="block text-xs text-slate-400 font-medium mt-2">情境預測工具</span>
+                    <span class="text-sm font-bold text-emerald-400">樂觀 / 基準 / 悲觀 BEP 算式</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex space-x-6 overflow-x-auto no-scrollbar">
+                <button onclick="switchTab('tab-apple')" id="btn-tab-apple" class="tab-btn active py-4 px-2 text-sm font-medium text-slate-600 hover:text-sky-600 whitespace-nowrap transition-colors flex items-center gap-2">
+                    <i class="fa-solid fa-apple-whole"></i> Apple 財報：庫存與風險賽局
+                </button>
+                <button onclick="switchTab('tab-uncertainty')" id="btn-tab-uncertainty" class="tab-btn py-4 px-2 text-sm font-medium text-slate-600 hover:text-sky-600 whitespace-nowrap transition-colors flex items-center gap-2">
+                    <i class="fa-solid fa-shield-halved"></i> 各提案面臨的不確定性矩陣
+                </button>
+                <button onclick="switchTab('tab-scenario')" id="btn-tab-scenario" class="tab-btn py-4 px-2 text-sm font-medium text-slate-600 hover:text-sky-600 whitespace-nowrap transition-colors flex items-center gap-2">
+                    <i class="fa-solid fa-code-branch"></i> 三情境評估架構與算式
+                </button>
+                <button onclick="switchTab('tab-simulator')" id="btn-tab-simulator" class="tab-btn py-4 px-2 text-sm font-medium text-slate-600 hover:text-sky-600 whitespace-nowrap transition-colors flex items-center gap-2">
+                    <i class="fa-solid fa-sliders"></i> 互動式三情境 BEP 試算器
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- 1. Apple 財報：庫存與風險賽局 Tab -->
+        <section id="tab-apple" class="tab-content space-y-8">
+            <div class="glass-card rounded-2xl p-6 sm:p-8 shadow-sm">
+                <div class="flex justify-between items-center mb-6 border-b border-slate-100 pb-4">
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-900 flex items-center gap-2">
+                            <span class="text-sky-600"><i class="fa-solid fa-book-open text-sky-600"></i></span> 經典案例：隔壁手機店沒有工廠，倉庫卻突然滿了
+                        </h2>
+                        <p class="text-sm text-slate-500">來源：Apple 26Q3 財報解讀 (小島視角 Island Vantage)</p>
+                    </div>
+                    <span class="text-xs font-bold bg-sky-100 text-sky-800 px-3 py-1 rounded-full">CFO 實戰避險範例</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-slate-900 text-white p-5 rounded-xl border border-slate-800 space-y-2">
+                        <span class="text-xs text-sky-400 font-bold uppercase">財務指標 1：庫存跳增</span>
+                        <div class="text-2xl font-bold text-slate-100">$145 億美元</div>
+                        <p class="text-xs text-slate-400">從 2021-2025 年的 49-75 億平線，跳升至 6 月 111 億、9 月 145 億（翻倍成長）。</p>
+                    </div>
+                    <div class="bg-slate-900 text-white p-5 rounded-xl border border-slate-800 space-y-2">
+                        <span class="text-xs text-emerald-400 font-bold uppercase">財務指標 2：供應商應收款</span>
+                        <div class="text-2xl font-bold text-slate-100">$399 億美元</div>
+                        <p class="text-xs text-slate-400">比往年季節性高點（315-332 億）再高出 2 成，說明供應鏈上有大幅超越往年的貨在流動。</p>
+                    </div>
+                    <div class="bg-slate-900 text-white p-5 rounded-xl border border-slate-800 space-y-2">
+                        <span class="text-xs text-amber-400 font-bold uppercase">財務指標 3：毛利率衝擊</span>
+                        <div class="text-2xl font-bold text-slate-100">45% – 46%</div>
+                        <p class="text-xs text-slate-400">下一季財測毛利率從 47.9% 下滑，主要反映記憶體成本百年一遇暴漲與 AI 投入。</p>
+                    </div>
+                </div>
+
+                <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 space-y-4">
+                    <h3 class="font-bold text-slate-900 text-base border-l-4 border-sky-600 pl-3">給學生的 CFO 核心啟示</h3>
+                    <div class="grid md:grid-cols-2 gap-4 text-xs text-slate-700">
+                        <div class="p-4 bg-white rounded-lg border border-slate-200 space-y-1">
+                            <div class="font-bold text-sky-900 text-sm">1. 不確定性與避險 (Hedging)</div>
+                            <div>面對「記憶體暴漲與缺貨」的不確定性，Apple CFO 選擇拿現金提前搶購零組件囤庫存，用今天的現金，鎖定明天的成本，確保熱銷季不中斷。</div>
+                        </div>
+                        <div class="p-4 bg-white rounded-lg border border-slate-200 space-y-1">
+                            <div class="font-bold text-sky-900 text-sm">2. 風險轉嫁的極限</div>
+                            <div>Apple 平時是極度輕資產公司，將庫存壓給供應商。但當上游零組件變成稀缺品，風險不會消失，只是換了一本帳回到自己帳上。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. 各提案面臨的不確定性矩陣 Tab -->
+        <section id="tab-uncertainty" class="tab-content hidden space-y-8">
+            <div class="glass-card rounded-2xl p-6 sm:p-8 shadow-sm">
+                <h2 class="text-2xl font-bold text-slate-900 mb-2 flex items-center gap-2">
+                    <span class="text-sky-600"><i class="fa-solid fa-triangle-exclamation"></i></span> 各組提案面臨的不確定性 (Uncertainties) 診斷
+                </h2>
+                <p class="text-sm text-slate-500 mb-6">了解你的商業模式會在哪裡「摔跤」，才能在 CFO 提案中提出具體對策</p>
+
+                <div class="grid md:grid-cols-2 gap-6">
+
+                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-slate-900">平台 / 撮合類 (如 1, 4, 6, 10, 11, 12, 13 組)</span>
+                            <span class="text-xs bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded">雙邊冷啟動與食安/損壞風險</span>
+                        </div>
+                        <ul class="text-xs text-slate-600 space-y-1">
+                            <li>• <span class="font-bold text-slate-800">流動性風險：</span> 買家多賣家少（或反之），雙邊市場無法匹配。</li>
+                            <li>• <span class="font-bold text-slate-800">履約與品質風險：</span> 二手家電壞掉、即期餐點食安問題、寵物照護意外。</li>
+                            <li>• <span class="font-bold text-slate-800">平台繞過 (Disintermediation)：</span> 買賣雙方私下交易規避 10% 抽成。</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-slate-900">合規與共學類 (如 2, 7 組 Pivot 後)</span>
+                            <span class="text-xs bg-red-100 text-red-800 font-bold px-2 py-0.5 rounded">審查與冒名風險</span>
+                        </div>
+                        <ul class="text-xs text-slate-600 space-y-1">
+                            <li>• <span class="font-bold text-slate-800">偷渡違規風險：</span> 使用者私下將筆記求助轉為「代點名/代寫作業」，引發校規關切。</li>
+                            <li>• <span class="font-bold text-slate-800">品質不符與退款爭議：</span> 上傳之筆記重點過於敷衍，引發委託人申訴。</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-slate-900">訂閱 / 輕資產 SaaS 類 (如 3, 8, 9 組)</span>
+                            <span class="text-xs bg-purple-100 text-purple-800 font-bold px-2 py-0.5 rounded">Churn Rate 與 CAC 暴增</span>
+                        </div>
+                        <ul class="text-xs text-slate-600 space-y-1">
+                            <li>• <span class="font-bold text-slate-800">退訂率 (Churn Rate)：</span> 試用期過後用戶大幅退訂，無法形成穩定現金流。</li>
+                            <li>• <span class="font-bold text-slate-800">資產折舊與殘值風險：</span> 精品或家電在淡季跌價，租金收入無法涵蓋折舊。</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-slate-900">動態定價與共乘類 (如 5 組)</span>
+                            <span class="text-xs bg-sky-100 text-sky-800 font-bold px-2 py-0.5 rounded">需求彈性與法規風險</span>
+                        </div>
+                        <ul class="text-xs text-slate-600 space-y-1">
+                            <li>• <span class="font-bold text-slate-800">天候與季節波動：</span> 大晴天搭車需求暴跌，固定系統營運費用無法回收。</li>
+                            <li>• <span class="font-bold text-slate-800">白牌車監管風險：</span> 學生共乘車資分攤被認定為非法營運之法規疑慮。</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. 三情境評估架構與算式 Tab -->
+        <section id="tab-scenario" class="tab-content hidden space-y-8">
+            <div class="glass-card rounded-2xl p-6 sm:p-8 shadow-sm">
+                <h2 class="text-2xl font-bold text-slate-900 mb-2 flex items-center gap-2">
+                    <span class="text-sky-600"><i class="fa-solid fa-code-branch"></i></span> 三情境分析架構 (Optimistic / Base / Pessimistic)
+                </h2>
+                <p class="text-sm text-slate-500 mb-6">身為 CFO，不能只給出一個「完美數字」，必須針對不同市場情境給出應變預測</p>
+
+                <div class="grid md:grid-cols-3 gap-6 mb-8">
+
+                    <!-- Optimistic -->
+                    <div class="bg-emerald-50/70 p-5 rounded-xl border border-emerald-200 space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-emerald-950 text-base">1. 樂觀情境 (Optimistic)</span>
+                            <span class="text-xs bg-emerald-600 text-white px-2 py-0.5 rounded font-bold">高需求</span>
+                        </div>
+                        <ul class="text-xs text-emerald-900 space-y-1.5">
+                            <li>• <span class="font-bold">假設條件：</span> 口碑迅速爆發，用戶獲取成本 CAC 低，平台撮合成功率 90%。</li>
+                            <li>• <span class="font-bold">財務表現：</span> 銷量 $Q_{opt}$ 遠大於 $Q_{BEP}$，快速收回 CapEx 並產生高額營業利潤。</li>
+                        </ul>
+                    </div>
+
+                    <!-- Base -->
+                    <div class="bg-sky-50/70 p-5 rounded-xl border border-sky-200 space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-sky-950 text-base">2. 基準情境 (Base Case)</span>
+                            <span class="text-xs bg-sky-600 text-white px-2 py-0.5 rounded font-bold">正常營運</span>
+                        </div>
+                        <ul class="text-xs text-sky-900 space-y-1.5">
+                            <li>• <span class="font-bold">假設條件：</span> 達到預期之市場滲透率，退訂率與壞帳率落在歷史平均值。</li>
+                            <li>• <span class="font-bold">財務表現：</span> 銷量 $Q_{base}$ 穩健成長，預計在第 4-6 個月達致損益兩平。</li>
+                        </ul>
+                    </div>
+
+                    <!-- Pessimistic -->
+                    <div class="bg-red-50/70 p-5 rounded-xl border border-red-200 space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-red-950 text-base">3. 悲觀情境 (Pessimistic)</span>
+                            <span class="text-xs bg-red-600 text-white px-2 py-0.5 rounded font-bold">黑天鵝/寒冬</span>
+                        </div>
+                        <ul class="text-xs text-red-900 space-y-1.5">
+                            <li>• <span class="font-bold">假設條件：</span> 遭逢競品殺價、退租率暴增或壞帳率上升至 15%。</li>
+                            <li>• <span class="font-bold">財務防禦：</span> 啟動預備金，將固定費用 FC 砍半，確保現金流可支撐 12 個月。</li>
+                        </ul>
+                    </div>
+
+                </div>
+
+                <!-- LaTeX Scenario Formulas -->
+                <div class="bg-slate-900 text-white p-6 rounded-xl space-y-4 font-mono text-xs">
+                    <div class="text-sky-400 font-bold uppercase">三情境加權期望收益模型 (Expected Value Model)</div>
+                    <div class="py-2 text-center text-sm">
+                        $$E(Profit) = p_{opt} \cdot Profit_{opt} + p_{base} \cdot Profit_{base} + p_{pess} \cdot Profit_{pess}$$
+                    </div>
+                    <div class="text-slate-400 text-[11px] text-center">
+                        其中 $p_{opt} + p_{base} + p_{pess} = 1.0$。合格的 CFO 提案會給予 $p_{base} = 0.6$, $p_{opt} = 0.2$, $p_{pess} = 0.2$ 之加權風險評估。
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. 互動式三情境 BEP 試算器 Tab -->
+        <section id="tab-simulator" class="tab-content hidden space-y-8">
+            <div class="glass-card rounded-2xl p-6 sm:p-8 shadow-sm">
+                <h2 class="text-2xl font-bold text-slate-900 mb-2 flex items-center gap-2">
+                    <span class="text-sky-600"><i class="fa-solid fa-sliders"></i></span> 互動式三情境 (Scenario) BEP 與利潤試算器
+                </h2>
+                <p class="text-sm text-slate-500 mb-6">調整不同情境的銷量與成本參數，觀察公司在樂觀與悲觀下的財務生存能力</p>
+
+                <div class="grid lg:grid-cols-3 gap-8">
+                    <!-- Calculator Inputs -->
+                    <div class="space-y-4 bg-slate-50 p-6 rounded-xl border border-slate-200 text-sm">
+                        <div>
+                            <label class="block font-bold text-slate-800 mb-1">選擇分析情境</label>
+                            <select id="sim-scenario" class="w-full p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:outline-none" onchange="runScenarioSim()">
+                                <option value="BASE">基準情境 (Base Case)</option>
+                                <option value="OPT">樂觀情境 (Optimistic)</option>
+                                <option value="PESS">悲觀情境 (Pessimistic)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block font-bold text-slate-800 mb-1">啟動資本 CapEx + 固定費 FC ($)</label>
+                            <input id="sim-fc" type="number" value="10000" class="w-full p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:outline-none" oninput="runScenarioSim()">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-slate-800 mb-1">單筆服務單價 P ($)</label>
+                            <input id="sim-p" type="number" value="200" class="w-full p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:outline-none" oninput="runScenarioSim()">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-slate-800 mb-1">單筆變動成本 / 壞帳準備 VC ($)</label>
+                            <input id="sim-vc" type="number" value="40" class="w-full p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:outline-none" oninput="runScenarioSim()">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-slate-800 mb-1">預估情境成交單量 Q (筆)</label>
+                            <input id="sim-q" type="number" value="100" class="w-full p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:outline-none" oninput="runScenarioSim()">
+                        </div>
+                    </div>
+
+                    <!-- Calculator Results -->
+                    <div class="lg:col-span-2 bg-slate-900 text-white p-6 rounded-xl flex flex-col justify-between border border-slate-800 space-y-4">
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                            <div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
+                                <span class="block text-xs text-slate-400">邊際貢獻 (P - VC)</span>
+                                <span id="sim-res-cm" class="text-2xl font-bold text-sky-400">$160</span>
+                            </div>
+                            <div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
+                                <span class="block text-xs text-slate-400">損益兩平銷量 (BEP)</span>
+                                <span id="sim-res-bep" class="text-2xl font-bold text-slate-200">63 筆</span>
+                            </div>
+                            <div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
+                                <span class="block text-xs text-slate-400">該情境預估淨利潤</span>
+                                <span id="sim-res-profit" class="text-2xl font-bold text-emerald-400">+$6,000</span>
+                            </div>
+                        </div>
+
+                        <div id="sim-status-box" class="p-4 rounded-lg bg-slate-800 border border-slate-700 text-xs text-slate-300 space-y-2">
+                            <div class="font-bold text-sky-300">情境評估戰略指示：</div>
+                            <div id="sim-status-text">目前銷量超越損益兩平點，具備基本財務生存能力。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-6 text-center text-xs border-t border-slate-800">
+        財務經濟學課程教學機制指南 &bull; Single-File Interactive HTML Template
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        function switchTab(tabId) {
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.add('hidden'));
+
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            document.getElementById(tabId).classList.remove('hidden');
+            document.getElementById('btn-' + tabId).classList.add('active');
+
+            if (tabId === 'tab-scenario' && window.MathJax) {
+                MathJax.typesetPromise();
+            }
+        }
+
+        function runScenarioSim() {
+            const scenario = document.getElementById('sim-scenario').value;
+            let fc = parseFloat(document.getElementById('sim-fc').value) || 0;
+            let p = parseFloat(document.getElementById('sim-p').value) || 0;
+            let vc = parseFloat(document.getElementById('sim-vc').value) || 0;
+            let q = parseFloat(document.getElementById('sim-q').value) || 0;
+
+            // Adjust parameters based on scenario
+            if (scenario === 'OPT') {
+                q = Math.round(q * 1.5); // 50% more demand
+                vc = Math.round(vc * 0.85); // lower VC due to scale
+            } else if (scenario === 'PESS') {
+                q = Math.round(q * 0.5); // 50% drop in demand
+                vc = Math.round(vc * 1.3); // higher VC due to bad debt
+            }
+
+            const cm = p - vc;
+            const bep = cm > 0 ? Math.ceil(fc / cm) : 0;
+            const revenue = p * q;
+            const totalCost = fc + (vc * q);
+            const profit = revenue - totalCost;
+
+            document.getElementById('sim-res-cm').innerText = '$' + cm.toLocaleString();
+            document.getElementById('sim-res-bep').innerText = cm > 0 ? bep.toLocaleString() + ' 筆' : '無法達成';
+
+            const profitEl = document.getElementById('sim-res-profit');
+            profitEl.innerText = (profit >= 0 ? '+$' : '-$') + Math.abs(profit).toLocaleString();
+            profitEl.className = profit >= 0 ? 'text-2xl font-bold text-emerald-400' : 'text-2xl font-bold text-red-400';
+
+            const statusTextEl = document.getElementById('sim-status-text');
+            if (cm <= 0) {
+                statusTextEl.innerText = '警告：單價低於變動成本 (P <= VC)，賣越多賠越多，必須立刻調漲單價或降低變動成本！';
+            } else if (q >= bep) {
+                statusTextEl.innerText = '情境評估通過：在 [' + getScenarioName(scenario) + '] 下預估銷量 (' + q + ' 筆) 超越 BEP (' + bep + ' 筆)，預估淨利 $' + profit.toLocaleString() + '。';
+            } else {
+                statusTextEl.innerText = '風險警訊：在 [' + getScenarioName(scenario) + '] 下銷量 (' + q + ' 筆) 低於損益兩平點 (' + bep + ' 筆)，虧損 $' + Math.abs(profit).toLocaleString() + '！需儲備備用金。';
+            }
+        }
+
+        function getScenarioName(key) {
+            if (key === 'OPT') return '樂觀情境';
+            if (key === 'PESS') return '悲觀情境';
+            return '基準情境';
+        }
+
+        window.onload = function() {
+            runScenarioSim();
+        };
+    </script>
+</body>
+</html>
