@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>財務經濟學：CFO 創新提案評析與規格優化指南</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- MathJax for LaTeX Rendering -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0c4a6e 100%);
+        }
+        .tab-btn.active {
+            border-bottom: 3px solid #0284c7;
+            color: #0284c7;
+            font-weight: 700;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans leading-relaxed">
+
+    <!-- Header / Hero Section -->
+    <header class="gradient-bg text-white py-12 px-4 sm:px-6 lg:px-8 shadow-xl">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                <div>
+                    <div class="inline-flex items-center gap-2 bg-sky-500/20 text-sky-300 text-xs font-semibold px-3 py-1 rounded-full border border-sky-400/30 mb-3">
+                        <i class="fa-solid fa-chalkboard-user"></i> 課堂提案總體評析與微調手冊
+                    </div>
+                    <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">財務經濟學：13組提案診斷與規格優化指南</h1>
+                    <p class="mt-2 text-slate-300 text-base sm:text-lg max-w-3xl">
+                        將學生創意轉化為符合預測市場上市標準的嚴謹 CFO 財務提案：截長補短、合規轉型與統一架構
+                    </p>
+                </div>
+                <div class="bg-slate-800/90 p-4 rounded-xl border border-slate-700 text-right min-w-[220px]">
+                    <span class="block text-xs text-slate-400 font-medium">期貨預測市場核心</span>
+                    <span class="text-sm font-bold text-sky-400">價格 0–100 元 (可行性)</span>
+                    <span class="block text-xs text-slate-400 font-medium mt-2">財務審查重點</span>
+                    <span class="text-sm font-bold text-emerald-400">CapEx / BEP / 邊際貢獻</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex space-x-6 overflow-x-auto no-scrollbar">
+                <button onclick="switchTab('tab-overview')" id="btn-tab-overview" class="tab-btn active py-4 px-2 text-sm font-medium text-slate-600 hover:text-sky-600 whitespace-nowrap transition-colors flex items-center gap-2">
+                    <i class="fa-solid fa-chart-pie"></i> 總體評析與三大通病
+                </button>
+                <button onclick="switchTab('tab-reviews')" id="btn-tab-reviews" class="tab-btn py-4 px-2 text-sm font-medium text-slate-600 hover:text-sky-600 whitespace-nowrap transition-colors flex items-center gap-2">
+                    <i class="fa-solid fa-list-check"></i> 13組個別診斷與截長補短
+                </button>
+                <button onclick="switchTab('tab-pivot')" id="btn-tab-pivot" class="tab-btn py-4 px-2 text-sm font-medium text-slate-600 hover:text-sky-600 whitespace-nowrap transition-colors flex items-center gap-2">
+                    <i class="fa-solid fa-triangle-exclamation"></i> 違規提案合規轉型 (Pivot)
+                </button>
+                <button onclick="switchTab('tab-standard')" id="btn-tab-standard" class="tab-btn py-4 px-2 text-sm font-medium text-slate-600 hover:text-sky-600 whitespace-nowrap transition-colors flex items-center gap-2">
+                    <i class="fa-solid fa-calculator"></i> 統一四大章節與 CFO 公式
+                </button>
+                <button onclick="switchTab('tab-announcement')" id="btn-tab-announcement" class="tab-btn py-4 px-2 text-sm font-medium text-slate-600 hover:text-sky-600 whitespace-nowrap transition-colors flex items-center gap-2">
+                    <i class="fa-solid fa-bullhorn"></i> 全班統一修訂公告範本
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- 1. 總體評析與三大通病 Tab -->
+        <section id="tab-overview" class="tab-content space-y-8">
+            <div class="glass-card rounded-2xl p-6 sm:p-8 shadow-sm">
+                <div class="flex justify-between items-center mb-6 border-b border-slate-100 pb-4">
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-900 flex items-center gap-2">
+                            <span class="text-sky-600"><i class="fa-solid fa-magnifying-glass-chart"></i></span> 13 組提案通盤體檢與優化戰略
+                        </h2>
+                        <p class="text-sm text-slate-500">創意點子極具潛力，但需補足 CFO 財務驗證與規範統一，以利進入期貨交易競賽</p>
+                    </div>
+                    <span class="text-xs font-bold bg-sky-100 text-sky-800 px-3 py-1 rounded-full">第 8 週 Pitch 前最後微調</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-amber-50/60 rounded-xl p-6 border border-amber-200 space-y-3">
+                        <div class="flex items-center gap-2 font-bold text-amber-900 text-base">
+                            <i class="fa-solid fa-cubes-stacked text-amber-600"></i> 問題一：結構格式不一致
+                        </div>
+                        <p class="text-xs text-amber-800 leading-relaxed">
+                            部分組別包含完整四章節，部分組別漏掉風險管理或 CFO 試算。格式不一會導致期貨預測市場開盤時資訊揭露不對稱，影響估值公平性。
+                        </p>
+                    </div>
+
+                    <div class="bg-red-50/60 rounded-xl p-6 border border-red-200 space-y-3">
+                        <div class="flex items-center gap-2 font-bold text-red-900 text-base">
+                            <i class="fa-solid fa-calculator text-red-600"></i> 問題二：缺乏 CFO 關鍵算式
+                        </div>
+                        <p class="text-xs text-red-800 leading-relaxed">
+                            多數組別僅提到抽成比例（如抽 10%），未計算啟動資金 CapEx 與損益兩平點 BEP。在市場上易被認定為「財務可行性不明」而面臨做空。
+                        </p>
+                    </div>
+
+                    <div class="bg-purple-50/60 rounded-xl p-6 border border-purple-200 space-y-3">
+                        <div class="flex items-center gap-2 font-bold text-purple-900 text-base">
+                            <i class="fa-solid fa-shield-cat text-purple-600"></i> 問題三：校規與道德風險
+                        </div>
+                        <p class="text-xs text-purple-800 leading-relaxed">
+                            代點名與代寫作業涉及違反學則與學術誠信。若不進行合規轉型（Pivot），上市後將面臨校規終止與市場價格歸零的巨大風險。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. 13組個別診斷與截長補短 Tab -->
+        <section id="tab-reviews" class="tab-content hidden space-y-8">
+            <div class="glass-card rounded-2xl p-6 sm:p-8 shadow-sm">
+                <h2 class="text-2xl font-bold text-slate-900 mb-2 flex items-center gap-2">
+                    <span class="text-sky-600"><i class="fa-solid fa-list-check"></i></span> 各組截長補短與具體修改建議
+                </h2>
+                <p class="text-sm text-slate-500 mb-6">為每一小組提供針對性的 CFO 財務補強與機制優化指引</p>
+
+                <div class="grid md:grid-cols-2 gap-6">
+
+                    <!-- Group 1 -->
+                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-slate-900">第 1 組：學生共享家電租借平台</span>
+                            <span class="text-xs bg-sky-100 text-sky-800 font-bold px-2 py-0.5 rounded">實用性佳</span>
+                        </div>
+                        <p class="text-xs text-slate-600"><span class="font-bold text-slate-800">截長補短：</span> 參考第 9 組之殘值評估與折舊模型。</p>
+                        <p class="text-xs text-slate-600"><span class="font-bold text-slate-800">CFO 補強：</span> 家電具備損耗風險。需補上單台家電之折舊回收期（Payback Period）與押金損壞扣抵機制，算出一台家電出租幾次可收回購置 CapEx。</p>
+                    </div>
+
+                    <!-- Group 2 -->
+                    <div class="bg-red-50/80 p-5 rounded-xl border border-red-200 space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-red-950">第 2 組：校園代點名平台</span>
+                            <span class="text-xs bg-red-600 text-white font-bold px-2 py-0.5 rounded">需立即 Pivot</span>
+                        </div>
+                        <p class="text-xs text-red-800"><span class="font-bold text-red-950">致命傷：</span> 代點名嚴重違反學則，學校關切後平台將面臨下架歸零風險。</p>
+                        <p class="text-xs text-red-800"><span class="font-bold text-red-950">轉型方向：</span> 請轉型為「校園課務共學與筆記履約託管平台」。保留分時段需求發布，改為求助課堂重點筆記與錄音摘要，並聲明嚴禁代點名。</p>
+                    </div>
+
+                    <!-- Group 3 -->
+                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-slate-900">第 3 組：校園語言交換平台</span>
+                            <span class="text-xs bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded">具備財務試算</span>
+                        </div>
+                        <p class="text-xs text-slate-600"><span class="font-bold text-slate-800">截長補短：</span> 缺少風險管理章節，可參考第 12 組之實名認證與檢舉機制。</p>
+                        <p class="text-xs text-slate-600"><span class="font-bold text-slate-800">CFO 補強：</span> 預估 500 名付費會員過於樂觀。請補充獲客成本 CAC 與 BEP 門檻（如：僅需 50 人付費即可蓋過伺服器固定成本 FC）。</p>
+                    </div>
+
+                    <!-- Group 4 -->
+                    <div class="bg-indigo-50/80 p-5 rounded-xl border border-indigo-200 space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-indigo-950">第 4 組：美髮設計師撮合平台</span>
+                            <span class="text-xs bg-indigo-600 text-white font-bold px-2 py-0.5 rounded">全班標竿範本</span>
+                        </div>
+                        <p class="text-xs text-indigo-900"><span class="font-bold text-indigo-950">優勢點評：</span> 經濟學分析最嚴謹！精準運用經驗財、逆選擇、搜尋成本、道德危險與雙邊市場概念。</p>
+                        <p class="text-xs text-indigo-900"><span class="font-bold text-indigo-950">CFO 補強：</span> 補上設計師端 SaaS 訂閱收費之 BEP 算式即可，架構極為完善。</p>
+                    </div>
+
+                    <!-- Group 5 -->
+                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-slate-900">第 5 組：高峰期校園共乘平台</span>
+                            <span class="text-xs bg-sky-100 text-sky-800 font-bold px-2 py-0.5 rounded">理論結合佳</span>
+                        </div>
+                        <p class="text-xs text-slate-600"><span class="font-bold text-slate-800">截長補短：</span> 導入動態市場出清定價 (Dynamic Pricing)。可參考第 6 組之安全機制。</p>
+                        <p class="text-xs text-slate-600"><span class="font-bold text-slate-800">CFO 補強：</span> 需補充白牌車法規風險管理，以及抽成 10–15% 下，每日需撮合幾趟共乘可達致損益兩平。</p>
+                    </div>
+
+                    <!-- Group 6 -->
+                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-slate-900">第 6 組：校園團購外送湊免運社群</span>
+                            <span class="text-xs bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded">可行性高</span>
+                        </div>
+                        <p class="text-xs text-slate-600"><span class="font-bold text-slate-800">亮點：</span> 提出校園外送大使概念，解決最後一哩路配送。</p>
+                        <p class="text-xs text-slate-600"><span class="font-bold text-slate-800">CFO 補強：</span> 單筆湊單抽成金額低，必須說明需達到多少單量（規模臨界點）才能覆蓋外送大使工資與營運支出。</p>
+                    </div>
+
+                    <!-- Group 7 -->
+                    <div class="bg-red-50/80 p-5 rounded-xl border border-red-200 space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-red-950">第 7 組：作業代寫與筆記抄寫服務</span>
+                            <span class="text-xs bg-red-600 text-white font-bold px-2 py-0.5 rounded">需立即 Pivot</span>
+                        </div>
+                        <p class="text-xs text-red-800"><span class="font-bold text-red-950">致命傷：</span> 作業代寫屬於嚴重學術不端，風險管理無法真正落實驗證，會遭受極大校規風險。</p>
+                        <p class="text-xs text-red-800"><span class="font-bold text-red-950">轉型方向：</span> 請轉型為「校園 AI 筆記整理與課業解題諮詢平台」。將代寫改為觀念輔導、簡報排版優化與筆記重點整理。</p>
+                    </div>
+
+                    <!-- Group 8 -->
+                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-slate-900">第 8 組：樂齡智慧生活服務平台</span>
+                            <span class="text-xs bg-purple-100 text-purple-800 font-bold px-2 py-0.5 rounded">ESG 社會企業</span>
+                        </div>
+                        <p class="text-xs text-slate-600"><span class="font-bold text-slate-800">截長補短：</span> 可導入 AI 語音輔助掛號機器人以降低人力負擔。</p>
+                        <p class="text-xs text-slate-600"><span class="font-bold text-slate-800">CFO 補強：</span> 長者付費意願較低，請明確說明主要收費對象為子女（付費者不等於使用者）或政府/合作商家。</p>
+                    </div>
+
+                    <!-- Group 9 -->
+                    <div class="bg-indigo-50/80 p-5 rounded-xl border border-indigo-200 space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-indigo-950">第 9 組：智慧二手精品循環平台</span>
+                            <span class="text-xs bg-indigo-600 text-white font-bold px-2 py-0.5 rounded">全班標竿範本</span>
+                        </div>
+                        <p class="text-xs text-indigo-900"><span class="font-bold text-indigo-950">優勢點評：</span> 財務與風控思維最完整！提及抗循環特性、殘值評估、輕資產寄售與偽劣品風險轉嫁。</p>
+                        <p class="text-xs text-indigo-900"><span class="font-bold text-indigo-950">修改建議：</span> 架構非常完整，可直接作為全班各組修正之標竿範本。</p>
+                    </div>
+
+                    <!-- Group 10 -->
+                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-slate-900">第 10 組：大學生課業與生活任務外包</span>
+                            <span class="text-xs bg-sky-100 text-sky-800 font-bold px-2 py-0.5 rounded">動態加價機制</span>
+                        </div>
+                        <p class="text-xs text-slate-600"><span class="font-bold text-slate-800">截長補短：</span> 提出緊急任務加價 30%–50%，具備動態定價思維。</p>
+                        <p class="text-xs text-slate-600"><span class="font-bold text-slate-800">CFO 補強：</span> 須嚴格明訂禁止代點名與代寫作業，並補充 CapEx 與 BEP 算式。</p>
+                    </div>
+
+                    <!-- Group 11 -->
+                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-slate-900">第 11 組：大學生二手書買賣交易平台</span>
+                            <span class="text-xs bg-slate-200 text-slate-800 font-bold px-2 py-0.5 rounded">穩健模式</span>
+                        </div>
+                        <p class="text-xs text-slate-600"><span class="font-bold text-slate-800">截長補短：</span> 二手書買賣毛利較薄，可考慮升級為「二手書以租代買訂閱制」以提升顧客終身價值 (LTV)。</p>
+                        <p class="text-xs text-slate-600"><span class="font-bold text-slate-800">CFO 補強：</span> 補充付費置頂廣告與書局合作之收入比重預估。</p>
+                    </div>
+
+                    <!-- Group 12 -->
+                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-slate-900">第 12 組：寵物臨時照顧媒合平台</span>
+                            <span class="text-xs bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded">風控完善</span>
+                        </div>
+                        <p class="text-xs text-slate-600"><span class="font-bold text-slate-800">截長補短：</span> 風控周到（責任保險與緊急就醫），收費模式多元（抽成 + 訂閱費）。</p>
+                        <p class="text-xs text-slate-600"><span class="font-bold text-slate-800">CFO 補強：</span> 需計算保母 199 元訂閱費需要多少人訂閱方能涵蓋第三方責任保險保費支出。</p>
+                    </div>
+
+                    <!-- Group 13 -->
+                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-2 md:col-span-2">
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-slate-900">第 13 組：校園惜食即期餐點媒合平台</span>
+                            <span class="text-xs bg-purple-100 text-purple-800 font-bold px-2 py-0.5 rounded">ESG 綠色經濟</span>
+                        </div>
+                        <p class="text-xs text-slate-600"><span class="font-bold text-slate-800">截長補短：</span> 結合 ESG 惜食與平價消費，痛點明確。</p>
+                        <p class="text-xs text-slate-600"><span class="font-bold text-slate-800">CFO 補強：</span> 食品安全為最大風險。需強化賣家食安切結與責任歸屬，並算出一份便當抽 5%（約 3–5 元）時，平台每日需要的最低處置量。</p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. 違規提案合規轉型 (Pivot) Tab -->
+        <section id="tab-pivot" class="tab-content hidden space-y-8">
+            <div class="glass-card rounded-2xl p-6 sm:p-8 shadow-sm">
+                <h2 class="text-2xl font-bold text-slate-900 mb-2 flex items-center gap-2">
+                    <span class="text-red-600"><i class="fa-solid fa-triangle-exclamation"></i></span> 重大風險提案合規轉型指引 (Pivot Strategy)
+                </h2>
+                <p class="text-sm text-slate-500 mb-6">合規是商業可持續性的基石。將違規風險轉化為合法高價值之 CFO 提案</p>
+
+                <div class="grid md:grid-cols-2 gap-6">
+
+                    <!-- Pivot Case 1 -->
+                    <div class="bg-white p-6 rounded-xl border border-red-200 shadow-sm space-y-4">
+                        <div class="flex items-center justify-between border-b border-red-100 pb-2">
+                            <span class="font-bold text-red-950 text-base">第 2 組轉型方案</span>
+                            <span class="text-xs bg-red-100 text-red-800 font-bold px-2 py-0.5 rounded">代點名 ➔ 課務共學託管</span>
+                        </div>
+                        <div class="space-y-2 text-xs text-slate-700">
+                            <div><span class="font-bold text-red-700">原始問題：</span> 代點名嚴重違反學則，學校關切後平台會立刻終止營運。</div>
+                            <div><span class="font-bold text-emerald-700">轉型後名稱：</span> 校園課務共學與筆記履約託管平台。</div>
+                            <div><span class="font-bold text-slate-900">轉型後機制：</span> 學生發布求助需求（如求週三 3-5 節課堂重點筆記與錄音摘要，酬勞 200 元）。200 元由平台信託託管，上傳筆記驗收後撥款。</div>
+                            <div><span class="font-bold text-slate-900">合規聲明：</span> 平台條款嚴禁任何形式之代點名與代簽到，完全合法合規。</div>
+                        </div>
+                    </div>
+
+                    <!-- Pivot Case 2 -->
+                    <div class="bg-white p-6 rounded-xl border border-red-200 shadow-sm space-y-4">
+                        <div class="flex items-center justify-between border-b border-red-100 pb-2">
+                            <span class="font-bold text-red-950 text-base">第 7 組轉型方案</span>
+                            <span class="text-xs bg-red-100 text-red-800 font-bold px-2 py-0.5 rounded">代寫作業 ➔ AI 解題與輔導</span>
+                        </div>
+                        <div class="space-y-2 text-xs text-slate-700">
+                            <div><span class="font-bold text-red-700">原始問題：</span> 作業代寫屬於學術不端，無法通過學校與法規審查。</div>
+                            <div><span class="font-bold text-emerald-700">轉型後名稱：</span> 校園 AI 筆記整理與課業解題諮詢平台。</div>
+                            <div><span class="font-bold text-slate-900">轉型後機制：</span> 將代寫改為觀念輔導、簡報排版優化、數據處理協助與筆記重點整理。</div>
+                            <div><span class="font-bold text-slate-900">合規聲明：</span> 提供學習輔導工具與範例參考，嚴禁直接代替完成評分作業。</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. 統一四大章節與 CFO 公式 Tab -->
+        <section id="tab-standard" class="tab-content hidden space-y-8">
+            <div class="glass-card rounded-2xl p-6 sm:p-8 shadow-sm">
+                <h2 class="text-2xl font-bold text-slate-900 mb-2 flex items-center gap-2">
+                    <span class="text-sky-600"><i class="fa-solid fa-calculator"></i></span> 統一四大章節與 CFO 財務驗證算式
+                </h2>
+                <p class="text-sm text-slate-500 mb-6">全班統一之 1 頁 Summary 規格架構與核心財務指標算式</p>
+
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Standard Four Chapters -->
+                    <div class="space-y-4 bg-slate-50 p-6 rounded-xl border border-slate-200 text-xs">
+                        <h3 class="font-bold text-slate-900 text-sm border-l-4 border-sky-600 pl-2">1 頁 Summary 統一四大章節規格</h3>
+                        
+                        <div class="p-3 bg-white rounded border border-slate-200">
+                            <div class="font-bold text-sky-900">一、 痛點觀察 (Problem Statement)</div>
+                            <div class="text-slate-600 mt-1">明確說明目標族群（誰）在什麼情境下遇到什麼麻煩？造成多少成本或時間浪費？</div>
+                        </div>
+
+                        <div class="p-3 bg-white rounded border border-slate-200">
+                            <div class="font-bold text-sky-900">二、 機制與方案發想 (Mechanism Design)</div>
+                            <div class="text-slate-600 mt-1">說明解決方案運用之經濟學機制（如預測市場、動態定價、履約託管 Escrow、訂閱制等）。</div>
+                        </div>
+
+                        <div class="p-3 bg-white rounded border border-slate-200">
+                            <div class="font-bold text-sky-900">三、 商業模式與 CFO 財務驗證 (CFO Audit)</div>
+                            <div class="text-slate-600 mt-1">列出收入來源、啟動資金 CapEx，以及保本所需的損益兩平點 BEP 算式。</div>
+                        </div>
+
+                        <div class="p-3 bg-white rounded border border-slate-200">
+                            <div class="font-bold text-sky-900">四、 風險管理與合規性 (Risk & Compliance)</div>
+                            <div class="text-slate-600 mt-1">提出營運與壞帳風控機制，並嚴格切結符合校規與法令。</div>
+                        </div>
+                    </div>
+
+                    <!-- Formulas Display -->
+                    <div class="bg-slate-900 text-white p-6 rounded-xl space-y-4 font-mono text-xs">
+                        <div class="text-sky-400 font-bold uppercase">CFO 核心財務演算模型</div>
+                        
+                        <div class="p-3 bg-slate-800 rounded border border-slate-700">
+                            <div class="text-slate-300 font-bold mb-1">1. 損益兩平銷售量 ($Q_{BEP}$)：</div>
+                            <div class="py-2 text-center text-sm">
+                                $$Q_{BEP} = \frac{CapEx + FC}{P - VC}$$
+                            </div>
+                            <div class="text-slate-400 text-[11px]">$CapEx$ 為啟動資金，$FC$ 為固定營運費用，$P$ 為單價，$VC$ 為單位變動成本。</div>
+                        </div>
+
+                        <div class="p-3 bg-slate-800 rounded border border-slate-700">
+                            <div class="text-slate-300 font-bold mb-1">2. 邊際貢獻率 ($CMR$)：</div>
+                            <div class="py-2 text-center text-sm">
+                                $$CMR = \frac{P - VC}{P} \times 100\%$$
+                            </div>
+                            <div class="text-slate-400 text-[11px]">衡量每增加一元收入能為公司帶來多少分攤固定成本的利潤能力。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. 全班統一修訂公告範本 Tab -->
+        <section id="tab-announcement" class="tab-content hidden space-y-8">
+            <div class="glass-card rounded-2xl p-6 sm:p-8 shadow-sm">
+                <div class="flex justify-between items-center mb-4">
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-900">可直接發布給全班之「修訂通知文案」</h2>
+                        <p class="text-sm text-slate-500">教師可直接複製發布於 iClass, Google Classroom 或 LINE 群組</p>
+                    </div>
+                    <button onclick="copyAnnouncementContent()" class="bg-sky-600 hover:bg-sky-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors flex items-center gap-2 shadow">
+                        <i class="fa-regular fa-copy"></i> 複製公告全文
+                    </button>
+                </div>
+
+                <div class="relative">
+                    <pre id="announcement-text-area" class="bg-slate-900 text-slate-100 p-6 rounded-xl text-xs sm:text-sm font-mono whitespace-pre-wrap leading-relaxed overflow-x-auto border border-slate-800">
+📢【財務經濟学】CFO 創新提案規格統一與修訂通知
+
+各位 CFO 團隊夥伴好！
+
+為了讓全班 13 個提案在進入「期貨預測市場」時，能站在公平且專業的基準上接受市場評價與下注，請各組依據以下「統一四大章節規格」修訂你們的 1 頁 Summary：
+
+🏆 統一 1 頁 Summary 四大章節規格：
+
+一、 痛點觀察 (Problem Statement)
+• 明確說明：目標族群（誰）在什麼情境下遇到了什麼麻煩？造成了多少時間或金錢的浪費？
+
+二、 機制與方案發想 (Mechanism Design)
+• 說明解決方案：運用了什麼經濟學或商業機制？（例如：預測市場、動態定價、履約託管 Escrow、訂閱制、AI 算力槓桿等）。
+
+三、 商業模式與 CFO 財務驗證 (Business Model & CFO Audit)
+• 收入來源：抽成比例、訂閱費或廣告費。
+• CapEx (啟動資金)：第一筆架設或準備資金要花多少？
+• BEP (損益兩平點)：每個月需要達到多少交易量/訂閱數才能保本？（請附上簡單算式）。
+
+四、 風險管理與合規性 (Risk Management & Compliance)
+• 針對營運風險、壞帳風險或法規風險提出控管機制。
+• ⚠️ 合規警示：平台嚴禁涉及任何違反校規（如代點名、代簽到）或學術不端（如代寫作業）之業務。若有相關內容請務必轉型為合法的「課務資訊紀錄、筆記共學與課業輔導」！
+
+請各組依此規格微調內文，並著手準備第 8 週的 3 分鐘 Pitch 短影片！期待看到大家高價值的 CFO 提案！
+                    </pre>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-6 text-center text-xs border-t border-slate-800">
+        財務經濟學課程教學機制指南 &bull; Single-File Interactive HTML Template
+    </footer>
+
+    <!-- Notification Toast -->
+    <div id="toast-notification" class="fixed bottom-5 right-5 bg-emerald-600 text-white px-4 py-3 rounded-lg shadow-xl text-sm font-semibold flex items-center gap-2 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none z-50">
+        <i class="fa-solid fa-circle-check"></i> 公告文案已成功複製至剪貼簿！
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        function switchTab(tabId) {
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.add('hidden'));
+
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            document.getElementById(tabId).classList.remove('hidden');
+            document.getElementById('btn-' + tabId).classList.add('active');
+
+            if (tabId === 'tab-standard' && window.MathJax) {
+                MathJax.typesetPromise();
+            }
+        }
+
+        function copyAnnouncementContent() {
+            const text = document.getElementById('announcement-text-area').innerText;
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(showToast);
+            } else {
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                textArea.style.position = 'fixed';
+                textArea.style.left = '-999999px';
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    showToast();
+                } catch (err) {
+                    console.error('Copy failed', err);
+                }
+                document.body.removeChild(textArea);
+            }
+        }
+
+        function showToast() {
+            const toast = document.getElementById('toast-notification');
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
