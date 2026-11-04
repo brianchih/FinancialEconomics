@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>會計與財務互動式學習單 (Accounting & Finance Interactive Worksheet)</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d',
+                        },
+                        navy: {
+                            500: '#0284c7',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- MathJax for TeX Rendering -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        .gradient-header {
+            background: linear-gradient(135deg, #0f172a 0%, #0c4a6e 50%, #14532d 100%);
+        }
+        .card-shadow {
+            box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
+        }
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            body {
+                background-color: #ffffff !important;
+                color: #000000 !important;
+                font-size: 11pt;
+            }
+            .page-card {
+                box-shadow: none !important;
+                border: 1px solid #e2e8f0 !important;
+                break-inside: avoid;
+                margin-bottom: 1.5rem !important;
+            }
+            textarea, input[type="text"], input[type="date"], select {
+                border: 1px solid #94a3b8 !important;
+                background-color: #ffffff !important;
+                color: #000000 !important;
+                resize: none !important;
+            }
+            .rating-star {
+                color: #e2e8f0 !important;
+            }
+            .rating-star.selected {
+                color: #000000 !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans leading-relaxed min-h-screen flex flex-col">
+
+    <!-- Top Sticky Progress Bar & Actions Bar -->
+    <header class="bg-white/95 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50 shadow-sm no-print">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold text-lg shadow-md">
+                    <i class="fa-solid fa-calculator"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-slate-900 text-sm sm:text-base leading-snug">會計與財務互動式學習單</h1>
+                    <div class="flex items-center gap-2 text-xs text-slate-500">
+                        <span>全表進度：</span>
+                        <div class="w-24 sm:w-36 bg-slate-200 h-2 rounded-full overflow-hidden inline-block">
+                            <div id="progress-bar" class="bg-emerald-500 h-full w-0 transition-all duration-300"></div>
+                        </div>
+                        <span id="progress-text" class="font-semibold text-emerald-700">0%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex items-center flex-wrap gap-2 text-xs sm:text-sm">
+                <button onclick="saveToLocalStorage()" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg font-medium transition flex items-center gap-1.5" title="儲存進度到瀏覽器">
+                    <i class="fa-solid fa-floppy-disk text-slate-500"></i> <span class="hidden sm:inline">暫存進度</span>
+                </button>
+                <button onclick="exportJSON()" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg font-medium transition flex items-center gap-1.5" title="匯出 JSON 備份檔">
+                    <i class="fa-solid fa-file-code text-blue-500"></i> <span class="hidden md:inline">下載備份</span>
+                </button>
+                <button onclick="window.print()" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg font-medium transition flex items-center gap-1.5" title="列印或儲存為 PDF">
+                    <i class="fa-solid fa-file-pdf text-rose-500"></i> 匯出 PDF
+                </button>
+                <button onclick="exportHTML()" class="px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-semibold transition flex items-center gap-1.5 shadow-sm">
+                    <i class="fa-solid fa-download"></i> 匯出作業檔 (.html)
+                </button>
+                <button onclick="resetForm()" class="px-2 py-2 text-slate-400 hover:text-red-500 rounded-lg transition" title="清空重填">
+                    <i class="fa-solid fa-trash-can"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Header Banner -->
+    <div class="gradient-header text-white py-10 px-4 sm:px-6 lg:px-8 shadow-md">
+        <div class="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+            <div>
+                <div class="inline-flex items-center gap-2 bg-white/10 text-emerald-300 text-xs font-semibold px-3 py-1 rounded-full border border-white/10 mb-3">
+                    <i class="fa-solid fa-graduation-cap"></i> 大學財務經濟學 & Accounting & Finance
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">會計與財務學習單 (Accounting & Finance Worksheet)</h2>
+                <p class="mt-2 text-slate-300 text-xs sm:text-sm max-w-2xl">
+                    涵蓋三大財務報表結構、市場與帳面價值、Tesla / Netflix / Apple 經典真實案例分析、Enron 醜聞與稅盾效應。
+                </p>
+            </div>
+            <div class="bg-white/10 backdrop-blur-md p-4 rounded-xl border border-white/15 text-xs text-slate-200 min-w-[200px] space-y-1">
+                <div><i class="fa-solid fa-circle-info text-emerald-400 mr-1.5"></i>自動儲存：離線瀏覽器暫存</div>
+                <div><i class="fa-solid fa-check text-emerald-400 mr-1.5"></i>即時勾核：計算與配對自動對答</div>
+                <div><i class="fa-solid fa-file-export text-emerald-400 mr-1.5"></i>交作業：點擊頂部匯出檔案</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full space-y-8">
+
+        <!-- Student Information Card -->
+        <section class="bg-white rounded-2xl p-6 border border-slate-200 card-shadow page-card">
+            <h3 class="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2 border-b border-slate-100 pb-3">
+                <i class="fa-solid fa-user-pen text-emerald-600"></i> 學生基本資訊 (Student Details)
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">姓名 <span class="text-red-500">*</span></label>
+                    <input type="text" id="student-name" oninput="updateProgress()" placeholder="請輸入姓名" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 focus:bg-white focus:outline-none transition">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">學號 <span class="text-red-500">*</span></label>
+                    <input type="text" id="student-id" oninput="updateProgress()" placeholder="請輸入學號" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 focus:bg-white focus:outline-none transition">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">填寫日期 <span class="text-red-500">*</span></label>
+                    <input type="date" id="student-date" oninput="updateProgress()" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 focus:bg-white focus:outline-none transition">
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 1: Basic Concepts -->
+        <section class="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 card-shadow page-card space-y-6">
+            <div class="flex items-center gap-3 border-b border-slate-100 pb-4">
+                <span class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center text-sm">一</span>
+                <h3 class="text-xl font-bold text-slate-900">第一部分：基本概念理解</h3>
+            </div>
+
+            <!-- Q1 -->
+            <div class="space-y-3">
+                <h4 class="font-bold text-slate-900 text-sm sm:text-base">1. 財務報表的定義與功能</h4>
+                <p class="text-xs text-slate-500">請簡要說明財務報表的定義，並列出其主要功能（至少列出三項）：</p>
+                
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">財務報表定義：</label>
+                        <textarea id="q1-def" oninput="updateProgress()" rows="2" placeholder="請填寫財務報表的定義..." class="w-full p-3 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 focus:bg-white focus:outline-none transition"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">主要功能（至少三項）：</label>
+                        <textarea id="q1-func" oninput="updateProgress()" rows="3" placeholder="1. 評估獲利與風險&#10;2. 支援投資與放款決策&#10;3. 向外溝通經營績效..." class="w-full p-3 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 focus:bg-white focus:outline-none transition"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q2 -->
+            <div class="space-y-3 pt-4 border-t border-slate-100">
+                <div class="flex justify-between items-center flex-wrap gap-2">
+                    <h4 class="font-bold text-slate-900 text-sm sm:text-base">2. 三大財務報表互動配對</h4>
+                    <button onclick="checkMatchingAnswer()" class="text-xs bg-emerald-100 hover:bg-emerald-200 text-emerald-800 font-bold px-3 py-1 rounded-md transition no-print">
+                        <i class="fa-solid fa-circle-check mr-1"></i> 即時對答案
+                    </button>
+                </div>
+                <p class="text-xs text-slate-500">請選擇下拉選項，將財務報表類型與其特點進行正確配對：</p>
+
+                <div class="grid md:grid-cols-3 gap-4">
+                    <!-- Sheet 1 -->
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+                        <div class="font-bold text-slate-900 text-sm">資產負債表 (Balance Sheet)</div>
+                        <select id="match-bs" onchange="updateProgress()" class="w-full p-2.5 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                            <option value="">-- 請選擇特點代號 --</option>
+                            <option value="A">A. 展示一段時間內企業的營運結果和獲利能力</option>
+                            <option value="B">B. 展示特定時間點企業的財務狀況，包括資產、負債和權益</option>
+                            <option value="C">C. 展示一段時間內現金的流入和流出情況</option>
+                        </select>
+                        <div id="match-bs-feedback" class="text-xs font-semibold hidden"></div>
+                    </div>
+
+                    <!-- Sheet 2 -->
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+                        <div class="font-bold text-slate-900 text-sm">損益表 (Income Statement)</div>
+                        <select id="match-is" onchange="updateProgress()" class="w-full p-2.5 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                            <option value="">-- 請選擇特點代號 --</option>
+                            <option value="A">A. 展示一段時間內企業的營運結果和獲利能力</option>
+                            <option value="B">B. 展示特定時間點企業的財務狀況，包括資產、負債和權益</option>
+                            <option value="C">C. 展示一段時間內現金的流入和流出情況</option>
+                        </select>
+                        <div id="match-is-feedback" class="text-xs font-semibold hidden"></div>
+                    </div>
+
+                    <!-- Sheet 3 -->
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+                        <div class="font-bold text-slate-900 text-sm">現金流量表 (Cash Flow Statement)</div>
+                        <select id="match-cf" onchange="updateProgress()" class="w-full p-2.5 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                            <option value="">-- 請選擇特點代號 --</option>
+                            <option value="A">A. 展示一段時間內企業的營運結果和獲利能力</option>
+                            <option value="B">B. 展示特定時間點企業的財務狀況，包括資產、負債和權益</option>
+                            <option value="C">C. 展示一段時間內現金的流入和流出情況</option>
+                        </select>
+                        <div id="match-cf-feedback" class="text-xs font-semibold hidden"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q3 -->
+            <div class="space-y-3 pt-4 border-t border-slate-100">
+                <h4 class="font-bold text-slate-900 text-sm sm:text-base">3. 市場價值 vs. 帳面價值 (Market Value vs. Book Value)</h4>
+                <p class="text-xs text-slate-500">請說明市場價值與帳面價值的定義與差異的主要原因：</p>
+
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">市場價值 (Market Value)：</label>
+                        <textarea id="q3-mv" oninput="updateProgress()" rows="2" placeholder="公開市場交易價格，反映投資人對未來的預期..." class="w-full p-3 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 focus:bg-white focus:outline-none transition"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">帳面價值 (Book Value)：</label>
+                        <textarea id="q3-bv" oninput="updateProgress()" rows="2" placeholder="資產負債表上記錄的歷史成本扣除累計折舊..." class="w-full p-3 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 focus:bg-white focus:outline-none transition"></textarea>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">兩者差異的主要原因：</label>
+                    <textarea id="q3-diff" oninput="updateProgress()" rows="2" placeholder="說明歷史成本原則、無形資產未入帳、未來成長潛力評價差異等..." class="w-full p-3 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 focus:bg-white focus:outline-none transition"></textarea>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Case Studies -->
+        <section class="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 card-shadow page-card space-y-8">
+            <div class="flex items-center gap-3 border-b border-slate-100 pb-4">
+                <span class="w-8 h-8 rounded-lg bg-sky-100 text-sky-800 font-bold flex items-center justify-center text-sm">二</span>
+                <h3 class="text-xl font-bold text-slate-900">第二部分：真實企業案例分析</h3>
+            </div>
+
+            <!-- Case 1: Tesla -->
+            <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-4">
+                <div class="flex items-center gap-2 text-slate-900 font-bold text-base">
+                    <i class="fa-solid fa-car text-red-600"></i> 案例一：Tesla 的資產價值分析
+                </div>
+                <div class="bg-white p-3.5 rounded-lg text-xs text-slate-600 border border-slate-200 space-y-1">
+                    <div>• <strong class="text-slate-800">帳面價值：</strong> 根據 2022 年財報，Tesla 的固定資產帳面價值約為 <strong>360 億美元</strong>。</div>
+                    <div>• <strong class="text-slate-800">市場價值：</strong> 2023 年 Tesla 市值曾超過 <strong>8,000 億美元</strong>，遠高於其帳面價值。</div>
+                </div>
+
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-800 mb-1">1. Tesla 的市場價值為何遠高於其帳面價值？這反映了什麼樣的財務現象？</label>
+                        <textarea id="case1-q1" oninput="updateProgress()" rows="3" placeholder="分析投資人對電動車高成長性、自動駕駛 AI 技術無形資產、品牌價值與市場預期..." class="w-full p-3 bg-white border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none transition"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-800 mb-1">2. 投資者在評估 Tesla 時，應該更重視市場價值還是帳面價值？為什麼？</label>
+                        <textarea id="case1-q2" oninput="updateProgress()" rows="3" placeholder="說明評估成長型科技公司時，市場價值反映未來自由現金流貼現，帳面價值偏重過去清算價值..." class="w-full p-3 bg-white border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none transition"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Case 2: Netflix -->
+            <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-4">
+                <div class="flex items-center gap-2 text-slate-900 font-bold text-base">
+                    <i class="fa-solid fa-film text-rose-600"></i> 案例二：Netflix 的淨利與現金流量
+                </div>
+                <div class="bg-white p-3.5 rounded-lg text-xs text-slate-600 border border-slate-200 space-y-1">
+                    <div>• <strong class="text-slate-800">2021 年報淨利：</strong> 51 億美元（淨利為正）。</div>
+                    <div>• <strong class="text-slate-800">2021 營運現金流：</strong> -1.2 億美元（負值）。</div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-800 mb-1">3. 為什麼 Netflix 會出現淨利為正但現金流量為負的情況？請說明可能的原因：</label>
+                    <textarea id="case2-q3" oninput="updateProgress()" rows="3" placeholder="說明權責發生制下，影視內容資產（Content Assets）大量現金前置支出資本化，攤銷延後反映於損益表..." class="w-full p-3 bg-white border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none transition"></textarea>
+                </div>
+            </div>
+
+            <!-- Case 3: Apple FCF Calculator -->
+            <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-4">
+                <div class="flex justify-between items-center flex-wrap gap-2">
+                    <div class="flex items-center gap-2 text-slate-900 font-bold text-base">
+                        <i class="fa-solid fa-apple-whole text-slate-800"></i> 案例三：Apple 的自由現金流量 (FCF)
+                    </div>
+                    <button onclick="calculateAppleFCF()" class="text-xs bg-sky-100 hover:bg-sky-200 text-sky-800 font-bold px-3 py-1 rounded-md transition no-print">
+                        <i class="fa-solid fa-calculator mr-1"></i> 驗證 FCF 公式
+                    </button>
+                </div>
+
+                <div class="bg-white p-3.5 rounded-lg text-xs text-slate-600 border border-slate-200 space-y-1">
+                    <div>• <strong class="text-slate-800">2023 年營運現金流量 ($OCF$)：</strong> 約 1,105 億美元</div>
+                    <div>• <strong class="text-slate-800">2023 年資本支出 ($CapEx$)：</strong> 約 110 億美元</div>
+                </div>
+
+                <div class="space-y-3">
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 space-y-3">
+                        <label class="block text-xs font-bold text-slate-800">4. 請計算並驗證 Apple 的自由現金流量 ($FCF$)：</label>
+                        <div class="flex items-center gap-2 text-xs flex-wrap font-mono">
+                            <span>$FCF = OCF - CapEx = $</span>
+                            <input type="number" id="fcf-ocf" value="1105" oninput="calculateAppleFCF()" class="w-20 p-1.5 border border-slate-300 rounded text-center font-bold">
+                            <span>億 -</span>
+                            <input type="number" id="fcf-capex" value="110" oninput="calculateAppleFCF()" class="w-20 p-1.5 border border-slate-300 rounded text-center font-bold">
+                            <span>億 =</span>
+                            <input type="number" id="fcf-result" readonly class="w-24 p-1.5 bg-slate-100 border border-slate-300 rounded text-center font-bold text-emerald-700">
+                            <span>億美元</span>
+                        </div>
+                        <div id="fcf-feedback" class="text-xs font-semibold text-emerald-600">驗證成功：公式運算正確 ($1,105 - 110 = 995$ 億美元，約合財報 996 億美元)</div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-800 mb-1">高自由現金流量對 Apple 公司的意義：</label>
+                        <textarea id="case3-meaning" oninput="updateProgress()" rows="3" placeholder="分析具備充沛資金進行股票回購、發放股利、研發投入 (R&D) 與耐受經濟衰退抗風險能力..." class="w-full p-3 bg-white border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none transition"></textarea>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Statements Linking & Functions -->
+        <section class="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 card-shadow page-card space-y-8">
+            <div class="flex items-center gap-3 border-b border-slate-100 pb-4">
+                <span class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center text-sm">三</span>
+                <h3 class="text-xl font-bold text-slate-900">第三部分：財務報表的關聯性與功能</h3>
+            </div>
+
+            <!-- Q1: Statements Link Flow -->
+            <div class="space-y-4">
+                <h4 class="font-bold text-slate-900 text-sm sm:text-base">1. 財務報表關聯圖互動填空</h4>
+                <p class="text-xs text-slate-500">請在下方關聯圖流程中，填入三大財務報表之間的銜接項目：</p>
+
+                <div class="bg-slate-900 text-white p-6 rounded-2xl border border-slate-800 space-y-4 font-mono">
+                    <div class="text-xs text-emerald-400 font-bold uppercase tracking-wider">Financial Statements Interconnection Workflow</div>
+                    
+                    <div class="flex flex-col md:flex-row items-center justify-center gap-3 text-xs sm:text-sm text-center">
+                        <div class="bg-slate-800 px-4 py-2.5 rounded-lg border border-slate-700 font-bold text-slate-200">
+                            損益表 (Income Statement)
+                        </div>
+                        <div class="text-emerald-400"><i class="fa-solid fa-arrow-right hidden md:inline"></i><i class="fa-solid fa-arrow-down md:hidden"></i></div>
+                        <div class="bg-slate-800 px-3 py-2 rounded-lg border border-slate-700 font-bold text-emerald-400">
+                            [ 本期淨利 (Net Income) ]
+                        </div>
+                        <div class="text-emerald-400"><i class="fa-solid fa-arrow-right hidden md:inline"></i><i class="fa-solid fa-arrow-down md:hidden"></i></div>
+                        <div>
+                            <input type="text" id="link-box-1" oninput="updateProgress()" placeholder="[ 填空 1: 保留盈餘 / 權益 ]" class="p-2.5 bg-slate-800 border border-emerald-500/50 rounded-lg text-emerald-300 font-bold text-center w-52 focus:outline-none focus:ring-2 focus:ring-emerald-400">
+                        </div>
+                        <div class="text-emerald-400"><i class="fa-solid fa-arrow-right hidden md:inline"></i><i class="fa-solid fa-arrow-down md:hidden"></i></div>
+                        <div class="bg-slate-800 px-4 py-2.5 rounded-lg border border-slate-700 font-bold text-slate-200">
+                            現金流量表 (Cash Flow)
+                        </div>
+                    </div>
+
+                    <div class="text-center pt-2">
+                        <div class="inline-block text-emerald-400 mb-1"><i class="fa-solid fa-arrow-down"></i></div>
+                        <div class="flex justify-center">
+                            <input type="text" id="link-box-2" oninput="updateProgress()" placeholder="[ 填空 2: 資產負債表 (Balance Sheet) ]" class="p-2.5 bg-slate-800 border border-emerald-500/50 rounded-lg text-emerald-300 font-bold text-center w-64 focus:outline-none focus:ring-2 focus:ring-emerald-400">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q2: 5 Key Functions -->
+            <div class="space-y-4 pt-4 border-t border-slate-100">
+                <h4 class="font-bold text-slate-900 text-sm sm:text-base">2. 財務分析的五大功能與實例</h4>
+                <p class="text-xs text-slate-500">請簡要解釋以下財務分析功能，並各舉一個具體實例：</p>
+
+                <div class="space-y-4 text-xs">
+                    <!-- Function a -->
+                    <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                        <div class="font-bold text-slate-900 text-sm">a) 評估企業財務健康狀況 (Financial Health)</div>
+                        <textarea id="func-a-desc" oninput="updateProgress()" rows="2" placeholder="解釋：運用負債比率、流動比率分析流動性與償債能力..." class="w-full p-2.5 bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none"></textarea>
+                        <input type="text" id="func-a-ex" oninput="updateProgress()" placeholder="實例：計算台積電之流動比率以確認其短期償債無虞..." class="w-full p-2.5 bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                    </div>
+
+                    <!-- Function b -->
+                    <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                        <div class="font-bold text-slate-900 text-sm">b) 支援投資決策 (Investment Decisions)</div>
+                        <textarea id="func-b-desc" oninput="updateProgress()" rows="2" placeholder="解釋：透過 ROE、本益比 (P/E) 估算企業價值與未來報酬..." class="w-full p-2.5 bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none"></textarea>
+                        <input type="text" id="func-b-ex" oninput="updateProgress()" placeholder="實例：巴菲特透過自由現金流量評價可口可樂並進行長期投資..." class="w-full p-2.5 bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                    </div>
+
+                    <!-- Function c -->
+                    <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                        <div class="font-bold text-slate-900 text-sm">c) 評估經營績效 (Operating Performance)</div>
+                        <textarea id="func-c-desc" oninput="updateProgress()" rows="2" placeholder="解釋：分析營業毛利率、存貨週轉率等營運效率指標..." class="w-full p-2.5 bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none"></textarea>
+                        <input type="text" id="func-c-ex" oninput="updateProgress()" placeholder="實例：比較全聯與家樂福之存貨週轉天數評估通路效率..." class="w-full p-2.5 bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                    </div>
+
+                    <!-- Function d -->
+                    <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                        <div class="font-bold text-slate-900 text-sm">d) 預測未來現金流量 (Future Cash Flow Forecasting)</div>
+                        <textarea id="func-d-desc" oninput="updateProgress()" rows="2" placeholder="解釋：依歷史營收成長率與 CapEx 推算未來現金流量折現 (DCF)..." class="w-full p-2.5 bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none"></textarea>
+                        <input type="text" id="func-d-ex" oninput="updateProgress()" placeholder="實例：銀行審查長榮海運貸款案時預估其未來三年的營運現金流..." class="w-full p-2.5 bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                    </div>
+
+                    <!-- Function e -->
+                    <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                        <div class="font-bold text-slate-900 text-sm">e) 辨識財務風險 (Identifying Financial Risks)</div>
+                        <textarea id="func-e-desc" oninput="updateProgress()" rows="2" placeholder="解釋：預警應收帳款過高、自由現金流長期為負或借長支短風險..." class="w-full p-2.5 bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none"></textarea>
+                        <input type="text" id="func-e-ex" oninput="updateProgress()" placeholder="實例：分析恆大集團高槓桿與短債長投發現破產風險..." class="w-full p-2.5 bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Critical Thinking & Reflection -->
+        <section class="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 card-shadow page-card space-y-6">
+            <div class="flex items-center gap-3 border-b border-slate-100 pb-4">
+                <span class="w-8 h-8 rounded-lg bg-amber-100 text-amber-800 font-bold flex items-center justify-center text-sm">四</span>
+                <h3 class="text-xl font-bold text-slate-900">第四部分：思考與討論</h3>
+            </div>
+
+            <!-- Q1: Enron -->
+            <div class="space-y-3">
+                <h4 class="font-bold text-slate-900 text-sm sm:text-base">1. 會計醜聞反思：Enron (安隆) 案例</h4>
+                <p class="text-xs text-slate-500">請簡述 2001 年 Enron 會計醜聞的主要問題，以及從中可以學到的教訓：</p>
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">主要問題 (SPE 特殊目的實體與 Mark-to-Market 濫用)：</label>
+                        <textarea id="enron-issues" oninput="updateProgress()" rows="3" placeholder="說明安隆利用離岸 SPE 隱藏債務、濫用公允價值會計虛報未實現利潤、審計機構安達信缺乏獨立性..." class="w-full p-3 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-amber-500 focus:bg-white focus:outline-none transition"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">教訓 (如 SOX 法案與公司治理)：</label>
+                        <textarea id="enron-lessons" oninput="updateProgress()" rows="2" placeholder="說明 Sarbanes-Oxley 法案推動、財報真實性獨立審查、現金流真實檢視比帳面淨利更重要..." class="w-full p-3 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-amber-500 focus:bg-white focus:outline-none transition"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q2: Tax Shield -->
+            <div class="space-y-3 pt-4 border-t border-slate-100">
+                <h4 class="font-bold text-slate-900 text-sm sm:text-base">2. 稅盾效應 (Tax Shield) 的應用</h4>
+                <p class="text-xs text-slate-500">負債會產生利息支出，而利息可以在稅前扣除節稅。請說明稅盾效應如何影響公司的資本結構與財務決策：</p>
+                <textarea id="tax-shield" oninput="updateProgress()" rows="3" placeholder="說明利息可抵稅降低舉債加權平均資本成本 (WACC)，引導公司適度負債；但需權衡財務危機成本 (Financial Distress)..." class="w-full p-3 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-amber-500 focus:bg-white focus:outline-none transition"></textarea>
+            </div>
+
+            <!-- Q3: Personal Investing -->
+            <div class="space-y-3 pt-4 border-t border-slate-100">
+                <h4 class="font-bold text-slate-900 text-sm sm:text-base">3. 個人理財與投資應用</h4>
+                <p class="text-xs text-slate-500">作為個人投資者，你如何利用財務報表來評估一家公司是否值得投資？請提出具體策略：</p>
+                <textarea id="personal-invest" oninput="updateProgress()" rows="3" placeholder="提出評估步驟：1. 檢視自由現金流是否持續為正；2. 檢查負債比率與流動比率；3. 評估 ROE 與毛利率穩定度..." class="w-full p-3 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-amber-500 focus:bg-white focus:outline-none transition"></textarea>
+            </div>
+        </section>
+
+        <!-- Section 5: Self Assessment & Diary -->
+        <section class="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 card-shadow page-card space-y-8">
+            <div class="flex items-center gap-3 border-b border-slate-100 pb-4">
+                <span class="w-8 h-8 rounded-lg bg-purple-100 text-purple-800 font-bold flex items-center justify-center text-sm">五</span>
+                <h3 class="text-xl font-bold text-slate-900">第五部分：自我評估與延伸活動</h3>
+            </div>
+
+            <!-- Interactive 5-Star Self Assessment -->
+            <div class="space-y-4">
+                <div class="flex justify-between items-center flex-wrap gap-2">
+                    <h4 class="font-bold text-slate-900 text-sm sm:text-base">1. 自我理解度評估 (5分量表)</h4>
+                    <div class="text-xs font-semibold text-purple-700 bg-purple-50 px-3 py-1 rounded-full border border-purple-200">
+                        平均理解度得分：<span id="avg-score" class="font-bold text-sm">0.0</span> / 5.0
+                    </div>
+                </div>
+                <p class="text-xs text-slate-500">請點擊星號評估你對以下主題的理解程度（1 = 非常不理解，5 = 完全理解）：</p>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-xs text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 border-b border-slate-200 text-slate-700">
+                                <th class="p-3 font-bold">主題 (Topic)</th>
+                                <th class="p-3 font-bold text-center w-48">評分 (1 – 5 星)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100" id="rating-table">
+                            <!-- Ratings inserted via JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pt-2">
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">你希望進一步了解的主題：</label>
+                    <input type="text" id="further-topics" oninput="updateProgress()" placeholder="例如：衍生性金融商品會計、期權評價、估值模型 (DCF)..." class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-purple-500 focus:outline-none">
+                </div>
+            </div>
+
+            <!-- Financial News Diary -->
+            <div class="space-y-4 pt-4 border-t border-slate-100">
+                <h4 class="font-bold text-slate-900 text-sm sm:text-base"><i class="fa-solid fa-newspaper text-purple-600 mr-1.5"></i> 延伸活動：財務報表觀察日記</h4>
+                <p class="text-xs text-slate-500">請關注一則近期與會計或財務報表相關的新聞，並記錄以下內容：</p>
+
+                <div class="grid md:grid-cols-2 gap-4 text-xs">
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">1. 新聞標題與來源：</label>
+                        <input type="text" id="news-title" oninput="updateProgress()" placeholder="例：台積電公布Q3財報，資本支出調升至..." class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">3. 新聞與本課程學習的哪些概念相關：</label>
+                        <input type="text" id="news-concept" oninput="updateProgress()" placeholder="例：CapEx 資本支出、毛利率、自由現金流量..." class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none">
+                    </div>
+                </div>
+
+                <div class="space-y-3 text-xs">
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">2. 新聞摘要：</label>
+                        <textarea id="news-summary" oninput="updateProgress()" rows="2" placeholder="簡述新聞重點內容..." class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none"></textarea>
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">4. 這則新聞如何影響你對財務報表的理解：</label>
+                        <textarea id="news-impact" oninput="updateProgress()" rows="2" placeholder="說明理論與實務結合的體會..." class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none"></textarea>
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">5. 你對這則新聞的看法：</label>
+                        <textarea id="news-opinion" oninput="updateProgress()" rows="2" placeholder="提出個人的分析與評語..." class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Personal Reflection -->
+            <div class="space-y-4 pt-4 border-t border-slate-100">
+                <h4 class="font-bold text-slate-900 text-sm sm:text-base"><i class="fa-solid fa-brain text-purple-600 mr-1.5"></i> 個人反思 (Personal Reflection)</h4>
+
+                <div class="space-y-3 text-xs">
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">1. 學習會計與財務對你未來的職涯或投資決策有何幫助？</label>
+                        <textarea id="reflect-career" oninput="updateProgress()" rows="2" placeholder="說明提升商業敏感度、具備看懂公司經營品質的能力..." class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none"></textarea>
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">2. 在本學習單中，你覺得最有挑戰性的部分是什麼？</label>
+                        <textarea id="reflect-challenge" oninput="updateProgress()" rows="2" placeholder="例如：分辨自由現金流與淨利的差異、計算 FCF..." class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none"></textarea>
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">3. 你會如何將所學應用到實際生活中？</label>
+                        <textarea id="reflect-life" oninput="updateProgress()" rows="2" placeholder="例如：建立個人資產負債表、規劃個人自由現金流..." class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none"></textarea>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-6 text-center text-xs border-t border-slate-800 no-print">
+        會計與財務互動學習單 &bull; Accounting & Finance Interactive Worksheet Template
+    </footer>
+
+    <!-- Toast Alert Message -->
+    <div id="toast" class="fixed bottom-5 right-5 bg-emerald-600 text-white px-4 py-3 rounded-xl shadow-2xl text-xs sm:text-sm font-semibold flex items-center gap-2 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none z-50">
+        <i class="fa-solid fa-circle-check"></i> <span id="toast-msg">已儲存進度！</span>
+    </div>
+
+    <!-- JavaScript Script Engine -->
+    <script>
+        // Rating Topics Data
+        const ratingTopics = [
+            "財務報表的基本概念",
+            "資產負債表的結構與功能",
+            "損益表與現金流量的差異",
+            "自由現金流量的計算",
+            "市場價值 vs. 帳面價值",
+            "會計實務問題 (如 Enron 案例)",
+            "稅盾效應 (Tax Shield)"
+        ];
+
+        const ratings = {};
+
+        // Render Self Assessment Rating Table
+        function renderRatings() {
+            const tbody = document.getElementById('rating-table');
+            tbody.innerHTML = '';
+
+            ratingTopics.forEach((topic, idx) => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50/80 transition";
+                
+                let starsHTML = '';
+                for (let i = 1; i <= 5; i++) {
+                    starsHTML += `<button type="button" onclick="setRating(${idx}, ${i})" class="rating-star text-slate-300 hover:text-amber-400 text-base transition px-0.5" id="star-${idx}-${i}">★</button>`;
+                }
+
+                tr.innerHTML = `
+                    <td class="p-3 font-medium text-slate-800">${topic}</td>
+                    <td class="p-3 text-center">
+                        <div class="flex items-center justify-center gap-1">
+                            ${starsHTML}
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function setRating(topicIdx, score) {
+            ratings[topicIdx] = score;
+            for (let i = 1; i <= 5; i++) {
+                const star = document.getElementById(`star-${topicIdx}-${i}`);
+                if (i <= score) {
+                    star.className = "rating-star text-amber-400 text-base transition px-0.5 selected";
+                } else {
+                    star.className = "rating-star text-slate-300 hover:text-amber-400 text-base transition px-0.5";
+                }
+            }
+            calculateAvgScore();
+            updateProgress();
+            saveToLocalStorage(false);
+        }
+
+        function calculateAvgScore() {
+            const keys = Object.keys(ratings);
+            if (keys.length === 0) {
+                document.getElementById('avg-score').innerText = '0.0';
+                return;
+            }
+            let sum = 0;
+            keys.forEach(k => sum += ratings[k]);
+            const avg = (sum / keys.length).toFixed(1);
+            document.getElementById('avg-score').innerText = avg;
+        }
+
+        // Matching Verification
+        function checkMatchingAnswer() {
+            const bs = document.getElementById('match-bs').value;
+            const is = document.getElementById('match-is').value;
+            const cf = document.getElementById('match-cf').value;
+
+            const bsFb = document.getElementById('match-bs-feedback');
+            const isFb = document.getElementById('match-is-feedback');
+            const cfFb = document.getElementById('match-cf-feedback');
+
+            // Correct: BS -> B, IS -> A, CF -> C
+            if (bs === 'B') {
+                bsFb.className = "text-xs font-semibold text-emerald-600 block";
+                bsFb.innerText = "✓ 正確！特定時間點的財務狀況";
+            } else if (bs) {
+                bsFb.className = "text-xs font-semibold text-rose-600 block";
+                bsFb.innerText = "✕ 答錯囉，提示：資產=負債+權益是特定時間點";
+            }
+
+            if (is === 'A') {
+                isFb.className = "text-xs font-semibold text-emerald-600 block";
+                isFb.innerText = "✓ 正確！一段時間內的獲利能力";
+            } else if (is) {
+                isFb.className = "text-xs font-semibold text-rose-600 block";
+                isFb.innerText = "✕ 答錯囉，提示：營收與費用一段時間流量";
+            }
+
+            if (cf === 'C') {
+                cfFb.className = "text-xs font-semibold text-emerald-600 block";
+                cfFb.innerText = "✓ 正確！一段時間內現金流入流出";
+            } else if (cf) {
+                cfFb.className = "text-xs font-semibold text-rose-600 block";
+                cfFb.innerText = "✕ 答錯囉，提示：營收/投資/籌資現金流";
+            }
+        }
+
+        // Apple FCF Calculation
+        function calculateAppleFCF() {
+            const ocf = parseFloat(document.getElementById('fcf-ocf').value) || 0;
+            const capex = parseFloat(document.getElementById('fcf-capex').value) || 0;
+            const fcf = ocf - capex;
+            
+            document.getElementById('fcf-result').value = fcf;
+            const fb = document.getElementById('fcf-feedback');
+            fb.innerText = `計算結果：FCF = $${ocf.toLocaleString()} 億 - $${capex.toLocaleString()} 億 = $${fcf.toLocaleString()} 億美元`;
+            updateProgress();
+        }
+
+        // Auto Calculate Completion Progress
+        function updateProgress() {
+            const inputIds = [
+                'student-name', 'student-id', 'student-date',
+                'q1-def', 'q1-func', 'q3-mv', 'q3-bv', 'q3-diff',
+                'case1-q1', 'case1-q2', 'case2-q3', 'case3-meaning',
+                'link-box-1', 'link-box-2',
+                'func-a-desc', 'func-a-ex', 'func-b-desc', 'func-b-ex',
+                'func-c-desc', 'func-c-ex', 'func-d-desc', 'func-d-ex',
+                'func-e-desc', 'func-e-ex',
+                'enron-issues', 'enron-lessons', 'tax-shield', 'personal-invest',
+                'further-topics', 'news-title', 'news-concept', 'news-summary', 'news-impact', 'news-opinion',
+                'reflect-career', 'reflect-challenge', 'reflect-life'
+            ];
+
+            let filledCount = 0;
+            inputIds.forEach(id => {
+                const el = document.getElementById(id);
+                if (el && el.value.trim() !== '') filledCount++;
+            });
+
+            if (document.getElementById('match-bs').value !== '') filledCount++;
+            if (document.getElementById('match-is').value !== '') filledCount++;
+            if (document.getElementById('match-cf').value !== '') filledCount++;
+
+            filledCount += Object.keys(ratings).length;
+
+            const total = inputIds.length + 3 + ratingTopics.length;
+            const pct = Math.min(100, Math.round((filledCount / total) * 100));
+
+            document.getElementById('progress-bar').style.width = pct + '%';
+            document.getElementById('progress-text').innerText = pct + '%';
+        }
+
+        // LocalStorage Management
+        function saveToLocalStorage(showToastAlert = true) {
+            const data = {};
+            const elements = document.querySelectorAll('input, textarea, select');
+            elements.forEach(el => {
+                if (el.id) data[el.id] = el.value;
+            });
+            data['ratings'] = ratings;
+
+            localStorage.setItem('accounting_worksheet_data', JSON.stringify(data));
+            if (showToastAlert) showToast('進度已成功暫存於瀏覽器！');
+        }
+
+        function loadFromLocalStorage() {
+            const saved = localStorage.getItem('accounting_worksheet_data');
+            if (!saved) {
+                // Set default date to today
+                const today = new Date().toISOString().split('T')[0];
+                document.getElementById('student-date').value = today;
+                return;
+            }
+
+            try {
+                const data = JSON.parse(saved);
+                Object.keys(data).forEach(id => {
+                    if (id === 'ratings') {
+                        const savedRatings = data['ratings'];
+                        Object.keys(savedRatings).forEach(idx => {
+                            setRating(idx, savedRatings[idx]);
+                        });
+                    } else {
+                        const el = document.getElementById(id);
+                        if (el) el.value = data[id];
+                    }
+                });
+                calculateAppleFCF();
+                checkMatchingAnswer();
+                updateProgress();
+            } catch (e) {
+                console.error("Load failed", e);
+            }
+        }
+
+        function resetForm() {
+            if (confirm('確定要清空所有填寫內容嗎？清空後無法復原喔！')) {
+                localStorage.removeItem('accounting_worksheet_data');
+                window.location.reload();
+            }
+        }
+
+        // Export JSON Backup
+        function exportJSON() {
+            saveToLocalStorage(false);
+            const saved = localStorage.getItem('accounting_worksheet_data') || '{}';
+            const studentId = document.getElementById('student-id').value || 'student';
+            const blob = new Blob([saved], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `會計學習單_${studentId}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('JSON 備份檔已匯出！');
+        }
+
+        // Export Completed HTML File
+        function exportHTML() {
+            saveToLocalStorage(false);
+            
+            // Clone the current document HTML
+            const clonedDoc = document.documentElement.cloneNode(true);
+
+            // Update all input/textarea values into the DOM attribute/text
+            const inputs = clonedDoc.querySelectorAll('input, textarea, select');
+            inputs.forEach(el => {
+                if (el.id) {
+                    const original = document.getElementById(el.id);
+                    if (original) {
+                        if (el.tagName.toLowerCase() === 'textarea') {
+                            el.textContent = original.value;
+                        } else if (el.tagName.toLowerCase() === 'select') {
+                            const opts = el.querySelectorAll('option');
+                            opts.forEach(opt => {
+                                if (opt.value === original.value) opt.setAttribute('selected', 'selected');
+                            });
+                        } else {
+                            el.setAttribute('value', original.value);
+                        }
+                    }
+                }
+            });
+
+            const studentName = document.getElementById('student-name').value || '未具名';
+            const studentId = document.getElementById('student-id').value || '未填學號';
+
+            const htmlContent = "<!DOCTYPE html>\n" + clonedDoc.outerHTML;
+            const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `會計與財務學習單_${studentId}_${studentName}.html`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('已匯出完整填寫的 HTML 作業檔！');
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-msg').innerText = msg;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        // Auto Save Every 30 Seconds
+        setInterval(() => {
+            saveToLocalStorage(false);
+        }, 30000);
+
+        window.onload = function() {
+            renderRatings();
+            loadFromLocalStorage();
+            calculateAppleFCF();
+            updateProgress();
+        };
+    </script>
+</body>
+</html>
