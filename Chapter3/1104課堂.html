@@ -1,401 +1,361 @@
 <!DOCTYPE html>
 <html lang="zh-TW" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>財務經濟學：課堂重點筆記與 CFO 提案優化工作單</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            50: '#f0f9ff',
-                            100: '#e0f2fe',
-                            500: '#0284c7',
-                            700: '#0369a1',
-                            800: '#075985',
-                            900: '#0c4a6e',
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    <!-- MathJax for LaTeX Equations -->
-    <script>
-        window.MathJax = {
-            tex: {
-                inlineMath: [['$', '$'], ['\\(', '\\)']],
-                displayMath: [['$$', '$$'], ['\\[', '\\]']]
-            },
-            svg: { fontCache: 'global' }
-        };
-    </script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        .gradient-bg {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0c4a6e 100%);
-        }
-        .tab-btn.active {
-            border-bottom: 3px solid #0284c7;
-            color: #0284c7;
-            font-weight: 700;
-        }
-        .glass-card {
-            background: rgba(255, 255, 255, 0.96);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(226, 232, 240, 0.8);
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>財務經濟學：課堂重點筆記與 CFO 提案優化工作單</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+theme: {
+extend: {
+colors: {
+brand: {
+50: '#f0f9ff',
+100: '#e0f2fe',
+500: '#0284c7',
+700: '#0369a1',
+800: '#075985',
+900: '#0c4a6e',
+}
+}
+}
+}
+}
+</script>
+<!-- MathJax for LaTeX Equations -->
+<script>
+window.MathJax = {
+tex: {
+inlineMath: [['￼'], ['\(', '\)']],
+displayMath: [['
+'], ['[', ']']]
+},
+svg: { fontCache: 'global' }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<!-- FontAwesome Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+.gradient-bg {
+background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0c4a6e 100%);
+}
+.tab-btn.active {
+border-bottom: 3px solid #0284c7;
+color: #0284c7;
+font-weight: 700;
+}
+.glass-card {
+background: rgba(255, 255, 255, 0.96);
+backdrop-filter: blur(10px);
+border: 1px solid rgba(226, 232, 240, 0.8);
+}
+</style>
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans leading-relaxed">
+<!-- Header Section -->
+<header class="gradient-bg text-white py-10 px-4 sm:px-6 lg:px-8 shadow-xl">
+<div class="max-w-7xl mx-auto">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+<div>
+<div class="inline-flex items-center gap-2 bg-sky-500/20 text-sky-300 text-xs font-semibold px-3 py-1 rounded-full border border-sky-400/30 mb-3">
+<i class="fa-solid fa-book-bookmark"></i> 本週課堂精華與作業指引
+</div>
+<h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">財務經濟學：重點筆記與 13 組提案診斷</h1>
+<p class="mt-2 text-slate-300 text-base sm:text-lg max-w-3xl">
+涵蓋期中考範圍說明、13組 CFO 提案優化與 Pivot 轉型指引、Apple 26Q3 庫存與 AI 稀缺性案例解析
+</p>
+</div>
+<div class="bg-slate-800/90 p-4 rounded-xl border border-slate-700 text-right min-w-[220px]">
+<span class="block text-xs text-slate-400 font-medium">期中考試範圍</span>
+<span class="text-sm font-bold text-sky-400">第一章至第三章 (50題選擇)</span>
+<span class="block text-xs text-slate-400 font-medium mt-2">下週重點任務</span>
+<span class="text-sm font-bold text-emerald-400">上傳 1 頁 Summary & 短影片</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Navigation Tabs -->
+<nav class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex space-x-6 overflow-x-auto no-scrollbar">
+<button onclick="switchTab('tab-exam')" id="btn-tab-exam" class="tab-btn active py-4 px-2 text-sm font-medium text-slate-600 hover:text-sky-600 whitespace-nowrap transition-colors flex items-center gap-2">
+<i class="fa-solid fa-pen-to-square"></i> 期中考與本週任務
+</button>
+<button onclick="switchTab('tab-proposals')" id="btn-tab-proposals" class="tab-btn py-4 px-2 text-sm font-medium text-slate-600 hover:text-sky-600 whitespace-nowrap transition-colors flex items-center gap-2">
+<i class="fa-solid fa-list-check"></i> 13組提案診斷與優化
+</button>
+<button onclick="switchTab('tab-cfo')" id="btn-tab-cfo" class="tab-btn py-4 px-2 text-sm font-medium text-slate-600 hover:text-sky-600 whitespace-nowrap transition-colors flex items-center gap-2">
+<i class="fa-solid fa-calculator"></i> CFO 算式與統一規格
+</button>
+<button onclick="switchTab('tab-apple')" id="btn-tab-apple" class="tab-btn py-4 px-2 text-sm font-medium text-slate-600 hover:text-sky-600 whitespace-nowrap transition-colors flex items-center gap-2">
+<i class="fa-solid fa-apple-whole"></i> Apple 財報與 AI 算力案例
+</button>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<!-- Tab 1: 期中考與本週任務 -->
+<section id="tab-exam" class="tab-content space-y-6">
+<div class="glass-card rounded-2xl p-6 sm:p-8 shadow-sm">
+<h2 class="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+<span class="text-sky-600"><i class="fa-solid fa-circle-check"></i></span> 下週期中考與專案進度重點提醒
+</h2>
+<div class="grid md:grid-cols-2 gap-6">
+<div class="bg-sky-50 p-6 rounded-xl border border-sky-100 space-y-3">
+<div class="flex justify-between items-center">
+<span class="text-xs font-bold bg-sky-200 text-sky-900 px-3 py-1 rounded-full">考試指引</span>
+<span class="text-xs text-slate-500 font-semibold">下週隨堂進行</span>
+</div>
+<h3 class="text-lg font-bold text-slate-900">期中考試說明 (第一章至第三章)</h3>
+<ul class="text-xs text-slate-700 space-y-2">
+<li>• <strong>考核範圍：</strong> 課本第一章至第三章核心觀念。</li>
+<li>• <strong>題型結構：</strong> 全為 50 題選擇題。主要檢驗觀念正確性，熟讀課本與練習學習單即可。</li>
+<li>• <strong>融合實務：</strong> 提案討論過程與期中考內容同步結合，寫提案也是在複習考題。</li>
+</ul>
+</div>
+<div class="bg-emerald-50 p-6 rounded-xl border border-emerald-100 space-y-3">
+<div class="flex justify-between items-center">
+<span class="text-xs font-bold bg-emerald-200 text-emerald-900 px-3 py-1 rounded-full">小組進度</span>
+<span class="text-xs text-slate-500 font-semibold">本週上傳作業</span>
+</div>
+<h3 class="text-lg font-bold text-slate-900">本週小組任務 (1 頁 Summary & 影片準備)</h3>
+<ul class="text-xs text-slate-700 space-y-2">
+<li>• <strong>修訂 1 頁 Summary：</strong> 根據老師回饋補強 CapEx、BEP 及風控後，上傳至討論區。</li>
+<li>• <strong>3 分鐘 Pitch 短影音：</strong> 製作短影片推廣服務，後續將連結至交易平台。</li>
+<li>• <strong>期貨預測市場開盤：</strong> 下週同步將提案上架至交易平台，進行全班動態期貨買賣。</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<!-- Tab 2: 13組提案診斷與優化 -->
+<section id="tab-proposals" class="tab-content hidden space-y-6">
+<div class="glass-card rounded-2xl p-6 sm:p-8 shadow-sm">
+<h2 class="text-2xl font-bold text-slate-900 mb-2 flex items-center gap-2">
+<span class="text-sky-600"><i class="fa-solid fa-list-check"></i></span> 各組提案具體優化與 Pivot 轉型指引
+</h2>
+<p class="text-sm text-slate-500 mb-6">點評每組優勢，補強 CFO 關鍵算式，消除違規風險以防期貨市場做空</p>
+<div class="grid md:grid-cols-2 gap-6">
+<!-- Group 1 -->
+<div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-2">
+<div class="flex justify-between items-center">
+<span class="font-bold text-slate-900">第 1 組：學生共享家電租借平台</span>
+<span class="text-xs bg-sky-100 text-sky-800 font-bold px-2 py-0.5 rounded">實用性高</span>
+</div>
+<p class="text-xs text-slate-600"><strong>診斷建議：</strong> 家電具損耗風險。需補上單台家電之折舊、回收期間、押金與扣抵機制。算出每台家電出租幾次才能達到收回 CapEx 的 BEP。（可參考第 9 組殘值評估）</p>
+</div>
+<!-- Group 2 -->
+<div class="bg-red-50 p-5 rounded-xl border border-red-200 space-y-2">
+<div class="flex justify-between items-center">
+<span class="font-bold text-red-950">第 2 組：校園代點名平台</span>
+<span class="text-xs bg-red-600 text-white font-bold px-2 py-0.5 rounded">⚠️ 必須 Pivot 轉型</span>
+</div>
+<p class="text-xs text-red-800"><strong>診斷建議：</strong> 代點名嚴重違反校規，面臨被下架做空風險。<strong>請立即轉型為「校園課後共學與筆記履約託管平台」</strong>，保留分時段需求，改為求助課堂筆記與錄音摘要，並聲明不提供點名。</p>
+</div>
+<!-- Group 3 -->
+<div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-2">
+<div class="flex justify-between items-center">
+<span class="font-bold text-slate-900">第 3 組：校園語言交換平台</span>
+<span class="text-xs bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded">已有初步試算</span>
+</div>
+<p class="text-xs text-slate-600"><strong>診斷建議：</strong> 預估 500 名付費用戶過於樂觀，需補上佐證依據與獲客成本 (CAC)。補充實名認證與檢舉機制以控管人際安全風險。（可參考第 12 組）</p>
+</div>
+<!-- Group 4 -->
+<div class="bg-indigo-50 p-5 rounded-xl border border-indigo-200 space-y-2">
+<div class="flex justify-between items-center">
+<span class="font-bold text-indigo-950">第 4 組：美髮設計師撮合平台</span>
+<span class="text-xs bg-indigo-600 text-white font-bold px-2 py-0.5 rounded">🌟 理論嚴謹標竿</span>
+</div>
+<p class="text-xs text-indigo-900"><strong>診斷建議：</strong> 分析非常嚴謹，套用經驗財、逆選擇、搜尋成本、道德危險及雙邊市場概念。補上設計師端 SaaS 訂閱收費與 BEP 試算即非常完善。</p>
+</div>
+<!-- Group 5 -->
+<div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-2">
+<div class="flex justify-between items-center">
+<span class="font-bold text-slate-900">第 5 組：高峰期校園共乘平台</span>
+<span class="text-xs bg-sky-100 text-sky-800 font-bold px-2 py-0.5 rounded">動態定價思維</span>
+</div>
+<p class="text-xs text-slate-600"><strong>診斷建議：</strong> 導入動態市場出清定價。需克服法規風險（白牌車疑慮）及市場規模限制，並算出抽成 10-15% 下需多少趟次才能達到 BEP。</p>
+</div>
+<!-- Group 6 -->
+<div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-2">
+<div class="flex justify-between items-center">
+<span class="font-bold text-slate-900">第 6 組：校園團購外送湊免運社群</span>
+<span class="text-xs bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded">實用性強</span>
+</div>
+<p class="text-xs text-slate-600"><strong>診斷建議：</strong> 透過校園外送大使解決最後一哩路配送。需說明達到多少湊單量才能蓋過管理接單的人工與營運成本。</p>
+</div>
+<!-- Group 7 -->
+<div class="bg-red-50 p-5 rounded-xl border border-red-200 space-y-2">
+<div class="flex justify-between items-center">
+<span class="font-bold text-red-950">第 7 組：作業代寫與筆記抄寫服務</span>
+<span class="text-xs bg-red-600 text-white font-bold px-2 py-0.5 rounded">⚠️ 必須 Pivot 轉型</span>
+</div>
+<p class="text-xs text-red-800"><strong>診斷建議：</strong> 作業代寫嚴重違反學術倫理。<strong>請轉型為「校園 AI 筆記整理與課業解題諮詢平台」</strong>，改提供觀念輔導、簡報優化與筆記整理。</p>
+</div>
+<!-- Group 8 -->
+<div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-2">
+<div class="flex justify-between items-center">
+<span class="font-bold text-slate-900">第 8 組：樂齡智慧生活服務平台</span>
+<span class="text-xs bg-purple-100 text-purple-800 font-bold px-2 py-0.5 rounded">ESG 社會企業</span>
+</div>
+<p class="text-xs text-slate-600"><strong>診斷建議：</strong> 可導入 AI 語音輔助掛號機器人降低人力負擔。收費對象應為子女、孫子女或政府/合作商家（付費者不等於使用者），並計算 CapEx 與 BEP。</p>
+</div>
+<!-- Group 9 -->
+<div class="bg-indigo-50 p-5 rounded-xl border border-indigo-200 space-y-2">
+<div class="flex justify-between items-center">
+<span class="font-bold text-indigo-950">第 9 組：智慧二手精品循環平台</span>
+<span class="text-xs bg-indigo-600 text-white font-bold px-2 py-0.5 rounded">🌟 財務風控標竿</span>
+</div>
+<p class="text-xs text-indigo-900"><strong>診斷建議：</strong> 架構非常完整，具備抗循環特性、殘值評估、輕資產寄售與偽劣品風險轉嫁機制。請確保算式符合現實市場佐證。</p>
+</div>
+<!-- Group 10 -->
+<div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-2">
+<div class="flex justify-between items-center">
+<span class="font-bold text-slate-900">第 10 組：大學生課業與生活任務外包</span>
+<span class="text-xs bg-sky-100 text-sky-800 font-bold px-2 py-0.5 rounded">緊急加價機制</span>
+</div>
+<p class="text-xs text-slate-600"><strong>診斷建議：</strong> 緊急任務加價 30-50% 具備動態定價思維。必須嚴格禁止代寫與代點名等違反學術倫理任務，並補充 CapEx 與 BEP 算式。</p>
+</div>
+<!-- Group 11 -->
+<div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-2">
+<div class="flex justify-between items-center">
+<span class="font-bold text-slate-900">第 11 組：大學生二手書買賣交易平台</span>
+<span class="text-xs bg-slate-200 text-slate-800 font-bold px-2 py-0.5 rounded">模式穩健</span>
+</div>
+<p class="text-xs text-slate-600"><strong>診斷建議：</strong> 買賣毛利較薄，可考慮升級為「二手書以租代買訂閱制」以提升顧客終身價值 (LTV)。補充廣告與書局合作收入比重預估。</p>
+</div>
+<!-- Group 12 -->
+<div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-2">
+<div class="flex justify-between items-center">
+<span class="font-bold text-slate-900">第 12 組：寵物臨時照顧媒合平台</span>
+<span class="text-xs bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded">風控機制周到</span>
+</div>
+<p class="text-xs text-slate-600"><strong>診斷建議：</strong> 具備責任保險、緊急就醫與多元收費（抽成+訂閱）。需算出一位保姆 199 元訂閱費需多少人訂閱方能涵蓋責任保險與人力支出。</p>
+</div>
+<!-- Group 13 -->
+<div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-2 md:col-span-2">
+<div class="flex justify-between items-center">
+<span class="font-bold text-slate-900">第 13 組：校園惜食即期餐點媒合平台</span>
+<span class="text-xs bg-purple-100 text-purple-800 font-bold px-2 py-0.5 rounded">ESG 綠色經濟</span>
+</div>
+<p class="text-xs text-slate-600"><strong>診斷建議：</strong> 結合惜食與平價消費，痛點明確。需強化賣家食安切結與責任歸屬，並算出一份餐抽 5%（約 3-5 元）時，每日需處理多少數量才能保本蓋過營運成本。</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Tab 3: CFO 算式與統一規格 -->
+<section id="tab-cfo" class="tab-content hidden space-y-6">
+<div class="glass-card rounded-2xl p-6 sm:p-8 shadow-sm">
+<h2 class="text-2xl font-bold text-slate-900 mb-2 flex items-center gap-2">
+<span class="text-sky-600"><i class="fa-solid fa-calculator"></i></span> CFO 關鍵財務算式與提案四大要求
+</h2>
+<p class="text-sm text-slate-500 mb-6">財務透明化是期貨預測市場獲得高估值的關鍵</p>
+<div class="grid md:grid-cols-2 gap-8">
+<!-- Formulas -->
+<div class="bg-slate-900 text-white p-6 rounded-xl space-y-4 font-mono text-xs">
+<div class="text-sky-400 font-bold uppercase">CFO 核心損益兩平模型</div>
+<div class="p-4 bg-slate-800 rounded border border-slate-700 space-y-2">
+<div class="text-slate-300 font-bold">1. 損益兩平銷售量 (￼)：</div>
+<div class="py-2 text-center text-sm">
 
-    <!-- Header Section -->
-    <header class="gradient-bg text-white py-10 px-4 sm:px-6 lg:px-8 shadow-xl">
-        <div class="max-w-7xl mx-auto">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-                <div>
-                    <div class="inline-flex items-center gap-2 bg-sky-500/20 text-sky-300 text-xs font-semibold px-3 py-1 rounded-full border border-sky-400/30 mb-3">
-                        <i class="fa-solid fa-book-bookmark"></i> 本週課堂精華與作業指引
-                    </div>
-                    <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">財務經濟學：重點筆記與 13 組提案診斷</h1>
-                    <p class="mt-2 text-slate-300 text-base sm:text-lg max-w-3xl">
-                        涵蓋期中考範圍說明、13組 CFO 提案優化與 Pivot 轉型指引、Apple 26Q3 庫存與 AI 稀缺性案例解析
-                    </p>
-                </div>
-                <div class="bg-slate-800/90 p-4 rounded-xl border border-slate-700 text-right min-w-[220px]">
-                    <span class="block text-xs text-slate-400 font-medium">期中考試範圍</span>
-                    <span class="text-sm font-bold text-sky-400">第一章至第三章 (50題選擇)</span>
-                    <span class="block text-xs text-slate-400 font-medium mt-2">下週重點任務</span>
-                    <span class="text-sm font-bold text-emerald-400">上傳 1 頁 Summary & 短影片</span>
-                </div>
-            </div>
-        </div>
-    </header>
+</div>
+<div class="text-slate-400 text-[11px]">￼: 啟動資本支出 | ￼: 固定營運費用 | ￼: 服務單價 | ￼: 變動成本</div>
+</div>
+<div class="p-4 bg-slate-800 rounded border border-slate-700 space-y-2">
+<div class="text-slate-300 font-bold">2. 邊際貢獻率 (￼)：</div>
+<div class="py-2 text-center text-sm">
 
-    <!-- Navigation Tabs -->
-    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex space-x-6 overflow-x-auto no-scrollbar">
-                <button onclick="switchTab('tab-exam')" id="btn-tab-exam" class="tab-btn active py-4 px-2 text-sm font-medium text-slate-600 hover:text-sky-600 whitespace-nowrap transition-colors flex items-center gap-2">
-                    <i class="fa-solid fa-pen-to-square"></i> 期中考與本週任務
-                </button>
-                <button onclick="switchTab('tab-proposals')" id="btn-tab-proposals" class="tab-btn py-4 px-2 text-sm font-medium text-slate-600 hover:text-sky-600 whitespace-nowrap transition-colors flex items-center gap-2">
-                    <i class="fa-solid fa-list-check"></i> 13組提案診斷與優化
-                </button>
-                <button onclick="switchTab('tab-cfo')" id="btn-tab-cfo" class="tab-btn py-4 px-2 text-sm font-medium text-slate-600 hover:text-sky-600 whitespace-nowrap transition-colors flex items-center gap-2">
-                    <i class="fa-solid fa-calculator"></i> CFO 算式與統一規格
-                </button>
-                <button onclick="switchTab('tab-apple')" id="btn-tab-apple" class="tab-btn py-4 px-2 text-sm font-medium text-slate-600 hover:text-sky-600 whitespace-nowrap transition-colors flex items-center gap-2">
-                    <i class="fa-solid fa-apple-whole"></i> Apple 財報與 AI 算力案例
-                </button>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-
-        <!-- Tab 1: 期中考與本週任務 -->
-        <section id="tab-exam" class="tab-content space-y-6">
-            <div class="glass-card rounded-2xl p-6 sm:p-8 shadow-sm">
-                <h2 class="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-                    <span class="text-sky-600"><i class="fa-solid fa-circle-check"></i></span> 下週期中考與專案進度重點提醒
-                </h2>
-                
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div class="bg-sky-50 p-6 rounded-xl border border-sky-100 space-y-3">
-                        <div class="flex justify-between items-center">
-                            <span class="text-xs font-bold bg-sky-200 text-sky-900 px-3 py-1 rounded-full">考試指引</span>
-                            <span class="text-xs text-slate-500 font-semibold">下週隨堂進行</span>
-                        </div>
-                        <h3 class="text-lg font-bold text-slate-900">期中考試說明 (第一章至第三章)</h3>
-                        <ul class="text-xs text-slate-700 space-y-2">
-                            <li>• <strong>考核範圍：</strong> 課本第一章至第三章核心觀念[span_0](start_span)[span_0](end_span)。</li>
-                            <li>• <strong>題型結構：</strong> 全為 50 題選擇題[span_1](start_span)[span_1](end_span)。主要檢驗觀念正確性，熟讀課本與練習學習單即可[span_2](start_span)[span_2](end_span)。</li>
-                            <li>• <strong>融合實務：</strong> 提案討論過程與期中考內容同步結合，寫提案也是在複習考題[span_3](start_span)[span_3](end_span)。</li>
-                        </ul>
-                    </div>
-
-                    <div class="bg-emerald-50 p-6 rounded-xl border border-emerald-100 space-y-3">
-                        <div class="flex justify-between items-center">
-                            <span class="text-xs font-bold bg-emerald-200 text-emerald-900 px-3 py-1 rounded-full">小組進度</span>
-                            <span class="text-xs text-slate-500 font-semibold">本週上傳作業</span>
-                        </div>
-                        <h3 class="text-lg font-bold text-slate-900">本週小組任務 (1 頁 Summary & 影片準備)</h3>
-                        <ul class="text-xs text-slate-700 space-y-2">
-                            <li>• <strong>修訂 1 頁 Summary：</strong> 根據老師回饋補強 CapEx、BEP 及風控後，上傳至討論區[span_4](start_span)[span_4](end_span)。</li>
-                            <li>• <strong>3 分鐘 Pitch 短影音：</strong> 製作短影片推廣服務，後續將連結至交易平台[span_5](start_span)[span_5](end_span)。</li>
-                            <li>• <strong>期貨預測市場開盤：</strong> 下週同步將提案上架至交易平台，進行全班動態期貨買賣[span_6](start_span)[span_6](end_span)。</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Tab 2: 13組提案診斷與優化 -->
-        <section id="tab-proposals" class="tab-content hidden space-y-6">
-            <div class="glass-card rounded-2xl p-6 sm:p-8 shadow-sm">
-                <h2 class="text-2xl font-bold text-slate-900 mb-2 flex items-center gap-2">
-                    <span class="text-sky-600"><i class="fa-solid fa-list-check"></i></span> 各組提案具體優化與 Pivot 轉型指引
-                </h2>
-                <p class="text-sm text-slate-500 mb-6">點評每組優勢，補強 CFO 關鍵算式，消除違規風險以防期貨市場做空[span_7](start_span)[span_7](end_span)</p>
-
-                <div class="grid md:grid-cols-2 gap-6">
-
-                    <!-- Group 1 -->
-                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-2">
-                        <div class="flex justify-between items-center">
-                            <span class="font-bold text-slate-900">第 1 組：學生共享家電租借平台</span>
-                            <span class="text-xs bg-sky-100 text-sky-800 font-bold px-2 py-0.5 rounded">實用性高</span>
-                        </div>
-                        <p class="text-xs text-slate-600"><strong>診斷建議：</strong> 家電具損耗風險[span_8](start_span)[span_8](end_span)。需補上單台家電之折舊、回收期間、押金與扣抵機制[span_9](start_span)[span_9](end_span)。算出每台家電出租幾次才能達到收回 CapEx 的 BEP[span_10](start_span)[span_10](end_span)。（可參考第 9 組殘值評估[span_11](start_span)[span_11](end_span)）</p>
-                    </div>
-
-                    <!-- Group 2 -->
-                    <div class="bg-red-50 p-5 rounded-xl border border-red-200 space-y-2">
-                        <div class="flex justify-between items-center">
-                            <span class="font-bold text-red-950">第 2 組：校園代點名平台</span>
-                            <span class="text-xs bg-red-600 text-white font-bold px-2 py-0.5 rounded">⚠️ 必須 Pivot 轉型</span>
-                        </div>
-                        <p class="text-xs text-red-800"><strong>診斷建議：</strong> 代點名嚴重違反校規，面臨被下架做空風險[span_12](start_span)[span_12](end_span)。<strong>請立即轉型為「校園課後共學與筆記履約託管平台」</strong>，保留分時段需求，改為求助課堂筆記與錄音摘要，並聲明不提供點名[span_13](start_span)[span_13](end_span)。</p>
-                    </div>
-
-                    <!-- Group 3 -->
-                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-2">
-                        <div class="flex justify-between items-center">
-                            <span class="font-bold text-slate-900">第 3 組：校園語言交換平台</span>
-                            <span class="text-xs bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded">已有初步試算</span>
-                        </div>
-                        <p class="text-xs text-slate-600"><strong>診斷建議：</strong> 預估 500 名付費用戶過於樂觀，需補上佐證依據與獲客成本 (CAC)[span_14](start_span)[span_14](end_span)。補充實名認證與檢舉機制以控管人際安全風險[span_15](start_span)[span_15](end_span)。（可參考第 12 組[span_16](start_span)[span_16](end_span)）</p>
-                    </div>
-
-                    <!-- Group 4 -->
-                    <div class="bg-indigo-50 p-5 rounded-xl border border-indigo-200 space-y-2">
-                        <div class="flex justify-between items-center">
-                            <span class="font-bold text-indigo-950">第 4 組：美髮設計師撮合平台</span>
-                            <span class="text-xs bg-indigo-600 text-white font-bold px-2 py-0.5 rounded">🌟 理論嚴謹標竿</span>
-                        </div>
-                        <p class="text-xs text-indigo-900"><strong>診斷建議：</strong> 分析非常嚴謹，套用經驗財、逆選擇、搜尋成本、道德危險及雙邊市場概念[span_17](start_span)[span_17](end_span)。補上設計師端 SaaS 訂閱收費與 BEP 試算即非常完善[span_18](start_span)[span_18](end_span)。</p>
-                    </div>
-
-                    <!-- Group 5 -->
-                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-2">
-                        <div class="flex justify-between items-center">
-                            <span class="font-bold text-slate-900">第 5 組：高峰期校園共乘平台</span>
-                            <span class="text-xs bg-sky-100 text-sky-800 font-bold px-2 py-0.5 rounded">動態定價思維</span>
-                        </div>
-                        <p class="text-xs text-slate-600"><strong>診斷建議：</strong> 導入動態市場出清定價[span_19](start_span)[span_19](end_span)。需克服法規風險（白牌車疑慮）及市場規模限制，並算出抽成 10-15% 下需多少趟次才能達到 BEP[span_20](start_span)[span_20](end_span)。</p>
-                    </div>
-
-                    <!-- Group 6 -->
-                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-2">
-                        <div class="flex justify-between items-center">
-                            <span class="font-bold text-slate-900">第 6 組：校園團購外送湊免運社群</span>
-                            <span class="text-xs bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded">實用性強</span>
-                        </div>
-                        <p class="text-xs text-slate-600"><strong>診斷建議：</strong> 透過校園外送大使解決最後一哩路配送[span_21](start_span)[span_21](end_span)。需說明達到多少湊單量才能蓋過管理接單的人工與營運成本[span_22](start_span)[span_22](end_span)。</p>
-                    </div>
-
-                    <!-- Group 7 -->
-                    <div class="bg-red-50 p-5 rounded-xl border border-red-200 space-y-2">
-                        <div class="flex justify-between items-center">
-                            <span class="font-bold text-red-950">第 7 組：作業代寫與筆記抄寫服務</span>
-                            <span class="text-xs bg-red-600 text-white font-bold px-2 py-0.5 rounded">⚠️ 必須 Pivot 轉型</span>
-                        </div>
-                        <p class="text-xs text-red-800"><strong>診斷建議：</strong> 作業代寫嚴重違反學術倫理[span_23](start_span)[span_23](end_span)。<strong>請轉型為「校園 AI 筆記整理與課業解題諮詢平台」</strong>，改提供觀念輔導、簡報優化與筆記整理[span_24](start_span)[span_24](end_span)。</p>
-                    </div>
-
-                    <!-- Group 8 -->
-                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-2">
-                        <div class="flex justify-between items-center">
-                            <span class="font-bold text-slate-900">第 8 組：樂齡智慧生活服務平台</span>
-                            <span class="text-xs bg-purple-100 text-purple-800 font-bold px-2 py-0.5 rounded">ESG 社會企業</span>
-                        </div>
-                        <p class="text-xs text-slate-600"><strong>診斷建議：</strong> 可導入 AI 語音輔助掛號機器人降低人力負擔[span_25](start_span)[span_25](end_span)。收費對象應為子女、孫子女或政府/合作商家（付費者不等於使用者）[span_26](start_span)[span_26](end_span)，並計算 CapEx 與 BEP[span_27](start_span)[span_27](end_span)。</p>
-                    </div>
-
-                    <!-- Group 9 -->
-                    <div class="bg-indigo-50 p-5 rounded-xl border border-indigo-200 space-y-2">
-                        <div class="flex justify-between items-center">
-                            <span class="font-bold text-indigo-950">第 9 組：智慧二手精品循環平台</span>
-                            <span class="text-xs bg-indigo-600 text-white font-bold px-2 py-0.5 rounded">🌟 財務風控標竿</span>
-                        </div>
-                        <p class="text-xs text-indigo-900"><strong>診斷建議：</strong> 架構非常完整，具備抗循環特性、殘值評估、輕資產寄售與偽劣品風險轉嫁機制[span_28](start_span)[span_28](end_span)。請確保算式符合現實市場佐證[span_29](start_span)[span_29](end_span)。</p>
-                    </div>
-
-                    <!-- Group 10 -->
-                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-2">
-                        <div class="flex justify-between items-center">
-                            <span class="font-bold text-slate-900">第 10 組：大學生課業與生活任務外包</span>
-                            <span class="text-xs bg-sky-100 text-sky-800 font-bold px-2 py-0.5 rounded">緊急加價機制</span>
-                        </div>
-                        <p class="text-xs text-slate-600"><strong>診斷建議：</strong> 緊急任務加價 30-50% 具備動態定價思維[span_30](start_span)[span_30](end_span)。必須嚴格禁止代寫與代點名等違反學術倫理任務[span_31](start_span)[span_31](end_span)，並補充 CapEx 與 BEP 算式[span_32](start_span)[span_32](end_span)。</p>
-                    </div>
-
-                    <!-- Group 11 -->
-                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-2">
-                        <div class="flex justify-between items-center">
-                            <span class="font-bold text-slate-900">第 11 組：大學生二手書買賣交易平台</span>
-                            <span class="text-xs bg-slate-200 text-slate-800 font-bold px-2 py-0.5 rounded">模式穩健</span>
-                        </div>
-                        <p class="text-xs text-slate-600"><strong>診斷建議：</strong> 買賣毛利較薄，可考慮升級為「二手書以租代買訂閱制」以提升顧客終身價值 (LTV)[span_33](start_span)[span_33](end_span)。補充廣告與書局合作收入比重預估[span_34](start_span)[span_34](end_span)。</p>
-                    </div>
-
-                    <!-- Group 12 -->
-                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-2">
-                        <div class="flex justify-between items-center">
-                            <span class="font-bold text-slate-900">第 12 組：寵物臨時照顧媒合平台</span>
-                            <span class="text-xs bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded">風控機制周到</span>
-                        </div>
-                        <p class="text-xs text-slate-600"><strong>診斷建議：</strong> 具備責任保險、緊急就醫與多元收費（抽成+訂閱）[span_35](start_span)[span_35](end_span)。需算出一位保姆 199 元訂閱費需多少人訂閱方能涵蓋責任保險與人力支出[span_36](start_span)[span_36](end_span)。</p>
-                    </div>
-
-                    <!-- Group 13 -->
-                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-2 md:col-span-2">
-                        <div class="flex justify-between items-center">
-                            <span class="font-bold text-slate-900">第 13 組：校園惜食即期餐點媒合平台</span>
-                            <span class="text-xs bg-purple-100 text-purple-800 font-bold px-2 py-0.5 rounded">ESG 綠色經濟</span>
-                        </div>
-                        <p class="text-xs text-slate-600"><strong>診斷建議：</strong> 結合惜食與平價消費，痛點明確[span_37](start_span)[span_37](end_span)。需強化賣家食安切結與責任歸屬[span_38](start_span)[span_38](end_span)，並算出一份餐抽 5%（約 3-5 元）時，每日需處理多少數量才能保本蓋過營運成本[span_39](start_span)[span_39](end_span)。</p>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
-        <!-- Tab 3: CFO 算式與統一規格 -->
-        <section id="tab-cfo" class="tab-content hidden space-y-6">
-            <div class="glass-card rounded-2xl p-6 sm:p-8 shadow-sm">
-                <h2 class="text-2xl font-bold text-slate-900 mb-2 flex items-center gap-2">
-                    <span class="text-sky-600"><i class="fa-solid fa-calculator"></i></span> CFO 關鍵財務算式與提案四大要求
-                </h2>
-                <p class="text-sm text-slate-500 mb-6">財務透明化是期貨預測市場獲得高估值的關鍵[span_40](start_span)[span_40](end_span)</p>
-
-                <div class="grid md:grid-cols-2 gap-8">
-                    <!-- Formulas -->
-                    <div class="bg-slate-900 text-white p-6 rounded-xl space-y-4 font-mono text-xs">
-                        <div class="text-sky-400 font-bold uppercase">CFO 核心損益兩平模型</div>
-                        
-                        <div class="p-4 bg-slate-800 rounded border border-slate-700 space-y-2">
-                            <div class="text-slate-300 font-bold">1. 損益兩平銷售量 ($Q_{BEP}$)：</div>
-                            <div class="py-2 text-center text-sm">
-                                $$Q_{BEP} = \frac{CapEx + FC}{P - VC}$$
-                            </div>
-                            <div class="text-slate-400 text-[11px]">$CapEx$: 啟動資本支出[span_41](start_span)[span_41](end_span) | $FC$: 固定營運費用[span_42](start_span)[span_42](end_span) | $P$: 服務單價[span_43](start_span)[span_43](end_span) | $VC$: 變動成本[span_44](start_span)[span_44](end_span)</div>
-                        </div>
-
-                        <div class="p-4 bg-slate-800 rounded border border-slate-700 space-y-2">
-                            <div class="text-slate-300 font-bold">2. 邊際貢獻率 ($CMR$)：</div>
-                            <div class="py-2 text-center text-sm">
-                                $$CMR = \frac{P - VC}{P} \times 100\%$$
-                            </div>
-                            <div class="text-slate-400 text-[11px]">衡量每增加一元收入能為公司帶來多少分攤固定成本與產生利潤的能力[span_45](start_span)[span_45](end_span)。</div>
-                        </div>
-                    </div>
-
-                    <!-- Four Requirements -->
-                    <div class="space-y-3 text-xs text-slate-700">
-                        <h3 class="font-bold text-slate-900 text-sm border-l-4 border-sky-600 pl-2">全班統一提案 4 大要求</h3>
-                        
-                        <div class="p-3 bg-slate-50 rounded border border-slate-200">
-                            <span class="font-bold text-slate-900 block">1. 痛點與解決方案 (Problem & Solution)</span>
-                            明確說明目標族群遭遇的麻煩與解決機制[span_46](start_span)[span_46](end_span)。
-                        </div>
-
-                        <div class="p-3 bg-slate-50 rounded border border-slate-200">
-                            <span class="font-bold text-slate-900 block">2. 商業模式與收入來源 (Business Model)</span>
-                            說明採用抽成（如 10%）、訂閱制或廣告費[span_47](start_span)[span_47](end_span)。
-                        </div>
-
-                        <div class="p-3 bg-slate-50 rounded border border-slate-200">
-                            <span class="font-bold text-slate-900 block">3. 資本投入與 BEP 試算 (CapEx & BEP)</span>
-                            載明啟動資金投入多少，以及需要多少單量才能保本[span_48](start_span)[span_48](end_span)。
-                        </div>
-
-                        <div class="p-3 bg-slate-50 rounded border border-slate-200">
-                            <span class="font-bold text-slate-900 block">4. 風險管理與合規切結 (Risk & Compliance)</span>
-                            對應履約風險，並切結嚴禁違反校規與學術倫理[span_49](start_span)[span_49](end_span)。
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Tab 4: Apple 財報與 AI 算力案例 -->
-        <section id="tab-apple" class="tab-content hidden space-y-6">
-            <div class="glass-card rounded-2xl p-6 sm:p-8 shadow-sm">
-                <h2 class="text-2xl font-bold text-slate-900 mb-2 flex items-center gap-2">
-                    <span class="text-sky-600"><i class="fa-solid fa-apple-whole"></i></span> 課堂案例導讀：Apple 財報庫存與 AI 算力稀缺性
-                </h2>
-                <p class="text-sm text-slate-500 mb-6">從真實商業戰略理解資產負債表、風險轉嫁與不確定性[span_50](start_span)[span_50](end_span)</p>
-
-                <div class="grid md:grid-cols-2 gap-6 mb-6">
-                    <!-- Apple Case -->
-                    <div class="bg-slate-900 text-white p-6 rounded-xl space-y-3 border border-slate-800">
-                        <div class="flex justify-between items-center">
-                            <span class="text-xs font-bold text-sky-400">Apple 26Q3 財報拆解</span>
-                            <span class="text-xs text-slate-400">小島視角導讀</span>
-                        </div>
-                        <h3 class="text-base font-bold text-slate-100">隔壁手機店沒有工廠，倉庫卻突然滿了[span_51](start_span)[span_51](end_span)</h3>
-                        <ul class="text-xs text-slate-300 space-y-2">
-                            <li>• <strong>庫存跳增達 145 億美元：</strong> 過去 5 年庫存維持在 49-75 億平線，今年跳升至 145 億（一年翻倍半）[span_52](start_span)[span_52](end_span)。</li>
-                            <li>• <strong>供應商應收款達 399 億美元：</strong> 高出往年季節性高點 2 成，說明供應鏈大量備貨[span_53](start_span)[span_53](end_span)。</li>
-                            <li>• <strong>CFO 戰略避險：</strong> 面臨記憶體暴漲「百年一遇洪水」[span_54](start_span)[span_54](end_span)，Apple 拿現金提前囤零組件鎖定成本[span_55](start_span)[span_55](end_span)。「風險沒有消失，只是換了一本帳回到自己帳上[span_56](start_span)[span_56](end_span)。」</li>
-                        </ul>
-                    </div>
-
-                    <!-- AI Compute Case -->
-                    <div class="bg-slate-900 text-white p-6 rounded-xl space-y-3 border border-slate-800">
-                        <div class="flex justify-between items-center">
-                            <span class="text-xs font-bold text-emerald-400">AI 算力與稀缺價格</span>
-                            <span class="text-xs text-slate-400">稀缺的價格導讀</span>
-                        </div>
-                        <h3 class="text-base font-bold text-slate-100">GPU 算力出租與準租 (Quasi-Rent)[span_57](start_span)[span_57](end_span)</h3>
-                        <ul class="text-xs text-slate-300 space-y-2">
-                            <li>• <strong>利潤停在稀缺的地方：</strong> 一顆 6.5 萬美元晶片，租金高回報率背後，決定賺錢與否的是折舊而非電費[span_58](start_span)[span_58](end_span)。</li>
-                            <li>• <strong>第一年幻覺：</strong> 不管未來暴賺還是暴賠，第一年租金收益看起來都一樣高[span_59](start_span)[span_59](end_span)。</li>
-                            <li>• <strong>準租 (Quasi-Rent)：</strong> 供給來不及滿足時賺到的超額利潤，終將被資本支出擴增給填平[span_60](start_span)[span_60](end_span)。</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- AI Supply Chain Connection -->
-                <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 text-xs text-slate-700 space-y-2">
-                    <span class="font-bold text-slate-900 text-sm block">AI 產業鏈供給與需求連結：</span>
-                    <p>最終使用者需求 ➔ Google / OpenAI 大模型服務 ➔ 向雲端業者採購算力 ➔ 晶片與零組件業者[span_61](start_span)[span_61](end_span)。各組提案亦同，必須檢視自己的服務是否具備「足夠的稀缺性」[span_62](start_span)[span_62](end_span)！</p>
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- Footer -->
-    <footer class="bg-slate-900 text-slate-400 py-6 text-center text-xs border-t border-slate-800">
-        財務經濟學課程講義 &bull; 課堂重點筆記與學習單整合網頁
-    </footer>
-
-    <!-- JavaScript Logic -->
-    <script>
-        function switchTab(tabId) {
-            const contents = document.querySelectorAll('.tab-content');
-            contents.forEach(content => content.classList.add('hidden'));
-
-            const buttons = document.querySelectorAll('.tab-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
-
-            document.getElementById(tabId).classList.remove('hidden');
-            document.getElementById('btn-' + tabId).classList.add('active');
-
-            if (tabId === 'tab-cfo' && window.MathJax) {
-                MathJax.typesetPromise();
-            }
-        }
-    </script>
+</div>
+<div class="text-slate-400 text-[11px]">衡量每增加一元收入能為公司帶來多少分攤固定成本與產生利潤的能力。</div>
+</div>
+</div>
+<!-- Four Requirements -->
+<div class="space-y-3 text-xs text-slate-700">
+<h3 class="font-bold text-slate-900 text-sm border-l-4 border-sky-600 pl-2">全班統一提案 4 大要求</h3>
+<div class="p-3 bg-slate-50 rounded border border-slate-200">
+<span class="font-bold text-slate-900 block">1. 痛點與解決方案 (Problem & Solution)</span>
+明確說明目標族群遭遇的麻煩與解決機制。
+</div>
+<div class="p-3 bg-slate-50 rounded border border-slate-200">
+<span class="font-bold text-slate-900 block">2. 商業模式與收入來源 (Business Model)</span>
+說明採用抽成（如 10%）、訂閱制或廣告費。
+</div>
+<div class="p-3 bg-slate-50 rounded border border-slate-200">
+<span class="font-bold text-slate-900 block">3. 資本投入與 BEP 試算 (CapEx & BEP)</span>
+載明啟動資金投入多少，以及需要多少單量才能保本。
+</div>
+<div class="p-3 bg-slate-50 rounded border border-slate-200">
+<span class="font-bold text-slate-900 block">4. 風險管理與合規切結 (Risk & Compliance)</span>
+對應履約風險，並切結嚴禁違反校規與學術倫理。
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Tab 4: Apple 財報與 AI 算力案例 -->
+<section id="tab-apple" class="tab-content hidden space-y-6">
+<div class="glass-card rounded-2xl p-6 sm:p-8 shadow-sm">
+<h2 class="text-2xl font-bold text-slate-900 mb-2 flex items-center gap-2">
+<span class="text-sky-600"><i class="fa-solid fa-apple-whole"></i></span> 課堂案例導讀：Apple 財報庫存與 AI 算力稀缺性
+</h2>
+<p class="text-sm text-slate-500 mb-6">從真實商業戰略理解資產負債表、風險轉嫁與不確定性</p>
+<div class="grid md:grid-cols-2 gap-6 mb-6">
+<!-- Apple Case -->
+<div class="bg-slate-900 text-white p-6 rounded-xl space-y-3 border border-slate-800">
+<div class="flex justify-between items-center">
+<span class="text-xs font-bold text-sky-400">Apple 26Q3 財報拆解</span>
+<span class="text-xs text-slate-400">小島視角導讀</span>
+</div>
+<h3 class="text-base font-bold text-slate-100">隔壁手機店沒有工廠，倉庫卻突然滿了</h3>
+<ul class="text-xs text-slate-300 space-y-2">
+<li>• <strong>庫存跳增達 145 億美元：</strong> 過去 5 年庫存維持在 49-75 億平線，今年跳升至 145 億（一年翻倍半）。</li>
+<li>• <strong>供應商應收款達 399 億美元：</strong> 高出往年季節性高點 2 成，說明供應鏈大量備貨。</li>
+<li>• <strong>CFO 戰略避險：</strong> 面臨記憶體暴漲「百年一遇洪水」，Apple 拿現金提前囤零組件鎖定成本。「風險沒有消失，只是換了一本帳回到自己帳上。」</li>
+</ul>
+</div>
+<!-- AI Compute Case -->
+<div class="bg-slate-900 text-white p-6 rounded-xl space-y-3 border border-slate-800">
+<div class="flex justify-between items-center">
+<span class="text-xs font-bold text-emerald-400">AI 算力與稀缺價格</span>
+<span class="text-xs text-slate-400">稀缺的價格導讀</span>
+</div>
+<h3 class="text-base font-bold text-slate-100">GPU 算力出租與準租 (Quasi-Rent)</h3>
+<ul class="text-xs text-slate-300 space-y-2">
+<li>• <strong>利潤停在稀缺的地方：</strong> 一顆 6.5 萬美元晶片，租金高回報率背後，決定賺錢與否的是折舊而非電費。</li>
+<li>• <strong>第一年幻覺：</strong> 不管未來暴賺還是暴賠，第一年租金收益看起來都一樣高。</li>
+<li>• <strong>準租 (Quasi-Rent)：</strong> 供給來不及滿足時賺到的超額利潤，終將被資本支出擴增給填平。</li>
+</ul>
+</div>
+</div>
+<!-- AI Supply Chain Connection -->
+<div class="bg-slate-50 p-5 rounded-xl border border-slate-200 text-xs text-slate-700 space-y-2">
+<span class="font-bold text-slate-900 text-sm block">AI 產業鏈供給與需求連結：</span>
+<p>最終使用者需求 ➔ Google / OpenAI 大模型服務 ➔ 向雲端業者採購算力 ➔ 晶片與零組件業者。各組提案亦同，必須檢視自己的服務是否具備「足夠的稀缺性」！</p>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-slate-900 text-slate-400 py-6 text-center text-xs border-t border-slate-800">
+財務經濟學課程講義 • 課堂重點筆記與學習單整合網頁
+</footer>
+<!-- JavaScript Logic -->
+<script>
+function switchTab(tabId) {
+const contents = document.querySelectorAll('.tab-content');
+contents.forEach(content => content.classList.add('hidden'));
+const buttons = document.querySelectorAll('.tab-btn');
+buttons.forEach(btn => btn.classList.remove('active'));
+document.getElementById(tabId).classList.remove('hidden');
+document.getElementById('btn-' + tabId).classList.add('active');
+if (tabId === 'tab-cfo' && window.MathJax) {
+MathJax.typesetPromise();
+}
+}
+</script>
 </body>
 </html>
