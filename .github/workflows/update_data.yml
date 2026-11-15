@@ -1,0 +1,33 @@
+name: Update Market Data
+
+on:
+  schedule:
+    - cron: '30 9 * * 1-5' # 每個營業日台灣時間下午 5:30 (UTC 9:30) 自動執行
+  workflow_dispatch: # 允許您在 GitHub 網站上手動點擊按鈕執行
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run fetch script
+        run: python fetch_twse.py
+
+      - name: Commit and push if market_data.json changed
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add market_data.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update market_data.json [skip ci]" && git push)
