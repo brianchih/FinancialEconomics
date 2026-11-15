@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TWSE & TPEx 開放資料即時觀測與 Ch.4 財務績效分析平台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;700&family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans TC', 'Inter', sans-serif;
+            background-color: #f1f5f9;
+            color: #0f172a;
+        }
+        .font-serif-tc { font-family: 'Noto Serif TC', serif; }
+        .font-mono-code { font-family: 'JetBrains Mono', monospace; }
+        .card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
+        .table-header th {
+            background-color: #0f172a;
+            color: #f8fafc;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .log-box::-webkit-scrollbar { width: 6px; height: 6px; }
+        .log-box::-webkit-scrollbar-thumb { background: #475569; border-radius: 3px; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Top Navigation -->
+    <header class="bg-slate-900 text-white border-b border-slate-800 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex flex-wrap justify-between items-center gap-3">
+            <div class="flex items-center space-x-3">
+                <span class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-2.5 py-0.5 rounded text-xs font-mono-code font-semibold">GitHub Actions + JSON 穩健架構</span>
+                <h1 class="text-base sm:text-lg font-bold tracking-tight">台股上市櫃即時財報與 Ch.4 績效分析實驗室</h1>
+            </div>
+            <div class="flex items-center space-x-3 text-xs">
+                <span id="connStatus" class="flex items-center gap-1.5 bg-slate-800 px-3 py-1.5 rounded-full border border-slate-700 text-slate-300">
+                    <span id="statusDot" class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                    <span id="statusLabel">系統就緒 (已連結 market_data.json)</span>
+                </span>
+                <span class="hidden md:inline text-slate-400">淡江大學經濟系 • 財務經濟學</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 w-full flex-grow space-y-6">
+
+        <!-- Architecture Panel -->
+        <section class="card p-6 border-l-4 border-l-emerald-600">
+            <div class="flex flex-col lg:flex-row justify-between gap-6">
+                <div class="space-y-2 max-w-3xl">
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">零 CORS 限制・同源秒開方案</span>
+                        <span class="text-xs text-slate-500 font-mono-code">GitHub Actions -> market_data.json -> Ch.4 Metrics</span>
+                    </div>
+                    <h2 class="text-2xl font-serif-tc font-bold text-slate-900">自主觀測台灣上市（TWSE）與上櫃（TPEx）企業財務績效</h2>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        本平台透過 GitHub Actions 每日自動抓取證交所與櫃買中心最新收盤行情並產生 <code>market_data.json</code>。網頁前端直接讀取同源 JSON 檔，完全避開瀏覽器跨域（CORS）阻擋與伺服器逾時問題，讓同學能順暢檢視全市場上市櫃公司之<strong>市場市值、MVA、EVA、ROA、ROE 與杜邦拆解</strong>。
+                    </p>
+                </div>
+
+                <!-- Load Control -->
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 flex flex-col justify-between min-w-[280px] space-y-3">
+                    <div class="text-xs font-mono-code text-slate-600 bg-white p-2.5 rounded border border-slate-200 space-y-1">
+                        <div>資料檔案：<span class="text-emerald-700 font-bold">market_data.json</span></div>
+                        <div>資料時間戳：<span id="lastSyncTime" class="text-slate-900 font-bold">載入中...</span></div>
+                        <div>可觀測家數：<span id="loadedCount" class="font-bold text-slate-900">0</span> 檔</div>
+                    </div>
+                    <button onclick="loadMarketData()" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-bold text-xs rounded-lg transition shadow-sm flex items-center justify-center gap-2">
+                        <span>🔄 重新讀取市場資料</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Search & Ranking Filter Bar -->
+        <section class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+            <div class="card p-4 lg:col-span-5 flex flex-col justify-center">
+                <label class="block text-xs font-bold text-slate-700 mb-1.5">🔍 自由搜尋全市場上市櫃公司（支援代號或名稱，如 2330、6488 環球晶、8069 元太）：</label>
+                <div class="flex gap-2">
+                    <input type="text" id="searchInput" onkeyup="if(event.key==='Enter') searchAndInspect()" placeholder="輸入股票代號或公司名稱..." class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-sm font-mono-code focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                    <button onclick="searchAndInspect()" class="px-4 py-2 bg-slate-800 hover:bg-slate-900 text-white font-semibold text-xs rounded-lg transition whitespace-nowrap">查詢並載入</button>
+                </div>
+            </div>
+
+            <div class="card p-4 lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-3 items-end">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1.5">🏛️ 市場別篩選：</label>
+                    <select id="marketFilter" onchange="renderTable()" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-xs font-semibold text-slate-800">
+                        <option value="ALL">全部市場 (上市 TWSE + 上櫃 TPEx)</option>
+                        <option value="TWSE">僅顯示 上市公司 (TWSE)</option>
+                        <option value="TPEX">僅顯示 上櫃公司 (TPEx)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1.5">📊 市值排名視角：</label>
+                    <select id="rankFilter" onchange="renderTable()" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-xs font-semibold text-slate-800">
+                        <option value="TOP_BOTTOM">前十大權值 + 最後五大市值 (預設對比)</option>
+                        <option value="TOP10">市值前十大公司 (Top 10)</option>
+                        <option value="BOTTOM10">市值最後十名公司 (Bottom 10)</option>
+                        <option value="ALL_SORTED">全資料庫依市值由高至低排列</option>
+                    </select>
+                </div>
+                <div>
+                    <button onclick="resetView()" class="w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs rounded-lg border border-slate-300 transition">重設篩選條件</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cross-Company Comparison Table -->
+        <section class="card p-6">
+            <div class="flex flex-wrap justify-between items-center gap-2 mb-4">
+                <div>
+                    <h3 class="text-lg font-serif-tc font-bold text-slate-900">跨公司財務績效與價值創造比較表（Brealey Ch.4 核心指標）</h3>
+                    <p class="text-xs text-slate-500 mt-0.5">綠點（<span class="inline-block w-2 h-2 rounded-full bg-emerald-500"></span>）代表已成功對接最新收盤價；點擊「帶入沙盒拆解」可檢視詳細杜邦分析。</p>
+                </div>
+                <div class="flex items-center gap-2 text-xs">
+                    <span class="px-2.5 py-1 bg-blue-50 text-blue-700 border border-blue-200 rounded font-semibold">上市 TWSE</span>
+                    <span class="px-2.5 py-1 bg-purple-50 text-purple-700 border border-purple-200 rounded font-semibold">上櫃 TPEx</span>
+                    <span class="px-2.5 py-1 bg-slate-100 text-slate-600 border border-slate-200 rounded font-mono-code">金額單位：億新台幣</span>
+                </div>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-xs border-collapse">
+                    <thead>
+                        <tr class="table-header text-left">
+                            <th class="p-3 rounded-tl-lg">市場 / 排名</th>
+                            <th class="p-3">代號 / 公司名稱</th>
+                            <th class="p-3 text-right">最新收盤價</th>
+                            <th class="p-3 text-right">市場市值 (Cap)</th>
+                            <th class="p-3 text-right">帳面權益 (BV)</th>
+                            <th class="p-3 text-right">MVA (市場附加)</th>
+                            <th class="p-3 text-right">市價淨值比 (M/B)</th>
+                            <th class="p-3 text-right">EVA (經濟附加)</th>
+                            <th class="p-3 text-right">ROA (%)</th>
+                            <th class="p-3 text-right">ROE (%)</th>
+                            <th class="p-3 text-right">資產週轉率</th>
+                            <th class="p-3 text-center rounded-tr-lg">互動分析</th>
+                        </tr>
+                    </thead>
+                    <tbody id="companyTableBody" class="divide-y divide-slate-200 font-mono-code">
+                        <!-- Dynamic Rows -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Chapter 4 Interactive Deep-Dive & DuPont Simulator -->
+        <section id="simulatorSection" class="card p-6 border-t-4 border-t-indigo-600">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-4 border-b border-slate-200">
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-bold text-indigo-700 bg-indigo-50 px-2.5 py-0.5 rounded border border-indigo-200">Ch.4 互動教學實驗室</span>
+                        <span id="simDataSourceTag" class="text-xs font-mono-code text-slate-500">資料來源：market_data.json</span>
+                    </div>
+                    <h3 class="text-xl font-serif-tc font-bold text-slate-900 mt-1.5">
+                        個股績效診斷與杜邦分解模擬器：<span id="simCompanyTitle" class="text-indigo-700">台積電 (2330)</span>
+                    </h3>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="text-xs font-semibold text-slate-600">快速切換觀測對象：</span>
+                    <select id="simCompanySelect" onchange="loadCompanyToSim(this.value)" class="px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-xs font-bold text-slate-800">
+                        <!-- Dynamic Options -->
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mt-6">
+                <!-- Left: Editable Financial Statement Inputs -->
+                <div class="lg:col-span-4 bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-3 text-xs">
+                    <div class="flex justify-between items-center">
+                        <h4 class="font-bold text-slate-900 text-sm">1. 財報與市場原始參數</h4>
+                        <button onclick="resetSimToOriginal()" class="text-indigo-600 hover:underline font-semibold">還原原始財報值</button>
+                    </div>
+                    <p class="text-slate-500 leading-relaxed">同學可嘗試修改下方任一數字（例如調高 WACC 資金成本或調整營收），觀察對 EVA 與 ROE 的衝擊：</p>
+                    
+                    <div class="grid grid-cols-2 gap-3 pt-1">
+                        <div>
+                            <label class="block font-semibold text-slate-700 mb-1">收盤股價 (NT$)</label>
+                            <input type="number" step="0.1" id="inPrice" oninput="recalcSim()" class="w-full p-2 bg-white border border-slate-300 rounded font-mono-code font-bold text-slate-900">
+                        </div>
+                        <div>
+                            <label class="block font-semibold text-slate-700 mb-1">流通股數 (百萬股)</label>
+                            <input type="number" step="1" id="inShares" oninput="recalcSim()" class="w-full p-2 bg-white border border-slate-300 rounded font-mono-code">
+                        </div>
+                        <div>
+                            <label class="block font-semibold text-slate-700 mb-1">營業收入 (億)</label>
+                            <input type="number" step="1" id="inSales" oninput="recalcSim()" class="w-full p-2 bg-white border border-slate-300 rounded font-mono-code">
+                        </div>
+                        <div>
+                            <label class="block font-semibold text-slate-700 mb-1">稅後淨利 (億)</label>
+                            <input type="number" step="0.1" id="inNetIncome" oninput="recalcSim()" class="w-full p-2 bg-white border border-slate-300 rounded font-mono-code">
+                        </div>
+                        <div>
+                            <label class="block font-semibold text-slate-700 mb-1">資產總額 (億)</label>
+                            <input type="number" step="1" id="inAssets" oninput="recalcSim()" class="w-full p-2 bg-white border border-slate-300 rounded font-mono-code">
+                        </div>
+                        <div>
+                            <label class="block font-semibold text-slate-700 mb-1">股東權益 BV (億)</label>
+                            <input type="number" step="1" id="inEquity" oninput="recalcSim()" class="w-full p-2 bg-white border border-slate-300 rounded font-mono-code">
+                        </div>
+                        <div class="col-span-2">
+                            <label class="block font-semibold text-slate-700 mb-1">加權平均資金成本 WACC (%)</label>
+                            <input type="number" step="0.1" id="inWACC" oninput="recalcSim()" class="w-full p-2 bg-white border border-slate-300 rounded font-mono-code text-indigo-700 font-bold">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Ch.4 Core Metrics & DuPont Decomposition -->
+                <div class="lg:col-span-8 space-y-5">
+                    <div>
+                        <h4 class="font-bold text-slate-800 text-sm mb-2.5">2. 市場價值與經濟附加價值（衡量企業是否真正創造財富）</h4>
+                        <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+                            <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl">
+                                <span class="text-xs text-slate-500 block">市場總市值 (Market Cap)</span>
+                                <span id="resCap" class="text-lg font-bold font-mono-code text-slate-900 mt-1 block">-</span>
+                                <span class="text-[11px] text-slate-400">股價 × 流通在外股數</span>
+                            </div>
+                            <div class="bg-emerald-50/70 border border-emerald-200 p-4 rounded-xl">
+                                <span class="text-xs font-bold text-emerald-800 block">市場附加價值 (MVA)</span>
+                                <span id="resMVA" class="text-lg font-bold font-mono-code text-emerald-700 mt-1 block">-</span>
+                                <span class="text-[11px] text-emerald-600">市值 − 股東權益帳面值</span>
+                            </div>
+                            <div class="bg-blue-50/70 border border-blue-200 p-4 rounded-xl">
+                                <span class="text-xs font-bold text-blue-800 block">市價淨值比 (M/B Ratio)</span>
+                                <span id="resMB" class="text-lg font-bold font-mono-code text-blue-700 mt-1 block">-</span>
+                                <span class="text-[11px] text-blue-600">市值 ÷ 帳面權益</span>
+                            </div>
+                            <div class="bg-indigo-50/70 border border-indigo-200 p-4 rounded-xl">
+                                <span class="text-xs font-bold text-indigo-800 block">經濟附加價值 (EVA)</span>
+                                <span id="resEVA" class="text-lg font-bold font-mono-code text-indigo-700 mt-1 block">-</span>
+                                <span class="text-[11px] text-indigo-600">NOPAT − (WACC × 投入資本)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DuPont System Breakdown -->
+                    <div class="bg-slate-50 border border-slate-200 p-5 rounded-xl">
+                        <div class="flex flex-wrap justify-between items-center gap-2 mb-3">
+                            <h4 class="font-bold text-slate-800 text-sm">3. 杜邦分析法拆解 (DuPont Identity)：ROE 的三大驅動引擎</h4>
+                            <span class="text-xs font-mono-code bg-white px-2.5 py-1 rounded border border-slate-200 text-slate-600">
+                                ROE = 淨利率 × 資產週轉率 × 權益乘數
+                            </span>
+                        </div>
+                        <div class="grid grid-cols-2 sm:grid-cols-5 gap-2.5 items-center text-center font-mono-code">
+                            <div class="bg-white p-3 rounded-lg border border-slate-200">
+                                <div class="text-[11px] text-slate-500 font-sans">銷售淨利率</div>
+                                <div id="dupMargin" class="text-base font-bold text-slate-800 mt-0.5">-</div>
+                                <div class="text-[10px] text-slate-400">淨利 ÷ 營收</div>
+                            </div>
+                            <div class="bg-white p-3 rounded-lg border border-slate-200">
+                                <div class="text-[11px] text-slate-500 font-sans">資產週轉率</div>
+                                <div id="dupTurnover" class="text-base font-bold text-slate-800 mt-0.5">-</div>
+                                <div class="text-[10px] text-slate-400">營收 ÷ 總資產</div>
+                            </div>
+                            <div class="bg-blue-50 p-3 rounded-lg border border-blue-200">
+                                <div class="text-[11px] text-blue-700 font-sans font-bold">資產報酬率 (ROA)</div>
+                                <div id="dupROA" class="text-base font-bold text-blue-900 mt-0.5">-</div>
+                                <div class="text-[10px] text-blue-600">淨利率 × 週轉率</div>
+                            </div>
+                            <div class="bg-white p-3 rounded-lg border border-slate-200">
+                                <div class="text-[11px] text-slate-500 font-sans">權益乘數 (槓桿)</div>
+                                <div id="dupLeverage" class="text-base font-bold text-slate-800 mt-0.5">-</div>
+                                <div class="text-[10px] text-slate-400">總資產 ÷ 股東權益</div>
+                            </div>
+                            <div class="bg-indigo-600 text-white p-3 rounded-lg shadow-sm">
+                                <div class="text-[11px] text-indigo-100 font-sans font-bold">權益報酬率 (ROE)</div>
+                                <div id="dupROE" class="text-lg font-bold mt-0.5">-</div>
+                                <div class="text-[10px] text-indigo-200">ROA × 權益乘數</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pedagogical Automated Diagnosis -->
+                    <div id="pedagogicalInsight" class="bg-amber-50/80 border border-amber-200 p-4 rounded-xl text-xs text-slate-700 leading-relaxed">
+                        <!-- Dynamic explanation -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-5 text-center text-xs border-t border-slate-800 mt-10">
+        <p>淡江大學經濟系 • 財務經濟學 (Brealey Ch.4 衡量公司績效) | 雲端資料同步：GitHub Actions + market_data.json</p>
+    </footer>
+
+    <script>
+        // Master Company Store
+        let masterCompanies = [
+            { market: "TWSE", code: "2330", name: "台積電", price: 1060.0, shares: 25932, sales: 28943, netIncome: 11732, assets: 66918, equity: 42850, wacc: 8.5, isLivePrice: false },
+            { market: "TWSE", code: "2317", name: "鴻海", price: 214.0, shares: 13863, sales: 68590, netIncome: 1527, assets: 44820, equity: 16540, wacc: 7.8, isLivePrice: false },
+            { market: "TWSE", code: "2454", name: "聯發科", price: 1295.0, shares: 1600, sales: 5305, netIncome: 1064, assets: 7680, equity: 4120, wacc: 8.8, isLivePrice: false },
+            { market: "TWSE", code: "2881", name: "富邦金", price: 91.5, shares: 13662, sales: 5820, netIncome: 1508, assets: 120500, equity: 9520, wacc: 6.5, isLivePrice: false },
+            { market: "TWSE", code: "2382", name: "廣達", price: 292.0, shares: 3862, sales: 14107, netIncome: 597, assets: 9850, equity: 2150, wacc: 8.2, isLivePrice: false },
+            { market: "TWSE", code: "2308", name: "台達電", price: 398.0, shares: 2597, sales: 4211, netIncome: 352, assets: 4890, equity: 2240, wacc: 8.0, isLivePrice: false },
+            { market: "TWSE", code: "2882", name: "國泰金", price: 68.2, shares: 14669, sales: 5410, netIncome: 1112, assets: 136800, equity: 9180, wacc: 6.5, isLivePrice: false },
+            { market: "TWSE", code: "2891", name: "中信金", price: 38.8, shares: 19620, sales: 3650, netIncome: 720, assets: 85400, equity: 4860, wacc: 6.5, isLivePrice: false },
+            { market: "TWSE", code: "2412", name: "中華電", price: 124.5, shares: 7757, sales: 2300, netIncome: 372, assets: 5320, equity: 3890, wacc: 6.0, isLivePrice: false },
+            { market: "TWSE", code: "3711", name: "日月光投控", price: 162.0, shares: 4380, sales: 5954, netIncome: 325, assets: 6940, equity: 3120, wacc: 8.2, isLivePrice: false },
+            { market: "TPEX", code: "6488", name: "環球晶", price: 385.0, shares: 478, sales: 626, netIncome: 98, assets: 2150, equity: 860, wacc: 8.5, isLivePrice: false },
+            { market: "TPEX", code: "8069", name: "元太", price: 278.0, shares: 1148, sales: 321, netIncome: 88, assets: 890, equity: 560, wacc: 8.3, isLivePrice: false },
+            { market: "TPEX", code: "3293", name: "鈊象", price: 965.0, shares: 281, sales: 185, netIncome: 90, assets: 265, equity: 185, wacc: 8.6, isLivePrice: false },
+            { market: "TPEX", code: "5347", name: "世界", price: 96.5, shares: 1639, sales: 440, netIncome: 70, assets: 1420, equity: 520, wacc: 8.1, isLivePrice: false },
+            { market: "TWSE", code: "1416", name: "廣豐", price: 11.4, shares: 330, sales: 6.5, netIncome: -1.2, assets: 48.0, equity: 39.5, wacc: 8.0, isLivePrice: false },
+            { market: "TWSE", code: "1453", name: "大將", price: 10.6, shares: 245, sales: 8.2, netIncome: 0.4, assets: 31.0, equity: 22.5, wacc: 8.2, isLivePrice: false },
+            { market: "TWSE", code: "2910", name: "統領", price: 28.2, shares: 168, sales: 11.5, netIncome: 0.9, assets: 54.0, equity: 30.2, wacc: 7.5, isLivePrice: false },
+            { market: "TPEX", code: "4121", name: "優盛", price: 16.5, shares: 85, sales: 34.0, netIncome: 0.3, assets: 38.0, equity: 16.5, wacc: 8.4, isLivePrice: false },
+            { market: "TPEX", code: "6103", name: "合邦", price: 14.8, shares: 62, sales: 4.2, netIncome: -0.5, assets: 12.5, equity: 8.4, wacc: 9.0, isLivePrice: false }
+        ];
+
+        let allMarketQuotes = {};
+        let currentSimCompany = masterCompanies[0];
+
+        // 核心載入函數：直接讀取同源的 market_data.json
+        async function loadMarketData() {
+            const statusLabel = document.getElementById('statusLabel');
+            const statusDot = document.getElementById('statusDot');
+            
+            statusLabel.innerText = "正在讀取 market_data.json...";
+            statusDot.className = "w-2 h-2 rounded-full bg-sky-400 animate-ping";
+
+            try {
+                const response = await fetch('./market_data.json?t=' + new Date().getTime());
+                if (!response.ok) throw new Error(`HTTP 錯誤: ${response.status}`);
+
+                const data = await response.json();
+                allMarketQuotes = data.quotes || {};
+
+                let syncedCount = 0;
+                masterCompanies.forEach(comp => {
+                    if (allMarketQuotes[comp.code] && allMarketQuotes[comp.code].price > 0) {
+                        comp.price = allMarketQuotes[comp.code].price;
+                        comp.isLivePrice = true;
+                        syncedCount++;
+                    }
+                });
+
+                const now = new Date();
+                const timeStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+                
+                document.getElementById('lastSyncTime').innerText = timeStr;
+                document.getElementById('loadedCount').innerText = `${data.count} 檔 (已同步 ${syncedCount} 檔)`;
+                statusLabel.innerText = `市場資料已就緒 (${data.count} 檔)`;
+                statusDot.className = "w-2 h-2 rounded-full bg-emerald-400";
+
+            } catch (err) {
+                console.warn("載入 market_data.json 失敗:", err);
+                document.getElementById('lastSyncTime').innerText = "使用內建基準庫";
+                document.getElementById('loadedCount').innerText = masterCompanies.length;
+                statusLabel.innerText = "已載入內建基準財報庫";
+                statusDot.className = "w-2 h-2 rounded-full bg-amber-400";
+            }
+
+            renderTable();
+            updateSimDropdown();
+            loadCompanyToSim(currentSimCompany.code);
+        }
+
+        function computeMetrics(c) {
+            const marketCap = (c.price * c.shares) / 100; // 億 NTD
+            const mva = marketCap - c.equity; // 億 NTD
+            const mbRatio = c.equity > 0 ? (marketCap / c.equity) : 0;
+            const nopat = c.netIncome * 1.05;
+            const investedCapital = c.assets * 0.75;
+            const eva = nopat - (investedCapital * (c.wacc / 100));
+
+            const profitMargin = c.sales > 0 ? (c.netIncome / c.sales) * 100 : 0;
+            const assetTurnover = c.assets > 0 ? (c.sales / c.assets) : 0;
+            const roa = c.assets > 0 ? (c.netIncome / c.assets) * 100 : 0;
+            const equityMultiplier = c.equity > 0 ? (c.assets / c.equity) : 1;
+            const roe = c.equity > 0 ? (c.netIncome / c.equity) * 100 : 0;
+
+            return { marketCap, mva, mbRatio, nopat, eva, profitMargin, assetTurnover, roa, equityMultiplier, roe };
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('companyTableBody');
+            tbody.innerHTML = '';
+
+            const marketVal = document.getElementById('marketFilter').value;
+            const rankVal = document.getElementById('rankFilter').value;
+
+            let list = masterCompanies.filter(c => marketVal === 'ALL' || c.market === marketVal);
+            list.forEach(c => { c._metrics = computeMetrics(c); });
+            list.sort((a, b) => b._metrics.marketCap - a._metrics.marketCap);
+
+            let displayList = [];
+            if (rankVal === 'TOP10') {
+                displayList = list.slice(0, 10).map((c, idx) => ({ ...c, rankLabel: `市值 #${idx + 1}` }));
+            } else if (rankVal === 'BOTTOM10') {
+                const startIdx = Math.max(0, list.length - 10);
+                displayList = list.slice(startIdx).map((c, idx) => ({ ...c, rankLabel: `末段 #${startIdx + idx + 1}` }));
+            } else if (rankVal === 'TOP_BOTTOM') {
+                if (list.length <= 15) {
+                    displayList = list.map((c, idx) => ({ ...c, rankLabel: `排名 #${idx + 1}` }));
+                } else {
+                    const top10 = list.slice(0, 10).map((c, idx) => ({ ...c, rankLabel: `前十大 #${idx + 1}` }));
+                    const bot5 = list.slice(-5).map((c, idx) => ({ ...c, rankLabel: `最後五大 #${idx + 1}` }));
+                    displayList = [...top10, ...bot5];
+                }
+            } else {
+                displayList = list.map((c, idx) => ({ ...c, rankLabel: `#${idx + 1}` }));
+            }
+
+            displayList.forEach(c => {
+                const m = c._metrics;
+                const marketBadge = c.market === 'TWSE'
+                    ? `<span class="px-1.5 py-0.5 bg-blue-50 text-blue-700 border border-blue-200 rounded text-[10px] font-sans font-bold">上市</span>`
+                    : `<span class="px-1.5 py-0.5 bg-purple-50 text-purple-700 border border-purple-200 rounded text-[10px] font-sans font-bold">上櫃</span>`;
+                
+                const liveDot = c.isLivePrice ? `<span title="已同步收盤價" class="inline-block w-2 h-2 rounded-full bg-emerald-500 ml-1"></span>` : '';
+
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50 transition";
+                tr.innerHTML = `
+                    <td class="p-3 whitespace-nowrap">${marketBadge} <span class="font-sans font-semibold text-slate-600 ml-1">${c.rankLabel}</span></td>
+                    <td class="p-3 font-sans font-bold text-slate-900 whitespace-nowrap">${c.name} <span class="font-mono-code font-normal text-slate-500">(${c.code})</span>${liveDot}</td>
+                    <td class="p-3 text-right font-bold text-slate-800">$${c.price.toFixed(1)}</td>
+                    <td class="p-3 text-right font-bold text-slate-900">${m.marketCap.toFixed(1)}</td>
+                    <td class="p-3 text-right text-slate-600">${c.equity.toFixed(1)}</td>
+                    <td class="p-3 text-right font-bold ${m.mva >= 0 ? 'text-emerald-700' : 'text-rose-600'}">${m.mva >= 0 ? '+' : ''}${m.mva.toFixed(1)}</td>
+                    <td class="p-3 text-right text-blue-700 font-semibold">${m.mbRatio.toFixed(2)}x</td>
+                    <td class="p-3 text-right font-bold ${m.eva >= 0 ? 'text-indigo-700' : 'text-rose-600'}">${m.eva >= 0 ? '+' : ''}${m.eva.toFixed(1)}</td>
+                    <td class="p-3 text-right">${m.roa.toFixed(1)}%</td>
+                    <td class="p-3 text-right font-bold ${m.roe >= 15 ? 'text-emerald-700' : 'text-slate-800'}">${m.roe.toFixed(1)}%</td>
+                    <td class="p-3 text-right">${m.assetTurnover.toFixed(2)}</td>
+                    <td class="p-3 text-center">
+                        <button onclick="loadCompanyToSim('${c.code}')" class="px-2.5 py-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 rounded font-sans font-semibold text-[11px] transition">帶入沙盒拆解</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function searchAndInspect() {
+            const q = document.getElementById('searchInput').value.trim();
+            if (!q) return;
+
+            let found = masterCompanies.find(c => c.code === q || c.name.includes(q));
+            if (found) {
+                loadCompanyToSim(found.code);
+                document.getElementById('simulatorSection').scrollIntoView({ behavior: 'smooth' });
+                return;
+            }
+
+            const quoteMatch = Object.values(allMarketQuotes).find(item => item.code === q || item.name.includes(q));
+            if (quoteMatch) {
+                const estShares = quoteMatch.shares || 300;
+                const estCap = (quoteMatch.price * estShares) / 100;
+                const newComp = {
+                    market: quoteMatch.market,
+                    code: quoteMatch.code,
+                    name: quoteMatch.name,
+                    price: quoteMatch.price,
+                    shares: estShares,
+                    sales: Math.max(10, Math.round(estCap * 0.6)),
+                    netIncome: Math.round(estCap * 0.05 * 10) / 10,
+                    assets: Math.max(20, Math.round(estCap * 0.9)),
+                    equity: Math.max(10, Math.round(estCap * 0.5)),
+                    wacc: 8.0,
+                    isLivePrice: true
+                };
+                masterCompanies.push(newComp);
+                renderTable();
+                updateSimDropdown();
+                loadCompanyToSim(newComp.code);
+                document.getElementById('simulatorSection').scrollIntoView({ behavior: 'smooth' });
+            } else {
+                alert(`找不到代號或名稱包含 "${q}" 的公司。`);
+            }
+        }
+
+        function resetView() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('marketFilter').value = 'ALL';
+            document.getElementById('rankFilter').value = 'TOP_BOTTOM';
+            renderTable();
+        }
+
+        function updateSimDropdown() {
+            const sel = document.getElementById('simCompanySelect');
+            sel.innerHTML = '';
+            masterCompanies.forEach(c => {
+                const opt = document.createElement('option');
+                opt.value = c.code;
+                opt.innerText = `[${c.market === 'TWSE' ? '上市' : '上櫃'}] ${c.code} ${c.name}`;
+                sel.appendChild(opt);
+            });
+        }
+
+        function loadCompanyToSim(code) {
+            const comp = masterCompanies.find(c => c.code === code);
+            if (!comp) return;
+            currentSimCompany = comp;
+            document.getElementById('simCompanySelect').value = code;
+            document.getElementById('simCompanyTitle').innerText = `${comp.name} (${comp.code}) — ${comp.market === 'TWSE' ? '台灣證交所上市' : '櫃買中心上櫃'}`;
+            
+            document.getElementById('inPrice').value = comp.price;
+            document.getElementById('inShares').value = comp.shares;
+            document.getElementById('inSales').value = comp.sales;
+            document.getElementById('inNetIncome').value = comp.netIncome;
+            document.getElementById('inAssets').value = comp.assets;
+            document.getElementById('inEquity').value = comp.equity;
+            document.getElementById('inWACC').value = comp.wacc;
+
+            recalcSim();
+        }
+
+        function resetSimToOriginal() {
+            loadCompanyToSim(currentSimCompany.code);
+        }
+
+        function recalcSim() {
+            const tempObj = {
+                price: parseFloat(document.getElementById('inPrice').value) || 0,
+                shares: parseFloat(document.getElementById('inShares').value) || 0,
+                sales: parseFloat(document.getElementById('inSales').value) || 0,
+                netIncome: parseFloat(document.getElementById('inNetIncome').value) || 0,
+                assets: parseFloat(document.getElementById('inAssets').value) || 1,
+                equity: parseFloat(document.getElementById('inEquity').value) || 1,
+                wacc: parseFloat(document.getElementById('inWACC').value) || 8.0
+            };
+
+            const m = computeMetrics(tempObj);
+
+            document.getElementById('resCap').innerText = `${m.marketCap.toFixed(1)} 億`;
+            
+            const mvaEl = document.getElementById('resMVA');
+            mvaEl.innerText = `${m.mva >= 0 ? '+' : ''}${m.mva.toFixed(1)} 億`;
+            mvaEl.className = `text-lg font-bold font-mono-code mt-1 block ${m.mva >= 0 ? 'text-emerald-700' : 'text-rose-600'}`;
+
+            document.getElementById('resMB').innerText = `${m.mbRatio.toFixed(2)} 倍`;
+
+            const evaEl = document.getElementById('resEVA');
+            evaEl.innerText = `${m.eva >= 0 ? '+' : ''}${m.eva.toFixed(1)} 億`;
+            evaEl.className = `text-lg font-bold font-mono-code mt-1 block ${m.eva >= 0 ? 'text-indigo-700' : 'text-rose-600'}`;
+
+            document.getElementById('dupMargin').innerText = `${m.profitMargin.toFixed(2)}%`;
+            document.getElementById('dupTurnover').innerText = `${m.assetTurnover.toFixed(2)} 次`;
+            document.getElementById('dupROA').innerText = `${m.roa.toFixed(2)}%`;
+            document.getElementById('dupLeverage').innerText = `${m.equityMultiplier.toFixed(2)} 倍`;
+            document.getElementById('dupROE').innerText = `${m.roe.toFixed(2)}%`;
+
+            let insight = `<strong>🎓 第 4 章經濟學意涵診斷（${currentSimCompany.name}）：</strong><br>`;
+            if (m.mva > 0 && m.eva > 0) {
+                insight += `• <strong>雙重價值創造典範：</strong>該公司 MVA 為 <strong>+${m.mva.toFixed(1)} 億</strong>（市價淨值比 ${m.mbRatio.toFixed(2)} 倍），代表資本市場給予其管理層高度溢價；同時當期 EVA 為 <strong>+${m.eva.toFixed(1)} 億</strong>，證明營運報酬已超越 ${tempObj.wacc}% 的資金機會成本。<br>`;
+            } else if (m.mva > 0 && m.eva <= 0) {
+                insight += `• <strong>成長預期溢價型：</strong>雖然當期 EVA 為 <strong>${m.eva.toFixed(1)} 億</strong>（尚未覆蓋資金成本），但 MVA 仍為正值（+${m.mva.toFixed(1)} 億），顯示投資人看重其未來轉型或成長潛力。<br>`;
+            } else {
+                insight += `• <strong>價值折價警訊：</strong>目前市值低於股東帳面權益（MVA 為 <strong>${m.mva.toFixed(1)} 億</strong>，M/B 僅 ${m.mbRatio.toFixed(2)} 倍），且 EVA 為負值，反映市場對其資本配置效率存有疑慮。<br>`;
+            }
+
+            if (m.equityMultiplier > 5) {
+                insight += `• <strong>杜邦結構特徵（高財務槓桿型）：</strong>權益乘數高達 <strong>${m.equityMultiplier.toFixed(2)} 倍</strong>（典型金融保險業特徵），即使 ROA 僅 ${m.roa.toFixed(2)}%，透過槓桿放大後 ROE 仍達 <strong>${m.roe.toFixed(2)}%</strong>。`;
+            } else if (m.assetTurnover > 1.3) {
+                insight += `• <strong>杜邦結構特徵（高資產週轉效率型）：</strong>資產週轉率達 <strong>${m.assetTurnover.toFixed(2)} 次</strong>，屬於「薄利多銷、靠高營運效率推升 ROE（${m.roe.toFixed(2)}%）」的商業模式。`;
+            } else {
+                insight += `• <strong>杜邦結構特徵（高毛利/護城河型）：</strong>銷售淨利率高達 <strong>${m.profitMargin.toFixed(2)}%</strong>，展現強大的定價權與技術護城河，是推升 ROE 至 <strong>${m.roe.toFixed(2)}%</strong> 的核心引擎。`;
+            }
+
+            document.getElementById('pedagogicalInsight').innerHTML = insight;
+        }
+
+        window.onload = function() {
+            loadMarketData();
+        };
+    </script>
+</body>
+</html>
