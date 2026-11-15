@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>財務經濟學 - 預測市場專屬密碼查詢</title>
+    <style>
+        :root {
+            --bg-main: #0b0f19;
+            --bg-card: #151c2c;
+            --border-color: #2a364f;
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1rem;
+        }
+
+        .query-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 440px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        }
+
+        h2 {
+            font-size: 1.35rem;
+            color: #f8fafc;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+
+        p.subtitle {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            text-align: center;
+            margin-bottom: 1.8rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            background: #0f172a;
+            border: 1px solid var(--border-color);
+            color: white;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input:focus {
+            border-color: var(--accent-blue);
+        }
+
+        button {
+            width: 100%;
+            padding: 0.8rem;
+            margin-top: 1rem;
+            background: linear-gradient(135deg, var(--accent-blue), #6366f1);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .result-box {
+            margin-top: 1.5rem;
+            padding: 1.2rem;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--accent-green);
+            border-radius: 8px;
+            text-align: center;
+            display: none;
+        }
+
+        .result-box.error {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: #ef4444;
+            color: #fca5a5;
+        }
+
+        .password-display {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--accent-green);
+            letter-spacing: 2px;
+            margin-top: 6px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="query-card">
+        <h2>🔒 預測市場個人密碼查詢</h2>
+        <p class="subtitle">請輸入您的「學號」與「姓名」以查詢您的專屬下單密碼</p>
+
+        <div class="form-group">
+            <label>學生學號</label>
+            <input type="text" id="studentId" placeholder="例如：411571069">
+        </div>
+
+        <div class="form-group">
+            <label>學生姓名</label>
+            <input type="text" id="studentName" placeholder="例如：周書宇">
+        </div>
+
+        <button onclick="queryPassword()">查詢密碼</button>
+
+        <div id="resultBox" class="result-box">
+            <div id="resultText" style="font-size: 0.9rem; color: var(--text-muted);">查詢結果</div>
+            <div id="passwordValue" class="password-display">--</div>
+        </div>
+    </div>
+
+    <script>
+        // 內嵌學生資料庫清單（已按您的名單填入）
+        const STUDENT_DATABASE = [
+            { id: "411571069", name: "周書宇", pass: "6351" },
+            { id: "412547175", name: "闕劭恩", pass: "5938" },
+            { id: "412570391", name: "吳丰玄", pass: "2894" },
+            { id: "412570540", name: "游嵉旭", pass: "9527" },
+            { id: "412570771", name: "劉鈺傑", pass: "1389" },
+            { id: "412571159", name: "張茹微", pass: "7416" },
+            { id: "412576521", name: "許于廷", pass: "6182" },
+            { id: "412590183", name: "黃兆瑋", pass: "5642" },
+            { id: "413051045", name: "鄧云華", pass: "9748" },
+            { id: "413570036", name: "卓湧勝", pass: "5104" },
+            { id: "413570069", name: "陳子函", pass: "9342" },
+            { id: "413570093", name: "彭亮怡", pass: "2671" },
+            { id: "413570150", name: "邱俊傑", pass: "5731" },
+            { id: "413570218", name: "陳品安", pass: "8923" },
+            { id: "413570242", name: "閔振宇", pass: "3721" },
+            { id: "413570275", name: "陳冠瑋", pass: "8164" },
+            { id: "413570309", name: "吳立丞", pass: "3841" },
+            { id: "413570424", name: "林琮洧", pass: "4567" },
+            { id: "413570457", name: "林旻翰", pass: "3085" },
+            { id: "413570481", name: "林國仁", pass: "7039" },
+            { id: "413570515", name: "鄒采慈", pass: "4195" },
+            { id: "413570549", name: "鄭博仁", pass: "3268" },
+            { id: "413570572", name: "周裕凱", pass: "8419" },
+            { id: "413570606", name: "林宜庭", pass: "6518" },
+            { id: "413570697", name: "蔡文睿", pass: "6721" },
+            { id: "413570721", name: "林玟均", pass: "1845" },
+            { id: "413570739", name: "陳冠宇", pass: "2365" },
+            { id: "413570754", name: "蕭凱陽", pass: "1230" },
+            { id: "413570788", name: "王羽倢", pass: "8632" },
+            { id: "413570812", name: "陳玥彤", pass: "1470" },
+            { id: "413570846", name: "陳珮姍", pass: "6812" },
+            { id: "413570879", name: "鍾筱雯", pass: "1805" },
+            { id: "413570960", name: "高士勛", pass: "2485" },
+            { id: "413570994", name: "張家齊", pass: "2950" },
+            { id: "413571026", name: "郭競凱", pass: "9041" },
+            { id: "413571059", name: "林雨璇", pass: "6023" },
+            { id: "413571083", name: "楊丞愷", pass: "1582" },
+            { id: "413571117", name: "許巽雯", pass: "9514" },
+            { id: "413571141", name: "高愷壕", pass: "7894" },
+            { id: "413571174", name: "古哲勳", pass: "3158" },
+            { id: "413571208", name: "方翊鴻", pass: "2064" },
+            { id: "413571232", name: "駱駿昊", pass: "7953" },
+            { id: "413571265", name: "酈乾恩", card: "6417", pass: "6417" },
+            { id: "413571299", name: "廖奕捷", pass: "7496" },
+            { id: "413571323", name: "陳勁宏", pass: "5613" },
+            { id: "413571356", name: "阮妤瑄", pass: "5289" },
+            { id: "413571380", name: "林芯楹", pass: "5493" },
+            { id: "413571414", name: "劉皓翔", pass: "1279" },
+            { id: "413571471", name: "沈彥志", pass: "4216" },
+            { id: "413576538", name: "李雨庭", pass: "7392" },
+            { id: "414577113", name: "王采妍", pass: "3479" },
+            { id: "414577626", name: "黄柏皓", pass: "4926" },
+            { id: "414577659", name: "陳宜鍹", pass: "9127" },
+            { id: "414577683", name: "陳柏瑋", pass: "8034" },
+            { id: "414577717", name: "吳承澤", pass: "1063" },
+            { id: "414578095", name: "周子瑜", pass: "8394" },
+            { id: "414578111", name: "閻姝伶", pass: "4751" },
+            { id: "415578011", name: "黃士杰", pass: "8361" },
+            { id: "415578045", name: "吳嘉珊", pass: "2036" }
+        ];
+
+        function cleanStr(str) {
+            return str ? str.trim().replace(/\s+/g, '') : '';
+        }
+
+        function queryPassword() {
+            const inputId = cleanStr(document.getElementById('studentId').value);
+            const inputName = cleanStr(document.getElementById('studentName').value);
+            const resultBox = document.getElementById('resultBox');
+            const resultText = document.getElementById('resultText');
+            const passwordValue = document.getElementById('passwordValue');
+
+            resultBox.style.display = 'block';
+
+            if (!inputId || !inputName) {
+                resultBox.className = 'result-box error';
+                resultText.innerText = '輸入錯誤';
+                passwordValue.innerText = '請完整輸入學號與姓名';
+                return;
+            }
+
+            // 比對學號與姓名
+            const matched = STUDENT_DATABASE.find(s => s.id === inputId && cleanStr(s.name) === inputName);
+
+            if (matched) {
+                resultBox.className = 'result-box';
+                resultText.innerText = `查詢成功！(${matched.name} 同學)`;
+                passwordValue.innerText = matched.pass;
+            } else {
+                resultBox.className = 'result-box error';
+                resultText.innerText = '查無此人';
+                passwordValue.innerText = '學號或姓名不符，請重新確認';
+            }
+        }
+    </script>
+</body>
+</html>
