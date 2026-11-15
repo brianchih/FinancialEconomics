@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第 4-4 節：杜邦系統與獲利性分解 | 財務經濟學教學平台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Inter:wght@300;400;500;600&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans TC', 'Inter', sans-serif;
+            background-color: #f4f6f9;
+            color: #1e293b;
+        }
+        .font-serif-tc {
+            font-family: 'Noto Serif TC', serif;
+        }
+        .academic-card {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s ease-in-out;
+        }
+        .formula-box {
+            background-color: #f5f3ff;
+            border-left: 4px solid #8b5cf6;
+        }
+        .table-custom th {
+            background-color: #1e293b;
+            color: #ffffff;
+            font-weight: 600;
+        }
+        .table-custom tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+    <!-- Academic Header -->
+    <header class="bg-slate-900 text-white border-b border-slate-800 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <a href="brealey_ch4_overview.html" class="text-slate-400 hover:text-white text-xs font-semibold tracking-wider uppercase transition">&larr; 返回第 4 章總覽</a>
+                <span class="text-slate-600">|</span>
+                <a href="chap4_3.html" class="text-slate-400 hover:text-white text-xs font-semibold tracking-wider uppercase transition">&larr; 4-3 小節</a>
+                <span class="text-slate-600">|</span>
+                <span class="text-xs font-semibold tracking-widest text-purple-300 uppercase">Section 4-4</span>
+            </div>
+            <div class="text-xs font-semibold text-slate-300 bg-slate-800 px-3 py-1.5 rounded border border-slate-700">
+                Brealey Chapter 4
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-5xl mx-auto px-6 py-12 w-full flex-grow">
+
+        <!-- Section Title & Overview -->
+        <section class="bg-white border border-slate-200/80 rounded-xl p-8 mb-8 shadow-sm relative overflow-hidden border-l-4 border-l-purple-600">
+            <span class="text-xs font-bold tracking-wider text-purple-700 uppercase bg-purple-50 px-2.5 py-1 rounded border border-purple-200">第 4-4 節</span>
+            <h2 class="text-3xl font-serif-tc font-bold text-slate-900 mt-3 mb-3">杜邦系統：獲利性源自資產運用與銷貨利潤</h2>
+            <p class="text-slate-600 leading-relaxed text-base">
+                企業的獲利能力（如資產報酬率 ROA 與股東權益報酬率 ROE）並非憑空而來。本節介紹著名的<strong>杜邦系統（DuPont System）</strong>，將 ROA 與 ROE 拆解為「有效使用資產（週轉率）」與「來自銷貨的利潤（利潤邊際）」的乘積。透過杜邦分析，管理者與投資人能夠精準診斷企業究竟是靠「薄利多銷（沃爾瑪策略）」還是「高利潤率」來創造價值。
+            </p>
+        </section>
+
+        <!-- Part 1: DuPont System Core Decomposition -->
+        <section class="academic-card rounded-xl p-8 mb-8 shadow-sm">
+            <h3 class="text-xl font-serif-tc font-bold text-slate-900 mb-4 flex items-center gap-2">
+                <span>🔄</span> 一、 杜邦系統：將 ROA 與 ROE 分解為各種成份
+            </h3>
+            <p class="text-slate-600 text-sm mb-6 leading-relaxed">
+                杜邦分析的核心邏輯在於將單一的報酬率指標進行連鎖拆解，找出驅動獲利表現的底層關鍵因素。
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <!-- ROA Decomposition -->
+                <div class="formula-box p-6 rounded-xl">
+                    <h4 class="font-bold text-purple-900 mb-2 text-base">ROA 兩大驅動因子</h4>
+                    <p class="text-xs text-slate-600 mb-3">資產報酬率 = 資產週轉率 × 營業利潤邊際</p>
+                    <div class="bg-white p-3 rounded border border-purple-200 text-xs font-mono text-purple-900 font-bold mb-3">
+                        ROA = (銷貨收入 / 資產總額) × (稅後營業淨利 / 銷貨收入)
+                    </div>
+                    <p class="text-xs text-slate-700">
+                        <strong>Home Depot 實例：</strong><br>
+                        • 資產週轉率 ＝ 2.05 次<br>
+                        • 營業利潤邊際 ＝ 8.3% (0.083)<br>
+                        • <strong>ROA ＝ 2.05 × 0.083 ＝ 17.0% (0.170)</strong>
+                    </p>
+                </div>
+
+                <!-- Margin Calculation Details -->
+                <div class="bg-slate-50 border border-slate-200 rounded-xl p-6">
+                    <h4 class="font-bold text-slate-900 mb-2 text-base">利潤邊際 vs 營業利潤邊際</h4>
+                    <ul class="text-xs text-slate-700 space-y-2 font-mono">
+                        <li>• <strong>利潤邊際 (Profit Margin)</strong><br>
+                            &nbsp;&nbsp;= 稅後淨利 / 銷貨收入 ＝ 6,345 / 83,176 ＝ <strong>7.6%</strong>
+                        </li>
+                        <li>• <strong>營業利潤邊際 (Operating Profit Margin)</strong><br>
+                            &nbsp;&nbsp;= 稅後營業淨利 / 銷貨收入<br>
+                            &nbsp;&nbsp;= [6,345 ＋ (1 － 0.35) × 830] / 83,176 ＝ <strong>8.3%</strong>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Part 2: Strategic Trade-offs (Walmart Strategy) -->
+        <section class="academic-card rounded-xl p-8 mb-8 shadow-sm">
+            <h3 class="text-xl font-serif-tc font-bold text-slate-900 mb-4 flex items-center gap-2">
+                <span>🛒</span> 二、 策略抉擇：「沃爾瑪策略」與產業特性
+            </h3>
+            <p class="text-slate-600 text-sm mb-6 leading-relaxed">
+                杜邦公式是思考公司策略與商業模式的強大工具。不同產業因為產品特性與競爭環境，發展出截然不同的經營策略：
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div class="bg-purple-50/50 border border-purple-100 rounded-xl p-6">
+                    <h4 class="font-bold text-purple-900 mb-2 text-base">1. 沃爾瑪策略 (Walmart Strategy) —— 高週轉、低利潤</h4>
+                    <p class="text-slate-700 text-sm leading-relaxed">
+                        大型零售商（如 Walmart、Home Depot）透過大量進貨、薄利多銷來吸引顧客，以<strong>低利潤邊際為代價，換取極高的資產週轉率</strong>，最終達成優異的 ROA。
+                    </p>
+                </div>
+
+                <div class="bg-indigo-50/50 border border-indigo-100 rounded-xl p-6">
+                    <h4 class="font-bold text-indigo-900 mb-2 text-base">2. 高利潤策略 —— 低週轉、高毛利</h4>
+                    <p class="text-slate-700 text-sm leading-relaxed">
+                        高科技或奢侈品產業（如電腦週邊、精品業）資金投入大或銷貨速度慢，但享有極高的產品附加價值與<strong>高營業利潤邊際</strong>，即使資產週轉率較低也能維持穩健獲利。
+                    </p>
+                </div>
+            </div>
+
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-6">
+                <h4 class="font-bold text-slate-900 mb-2 text-base">💡 完整杜邦槓桿分解架構 (ROE 驅動矩陣)</h4>
+                <p class="text-xs text-slate-600 mb-3">當我們將杜邦系統延伸至權益報酬率（ROE）時，其四個關鍵組成要素為：</p>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center text-xs font-mono">
+                    <div class="bg-white p-3 rounded border border-slate-200">
+                        <span class="text-purple-700 font-bold block mb-1">① 槓桿比率</span>
+                        整體財務結構槓桿
+                    </div>
+                    <div class="bg-white p-3 rounded border border-slate-200">
+                        <span class="text-purple-700 font-bold block mb-1">② 資產週轉率</span>
+                        取決於資產管理效率
+                    </div>
+                    <div class="bg-white p-3 rounded border border-slate-200">
+                        <span class="text-purple-700 font-bold block mb-1">③ 營業利潤邊際</span>
+                        取決於生產力與行銷技巧
+                    </div>
+                    <div class="bg-white p-3 rounded border border-slate-200">
+                        <span class="text-purple-700 font-bold block mb-1">④ 債務負荷 (稅息負擔)</span>
+                        融資成本與稅率影響
+                    </div>
+                </div>
+                <p class="text-xs text-slate-500 mt-3">※ 中間兩項相乘即為 ROA（反映本業經營與行銷能力），第一項與第四項則決定於負債與權益的融資組合及利息稅負。</p>
+            </div>
+        </section>
+
+        <!-- Part 3: Self-Tests (4.6, 4.8) -->
+        <div class="space-y-6">
+            <!-- Self-Test 4.6 -->
+            <section class="academic-card rounded-xl p-6 shadow-sm border-l-4 border-l-purple-700">
+                <span class="text-xs font-bold text-purple-700 bg-purple-50 px-2.5 py-1 rounded border border-purple-200">自我測驗 4.6</span>
+                <h4 class="font-serif-tc font-bold text-lg text-slate-900 mt-2 mb-2">高資產週轉率是否一定帶來高 ROA 平均值？</h4>
+                <p class="text-slate-700 text-sm mb-3">
+                    <strong>題目：</strong>杜邦公式似乎建議，有較高平均資產週轉率的公司，通常會有高 ROA 平均值，為何事實可能不會這樣？
+                </p>
+                <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 text-sm text-slate-700 space-y-2">
+                    <p><strong>解答說明：</strong></p>
+                    <p>因為 ROA 是「資產週轉率」與「營業利潤邊際」的<strong>乘積</strong>。雖然高資產週轉率（如沃爾瑪策略）有助於提高 ROA，但如果該產業的競爭異常激烈，導致其營業利潤邊際極低甚至為負數（即薄利卻無法多銷或面臨虧損），則高週轉率並無法保證能帶來高 ROA。</p>
+                </div>
+            </section>
+
+            <!-- Self-Test 4.8 -->
+            <section class="academic-card rounded-xl p-6 shadow-sm border-l-4 border-l-purple-700">
+                <span class="text-xs font-bold text-purple-700 bg-purple-50 px-2.5 py-1 rounded border border-purple-200">自我測驗 4.8</span>
+                <h4 class="font-serif-tc font-bold text-lg text-slate-900 mt-2 mb-2">Sappy Syrup 公司的杜邦邏輯推理</h4>
+                <p class="text-slate-700 text-sm mb-3">
+                    <strong>題目：</strong>
+                    <br>a. Sappy Syrup 公司的利潤邊際低於產業平均，但是 ROA 等於產業平均。有可能這樣嗎？
+                    <br>b. Sappy Syrup 公司的 ROA 等於產業平均，但其 ROE 超過產業平均。有可能這樣嗎？
+                </p>
+                <div class="bg-white p-4 rounded-lg border border-slate-200 text-sm text-slate-700 space-y-3">
+                    <p><strong>(a) 利潤邊際低於平均，但 ROA 等於平均：</strong></p>
+                    <p class="text-xs font-mono bg-slate-50 p-2 rounded">
+                        • <strong>絕對有可能。</strong> 根據杜邦公式 $	ext{ROA} = 	ext{資產週轉率} 	imes 	ext{利潤邊際}$，若該公司的<strong>資產週轉率顯著高於產業平均</strong>（例如採取高效率的薄利多銷策略），就能完全彌補利潤邊際的不足，使 ROA 保持在產業平均水準。
+                    </p>
+
+                    <p><strong>(b) ROA 等於平均，但 ROE 超過產業平均：</strong></p>
+                    <p class="text-xs font-mono bg-slate-50 p-2 rounded">
+                        • <strong>絕對有可能。</strong> 根據 $	ext{ROE} = 	ext{ROA} 	imes 	ext{財務槓桿倍數}$（資產/權益），若該公司採用了<strong>較高的財務槓桿（較多的負債融資）</strong>，當其資產報酬率高於借款利率時，槓桿效果就會將 ROE 顯著放大，使其超過產業平均水準。
+                    </p>
+                </div>
+            </section>
+        </div>
+
+    </main>
+
+    <!-- Academic Footer -->
+    <footer class="bg-slate-900 text-slate-400 border-t border-slate-800 py-6 text-center text-xs">
+        <p>淡江大學經濟系 • 財務經濟學教學平台 © 2026 | Brealey Chapter 4 Section 4-4 (DuPont System)</p>
+    </footer>
+
+</body>
+</html>

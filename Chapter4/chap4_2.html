@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第 4-2 節：經濟附加價值 (EVA) 與會計報酬率 | 財務經濟學教學平台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Inter:wght@300;400;500;600&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans TC', 'Inter', sans-serif;
+            background-color: #f4f6f9;
+            color: #1e293b;
+        }
+        .font-serif-tc {
+            font-family: 'Noto Serif TC', serif;
+        }
+        .academic-card {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s ease-in-out;
+        }
+        .formula-box {
+            background-color: #eef2ff;
+            border-left: 4px solid #6366f1;
+        }
+        .table-custom th {
+            background-color: #1e293b;
+            color: #ffffff;
+            font-weight: 600;
+        }
+        .table-custom tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+    <!-- Academic Header -->
+    <header class="bg-slate-900 text-white border-b border-slate-800 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <a href="brealey_ch4_overview.html" class="text-slate-400 hover:text-white text-xs font-semibold tracking-wider uppercase transition">&larr; 返回第 4 章總覽</a>
+                <span class="text-slate-600">|</span>
+                <a href="chap4_1.html" class="text-slate-400 hover:text-white text-xs font-semibold tracking-wider uppercase transition">&larr; 4-1 小節</a>
+                <span class="text-slate-600">|</span>
+                <span class="text-xs font-semibold tracking-widest text-indigo-300 uppercase">Section 4-2</span>
+            </div>
+            <div class="text-xs font-semibold text-slate-300 bg-slate-800 px-3 py-1.5 rounded border border-slate-700">
+                Brealey Chapter 4
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-5xl mx-auto px-6 py-12 w-full flex-grow">
+
+        <!-- Section Title & Overview -->
+        <section class="bg-white border border-slate-200/80 rounded-xl p-8 mb-8 shadow-sm relative overflow-hidden border-l-4 border-l-indigo-600">
+            <span class="text-xs font-bold tracking-wider text-indigo-700 uppercase bg-indigo-50 px-2.5 py-1 rounded border border-indigo-200">第 4-2 節</span>
+            <h2 class="text-3xl font-serif-tc font-bold text-slate-900 mt-3 mb-3">經濟附加價值 (EVA) 與會計報酬率</h2>
+            <p class="text-slate-600 leading-relaxed text-base">
+                在第 4-1 節我們探討了基於資本市場評價的「市場附加價值（MVA）」；然而，內部經營管理團隊更需要即時且能衡量各部門真實創造價值的指標。本節深入探討<strong>經濟附加價值（Economic Value Added, EVA）</strong>以及三大關鍵會計報酬率：<strong>資本報酬率（ROC）</strong>、<strong>資產報酬率（ROA）</strong>與<strong>權益報酬率（ROE）</strong>。
+            </p>
+        </section>
+
+        <!-- Part 1: Economic Value Added (EVA) -->
+        <section class="academic-card rounded-xl p-8 mb-8 shadow-sm">
+            <h3 class="text-xl font-serif-tc font-bold text-slate-900 mb-4 flex items-center gap-2">
+                <span>💎</span> 一、 經濟附加價值 (EVA) 的核心概念與算式
+            </h3>
+            <p class="text-slate-600 text-sm mb-6 leading-relaxed">
+                <strong>經濟附加價值（EVA）</strong>又稱為<strong>剩餘盈餘（Residual Income）</strong>，定義為「稅後營業淨利減去所使用的資金成本」。傳統會計盈餘常忽略了股東與債權人投入資金的機會成本，而 EVA 正是衡量企業是否真正為股東「賺取超額利潤」的黃金指標。
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div class="formula-box p-6 rounded-xl">
+                    <h4 class="font-bold text-indigo-900 mb-2 text-base">EVA 基本定義式</h4>
+                    <p class="text-xs text-slate-600 mb-3">剩餘盈餘減除資金成本之後的淨金額報酬</p>
+                    <div class="bg-white p-3 rounded border border-indigo-200 text-xs font-mono text-indigo-900 font-bold">
+                        EVA = 稅後營業淨利 － (資金成本 × 資本總額)
+                    </div>
+                </div>
+
+                <div class="bg-slate-50 border border-slate-200 rounded-xl p-6">
+                    <h4 class="font-bold text-slate-900 mb-2 text-base">關鍵會計項目拆解</h4>
+                    <ul class="text-xs text-slate-700 space-y-2 font-mono">
+                        <li>• <strong>資本總額 (Capital)</strong> = 長期負債 ＋ 股東權益</li>
+                        <li>• <strong>稅後營業淨利 (NOPAT)</strong> = 稅後淨利 ＋ 稅後利息費用</li>
+                        <li>• <strong>資金成本 (Cost of Capital, WACC)</strong> = 企業綜合資金成本率</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Home Depot EVA Example -->
+            <div class="bg-indigo-50/50 border border-indigo-100 rounded-xl p-6">
+                <h4 class="font-bold text-indigo-900 mb-3 text-base">💡 Home Depot 公司的 EVA 計算實例</h4>
+                <p class="text-slate-700 text-sm mb-3">根據 Home Depot 財務數據與假設 9% 資金成本進行估算：</p>
+                <div class="space-y-2 text-sm font-mono text-slate-700">
+                    <p>1. <strong>資本總額</strong> ＝ 長期負債 $146.91 億 ＋ 股東權益 $125.22 億 ＝ <strong>$272.13 億</strong></p>
+                    <p>2. <strong>稅後利息</strong> ＝ (1 － 0.35稅率) × $8.3 億 ＝ <strong>$5.395 億</strong></p>
+                    <p>3. <strong>EVA 計算</strong> ＝ 稅後利息 $5.395億 ＋ 稅後淨利 $63.45億 － (0.09 × $272.13億) ＝ <strong>$44.353 億</strong> （約 $44.35 億）</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Table 4.4 Reference: EVA & ROC across major firms -->
+        <section class="academic-card rounded-xl p-8 mb-8 shadow-sm">
+            <h3 class="text-xl font-serif-tc font-bold text-slate-900 mb-4 flex items-center gap-2">
+                <span>📋</span> 二、 主要企業 EVA 與資本報酬率比較 (表 4.4 參考)
+            </h3>
+            <p class="text-slate-600 text-sm mb-6 leading-relaxed">
+                以下列出知名企業在 EVA 與資本報酬率（ROC）的表現，展現不同產業資本密集度與價值創造能力的差異：
+            </p>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm table-custom rounded overflow-hidden">
+                    <thead>
+                        <tr>
+                            <th class="p-2.5 text-left">公司名稱</th>
+                            <th class="p-2.5 text-right">1. 淨利加稅後利息 ($M)</th>
+                            <th class="p-2.5 text-right">2. 資金成本 (%)</th>
+                            <th class="p-2.5 text-right">3. 資本總額 ($M)</th>
+                            <th class="p-2.5 text-right">4. EVA ($M)</th>
+                            <th class="p-2.5 text-right">5. ROC (%)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200 text-slate-700 text-xs md:text-sm font-mono">
+                        <tr><td class="p-2.5 font-sans font-bold">Apple</td><td class="p-2.5 text-right">$43,337</td><td class="p-2.5 text-right">9.14%</td><td class="p-2.5 text-right">$142,657</td><td class="p-2.5 text-right text-emerald-700 font-bold">$30,298</td><td class="p-2.5 text-right">30.4%</td></tr>
+                        <tr><td class="p-2.5 font-sans font-bold">Microsoft</td><td class="p-2.5 text-right">22,738</td><td class="p-2.5 text-right">8.66%</td><td class="p-2.5 text-right">48,992</td><td class="p-2.5 text-right text-emerald-700 font-bold">18,495</td><td class="p-2.5 text-right">46.4%</td></tr>
+                        <tr><td class="p-2.5 font-sans font-bold">Walmart</td><td class="p-2.5 text-right">17,194</td><td class="p-2.5 text-right">5.26%</td><td class="p-2.5 text-right">154,846</td><td class="p-2.5 text-right text-emerald-700 font-bold">9,049</td><td class="p-2.5 text-right">11.1%</td></tr>
+                        <tr><td class="p-2.5 font-sans font-bold">ExxonMobil</td><td class="p-2.5 text-right">39,467</td><td class="p-2.5 text-right">6.77%</td><td class="p-2.5 text-right">301,902</td><td class="p-2.5 text-right text-emerald-700 font-bold">19,028</td><td class="p-2.5 text-right">13.1%</td></tr>
+                        <tr><td class="p-2.5 font-sans font-bold">Coca-Cola</td><td class="p-2.5 text-right">8,671</td><td class="p-2.5 text-right">5.28%</td><td class="p-2.5 text-right">59,742</td><td class="p-2.5 text-right text-emerald-700 font-bold">5,517</td><td class="p-2.5 text-right">14.5%</td></tr>
+                        <tr><td class="p-2.5 font-sans font-bold">Delta Airlines</td><td class="p-2.5 text-right">1,509</td><td class="p-2.5 text-right">7.39%</td><td class="p-2.5 text-right">49,253</td><td class="p-2.5 text-right text-red-600 font-bold">-2,131</td><td class="p-2.5 text-right">3.1%</td></tr>
+                        <tr><td class="p-2.5 font-sans font-bold">Bank of America</td><td class="p-2.5 text-right">13,692</td><td class="p-2.5 text-right">7.50%</td><td class="p-2.5 text-right">283,138</td><td class="p-2.5 text-right text-red-600 font-bold">-7,543</td><td class="p-2.5 text-right">4.8%</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-xs text-slate-500 mt-3">* 資料來源：EVA Dimensions 公司。註：EVA = 1 － (2 × 3)；ROC = 1 ÷ 3。</p>
+        </section>
+
+        <!-- Part 3: Three Accounting Rates of Return (ROC, ROA, ROE) -->
+        <section class="academic-card rounded-xl p-8 mb-8 shadow-sm">
+            <h3 class="text-xl font-serif-tc font-bold text-slate-900 mb-4 flex items-center gap-2">
+                <span>📈</span> 三、 三大會計報酬率指標 (ROC, ROA, ROE)
+            </h3>
+            <p class="text-slate-600 text-sm mb-6 leading-relaxed">
+                為了評估企業運用資金與資產的效率，財務學界與實務界常用三大報酬率指標進行衡量：
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-blue-50 border border-blue-200 rounded-xl p-6">
+                    <h4 class="font-bold text-blue-900 mb-2 text-base">1. 資本報酬率 (ROC)</h4>
+                    <p class="text-xs text-slate-600 mb-3">稅後淨利加稅後利息占長期資本的百分比。</p>
+                    <div class="bg-white p-3 rounded border border-blue-200 text-xs font-mono text-blue-900">
+                        ROC = 稅後營業淨利 / 平均資本總額
+                    </div>
+                </div>
+
+                <div class="bg-indigo-50 border border-indigo-200 rounded-xl p-6">
+                    <h4 class="font-bold text-indigo-900 mb-2 text-base">2. 資產報酬率 (ROA)</h4>
+                    <p class="text-xs text-slate-600 mb-3">稅後淨利加稅後利息占資產總額的百分比。</p>
+                    <div class="bg-white p-3 rounded border border-indigo-200 text-xs font-mono text-indigo-900">
+                        ROA = 稅後營業淨利 / 平均資產總額
+                    </div>
+                </div>
+
+                <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-6">
+                    <h4 class="font-bold text-emerald-900 mb-2 text-base">3. 權益報酬率 (ROE)</h4>
+                    <p class="text-xs text-slate-600 mb-3">普通股東最關注的指標，專屬股東的報酬。</p>
+                    <div class="bg-white p-3 rounded border border-emerald-200 text-xs font-mono text-emerald-900">
+                        ROE = 稅後淨利 / 平均股東權益
+                    </div>
+                </div>
+            </div>
+
+            <!-- Home Depot Performance Metrics Calculation -->
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-6">
+                <h4 class="font-bold text-slate-900 mb-3 text-base">💡 Home Depot 公司的三大報酬率實際計算</h4>
+                <div class="space-y-2 text-sm font-mono text-slate-700">
+                    <p>• <strong>ROC</strong> ＝ $6,885M / [(26,191 + 27,213)/2] ＝ <strong>25.3%</strong> (或 0.258)</p>
+                    <p>• <strong>ROA</strong> ＝ $6,885M / [(39,946 + 40,518)/2] ＝ <strong>17.0%</strong> (或 0.171)</p>
+                    <p>• <strong>ROE</strong> ＝ $6,345M / [(9,322 + 12,522)/2] ＝ <strong>50.7%</strong> (或 0.581)</p>
+                    <p class="text-xs text-slate-500 font-sans mt-2">* 註：分母採用期初與期末之平均值以消除會計年度中資產波動的誤差。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Part 4: Self-Tests (4.2, 4.3, 4.4) -->
+        <div class="space-y-6">
+            <!-- Self-Test 4.2 -->
+            <section class="academic-card rounded-xl p-6 shadow-sm border-l-4 border-l-indigo-700">
+                <span class="text-xs font-bold text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded border border-indigo-200">自我測驗 4.2</span>
+                <h4 class="font-serif-tc font-bold text-lg text-slate-900 mt-2 mb-2">Roman Holidays 公司 EVA 計算</h4>
+                <p class="text-slate-700 text-sm mb-3">
+                    <strong>題目：</strong>Roman Holidays 公司在開始年度的資本總額為 $1.88 億時，有 $3,000 萬的營業淨利。其資金成本為 11.5%。它的 EVA 為多少？
+                </p>
+                <div class="bg-indigo-50/60 p-4 rounded-lg border border-indigo-100 text-sm font-mono text-slate-800">
+                    <p><strong>解答：</strong></p>
+                    <p>• 資金成本金額 = 資本總額 × 資金成本率 = $1.88 億 × 11.5% = $0.2162 億 （即 $2,162 萬）</p>
+                    <p>• EVA = 稅後營業淨利 － 資金成本金額 = $3,000 萬 － $2,162 萬 = <strong>$838 萬</strong> （或 $0.0838 億）</p>
+                </div>
+            </section>
+
+            <!-- Self-Test 4.3 -->
+            <section class="academic-card rounded-xl p-6 shadow-sm border-l-4 border-l-indigo-700">
+                <span class="text-xs font-bold text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded border border-indigo-200">自我測驗 4.3</span>
+                <h4 class="font-serif-tc font-bold text-lg text-slate-900 mt-2 mb-2">稅後營業淨利與稅後淨利之差異</h4>
+                <p class="text-slate-700 text-sm mb-3">
+                    <strong>題目：</strong>稅後營業淨利和股東稅後淨利兩者有何差異？稅後營業淨利是如何求算的？在求算 EVA、ROC 和 ROA 時，為何它是有用的？
+                </p>
+                <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 text-sm text-slate-700 space-y-2">
+                    <p><strong>解答說明：</strong></p>
+                    <p>1. <strong>差異：</strong>「稅後淨利」是扣除利息費用後歸屬於普通股東的盈餘；而「稅後營業淨利 (NOPAT)」則是加回利息費用調整後的營業盈餘，代表屬於全體資金提供者（債權人＋股東）共同產生的利潤。</p>
+                    <p>2. <strong>求算方式：</strong> NOPAT ＝ 稅後淨利 ＋ 稅後利息費用 [或 息前稅前盈餘 EBIT × (1 － 稅率)]。</p>
+                    <p>3. <strong>有用性：</strong>因為 EVA、ROC 與 ROA 的分母皆為「全體資本總額（債務＋權益）」或「總資產」，分子必須與分母口徑一致（採用未扣除利息前的營業淨利），才能客觀評估整體資產的真實獲利績效。</p>
+                </div>
+            </section>
+
+            <!-- Self-Test 4.4 -->
+            <section class="academic-card rounded-xl p-6 shadow-sm border-l-4 border-l-indigo-700">
+                <span class="text-xs font-bold text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded border border-indigo-200">自我測驗 4.4</span>
+                <h4 class="font-serif-tc font-bold text-lg text-slate-900 mt-2 mb-2">解釋 ROE、ROC 與 ROA 之間的差異</h4>
+                <p class="text-slate-700 text-sm mb-3">
+                    <strong>題目：</strong>請解釋 ROE、ROC 和 ROA 之間的差異。
+                </p>
+                <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 text-sm text-slate-700 space-y-2">
+                    <p><strong>解答說明：</strong></p>
+                    <p>• <strong>ROA (資產報酬率)</strong> 衡量公司所有資產的總體獲利效率（分母為總資產）。</p>
+                    <p>• <strong>ROC (資本報酬率)</strong> 衡量長期資金（長期負債＋股東權益）的運用效率，排除了短期無息負債（如應付帳款）的干擾。</p>
+                    <p>• <strong>ROE (權益報酬率)</strong> 專注於普通股東的投資回報（分母僅為股東權益）。當公司善用財務槓桿（負債融資）且資產報酬率高於借款利率時，ROE 會顯著高於 ROA。</p>
+                </div>
+            </section>
+        </div>
+
+    </main>
+
+    <!-- Academic Footer -->
+    <footer class="bg-slate-900 text-slate-400 border-t border-slate-800 py-6 text-center text-xs">
+        <p>淡江大學經濟系 • 財務經濟學教學平台 © 2026 | Brealey Chapter 4 Section 4-2 (EVA & Accounting Returns)</p>
+    </footer>
+
+</body>
+</html>

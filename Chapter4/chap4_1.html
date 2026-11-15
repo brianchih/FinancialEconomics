@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第 4-1 節：會計報表基礎與市場價值衡量 | 財務經濟學教學平台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Inter:wght@300;400;500;600&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans TC', 'Inter', sans-serif;
+            background-color: #f4f6f9;
+            color: #1e293b;
+        }
+        .font-serif-tc {
+            font-family: 'Noto Serif TC', serif;
+        }
+        .academic-card {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s ease-in-out;
+        }
+        .formula-box {
+            background-color: #eff6ff;
+            border-left: 4px solid #3b82f6;
+        }
+        .table-custom th {
+            background-color: #1e293b;
+            color: #ffffff;
+            font-weight: 600;
+        }
+        .table-custom tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+    <!-- Academic Header -->
+    <header class="bg-slate-900 text-white border-b border-slate-800 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <a href="brealey_ch4_overview.html" class="text-slate-400 hover:text-white text-xs font-semibold tracking-wider uppercase transition">&larr; 返回第 4 章總覽</a>
+                <span class="text-slate-600">|</span>
+                <span class="text-xs font-semibold tracking-widest text-blue-300 uppercase">Section 4-1 深度解析</span>
+            </div>
+            <div class="text-xs font-semibold text-slate-300 bg-slate-800 px-3 py-1.5 rounded border border-slate-700">
+                Brealey Chapter 4
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-5xl mx-auto px-6 py-12 w-full flex-grow">
+
+        <!-- Section Title & Overview -->
+        <section class="bg-white border border-slate-200/80 rounded-xl p-8 mb-8 shadow-sm relative overflow-hidden border-l-4 border-l-blue-600">
+            <span class="text-xs font-bold tracking-wider text-blue-700 uppercase bg-blue-50 px-2.5 py-1 rounded border border-blue-200">第 4-1 節</span>
+            <h2 class="text-3xl font-serif-tc font-bold text-slate-900 mt-3 mb-3">會計報表功能解析與市場附加價值 (MVA)</h2>
+            <p class="text-slate-600 leading-relaxed text-base">
+                在評估公司績效之前，我們必須先理解<strong>會計報表（Accounting Statements）</strong>的功能。會計報表是企業過去經營活動的「歷史計分卡」，記錄了資源的投入與盈餘的累積。然而，會計帳面價值基於歷史成本，無法完全反映企業在資本市場上創造的真實價值。本節將透過 Home Depot 的實際財報數據，帶領同學串聯會計報表與市場評價（市場資本價值與 MVA）。
+            </p>
+        </section>
+
+        <!-- Part 1: The Role of Financial Statements -->
+        <section class="academic-card rounded-xl p-8 mb-8 shadow-sm">
+            <h3 class="text-xl font-serif-tc font-bold text-slate-900 mb-4 flex items-center gap-2">
+                <span>📊</span> 一、 為什麼我們需要會計報表？（財報兩大核心功能）
+            </h3>
+            <p class="text-slate-600 text-sm mb-6 leading-relaxed">
+                對財務經理與投資人而言，會計報表提供了評估公司「投資」與「融資」績效的基礎數據。對照第 4 章的財務比率組織圖（圖 4.1），所有的績效衡量最終都指向股東價值的創造。以下我們透過 Home Depot 的真實財報（表 4.1 與表 4.2）來剖析兩大報表的功能：
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <!-- Income Statement -->
+                <div class="bg-slate-50 border border-slate-200 rounded-lg p-6">
+                    <h4 class="font-serif-tc font-bold text-lg text-slate-900 mb-2 text-blue-800">1. 損益表 (Income Statement)</h4>
+                    <p class="text-slate-600 text-sm mb-4">
+                        <strong>功能：</strong>衡量公司在一段特定期間內（如 2014 會計年度）的<strong>經營成果與獲利能力</strong>。它記錄了銷貨收入、各項成本、費用，最終得出稅後淨利。
+                    </p>
+                    <div class="text-xs text-slate-500 font-mono bg-white p-3 rounded border border-slate-200">
+                        核心公式：營業收入 － 成本與費用 ＝ 淨利
+                    </div>
+                </div>
+
+                <!-- Balance Sheet -->
+                <div class="bg-slate-50 border border-slate-200 rounded-lg p-6">
+                    <h4 class="font-serif-tc font-bold text-lg text-slate-900 mb-2 text-indigo-800">2. 資產負債表 (Balance Sheet)</h4>
+                    <p class="text-slate-600 text-sm mb-4">
+                        <strong>功能：</strong>提供公司在特定會計年度結束時（如 2014 年底）的<strong>財務狀況快照</strong>。展示了企業擁有什麼資產（投資部位）、以及這些資產是由多少負債與股東權益（融資來源）所組成。
+                    </p>
+                    <div class="text-xs text-slate-500 font-mono bg-white p-3 rounded border border-slate-200">
+                        核心會計恆等式：資產總額 ＝ 負債總額 ＋ 股東權益總額
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Part 2: Home Depot Financial Statements Data (Table 4.1 & Table 4.2) -->
+        <section class="academic-card rounded-xl p-8 mb-8 shadow-sm">
+            <h3 class="text-xl font-serif-tc font-bold text-slate-900 mb-4 flex items-center gap-2">
+                <span>🏢</span> 二、 Home Depot 實例對照：損益表與資產負債表摘要
+            </h3>
+            <p class="text-slate-600 text-sm mb-6 leading-relaxed">
+                以下引用 Home Depot 2014 年的實際財務數據（單位：$ 百萬），作為後續計算市場附加價值與各項報酬率的會計基礎：
+            </p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Table 4.1 Income Statement Summary -->
+                <div>
+                    <h4 class="font-bold text-slate-800 mb-3 text-sm flex justify-between items-center bg-slate-100 p-2 rounded">
+                        <span>表 4.1 Home Depot 損益表摘要 (2014)</span>
+                        <span class="text-xs text-slate-500 font-mono">($ 百萬)</span>
+                    </h4>
+                    <table class="w-full text-sm table-custom rounded overflow-hidden">
+                        <thead>
+                            <tr>
+                                <th class="p-2.5 text-left">會計項目</th>
+                                <th class="p-2.5 text-right">金額 ($ 百萬)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200 text-slate-700">
+                            <tr><td class="p-2.5">銷貨淨額 (Sales)</td><td class="p-2.5 text-right font-mono">$83,176</td></tr>
+                            <tr><td class="p-2.5">銷貨成本 (COGS)</td><td class="p-2.5 text-right font-mono">54,222</td></tr>
+                            <tr><td class="p-2.5">銷貨、總務和管理費用 (SG&A)</td><td class="p-2.5 text-right font-mono">16,699</td></tr>
+                            <tr><td class="p-2.5">折舊費用 (Depreciation)</td><td class="p-2.5 text-right font-mono">1,786</td></tr>
+                            <tr class="bg-blue-50 font-semibold"><td class="p-2.5 text-blue-900">息前稅前盈餘 (EBIT)</td><td class="p-2.5 text-right font-mono text-blue-900">$10,806</td></tr>
+                            <tr><td class="p-2.5">利息費用 (Interest)</td><td class="p-2.5 text-right font-mono">830</td></tr>
+                            <tr><td class="p-2.5">所得稅 (Tax)</td><td class="p-2.5 text-right font-mono">3,631</td></tr>
+                            <tr class="bg-emerald-50 font-bold"><td class="p-2.5 text-emerald-900">稅後淨利 (Net Income)</td><td class="p-2.5 text-right font-mono text-emerald-900">$6,345</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Table 4.2 Balance Sheet Summary -->
+                <div>
+                    <h4 class="font-bold text-slate-800 mb-3 text-sm flex justify-between items-center bg-slate-100 p-2 rounded">
+                        <span>表 4.2 Home Depot 資產負債表摘要 (2014年底)</span>
+                        <span class="text-xs text-slate-500 font-mono">($ 百萬)</span>
+                    </h4>
+                    <table class="w-full text-sm table-custom rounded overflow-hidden">
+                        <thead>
+                            <tr>
+                                <th class="p-2.5 text-left">資產與負債/權益項目</th>
+                                <th class="p-2.5 text-right">2014 金額</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200 text-slate-700">
+                            <tr><td class="p-2.5">流動資產總額</td><td class="p-2.5 text-right font-mono">$15,302</td></tr>
+                            <tr><td class="p-2.5">固定資產淨額 (PP&E)</td><td class="p-2.5 text-right font-mono">22,720</td></tr>
+                            <tr><td class="p-2.5">無形資產與其他資產</td><td class="p-2.5 text-right font-mono">1,924</td></tr>
+                            <tr class="bg-slate-100 font-semibold"><td class="p-2.5">資產總額 (Total Assets)</td><td class="p-2.5 text-right font-mono">$39,946</td></tr>
+                            <tr><td class="p-2.5">流動負債總額</td><td class="p-2.5 text-right font-mono">$11,269</td></tr>
+                            <tr><td class="p-2.5">長期負債 (Long-term Debt)</td><td class="p-2.5 text-right font-mono">16,869</td></tr>
+                            <tr><td class="p-2.5">其他長期負債與稅</td><td class="p-2.5 text-right font-mono">2,486</td></tr>
+                            <tr class="bg-indigo-50 font-bold"><td class="p-2.5 text-indigo-900">權益帳面價值 (Book Value of Equity)</td><td class="p-2.5 text-right font-mono text-indigo-900">$9,322</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Part 3: Market Value & MVA Calculations -->
+        <section class="academic-card rounded-xl p-8 mb-8 shadow-sm">
+            <h3 class="text-xl font-serif-tc font-bold text-slate-900 mb-4 flex items-center gap-2">
+                <span>📈</span> 三、 從會計帳面跨入市場價值：市場資本價值與 MVA
+            </h3>
+            <p class="text-slate-600 text-sm mb-6 leading-relaxed">
+                會計報表上的「權益帳面價值（$9,322 百萬）」反映的是歷史成本與歷年保留盈餘的累積。然而，股票市場上的投資人關注的是企業未來的賺錢能力。當市價高於帳面價值時，代表企業為股東創造了額外的財富。
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-blue-50 border border-blue-200 rounded-xl p-6">
+                    <h4 class="font-bold text-blue-900 mb-2 text-base">1. 市場資本價值 (Market Cap)</h4>
+                    <p class="text-xs text-slate-600 mb-3">權益的市場價值總和，由股市即時決定。</p>
+                    <div class="bg-white p-3 rounded border border-blue-200 text-xs font-mono text-blue-900">
+                        = 每股價格 × 流通在外股數
+                    </div>
+                </div>
+                <div class="bg-indigo-50 border border-indigo-200 rounded-xl p-6">
+                    <h4 class="font-bold text-indigo-900 mb-2 text-base">2. 市場附加價值 (MVA)</h4>
+                    <p class="text-xs text-slate-600 mb-3">股票市場總值與股東投資金額的差額。</p>
+                    <div class="bg-white p-3 rounded border border-indigo-200 text-xs font-mono text-indigo-900">
+                        = 權益市場價值 － 權益帳面價值
+                    </div>
+                </div>
+                <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-6">
+                    <h4 class="font-bold text-emerald-900 mb-2 text-base">3. 市價對帳面價值比 (M/B)</h4>
+                    <p class="text-xs text-slate-600 mb-3">衡量企業將股東初始投資放大之倍數。</p>
+                    <div class="bg-white p-3 rounded border border-emerald-200 text-xs font-mono text-emerald-900">
+                        = 權益市場價值 / 權益帳面價值
+                    </div>
+                </div>
+            </div>
+
+            <!-- Home Depot Calculation Example -->
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-6">
+                <h4 class="font-bold text-slate-900 mb-3 text-base">💡 Home Depot 實例計算演練</h4>
+                <div class="space-y-3 text-sm text-slate-700">
+                    <p>假設 Home Depot 當時股價為 <strong>$114.75</strong>，流通在外股數為 <strong>1,307,000,000 股</strong>，權益帳面價值為 <strong>$93.22 億</strong>（即表 4.2 中的 $9,322 百萬）：</p>
+                    <ul class="list-disc list-inside space-y-2 pl-2 font-mono text-xs md:text-sm">
+                        <li><strong>市場資本價值</strong> ＝ $114.75 × 1,307,000,000 ＝ $149,978,000,000 （約 <strong>$1,499.78 億</strong>）</li>
+                        <li><strong>市場附加價值 (MVA)</strong> ＝ $1,499.78 億 － $93.22 億 ＝ <strong>$1,406.56 億</strong></li>
+                        <li><strong>市價對帳面價值比率</strong> ＝ $1,499.78 億 / $93.22 億 ＝ <strong>16.1 倍</strong> （代表公司成功將股東帳面投資增值 16.1 倍！）</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Part 4: Self-Test 4.1 -->
+        <section class="academic-card rounded-xl p-8 shadow-sm border-l-4 border-l-blue-700">
+            <div class="flex justify-between items-start mb-4">
+                <div>
+                    <span class="text-xs font-bold text-blue-700 bg-blue-50 px-2.5 py-1 rounded border border-blue-200">課堂練習</span>
+                    <h3 class="text-xl font-serif-tc font-bold text-slate-900 mt-2">自我測驗 4.1 (Self-Test 4.1)</h3>
+                </div>
+                <span class="text-xs font-mono bg-slate-100 text-slate-600 px-3 py-1 rounded border border-slate-200">Notung Cutlery Corp.</span>
+            </div>
+
+            <p class="text-slate-700 text-sm mb-6 bg-slate-50 p-4 rounded-lg border border-slate-200 leading-relaxed">
+                <strong>題目：</strong>Notung Cutlery 公司的股票在 2015 年以每股 $75 收盤。Notung 公司有 1,450 萬股流通在外，權益的帳面價值為 $6,100 萬。請求算 Notung 公司的市場資本價值、市場附加價值以及市場價值對帳面價值比率。
+            </p>
+
+            <div class="space-y-4 text-sm">
+                <div class="p-4 bg-blue-50/60 rounded-lg border border-blue-100">
+                    <h4 class="font-bold text-blue-900 mb-1">【步驟一】市場資本價值 (Market Cap)</h4>
+                    <p class="text-slate-600 font-mono text-xs mb-1">= 每股價格 × 流通在外股數</p>
+                    <p class="text-slate-800 font-semibold">= $75 × 14,500,000 股 = <strong>$1,087,500,000 （約 $10.875 億）</strong></p>
+                </div>
+
+                <div class="p-4 bg-indigo-50/60 rounded-lg border border-indigo-100">
+                    <h4 class="font-bold text-indigo-900 mb-1">【步驟二】市場附加價值 (Market Value Added, MVA)</h4>
+                    <p class="text-slate-600 font-mono text-xs mb-1">= 權益市場價值 － 權益帳面價值</p>
+                    <p class="text-slate-800 font-semibold">= $1,087,500,000 － $61,000,000 = <strong>$1,026,500,000 （約 $10.265 億）</strong></p>
+                </div>
+
+                <div class="p-4 bg-emerald-50/60 rounded-lg border border-emerald-100">
+                    <h4 class="font-bold text-emerald-900 mb-1">【步驟三】市價對帳面價值比率 (Market-to-Book Ratio)</h4>
+                    <p class="text-slate-600 font-mono text-xs mb-1">= 權益市場價值 / 權益帳面價值</p>
+                    <p class="text-slate-800 font-semibold">= $1,087,500,000 / $61,000,000 = <strong>17.83 倍</strong></p>
+                    <p class="text-slate-600 text-xs mt-1">💡 <strong>經濟意涵：</strong>Notung 公司的市場價值為帳面價值的 17.83 倍，顯示該公司在資產運用與未來獲利能力上獲得高度市場肯定，為股東創造了顯著的附加價值。</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Academic Footer -->
+    <footer class="bg-slate-900 text-slate-400 border-t border-slate-800 py-6 text-center text-xs">
+        <p>淡江大學經濟系 • 財務經濟學教學平台 © 2026 | Brealey Chapter 4 Section 4-1 (Detailed)</p>
+    </footer>
+
+</body>
+</html>

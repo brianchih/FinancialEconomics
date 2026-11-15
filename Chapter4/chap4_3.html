@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第 4-3 節：經營效率、槓桿與流動性指標 | 財務經濟學教學平台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Inter:wght@300;400;500;600&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans TC', 'Inter', sans-serif;
+            background-color: #f4f6f9;
+            color: #1e293b;
+        }
+        .font-serif-tc {
+            font-family: 'Noto Serif TC', serif;
+        }
+        .academic-card {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s ease-in-out;
+        }
+        .formula-box {
+            background-color: #ecfdf5;
+            border-left: 4px solid #10b981;
+        }
+        .table-custom th {
+            background-color: #1e293b;
+            color: #ffffff;
+            font-weight: 600;
+        }
+        .table-custom tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+    <!-- Academic Header -->
+    <header class="bg-slate-900 text-white border-b border-slate-800 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <a href="brealey_ch4_overview.html" class="text-slate-400 hover:text-white text-xs font-semibold tracking-wider uppercase transition">&larr; 返回第 4 章總覽</a>
+                <span class="text-slate-600">|</span>
+                <a href="chap4_2.html" class="text-slate-400 hover:text-white text-xs font-semibold tracking-wider uppercase transition">&larr; 4-2 小節</a>
+                <span class="text-slate-600">|</span>
+                <span class="text-xs font-semibold tracking-widest text-emerald-300 uppercase">Section 4-3</span>
+            </div>
+            <div class="text-xs font-semibold text-slate-300 bg-slate-800 px-3 py-1.5 rounded border border-slate-700">
+                Brealey Chapter 4
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-5xl mx-auto px-6 py-12 w-full flex-grow">
+
+        <!-- Section Title & Overview -->
+        <section class="bg-white border border-slate-200/80 rounded-xl p-8 mb-8 shadow-sm relative overflow-hidden border-l-4 border-l-emerald-600">
+            <span class="text-xs font-bold tracking-wider text-emerald-700 uppercase bg-emerald-50 px-2.5 py-1 rounded border border-emerald-200">第 4-3 節</span>
+            <h2 class="text-3xl font-serif-tc font-bold text-slate-900 mt-3 mb-3">經營效率、槓桿與流動性指標</h2>
+            <p class="text-slate-600 leading-relaxed text-base">
+                在評估完企業的獲利能力與價值創造（第 4-1、4-2 節）之後，本節進一步探討企業內部的<strong>營運效率（Operating Efficiency）</strong>、<strong>財務槓桿風險（Financial Leverage）</strong>與<strong>短期償債流動性（Liquidity）</strong>。這些指標能協助管理階層與投資人透視公司資產運用的靈活度及面對財務逆境時的安全邊際。
+            </p>
+        </section>
+
+        <!-- Part 1: Operating Efficiency (衡量效率性) -->
+        <section class="academic-card rounded-xl p-8 mb-8 shadow-sm">
+            <h3 class="text-xl font-serif-tc font-bold text-slate-900 mb-4 flex items-center gap-2">
+                <span>⚙️</span> 一、 衡量經營效率性 (Operating Efficiency Ratios)
+            </h3>
+            <p class="text-slate-600 text-sm mb-6 leading-relaxed">
+                效率性指標衡量企業運用其資產（如總資產、存貨、應收帳款）產生銷貨收入的速度與能力。若資產週轉過慢，代表資金遭到不當積壓，降低整體資金報酬率。
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <!-- Asset Turnover -->
+                <div class="bg-emerald-50/60 border border-emerald-200 rounded-xl p-6">
+                    <h4 class="font-bold text-emerald-900 mb-2 text-base">1. 資產週轉率</h4>
+                    <p class="text-xs text-slate-600 mb-3">衡量每塊錢資產能創造多少銷貨收入。</p>
+                    <div class="bg-white p-3 rounded border border-emerald-200 text-xs font-mono text-emerald-900 mb-2 font-bold">
+                        資產週轉率 = 銷貨收入 / 平均資產總額
+                    </div>
+                    <p class="text-xs text-slate-700"><strong>Home Depot 實例：</strong> $83,176 / [(39,946 + 40,518)/2] ＝ <strong>2.07 次</strong> (期初法為 2.05)</p>
+                </div>
+
+                <!-- Inventory Turnover -->
+                <div class="bg-emerald-50/60 border border-emerald-200 rounded-xl p-6">
+                    <h4 class="font-bold text-emerald-900 mb-2 text-base">2. 存貨週轉率與天數</h4>
+                    <p class="text-xs text-slate-600 mb-3">評估存貨變現速度及滯銷風險。</p>
+                    <div class="bg-white p-3 rounded border border-emerald-200 text-xs font-mono text-emerald-900 mb-2 font-bold">
+                        存貨週轉率 = 銷貨成本 / 年初存貨<br>
+                        存貨天數 = 年初存貨 / (銷貨成本 / 365)
+                    </div>
+                    <p class="text-xs text-slate-700"><strong>Home Depot 實例：</strong> 週轉 <strong>4.9 次</strong>，平均存貨天數為 <strong>74 天</strong>。</p>
+                </div>
+
+                <!-- A/R Turnover -->
+                <div class="bg-emerald-50/60 border border-emerald-200 rounded-xl p-6">
+                    <h4 class="font-bold text-emerald-900 mb-2 text-base">3. 應收帳款週轉與收帳期間</h4>
+                    <p class="text-xs text-slate-600 mb-3">衡量客戶賒銷付款的回收效率。</p>
+                    <div class="bg-white p-3 rounded border border-emerald-200 text-xs font-mono text-emerald-900 mb-2 font-bold">
+                        應收週轉率 = 銷貨收入 / 年初應收帳款<br>
+                        平均收帳期間 = 年初應收 / (銷貨 / 365)
+                    </div>
+                    <p class="text-xs text-slate-700"><strong>Home Depot 實例：</strong> 週轉 <strong>59.5 次</strong>，平均收帳期僅 <strong>6.1 天</strong>。</p>
+                </div>
+            </div>
+
+            <!-- Self-Test 4.5 -->
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-6">
+                <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">自我測驗 4.5 思考題</span>
+                <h4 class="font-bold text-slate-900 mt-2 mb-2 text-base">Home Depot 支付帳款的平均天數 (Days Payable)</h4>
+                <p class="text-slate-700 text-sm mb-3">
+                    <strong>題目背景：</strong>平均收帳期間衡量公司收取帳款的天數。相對地，Home Depot 也會延遲支付自己的帳款（應付帳款）。試利用表 4.1 與表 4.2 資料，求算 Home Depot 支付帳款的平均天數？（提示：計算應付帳款付現天數應以銷貨成本 COGS 為基礎，不包含 SG&A 等間接成本）。
+                </p>
+                <div class="bg-white p-4 rounded-lg border border-slate-200 text-sm font-mono text-slate-800 space-y-1">
+                    <p>• <strong>應付帳款餘額 (2014年)：</strong> $9,473 百萬 (表4.2)</p>
+                    <p>• <strong>每日銷貨成本：</strong> $54,222 百萬 / 365天 ＝ $148.55 百萬/天</p>
+                    <p>• <strong>平均支付天數 (Days Payable)：</strong> $9,473 / $148.55 ＝ <strong>約 63.8 天</strong></p>
+                    <p class="text-xs text-slate-500 font-sans mt-2">💡 <strong>財務意涵：</strong>Home Depot 平均 6.1 天向客戶收現，卻能享有約 64 天才支付供應商的寬限期，展現強大的供應鏈議價能力與正向營運資金循環。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Part 2: Financial Leverage (衡量財務槓桿) -->
+        <section class="academic-card rounded-xl p-8 mb-8 shadow-sm">
+            <h3 class="text-xl font-serif-tc font-bold text-slate-900 mb-4 flex items-center gap-2">
+                <span>⚖️</span> 二、 衡量財務槓桿與債務風險 (Financial Leverage)
+            </h3>
+            <p class="text-slate-600 text-sm mb-6 leading-relaxed">
+                財務槓桿反映企業利用債務融資的程度。適度槓桿能放大股東權益報酬率（ROE），但過高的負債比率與利息負擔會在景氣反轉時帶來嚴重的財務危機。
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <!-- Debt Ratios -->
+                <div class="bg-slate-50 border border-slate-200 rounded-xl p-6">
+                    <h4 class="font-bold text-slate-900 mb-3 text-base text-blue-900">1. 長期負債比率與總負債比率</h4>
+                    <ul class="text-xs text-slate-700 space-y-3 font-mono">
+                        <li>• <strong>長期負債比率</strong> ＝ 長期負債 / (長期負債 ＋ 股東權益)<br>
+                            &nbsp;&nbsp;=&gt; Home Depot: $16,869 / ($16,869 + $9,322) ＝ <strong>64%</strong> (美國製造業平均約 33%)
+                        </li>
+                        <li>• <strong>長期負債對權益比率</strong> ＝ 長期負債 / 股東權益<br>
+                            &nbsp;&nbsp;=&gt; Home Depot: $16,869 / $9,322 ＝ <strong>1.81 (181%)</strong>
+                        </li>
+                        <li>• <strong>總負債比率</strong> ＝ 負債總額 / 資產總額<br>
+                            &nbsp;&nbsp;=&gt; Home Depot: $30,624 / $39,946 ＝ <strong>77%</strong>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Coverage Ratios -->
+                <div class="bg-slate-50 border border-slate-200 rounded-xl p-6">
+                    <h4 class="font-bold text-slate-900 mb-3 text-base text-indigo-900">2. 利息保障倍數與現金涵蓋比率</h4>
+                    <ul class="text-xs text-slate-700 space-y-3 font-mono">
+                        <li>• <strong>賺得利息倍數 (Times Interest Earned)</strong> ＝ EBIT / 利息支付<br>
+                            &nbsp;&nbsp;=&gt; Home Depot: $10,806 / $830 ＝ <strong>13.0 倍</strong>
+                        </li>
+                        <li>• <strong>現金涵蓋比率 (Cash Coverage Ratio)</strong> ＝ (EBIT ＋ 折舊) / 利息支付<br>
+                            &nbsp;&nbsp;=&gt; Home Depot: ($10,806 + $1,786) / $830 ＝ <strong>15.2 倍</strong>
+                        </li>
+                    </ul>
+                    <p class="text-xs text-slate-500 font-sans mt-3">💡 涵蓋比率加回了非付現的折舊費用，更能真實反映營業現金流支付利息的能力。</p>
+                </div>
+            </div>
+
+            <!-- Self-Test 4.7 -->
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-6">
+                <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">自我測驗 4.7</span>
+                <h4 class="font-bold text-slate-900 mt-2 mb-2 text-base">債務重組對槓桿指標的影響</h4>
+                <p class="text-slate-700 text-sm mb-3">
+                    <strong>題目：</strong>某公司償還 $1,000 萬面值的流通在外負債，並以較低的利率發行 $1,000 萬的新債券，則長期負債比率將會如何？賺得利息倍數比率和現金涵蓋比率會如何？
+                </p>
+                <div class="bg-white p-4 rounded-lg border border-slate-200 text-sm text-slate-700 space-y-2">
+                    <p><strong>解答說明：</strong></p>
+                    <p>1. <strong>長期負債比率：</strong>由於償還舊債並發行相同金額（$1,000萬）的新債，長期負債總額與股東權益維持不變，因此長期負債比率將<strong>保持不變</strong>。</p>
+                    <p>2. <strong>利息保障倍數與現金涵蓋比率：</strong>由於新債券是以<strong>較低的利率</strong>發行，利息費用將會減少。在 EBIT（或 EBIT＋折舊）不變的情況下，分母（利息費用）變小，將導致賺得利息倍數與現金涵蓋比率顯著<strong>上升（改善）</strong>。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Part 3: Liquidity (衡量流動性) -->
+        <section class="academic-card rounded-xl p-8 mb-8 shadow-sm">
+            <h3 class="text-xl font-serif-tc font-bold text-slate-900 mb-4 flex items-center gap-2">
+                <span>💧</span> 三、 衡量短期償債與流動性指標 (Liquidity Ratios)
+            </h3>
+            <p class="text-slate-600 text-sm mb-6 leading-relaxed">
+                流動性指標評估企業變現短期資產以償還短期到期債務的能力。對於防範企業陷入技術性破產至關重要。
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                <div class="bg-slate-50 border border-slate-200 rounded-lg p-4">
+                    <h4 class="font-bold text-slate-900 text-sm mb-1">1. 淨營運資金對資產比率</h4>
+                    <p class="text-xs text-slate-600 mb-2">(流動資產 － 流動負債) / 總資產</p>
+                    <p class="text-sm font-mono font-bold text-emerald-800">Home Depot: 0.10</p>
+                </div>
+                <div class="bg-slate-50 border border-slate-200 rounded-lg p-4">
+                    <h4 class="font-bold text-slate-900 text-sm mb-1">2. 流動比率 (Current Ratio)</h4>
+                    <p class="text-xs text-slate-600 mb-2">流動資產 / 流動負債</p>
+                    <p class="text-sm font-mono font-bold text-emerald-800">Home Depot: 1.36 倍</p>
+                </div>
+                <div class="bg-slate-50 border border-slate-200 rounded-lg p-4">
+                    <h4 class="font-bold text-slate-900 text-sm mb-1">3. 速動比率 (Quick Ratio)</h4>
+                    <p class="text-xs text-slate-600 mb-2">(現金+有價證券+應收) / 流動負債</p>
+                    <p class="text-sm font-mono font-bold text-emerald-800">Home Depot: 0.28 倍</p>
+                </div>
+                <div class="bg-slate-50 border border-slate-200 rounded-lg p-4">
+                    <h4 class="font-bold text-slate-900 text-sm mb-1">4. 現金比率 (Cash Ratio)</h4>
+                    <p class="text-xs text-slate-600 mb-2">(現金+有價證券) / 流動負債</p>
+                    <p class="text-sm font-mono font-bold text-emerald-800">Home Depot: 0.15 倍</p>
+                </div>
+            </div>
+
+            <!-- Self-Test 4.9 -->
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-6">
+                <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">自我測驗 4.9</span>
+                <h4 class="font-bold text-slate-900 mt-2 mb-2 text-base">日常交易對流動比率與淨營運資金的動態影響</h4>
+                <p class="text-slate-700 text-sm mb-3">
+                    <strong>題目：</strong>
+                    <br>a. 某公司擁有 $120 萬流動資產和 $100 萬流動負債。若用 $50 萬現金支付應付帳款，流動比率與淨營運資金會如何？
+                    <br>b. 某公司使用現金支付購買額外存貨，流動比率與速動比率會如何？
+                </p>
+                <div class="bg-white p-4 rounded-lg border border-slate-200 text-sm text-slate-700 space-y-3">
+                    <p><strong>(a) 用 $50 萬現金支付應付帳款：</strong></p>
+                    <p class="text-xs font-mono bg-slate-50 p-2 rounded">
+                        • 交易後流動資產 = $120M － $0.5M = $115M；流動負債 = $100M － $0.5M = $95M。<br>
+                        • <strong>流動比率：</strong> 從 $120M/$100M (1.20) 提高至 $115M/$95M (<strong>1.21，上升</strong>)。<br>
+                        • <strong>淨營運資金：</strong> ($120M － $100M = $20M) 變為 ($115M － $95M = $20M)，<strong>保持不變</strong>（因流動資產與流動負債同額減少）。
+                    </p>
+
+                    <p><strong>(b) 用現金購買額外存貨：</strong></p>
+                    <p class="text-xs font-mono bg-slate-50 p-2 rounded">
+                        • 這是流動資產內部互換（現金減少、存貨增加），總流動資產與流動負債不變，因此<strong>流動比率保持不變</strong>。<br>
+                        • 由於速動資產（現金＋應收）減少、存貨被剔除在速動資產之外，速動比率將會<strong>下降</strong>。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Academic Footer -->
+    <footer class="bg-slate-900 text-slate-400 border-t border-slate-800 py-6 text-center text-xs">
+        <p>淡江大學經濟系 • 財務經濟學教學平台 © 2026 | Brealey Chapter 4 Section 4-3 (Efficiency, Leverage & Liquidity)</p>
+    </footer>
+
+</body>
+</html>
