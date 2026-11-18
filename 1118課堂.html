@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>財務經濟學第四章：衡量公司績效與課堂互動筆記</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- MathJax for LaTeX Rendering -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0c4a6e 100%);
+        }
+        .tab-btn.active {
+            border-bottom: 3px solid #0284c7;
+            color: #0284c7;
+            font-weight: 700;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans leading-relaxed">
+
+    <!-- Header Section -->
+    <header class="gradient-bg text-white py-10 px-4 sm:px-6 lg:px-8 shadow-xl">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                <div>
+                    <div class="inline-flex items-center gap-2 bg-sky-500/20 text-sky-300 text-xs font-semibold px-3 py-1 rounded-full border border-sky-400/30 mb-3">
+                        <i class="fa-solid fa-graduation-cap"></i> 淡江大學財務經濟學 &bull; 課堂精華總整理
+                    </div>
+                    <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">第四章：衡量公司的績效 (Measuring Corporate Performance)</h1>
+                    <p class="mt-2 text-slate-300 text-base sm:text-lg max-w-3xl">
+                        涵蓋市場附加價值 (MVA)、經濟附加價值 (EVA)、會計報酬率 (ROC / ROA / ROE)、台股實證分析與各組 CFO 提案點評
+                    </p>
+                </div>
+                <div class="bg-slate-800/90 p-4 rounded-xl border border-slate-700 text-right min-w-[230px]">
+                    <span class="block text-xs text-slate-400 font-medium">核心財務目標</span>
+                    <span class="text-sm font-bold text-sky-400">最大化股東當前投資價值</span>
+                    <span class="block text-xs text-slate-400 font-medium mt-2">下週重要任務</span>
+                    <span class="text-sm font-bold text-emerald-400">3分鐘 Pitch 影片 &amp; 預測市場上線</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex space-x-6 overflow-x-auto no-scrollbar">
+                <button onclick="switchTab('tab-mva')" id="btn-tab-mva" class="tab-btn active py-4 px-2 text-sm font-medium text-slate-600 hover:text-sky-600 whitespace-nowrap transition-colors flex items-center gap-2">
+                    <i class="fa-solid fa-chart-line"></i> 4.1–4.2 市場價值與 MVA
+                </button>
+                <button onclick="switchTab('tab-eva')" id="btn-tab-eva" class="tab-btn py-4 px-2 text-sm font-medium text-slate-600 hover:text-sky-600 whitespace-nowrap transition-colors flex items-center gap-2">
+                    <i class="fa-solid fa-coins"></i> 4.3 經濟附加價值 (EVA)
+                </button>
+                <button onclick="switchTab('tab-ratios')" id="btn-tab-ratios" class="tab-btn py-4 px-2 text-sm font-medium text-slate-600 hover:text-sky-600 whitespace-nowrap transition-colors flex items-center gap-2">
+                    <i class="fa-solid fa-percent"></i> 會計報酬率與實務案例
+                </button>
+                <button onclick="switchTab('tab-calc')" id="btn-tab-calc" class="tab-btn py-4 px-2 text-sm font-medium text-slate-600 hover:text-sky-600 whitespace-nowrap transition-colors flex items-center gap-2">
+                    <i class="fa-solid fa-calculator"></i> 互動式 MVA / EVA 計算器
+                </button>
+                <button onclick="switchTab('tab-pitch')" id="btn-tab-pitch" class="tab-btn py-4 px-2 text-sm font-medium text-slate-600 hover:text-sky-600 whitespace-nowrap transition-colors flex items-center gap-2">
+                    <i class="fa-solid fa-comments"></i> 課堂報告點評與下週進度
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- Tab 1: 4.1-4.2 市場價值與 MVA -->
+        <section id="tab-mva" class="tab-content space-y-8">
+            <div class="glass-card rounded-2xl p-6 sm:p-8 shadow-sm">
+                <div class="flex justify-between items-center mb-6 border-b border-slate-100 pb-4">
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-900 flex items-center gap-2">
+                            <span class="text-sky-600"><i class="fa-solid fa-sitemap"></i></span> 財務比率與股東價值的連結架構
+                        </h2>
+                        <p class="text-sm text-slate-500">財務比率不是預測未來的水晶球，而是協助我們提出正確問題的工具</p>
+                    </div>
+                    <span class="text-xs font-bold bg-sky-100 text-sky-800 px-3 py-1 rounded-full">投資決策 &times; 融資決策</span>
+                </div>
+
+                <!-- Value Creation Tree -->
+                <div class="grid md:grid-cols-2 gap-6 mb-8">
+                    <div class="bg-sky-50/70 p-6 rounded-xl border border-sky-200 space-y-3">
+                        <div class="font-bold text-sky-900 text-base flex items-center gap-2">
+                            <i class="fa-solid fa-arrow-trend-up text-sky-600"></i> 左翼：良好的投資決策 (Asset Efficiency &amp; Profitability)
+                        </div>
+                        <ul class="text-xs text-slate-700 space-y-2">
+                            <li><strong>獲利能力：</strong> 投資報酬是否高於資金成本？取決於資產使用效率與每元銷貨利潤。</li>
+                            <li><strong>資產效率三大比率：</strong> 資產週轉率（如餐廳翻桌率）、存貨週轉率（食材消化速度）、應收帳款週轉率（收現速度）。</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-emerald-50/70 p-6 rounded-xl border border-emerald-200 space-y-3">
+                        <div class="font-bold text-emerald-900 text-base flex items-center gap-2">
+                            <i class="fa-solid fa-scale-balanced text-emerald-600"></i> 右翼：健全的融資決策 (Leverage &amp; Liquidity)
+                        </div>
+                        <ul class="text-xs text-slate-700 space-y-2">
+                            <li><strong>財務槓桿比率：</strong> 負債比率、負債對權益比率、利息保障倍數（賺的錢夠不夠付利息）。</li>
+                            <li><strong>流動性比率：</strong> 流動比率、速動比率、現金比率（確保手頭有足夠緩衝現金應對帳單與突發挫折）。</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- MVA & Market-to-Book Section -->
+                <div class="bg-slate-900 text-white p-6 rounded-xl space-y-6">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-slate-700 pb-3 gap-2">
+                        <span class="text-sm font-bold text-sky-400">4.2 衡量市場價值 (Market Value) 與市場附加價值 (MVA)</span>
+                        <span class="text-xs text-slate-400">經典課本範例：Home Depot (2014年底數據)</span>
+                    </div>
+
+                    <div class="grid md:grid-cols-3 gap-4 font-mono text-xs">
+                        <div class="bg-slate-800 p-4 rounded-lg border border-slate-700 space-y-2">
+                            <div class="text-sky-300 font-bold">1. 市場資本價值 (Market Cap)</div>
+                            <div class="py-1 text-sm">$$\text{Market Cap} = P \times N_{\text{shares}}$$</div>
+                            <p class="text-slate-400 text-[11px]">Home Depot: $\$114.75 \times 13.07\text{億股} \approx 1,499.78\text{ 億美元}$</p>
+                        </div>
+
+                        <div class="bg-slate-800 p-4 rounded-lg border border-slate-700 space-y-2">
+                            <div class="text-emerald-300 font-bold">2. 市場附加價值 (MVA)</div>
+                            <div class="py-1 text-sm">$$\text{MVA} = \text{Market Cap} - \text{Book Equity}$$</div>
+                            <p class="text-slate-400 text-[11px]">$1,499.78\text{億} - 93.22\text{億} = +1,406.56\text{ 億美元}$（若為負值代表毀滅價值，如 Bank of America）</p>
+                        </div>
+
+                        <div class="bg-slate-800 p-4 rounded-lg border border-slate-700 space-y-2">
+                            <div class="text-amber-300 font-bold">3. 市價帳面價值比 (M/B Ratio)</div>
+                            <div class="py-1 text-sm">$$\text{M/B Ratio} = \frac{\text{Market Cap}}{\text{Book Equity}}$$</div>
+                            <p class="text-slate-400 text-[11px]">$\frac{1,499.78}{93.22} \approx 16.1\text{ 倍}$（消除公司規模大小差異，衡量每 1 元股東投入創造幾倍價值）</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-800/80 p-4 rounded-lg border border-slate-700 text-xs text-slate-300 space-y-1.5">
+                        <div class="font-bold text-amber-400">市場價值績效衡量的三大缺陷：</div>
+                        <div>1. 反映的是投資人對「未來」績效的預期，而非單純當下表現。</div>
+                        <div>2. 股價受總體經濟與外部事件影響而波動，非財務管理者能完全控制。</div>
+                        <div>3. 無法觀察未上市私人公司，或大型企業內部單一部門（如木材部門 vs. 房屋修繕部門）的市場價值。</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab 2: 4.3 經濟附加價值 (EVA) -->
+        <section id="tab-eva" class="tab-content hidden space-y-8">
+            <div class="glass-card rounded-2xl p-6 sm:p-8 shadow-sm">
+                <h2 class="text-2xl font-bold text-slate-900 mb-2 flex items-center gap-2">
+                    <span class="text-sky-600"><i class="fa-solid fa-coins"></i></span> 4.3 經濟附加價值 (EVA) 與剩餘盈餘 (Residual Income)
+                </h2>
+                <p class="text-sm text-slate-500 mb-6">會計利潤未扣除資金的機會成本；唯有賺超過資金成本，公司才真正創造了超額價值</p>
+
+                <div class="grid lg:grid-cols-2 gap-6 mb-6">
+                    <div class="bg-slate-900 text-white p-6 rounded-xl space-y-4 font-mono text-xs">
+                        <div class="text-sky-400 font-bold uppercase">EVA 核心計算公式</div>
+                        
+                        <div class="p-4 bg-slate-800 rounded border border-slate-700 space-y-2">
+                            <div class="text-slate-200 font-bold">1. 經濟附加價值 (EVA)：</div>
+                            <div class="py-2 text-center text-sm">
+                                $$\text{EVA} = \text{NOPAT} - (r \times \text{Total Capital})$$
+                            </div>
+                            <div class="text-slate-400 text-[11px]">其中 $r$ 為資金成本（機會成本），$\text{Total Capital} = \text{長期負債} + \text{股東權益}$。</div>
+                        </div>
+
+                        <div class="p-4 bg-slate-800 rounded border border-slate-700 space-y-2">
+                            <div class="text-slate-200 font-bold">2. 稅後營業淨利 (NOPAT)：</div>
+                            <div class="py-2 text-center text-sm">
+                                $$\text{NOPAT} = \text{稅後淨利} + (1 - T_c) \times \text{利息費用}$$
+                            </div>
+                            <div class="text-slate-400 text-[11px]">衡量若公司完全由權益融資（排除負債利息抵稅影響）時所能賺得的營業淨利。</div>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 space-y-4 text-xs">
+                        <h3 class="font-bold text-slate-900 text-base border-l-4 border-sky-600 pl-3">Home Depot 實例演算 (2014年底)</h3>
+                        <ul class="space-y-2.5 text-slate-700">
+                            <li><strong>資本總額 (Total Capital)：</strong> 長期負債 $146.91\text{億} + \text{股東權益 } 125.22\text{億} = 272.13\text{ 億美元}$。</li>
+                            <li><strong>資金成本要求 ($r = 9\%$)：</strong> $272.13\text{億} \times 9\% = 24.492\text{ 億美元}$（必須賺超過此門檻才算創造價值）。</li>
+                            <li><strong>稅後利息費用 ($T_c = 35\%$)：</strong> $8.3\text{億} \times (1 - 0.35) = 5.395\text{ 億美元}$。</li>
+                            <li><strong>稅後營業淨利 (NOPAT)：</strong> 稅後淨利 $63.45\text{億} + 5.395\text{億} = 68.845\text{ 億美元}$。</li>
+                            <li class="p-3 bg-emerald-50 border border-emerald-200 rounded-lg text-emerald-950 font-bold">
+                                最終 EVA 結果：$68.845\text{億} - 24.492\text{億} = +44.353\text{ 億美元}$（成功創造超額經濟利潤！）
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="bg-amber-50 p-5 rounded-xl border border-amber-200 text-xs text-amber-950 space-y-1">
+                    <div class="font-bold text-sm">經濟學原理連結：正常利潤 vs. 超額利潤</div>
+                    <p>當會計利潤為正，但 $\text{EVA} = 0$ 時，代表公司剛好賺取「正常利潤」（所有生產要素皆獲得應得報酬）；唯有 $\text{EVA} &gt; 0$ 時，才代表獲得「超額經濟利潤」。若 $\text{EVA} &lt; 0$，公司就像一台每年都在燒錢的碎鈔機！</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab 3: 會計報酬率與實務案例 -->
+        <section id="tab-ratios" class="tab-content hidden space-y-8">
+            <div class="glass-card rounded-2xl p-6 sm:p-8 shadow-sm">
+                <h2 class="text-2xl font-bold text-slate-900 mb-2 flex items-center gap-2">
+                    <span class="text-sky-600"><i class="fa-solid fa-percent"></i></span> 三大會計報酬率與台股實證對照
+                </h2>
+                <p class="text-sm text-slate-500 mb-6">計算報酬率時，分子為一段期間的流量（損益表），分母應取期初與期末的平均存量（資產負債表）</p>
+
+                <!-- Three Accounting Returns -->
+                <div class="grid md:grid-cols-3 gap-6 mb-8 font-mono text-xs">
+                    <div class="bg-slate-900 text-white p-5 rounded-xl border border-slate-800 space-y-2">
+                        <div class="text-sky-400 font-bold">1. 資本報酬率 (ROC)</div>
+                        <div class="py-2 text-center text-sm">$$\text{ROC} = \frac{\text{NOPAT}}{\text{平均長期資本總額}}$$</div>
+                        <p class="text-slate-400 text-[11px]">衡量公司運用所有長期資本（長期負債+股東權益）賺取利潤的效率。</p>
+                    </div>
+
+                    <div class="bg-slate-900 text-white p-5 rounded-xl border border-slate-800 space-y-2">
+                        <div class="text-emerald-400 font-bold">2. 資產報酬率 (ROA)</div>
+                        <div class="py-2 text-center text-sm">$$\text{ROA} = \frac{\text{NOPAT}}{\text{平均資產總額}}$$</div>
+                        <p class="text-slate-400 text-[11px]">分母擴大為全部資產（含流動負債對應之資產），評估整體資產使用效率。</p>
+                    </div>
+
+                    <div class="bg-slate-900 text-white p-5 rounded-xl border border-slate-800 space-y-2">
+                        <div class="text-amber-400 font-bold">3. 權益報酬率 (ROE)</div>
+                        <div class="py-2 text-center text-sm">$$\text{ROE} = \frac{\text{稅後淨利}}{\text{平均股東權益}}$$</div>
+                        <p class="text-slate-400 text-[11px]">純粹站在股東角度，分子不加回稅後利息，衡量替股東賺錢的能力。</p>
+                    </div>
+                </div>
+
+                <!-- Taiwan Market Real Cases -->
+                <h3 class="font-bold text-slate-900 text-base mb-4 border-l-4 border-sky-600 pl-3">課堂台股實證解析：誰在創造價值？誰是「碎鈔機」？</h3>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+                    <div class="bg-emerald-50 p-4 rounded-xl border border-emerald-200 space-y-1.5">
+                        <div class="flex justify-between items-center font-bold text-emerald-950">
+                            <span>台積電 (2330)</span>
+                            <span class="bg-emerald-600 text-white px-2 py-0.5 rounded text-[10px]">超額價值創造者</span>
+                        </div>
+                        <p class="text-emerald-900">資金成本約 8.5%，ROA 達 17.53%、ROE 達 23.38%，M/B 比達 13.4 倍。EVA 顯著為正，每年持續創造龐大超額利潤。</p>
+                    </div>
+
+                    <div class="bg-amber-50 p-4 rounded-xl border border-amber-200 space-y-1.5">
+                        <div class="flex justify-between items-center font-bold text-amber-950">
+                            <span>鴻海 (2317)</span>
+                            <span class="bg-amber-600 text-white px-2 py-0.5 rounded text-[10px]">會計賺錢但 EVA 負</span>
+                        </div>
+                        <p class="text-amber-900">表面會計盈餘亮眼，M/B 比接近 2 倍，但因資本龐大，獲利速度趕不上 7.8% 資金成本，近年 EVA 呈現負值。</p>
+                    </div>
+
+                    <div class="bg-amber-50 p-4 rounded-xl border border-amber-200 space-y-1.5">
+                        <div class="flex justify-between items-center font-bold text-amber-950">
+                            <span>富邦金 (2881)</span>
+                            <span class="bg-amber-600 text-white px-2 py-0.5 rounded text-[10px]">資產利用效率低</span>
+                        </div>
+                        <p class="text-amber-900">金融業資金成本僅 6.5%，累積 MVA 雖高，但近年 ROA 僅 1.25% 低於資金成本，導致單年 EVA 轉為負值。</p>
+                    </div>
+
+                    <div class="bg-red-50 p-4 rounded-xl border border-red-200 space-y-1.5">
+                        <div class="flex justify-between items-center font-bold text-red-950">
+                            <span>優盛 (4121)</span>
+                            <span class="bg-red-600 text-white px-2 py-0.5 rounded text-[10px]">價值毀滅警訊</span>
+                        </div>
+                        <p class="text-red-900">市值低於帳面價值（M/B 比僅 0.6），MVA 與 EVA 雙雙為負，代表投入資本持續遭到市場折價。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab 4: 互動式 MVA / EVA 計算器 -->
+        <section id="tab-calc" class="tab-content hidden space-y-8">
+            <div class="glass-card rounded-2xl p-6 sm:p-8 shadow-sm">
+                <h2 class="text-2xl font-bold text-slate-900 mb-2 flex items-center gap-2">
+                    <span class="text-sky-600"><i class="fa-solid fa-calculator"></i></span> 互動式 MVA 與 EVA 財務績效演算器
+                </h2>
+                <p class="text-sm text-slate-500 mb-6">輸入課本自我測驗 (4.1 / 4.2) 或企業財報數字，即時驗證價值創造能力</p>
+
+                <div class="grid lg:grid-cols-3 gap-8">
+                    <!-- Inputs -->
+                    <div class="space-y-3 bg-slate-50 p-5 rounded-xl border border-slate-200 text-xs">
+                        <div>
+                            <label class="block font-bold text-slate-800 mb-1">股價 ($)</label>
+                            <input id="c-price" type="number" value="114.75" step="0.01" class="w-full p-2 border border-slate-300 rounded-lg" oninput="calculateMetrics()">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-slate-800 mb-1">流通在外股數 (億股)</label>
+                            <input id="c-shares" type="number" value="13.07" step="0.01" class="w-full p-2 border border-slate-300 rounded-lg" oninput="calculateMetrics()">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-slate-800 mb-1">股東權益帳面價值 (億元)</label>
+                            <input id="c-book-eq" type="number" value="93.22" step="0.01" class="w-full p-2 border border-slate-300 rounded-lg" oninput="calculateMetrics()">
+                        </div>
+                        <hr class="border-slate-200">
+                        <div>
+                            <label class="block font-bold text-slate-800 mb-1">稅後淨利 (億元)</label>
+                            <input id="c-ni" type="number" value="63.45" step="0.01" class="w-full p-2 border border-slate-300 rounded-lg" oninput="calculateMetrics()">
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block font-bold text-slate-800 mb-1">稅前利息 (億元)</label>
+                                <input id="c-int" type="number" value="8.30" step="0.01" class="w-full p-2 border border-slate-300 rounded-lg" oninput="calculateMetrics()">
+                            </div>
+                            <div>
+                                <label class="block font-bold text-slate-800 mb-1">公司稅率 (%)</label>
+                                <input id="c-tax" type="number" value="35" step="1" class="w-full p-2 border border-slate-300 rounded-lg" oninput="calculateMetrics()">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block font-bold text-slate-800 mb-1">資本總額 (億元)</label>
+                                <input id="c-cap" type="number" value="272.13" step="0.01" class="w-full p-2 border border-slate-300 rounded-lg" oninput="calculateMetrics()">
+                            </div>
+                            <div>
+                                <label class="block font-bold text-slate-800 mb-1">資金成本 r (%)</label>
+                                <input id="c-wacc" type="number" value="9" step="0.1" class="w-full p-2 border border-slate-300 rounded-lg" oninput="calculateMetrics()">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Results -->
+                    <div class="lg:col-span-2 bg-slate-900 text-white p-6 rounded-xl flex flex-col justify-between border border-slate-800 space-y-6">
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                            <div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
+                                <span class="block text-xs text-slate-400">市場資本價值 (Market Cap)</span>
+                                <span id="out-mcap" class="text-xl font-bold text-sky-400">1,499.78 億</span>
+                            </div>
+                            <div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
+                                <span class="block text-xs text-slate-400">市場附加價值 (MVA)</span>
+                                <span id="out-mva" class="text-xl font-bold text-emerald-400">+1,406.56 億</span>
+                            </div>
+                            <div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
+                                <span class="block text-xs text-slate-400">市價帳面比 (M/B)</span>
+                                <span id="out-mb" class="text-xl font-bold text-amber-400">16.09 倍</span>
+                            </div>
+                            <div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
+                                <span class="block text-xs text-slate-400">稅後營業淨利 (NOPAT)</span>
+                                <span id="out-nopat" class="text-xl font-bold text-slate-200">68.85 億</span>
+                            </div>
+                            <div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
+                                <span class="block text-xs text-slate-400">資金機會成本金額</span>
+                                <span id="out-capcost" class="text-xl font-bold text-slate-300">24.49 億</span>
+                            </div>
+                            <div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
+                                <span class="block text-xs text-slate-400">經濟附加價值 (EVA)</span>
+                                <span id="out-eva" class="text-xl font-bold text-emerald-400">+44.35 億</span>
+                            </div>
+                        </div>
+
+                        <div id="eval-verdict" class="p-4 rounded-lg bg-slate-800/80 border border-slate-700 text-xs text-slate-300 leading-relaxed">
+                            判讀結果：該公司 MVA 與 EVA 皆為正數，不僅獲得市場高度評價，實際營業獲利亦超越資金機會成本，屬於優質價值創造企業。
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab 5: 課堂報告點評與下週進度 -->
+        <section id="tab-pitch" class="tab-content hidden space-y-8">
+            <div class="glass-card rounded-2xl p-6 sm:p-8 shadow-sm">
+                <h2 class="text-2xl font-bold text-slate-900 mb-2 flex items-center gap-2">
+                    <span class="text-sky-600"><i class="fa-solid fa-comments"></i></span> 課堂現場報告點評與下週重要進度
+                </h2>
+                <p class="text-sm text-slate-500 mb-6">整合各組報告回饋、3 分鐘 YouTube Pitch 影片規範與預測市場上線時程</p>
+
+                <!-- Notice Banner -->
+                <div class="grid md:grid-cols-2 gap-6 mb-8">
+                    <div class="bg-sky-50 p-5 rounded-xl border border-sky-200 space-y-2">
+                        <div class="font-bold text-sky-900 text-sm flex items-center gap-2">
+                            <i class="fa-brands fa-youtube text-red-600"></i> 3 分鐘 Pitch 短影片上傳規範
+                        </div>
+                        <ul class="text-xs text-sky-800 space-y-1">
+                            <li><strong>影片上傳方式：</strong> 請各組錄製 3 分鐘服務推廣短影片上傳至 YouTube（權限設為「不公開 / 知道連結即可觀看」）。</li>
+                            <li><strong>連結繳交：</strong> 將影片連結連同修訂後的 1 頁 Summary 一併上傳至課程討論區（已開放重新替換優化版本）。</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-emerald-50 p-5 rounded-xl border border-emerald-200 space-y-2">
+                        <div class="font-bold text-emerald-900 text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-chart-simple text-emerald-600"></i> 下週課堂分享與預測市場開盤
+                        </div>
+                        <ul class="text-xs text-emerald-800 space-y-1">
+                            <li><strong>未報告組別分享：</strong> 尚未報告之小組（第 1、4、7、9、10、11、13 組）將於下週課堂連同 3 分鐘影片進行分享。</li>
+                            <li><strong>期貨交易平台啟動：</strong> 下週正式將全班提案上架至預測市場平台，開放全班進行動態期貨買賣。</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Presenters Feedback Grid -->
+                <h3 class="font-bold text-slate-900 text-base mb-4 border-l-4 border-sky-600 pl-3">本週已報告小組之老師具體修改建議</h3>
+                <div class="grid md:grid-cols-2 gap-4 text-xs">
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-1.5">
+                        <div class="font-bold text-slate-900 text-sm">第 2 組（轉型）：AI 智慧穿搭平台</div>
+                        <p class="text-slate-600"><strong>老師點評：</strong> 單次穿搭 99 元與月費訂閱 99 元定價衝突，會變相強迫訂閱，需重新調整定價梯度。此外，若背後導入真人造型師即時諮詢，必須將造型師薪資或諮詢費納入變動成本，並思考如何與純 AI 競爭及應對 24 小時排班成本。</p>
+                    </div>
+
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-1.5">
+                        <div class="font-bold text-slate-900 text-sm">第 8 組：樂齡智慧生活服務平台</div>
+                        <p class="text-slate-600"><strong>老師點評：</strong> 初期不花大錢開發 App 而採用電話與 LINE 降低啟動資金（9 萬元）非常務實。建議製作影片時具體呈現情境與合作店家樣貌；淡江周邊（如運動場旁）有許多高齡長照機構，可作為實際推廣與訂閱試點。</p>
+                    </div>
+
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-1.5">
+                        <div class="font-bold text-slate-900 text-sm">第 3 組：校園語言交換平台</div>
+                        <p class="text-slate-600"><strong>老師點評：</strong> 目前計算的 31,000 元為「總營收」而非淨利，必須明確扣除活動場地與營運成本，並算出達到損益兩平 (BEP) 所需的最低付費會員數與初期架設投入。</p>
+                    </div>
+
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-1.5">
+                        <div class="font-bold text-slate-900 text-sm">第 5 組：高峰期校園共乘平台</div>
+                        <p class="text-slate-600"><strong>老師點評：</strong> 淡水校區公車便利、需求較低，建議將目標場景鎖定交通較不便的校區（如佛光大學等山區或偏遠校園），並嚴格限制學生證實名註冊以降低法規與安全風險。</p>
+                    </div>
+
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-1.5">
+                        <div class="font-bold text-slate-900 text-sm">第 12 組：寵物臨時照顧媒合平台</div>
+                        <p class="text-slate-600"><strong>老師點評：</strong> 報告完整度極高！遛狗 350 元定價具市場競爭力，初期建置 25 萬元、月均 570 筆達 BEP 邏輯清晰。淡水周邊飼養寵物族群多，具備實際落地與獲利潛力。</p>
+                    </div>
+
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-1.5">
+                        <div class="font-bold text-slate-900 text-sm">第 6 組：校園團購餐點外送湊免運社群</div>
+                        <p class="text-slate-600"><strong>老師點評：</strong> 自建 App 與外送隊伍成本過高。建議參考貴婦百貨 (BELLAVITA) 地下「分享餐廳」模式——做「平台上的平台」，整合現有 Foodpanda / UberEats 熱門菜單集單後統一向原平台下單，大幅降低開發與配送成本。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-6 text-center text-xs border-t border-slate-800">
+        財務經濟學第四章課堂筆記 &bull; 互動式教學講義網頁
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        function switchTab(tabId) {
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.add('hidden'));
+
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            document.getElementById(tabId).classList.remove('hidden');
+            document.getElementById('btn-' + tabId).classList.add('active');
+
+            if (window.MathJax) {
+                MathJax.typesetPromise();
+            }
+        }
+
+        function calculateMetrics() {
+            const price = parseFloat(document.getElementById('c-price').value) || 0;
+            const shares = parseFloat(document.getElementById('c-shares').value) || 0;
+            const bookEq = parseFloat(document.getElementById('c-book-eq').value) || 0;
+            
+            const ni = parseFloat(document.getElementById('c-ni').value) || 0;
+            const interest = parseFloat(document.getElementById('c-int').value) || 0;
+            const tax = (parseFloat(document.getElementById('c-tax').value) || 0) / 100;
+            const cap = parseFloat(document.getElementById('c-cap').value) || 0;
+            const wacc = (parseFloat(document.getElementById('c-wacc').value) || 0) / 100;
+
+            const mcap = price * shares;
+            const mva = mcap - bookEq;
+            const mb = bookEq > 0 ? (mcap / bookEq) : 0;
+
+            const nopat = ni + interest * (1 - tax);
+            const capCost = cap * wacc;
+            const eva = nopat - capCost;
+
+            document.getElementById('out-mcap').innerText = mcap.toFixed(2) + ' 億';
+            
+            const mvaEl = document.getElementById('out-mva');
+            mvaEl.innerText = (mva >= 0 ? '+' : '') + mva.toFixed(2) + ' 億';
+            mvaEl.className = mva >= 0 ? 'text-xl font-bold text-emerald-400' : 'text-xl font-bold text-red-400';
+
+            document.getElementById('out-mb').innerText = mb.toFixed(2) + ' 倍';
+            document.getElementById('out-nopat').innerText = nopat.toFixed(2) + ' 億';
+            document.getElementById('out-capcost').innerText = capCost.toFixed(2) + ' 億';
+
+            const evaEl = document.getElementById('out-eva');
+            evaEl.innerText = (eva >= 0 ? '+' : '') + eva.toFixed(2) + ' 億';
+            evaEl.className = eva >= 0 ? 'text-xl font-bold text-emerald-400' : 'text-xl font-bold text-red-400';
+
+            const verdictEl = document.getElementById('eval-verdict');
+            if (eva > 0 && mva > 0) {
+                verdictEl.innerText = '判讀結果：該公司 MVA 與 EVA 皆為正數，不僅獲得市場高度評價，實際營業獲利亦超越資金機會成本，屬於優質價值創造企業。';
+            } else if (eva <= 0 && mva > 0) {
+                verdictEl.innerText = '判讀結果：雖然歷史累積的市場附加價值 (MVA) 為正，但當期經濟附加價值 (EVA <= 0) 顯示獲利未能覆蓋資金機會成本，需留意資本使用效率下降。';
+            } else {
+                verdictEl.innerText = '判讀結果：警示！該公司市場價值低於帳面價值且 EVA 為負，投入資本正在遭到折價與價值毀滅。';
+            }
+        }
+
+        window.onload = function() {
+            calculateMetrics();
+        };
+    </script>
+</body>
+</html>
