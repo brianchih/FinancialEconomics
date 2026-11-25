@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>財務經濟學第四章（下）：效率、槓桿、杜邦分析與提案影片點評</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- MathJax for LaTeX Rendering -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0c4a6e 100%);
+        }
+        .tab-btn.active {
+            border-bottom: 3px solid #0284c7;
+            color: #0284c7;
+            font-weight: 700;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans leading-relaxed">
+
+    <!-- Header Section -->
+    <header class="gradient-bg text-white py-10 px-4 sm:px-6 lg:px-8 shadow-xl">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                <div>
+                    <div class="inline-flex items-center gap-2 bg-sky-500/20 text-sky-300 text-xs font-semibold px-3 py-1 rounded-full border border-sky-400/30 mb-3">
+                        <i class="fa-solid fa-graduation-cap"></i> 淡江大學財務經濟學 &bull; 本週課堂完整筆記
+                    </div>
+                    <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">第四章：衡量公司的績效（下）</h1>
+                    <p class="mt-2 text-slate-300 text-base sm:text-lg max-w-3xl">
+                        涵蓋營運效率週轉率、財務槓桿與短期流動性、杜邦分析法 (DuPont)、同業比較與信用評等，以及各組提案與影片點評
+                    </p>
+                </div>
+                <div class="bg-slate-800/90 p-4 rounded-xl border border-slate-700 text-right min-w-[235px]">
+                    <span class="block text-xs text-slate-400 font-medium">章節核心分析工具</span>
+                    <span class="text-sm font-bold text-sky-400">杜邦分解 &amp; 財務韌性診斷</span>
+                    <span class="block text-xs text-slate-400 font-medium mt-2">課堂重要行動</span>
+                    <span class="text-sm font-bold text-emerald-400">掃描 QR Code 註冊交易平台帳號</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex space-x-6 overflow-x-auto no-scrollbar">
+                <button onclick="switchTab('tab-efficiency')" id="btn-tab-efficiency" class="tab-btn active py-4 px-2 text-sm font-medium text-slate-600 hover:text-sky-600 whitespace-nowrap transition-colors flex items-center gap-2">
+                    <i class="fa-solid fa-gauge-high"></i> 4.3 效率、槓桿與流動性
+                </button>
+                <button onclick="switchTab('tab-dupont')" id="btn-tab-dupont" class="tab-btn py-4 px-2 text-sm font-medium text-slate-600 hover:text-sky-600 whitespace-nowrap transition-colors flex items-center gap-2">
+                    <i class="fa-solid fa-diagram-project"></i> 4.4–4.5 杜邦分析與同業評等
+                </button>
+                <button onclick="switchTab('tab-recap')" id="btn-tab-recap" class="tab-btn py-4 px-2 text-sm font-medium text-slate-600 hover:text-sky-600 whitespace-nowrap transition-colors flex items-center gap-2">
+                    <i class="fa-solid fa-lightbulb"></i> 第四章白話六大核心總結
+                </button>
+                <button onclick="switchTab('tab-calc')" id="btn-tab-calc" class="tab-btn py-4 px-2 text-sm font-medium text-slate-600 hover:text-sky-600 whitespace-nowrap transition-colors flex items-center gap-2">
+                    <i class="fa-solid fa-calculator"></i> 互動式財務比率演算器
+                </button>
+                <button onclick="switchTab('tab-pitches')" id="btn-tab-pitches" class="tab-btn py-4 px-2 text-sm font-medium text-slate-600 hover:text-sky-600 whitespace-nowrap transition-colors flex items-center gap-2">
+                    <i class="fa-solid fa-video"></i> 各組提案與宣傳影片點評
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- Tab 1: 4.3 效率、槓桿與流動性 -->
+        <section id="tab-efficiency" class="tab-content space-y-8">
+            <div class="glass-card rounded-2xl p-6 sm:p-8 shadow-sm">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 border-b border-slate-100 pb-4 gap-2">
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-900 flex items-center gap-2">
+                            <span class="text-sky-600"><i class="fa-solid fa-gauge-high"></i></span> 4.3 經營效率、財務槓桿與短期流動性指標
+                        </h2>
+                        <p class="text-sm text-slate-500">檢視企業內部資產運用的靈活度，以及面對財務逆境時的「安全邊際（韌性）」</p>
+                    </div>
+                    <span class="text-xs font-bold bg-sky-100 text-sky-800 px-3 py-1 rounded-full">範例基準：Home Depot (2014)</span>
+                </div>
+
+                <!-- Recap Note on ROC -->
+                <div class="bg-sky-50 border border-sky-200 rounded-xl p-4 mb-6 text-xs text-sky-950">
+                    <span class="font-bold"><i class="fa-solid fa-circle-info text-sky-600 mr-1"></i> 課前複習重點（ROC 的資本定義）：</span>
+                    計算資本報酬率 $\text{ROC} = \frac{\text{稅後營業淨利}}{\text{平均資本總額}}$ 時（Home Depot 約 $25.3\%$），分母的「資本 (Capital)」是指<strong>所有附有利息的資金來源</strong>，包含長期負債、附息短期負債以及股東權益（平均數為期初加期末除以 2）。
+                </div>
+
+                <!-- 1. Operating Efficiency -->
+                <div class="mb-8">
+                    <h3 class="font-bold text-slate-900 text-base mb-3 border-l-4 border-sky-600 pl-3">一、經營效率指標 (Operating Efficiency) — 資產週轉速度</h3>
+                    <div class="grid md:grid-cols-3 gap-4 font-mono text-xs">
+                        <div class="bg-slate-900 text-white p-5 rounded-xl border border-slate-800 space-y-2">
+                            <div class="text-sky-400 font-bold">1. 資產週轉率 (Asset Turnover)</div>
+                            <div class="py-2 text-center text-sm">$$\frac{\text{銷貨收入}}{\text{平均資產總額}}$$</div>
+                            <p class="text-slate-300 text-[11px] font-sans">Home Depot：$\frac{83,176}{\text{平均資產}} = 2.07\text{ 次}$，代表每年資產能創造約 2 倍的銷貨收入。</p>
+                        </div>
+
+                        <div class="bg-slate-900 text-white p-5 rounded-xl border border-slate-800 space-y-2">
+                            <div class="text-emerald-400 font-bold">2. 存貨週轉率與天數</div>
+                            <div class="py-2 text-center text-sm">$$\text{週轉率} = \frac{\text{銷貨成本}}{\text{年初存貨}}$$</div>
+                            <p class="text-slate-300 text-[11px] font-sans">Home Depot 週轉 $4.9\text{ 次/年}$；平均存貨天數 $= \frac{\text{年初存貨}}{\text{銷貨成本}} \times 365 \approx 74\text{ 天}$（兩者互為倒數乘以 365）。</p>
+                        </div>
+
+                        <div class="bg-slate-900 text-white p-5 rounded-xl border border-slate-800 space-y-2">
+                            <div class="text-amber-400 font-bold">3. 應收帳款週轉與收帳天數</div>
+                            <div class="py-2 text-center text-sm">$$\text{週轉率} = \frac{\text{銷貨收入}}{\text{年初應收帳款}}$$</div>
+                            <p class="text-slate-300 text-[11px] font-sans">Home Depot 週轉 $59.5\text{ 次/年}$；平均收帳期間 $\approx 6.1\text{ 天}$（幾乎每週收現一次，收款極為健康）。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Financial Leverage -->
+                <div class="mb-8">
+                    <h3 class="font-bold text-slate-900 text-base mb-3 border-l-4 border-amber-500 pl-3">二、財務槓桿與利息保障 (Financial Leverage &amp; Coverage)</h3>
+                    <div class="grid md:grid-cols-2 gap-4 text-xs">
+                        <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-2">
+                            <div class="font-bold text-slate-900 text-sm">負債比率指標（衡量舉債程度）</div>
+                            <ul class="space-y-2 text-slate-700">
+                                <li><strong>長期負債比率：</strong> $\frac{\text{長期負債}}{\text{長期負債} + \text{股東權益}} = 64\%$（高於美國製造業平均 $33\%$ 一倍以上）。</li>
+                                <li><strong>長期負債對權益比率：</strong> $\frac{\text{長期負債}}{\text{股東權益}} = 1.81\text{ 倍}$。</li>
+                                <li><strong>總負債比率：</strong> $\frac{\text{負債總額}}{\text{資產總額}} = 77\%$（納入短期負債，顯示自有資金比例不高，槓桿較高）。</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-2">
+                            <div class="font-bold text-slate-900 text-sm">涵蓋比率指標（衡量還息安全度）</div>
+                            <ul class="space-y-2 text-slate-700">
+                                <li><strong>利息保障倍數 (TIE)：</strong> $\frac{\text{EBIT}}{\text{利息費用}} = \frac{10,806}{830} = 13.0\text{ 倍}$（賺的稅前息前利潤夠付 13 次利息，相當安全）。</li>
+                                <li><strong>現金涵蓋比率：</strong> $\frac{\text{EBIT} + \text{折舊}}{\text{利息費用}} = \frac{10,806 + 1,786}{830} = 15.2\text{ 倍}$（加回非現金折舊費用後，實際現金還息能力更強）。</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Short-term Solvency / Liquidity -->
+                <div>
+                    <h3 class="font-bold text-slate-900 text-base mb-3 border-l-4 border-emerald-600 pl-3">三、短期償債與流動性指標 (Liquidity Ratios) — 由寬鬆到嚴苛</h3>
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+                        <div class="bg-emerald-50/70 p-4 rounded-xl border border-emerald-200 space-y-1">
+                            <div class="font-bold text-emerald-950">淨營運資金對總資產比</div>
+                            <div class="font-mono text-emerald-800 font-bold text-sm">$\frac{\text{流動資產} - \text{流動負債}}{\text{總資產}} = 10\%$</div>
+                            <p class="text-slate-600">衡量可自由運用的短期淨流動資源佔比。</p>
+                        </div>
+
+                        <div class="bg-emerald-50/70 p-4 rounded-xl border border-emerald-200 space-y-1">
+                            <div class="font-bold text-emerald-950">流動比率 (Current Ratio)</div>
+                            <div class="font-mono text-emerald-800 font-bold text-sm">$\frac{\text{流動資產}}{\text{流動負債}} = 1.36\text{ 倍}$</div>
+                            <p class="text-slate-600">大於 1 倍，代表短期流動資產足以支應流動負債。</p>
+                        </div>
+
+                        <div class="bg-amber-50/70 p-4 rounded-xl border border-amber-200 space-y-1">
+                            <div class="font-bold text-amber-950">速動比率 (Quick Ratio)</div>
+                            <div class="font-mono text-amber-800 font-bold text-sm">$\frac{\text{現金}+\text{有價證券}+\text{應收帳款}}{\text{流動負債}} = 0.28\text{ 倍}$</div>
+                            <p class="text-slate-600">扣除變現較慢的存貨，Home Depot 存貨比重高故此值偏低。</p>
+                        </div>
+
+                        <div class="bg-amber-50/70 p-4 rounded-xl border border-amber-200 space-y-1">
+                            <div class="font-bold text-amber-950">現金比率 (Cash Ratio)</div>
+                            <div class="font-mono text-amber-800 font-bold text-sm">$\frac{\text{現金}+\text{有價證券}}{\text{流動負債}} = 0.15\text{ 倍}$</div>
+                            <p class="text-slate-600">最嚴苛的流動性標準，檢視立即可動用的現金緩衝。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab 2: 4.4–4.5 杜邦分析與同業評等 -->
+        <section id="tab-dupont" class="tab-content hidden space-y-8">
+            <div class="glass-card rounded-2xl p-6 sm:p-8 shadow-sm">
+                <h2 class="text-2xl font-bold text-slate-900 mb-2 flex items-center gap-2">
+                    <span class="text-sky-600"><i class="fa-solid fa-diagram-project"></i></span> 4.4–4.5 杜邦分析法 (DuPont System)、同業比較與信用評等
+                </h2>
+                <p class="text-sm text-slate-500 mb-6">拆解企業獲利密碼：究竟是靠「薄利多銷（高週轉）」還是「高毛利策略」賺錢？</p>
+
+                <!-- DuPont Formulas -->
+                <div class="bg-slate-900 text-white p-6 rounded-xl space-y-5 mb-8">
+                    <div class="text-sky-400 font-bold text-sm border-b border-slate-700 pb-2">杜邦分析法兩大核心分解式</div>
+                    
+                    <div class="grid lg:grid-cols-2 gap-6 font-mono text-xs">
+                        <div class="bg-slate-800 p-4 rounded-lg border border-slate-700 space-y-2">
+                            <div class="text-emerald-400 font-bold">1. 資產報酬率 (ROA) 二因子分解：</div>
+                            <div class="py-2 text-center text-sm">
+                                $$\text{ROA} = \underbrace{\frac{\text{銷貨收入}}{\text{平均資產總額}}}_{\text{資產週轉率}} \times \underbrace{\frac{\text{稅後營業淨利}}{\text{銷貨收入}}}_{\text{營業利潤邊際}}$$
+                            </div>
+                            <p class="text-slate-300 font-sans text-[11px]">Home Depot 實例：$2.05 \times 8.3\% \approx 17\%$。（註：純粹「利潤邊際」為稅後淨利/銷貨 $= 7.6\%$，加回稅後利息後之「營業利潤邊際」為 $8.3\%$）。</p>
+                        </div>
+
+                        <div class="bg-slate-800 p-4 rounded-lg border border-slate-700 space-y-2">
+                            <div class="text-amber-400 font-bold">2. 權益報酬率 (ROE) 四因子延伸分解：</div>
+                            <div class="py-2 text-center text-xs sm:text-sm">
+                                $$\text{ROE} = \underbrace{\frac{\text{資產}}{\text{權益}}}_{\text{槓桿比率}} \times \underbrace{\frac{\text{銷貨}}{\text{資產}}}_{\text{資產週轉}} \times \underbrace{\frac{\text{NOPAT}}{\text{銷貨}}}_{\text{營業利潤邊際}} \times \underbrace{\frac{\text{稅後淨利}}{\text{NOPAT}}}_{\text{債務負荷}}$$
+                            </div>
+                            <p class="text-slate-300 font-sans text-[11px]">中間兩項相乘即為 ROA；第一與第四項則反映融資槓桿與利息稅負的影響。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Business Model Comparison & Taiwan Examples -->
+                <div class="grid md:grid-cols-2 gap-6 mb-8 text-xs">
+                    <div class="bg-sky-50 p-5 rounded-xl border border-sky-200 space-y-2">
+                        <div class="font-bold text-sky-950 text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-cart-shopping text-sky-600"></i> 路線 A：薄利多銷策略（高週轉 &times; 低利潤邊際）
+                        </div>
+                        <p class="text-slate-700"><strong>代表企業：</strong> Walmart（沃爾瑪）、Home Depot、Costco（好市多）。</p>
+                        <p class="text-slate-600">單件商品毛利極低（Costco 甚至幾乎以成本價銷售商品、主要賺取會員費），但透過極快的商品與資產週轉速度，依然創造高水準的 ROA。</p>
+                    </div>
+
+                    <div class="bg-purple-50 p-5 rounded-xl border border-purple-200 space-y-2">
+                        <div class="font-bold text-purple-950 text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-gem text-purple-600"></i> 路線 B：高毛利精品/科技策略（低週轉 &times; 高利潤邊際）
+                        </div>
+                        <p class="text-slate-700"><strong>代表企業：</strong> Hermès（愛馬仕）、台積電 (2330)、廣達 (2382)。</p>
+                        <p class="text-slate-600">資本投入大、週轉速度相對較慢，但憑藉專利技術門檻或品牌稀缺性享有極高單價與利潤率。例如台積電近年 ROE 攀升至 $29.4\%$，單季 EVA 高達 $9,257$ 億元。</p>
+                    </div>
+                </div>
+
+                <!-- Peer Comparison & Credit Rating -->
+                <div class="grid md:grid-cols-2 gap-6 text-xs">
+                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-2">
+                        <div class="font-bold text-slate-900 text-sm"><i class="fa-solid fa-code-compare text-sky-600 mr-1"></i> 4.5 同業比較與歷史趨勢分析</div>
+                        <p class="text-slate-700">單看一家公司的比率缺乏客觀基準，必須與同產業競爭對手橫向對比，並追蹤跨年度歷史趨勢。</p>
+                        <p class="text-slate-600"><strong>Home Depot vs. Lowe's（勞氏）：</strong> 同為居家修繕零售巨頭，Home Depot 在資產週轉率、營業利潤邊際、財務槓桿與最終創造的市場附加價值（MVA：$1,406.56\text{億}$ vs. Lowe's $585.82\text{億}$）均全面領先。</p>
+                    </div>
+
+                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-2">
+                        <div class="font-bold text-slate-900 text-sm"><i class="fa-solid fa-award text-amber-500 mr-1"></i> 信用評等機構標準 (如 Moody's 穆迪)</div>
+                        <p class="text-slate-700">信評機構透過財務比率評估企業違約風險與公司債信用等級（從最高 <strong>AAA</strong> 級到高風險 <strong>C</strong> 級）。</p>
+                        <p class="text-slate-600"><strong>高評等企業特徵：</strong> 營業利潤邊際較高、長期負債比率較低、現金涵蓋比率較高，代表財務韌性強、倒閉風險極低。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab 3: 第四章白話六大核心總結 -->
+        <section id="tab-recap" class="tab-content hidden space-y-8">
+            <div class="glass-card rounded-2xl p-6 sm:p-8 shadow-sm">
+                <h2 class="text-2xl font-bold text-slate-900 mb-2 flex items-center gap-2">
+                    <span class="text-amber-500"><i class="fa-solid fa-lightbulb"></i></span> 第四章白話版：六大核心觀念生活比喻總整理
+                </h2>
+                <p class="text-sm text-slate-500 mb-6">用最直覺的生活場景，秒懂財報比率背後的真實商業意義</p>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 text-xs">
+                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                        <div class="inline-block bg-sky-100 text-sky-800 font-bold px-2.5 py-1 rounded">1. 市場價值 vs. 帳面價值</div>
+                        <h3 class="font-bold text-slate-900 text-sm">老房子地段翻倍比喻</h3>
+                        <p class="text-slate-600 leading-relaxed">花 <strong>500 萬</strong>買一間老房子（會計帳面價值），因地段極佳、市場有人出價 <strong>2,000 萬</strong>收購（市場價值），多出來的 <strong>1,500 萬</strong>就是市場附加價值 (MVA)。</p>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                        <div class="inline-block bg-emerald-100 text-emerald-800 font-bold px-2.5 py-1 rounded">2. 經濟附加價值 (EVA)</div>
+                        <h3 class="font-bold text-slate-900 text-sm">開餐廳賺得夠不夠分？</h3>
+                        <p class="text-slate-600 leading-relaxed">借錢與募資開餐廳，一年會計賺了 <strong>100 萬</strong>，但銀行利息加股東要求的機會成本高達 <strong>120 萬</strong>，實際上 $\text{EVA} = -20\text{ 萬}$，等於沒有真正為股東多賺錢。</p>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                        <div class="inline-block bg-indigo-100 text-indigo-800 font-bold px-2.5 py-1 rounded">3. 經營效率與週轉率</div>
+                        <h3 class="font-bold text-slate-900 text-sm">貨架補貨秒殺速度</h3>
+                        <p class="text-slate-600 leading-relaxed">存貨躺在倉庫沒賣掉，資金就被綁死；週轉率高就像貨架一補貨就秒殺、客人馬上付現，資金靈活運轉，賺錢效率自然高。</p>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                        <div class="inline-block bg-amber-100 text-amber-800 font-bold px-2.5 py-1 rounded">4. 利息保障倍數</div>
+                        <h3 class="font-bold text-slate-900 text-sm">月薪 3.2 萬繳 3 萬房貸</h3>
+                        <p class="text-slate-600 leading-relaxed">若每月薪水 <strong>32,000 元</strong>卻要繳 <strong>30,000 元</strong>房貸利息，付完只剩 2,000 元吃飯，這就是利息保障倍數過低；安全企業必須能輕鬆支付利息好幾倍。</p>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                        <div class="inline-block bg-red-100 text-red-800 font-bold px-2.5 py-1 rounded">5. 短期流動性危機</div>
+                        <h3 class="font-bold text-slate-900 text-sm">身家上億但錢包只有 500 元</h3>
+                        <p class="text-slate-600 leading-relaxed">名下不動產與土地價值上億，但明天銀行要扣款 <strong>10 萬元</strong>帳單，手頭現金卻只有 <strong>500 元</strong>且來不及變現，就會陷入流動性危機被迫借高利貸。</p>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                        <div class="inline-block bg-purple-100 text-purple-800 font-bold px-2.5 py-1 rounded">6. 杜邦分析系統</div>
+                        <h3 class="font-bold text-slate-900 text-sm">沃爾瑪 vs. 愛馬仕路線</h3>
+                        <p class="text-slate-600 leading-relaxed">拆解 ROE 賺錢密碼：看企業是走「沃爾瑪路線（低毛利、超高週轉率）」還是「愛馬仕路線（低週轉、超高單品利潤率）」。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab 4: 互動式財務比率演算器 -->
+        <section id="tab-calc" class="tab-content hidden space-y-8">
+            <div class="glass-card rounded-2xl p-6 sm:p-8 shadow-sm">
+                <h2 class="text-2xl font-bold text-slate-900 mb-2 flex items-center gap-2">
+                    <span class="text-sky-600"><i class="fa-solid fa-calculator"></i></span> 互動式效率、槓桿、流動性與杜邦分析演算器
+                </h2>
+                <p class="text-sm text-slate-500 mb-6">預設帶入 Home Depot (2014) 財務數據，可自由調整數值觀察各項比率變化</p>
+
+                <div class="grid lg:grid-cols-3 gap-8">
+                    <!-- Inputs -->
+                    <div class="space-y-3 bg-slate-50 p-5 rounded-xl border border-slate-200 text-xs">
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block font-bold text-slate-800 mb-1">銷貨收入 (百萬)</label>
+                                <input id="r-sales" type="number" value="83176" class="w-full p-2 border border-slate-300 rounded-lg" oninput="calcRatios()">
+                            </div>
+                            <div>
+                                <label class="block font-bold text-slate-800 mb-1">銷貨成本 (百萬)</label>
+                                <input id="r-cogs" type="number" value="54222" class="w-full p-2 border border-slate-300 rounded-lg" oninput="calcRatios()">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block font-bold text-slate-800 mb-1">平均資產總額</label>
+                                <input id="r-assets" type="number" value="40232" class="w-full p-2 border border-slate-300 rounded-lg" oninput="calcRatios()">
+                            </div>
+                            <div>
+                                <label class="block font-bold text-slate-800 mb-1">年初存貨</label>
+                                <input id="r-inv" type="number" value="11057" class="w-full p-2 border border-slate-300 rounded-lg" oninput="calcRatios()">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block font-bold text-slate-800 mb-1">稅後營業淨利 NOPAT</label>
+                                <input id="r-nopat" type="number" value="6885" class="w-full p-2 border border-slate-300 rounded-lg" oninput="calcRatios()">
+                            </div>
+                            <div>
+                                <label class="block font-bold text-slate-800 mb-1">EBIT / 利息費用</label>
+                                <div class="flex gap-1">
+                                    <input id="r-ebit" type="number" value="10806" class="w-1/2 p-2 border border-slate-300 rounded-lg" oninput="calcRatios()">
+                                    <input id="r-int" type="number" value="830" class="w-1/2 p-2 border border-slate-300 rounded-lg" oninput="calcRatios()">
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="border-slate-200">
+                        <div class="grid grid-cols-3 gap-2">
+                            <div>
+                                <label class="block font-bold text-slate-800 mb-1">流動資產</label>
+                                <input id="r-ca" type="number" value="15400" class="w-full p-2 border border-slate-300 rounded-lg" oninput="calcRatios()">
+                            </div>
+                            <div>
+                                <label class="block font-bold text-slate-800 mb-1">流動負債</label>
+                                <input id="r-cl" type="number" value="11324" class="w-full p-2 border border-slate-300 rounded-lg" oninput="calcRatios()">
+                            </div>
+                            <div>
+                                <label class="block font-bold text-slate-800 mb-1">現金+有價證券</label>
+                                <input id="r-cash" type="number" value="1723" class="w-full p-2 border border-slate-300 rounded-lg" oninput="calcRatios()">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Results -->
+                    <div class="lg:col-span-2 bg-slate-900 text-white p-6 rounded-xl flex flex-col justify-between border border-slate-800 space-y-6">
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                            <div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
+                                <span class="block text-xs text-slate-400">資產週轉率</span>
+                                <span id="o-at" class="text-xl font-bold text-sky-400">2.07 次</span>
+                            </div>
+                            <div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
+                                <span class="block text-xs text-slate-400">存貨週轉 / 天數</span>
+                                <span id="o-inv" class="text-xl font-bold text-emerald-400">4.90 次 / 74天</span>
+                            </div>
+                            <div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
+                                <span class="block text-xs text-slate-400">營業利潤邊際</span>
+                                <span id="o-opm" class="text-xl font-bold text-amber-400">8.28 %</span>
+                            </div>
+                            <div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
+                                <span class="block text-xs text-slate-400">杜邦 ROA (週轉&times;邊際)</span>
+                                <span id="o-roa" class="text-xl font-bold text-sky-300">17.11 %</span>
+                            </div>
+                            <div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
+                                <span class="block text-xs text-slate-400">利息保障倍數 (TIE)</span>
+                                <span id="o-tie" class="text-xl font-bold text-emerald-300">13.02 倍</span>
+                            </div>
+                            <div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
+                                <span class="block text-xs text-slate-400">流動比率 / 現金比率</span>
+                                <span id="o-liq" class="text-xl font-bold text-amber-300">1.36 / 0.15</span>
+                            </div>
+                        </div>
+
+                        <div class="p-4 rounded-lg bg-slate-800/80 border border-slate-700 text-xs text-slate-300 leading-relaxed">
+                            <strong>杜邦診斷提示：</strong> 透過將 ROA 拆解為「資產週轉率 $\times$ 營業利潤邊際」，可清楚辨識企業是以高週轉（薄利多銷）還是高毛利驅動整體資產報酬率。
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab 5: 各組提案與宣傳影片點評 -->
+        <section id="tab-pitches" class="tab-content hidden space-y-8">
+            <div class="glass-card rounded-2xl p-6 sm:p-8 shadow-sm">
+                <h2 class="text-2xl font-bold text-slate-900 mb-2 flex items-center gap-2">
+                    <span class="text-sky-600"><i class="fa-solid fa-video"></i></span> 本週各組提案與宣傳影片點評彙整
+                </h2>
+                <p class="text-sm text-slate-500 mb-6">涵蓋本週上台報告與播放影片之小組點評，以及預測市場平台註冊提醒</p>
+
+                <!-- Key Takeaways Banner -->
+                <div class="grid md:grid-cols-2 gap-6 mb-8">
+                    <div class="bg-amber-50 p-5 rounded-xl border border-amber-200 space-y-2">
+                        <div class="font-bold text-amber-950 text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-bullhorn text-amber-600"></i> 影片製作核心原則：區分「給消費者看」vs.「給投資人看」
+                        </div>
+                        <p class="text-xs text-amber-900 leading-relaxed">
+                            老師特別提醒（針對第 1 組、第 5 組影片）：宣傳短片是拍給<strong>消費者</strong>看的廣告，重點應放在「解決什麼痛點、價格多划算、使用多方便」。<strong>不要把抽成比例、固定成本、損益兩平 (BEP) 算式放進消費者廣告影片中</strong>（那是給投資人或 CFO 審查的內容）。
+                        </p>
+                    </div>
+
+                    <div class="bg-emerald-50 p-5 rounded-xl border border-emerald-200 space-y-2">
+                        <div class="font-bold text-emerald-950 text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-qrcode text-emerald-600"></i> 課堂實作：預測市場交易平台帳號開通
+                        </div>
+                        <p class="text-xs text-emerald-900 leading-relaxed">
+                            全班 13 組提案皆已報告完畢！請同學務必掃描課堂提供的 <strong>QR Code</strong>，輸入<strong>學號與姓名</strong>查詢並記下個人專屬密碼，準備開始在交易平台上對各組新創提案進行動態買賣交易。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Groups Review Grid -->
+                <div class="grid md:grid-cols-2 gap-4 text-xs">
+                    <!-- Group 13 -->
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-1.5">
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-slate-900 text-sm">第 13 組：校園惜食即期餐點媒合平台</span>
+                            <span class="text-[11px] bg-sky-100 text-sky-800 px-2 py-0.5 rounded font-bold">簡報 + 影片</span>
+                        </div>
+                        <p class="text-slate-600"><strong>提案內容：</strong> 合作 20 家店、每日上架 25 份（均價 65 元）、賣出 50%、抽成 8%，預估月營收 33,800 元（交易額 42.25 萬）。</p>
+                        <p class="text-slate-700"><strong>老師點評：</strong> 不能當「無本生意」算！必須把平台架設、線下跑店人力成本以及<strong>食安賠償風險（建議投保產品責任險）</strong>計入成本。另建議 AI 配音可選用台灣口音會更貼近在地感。</p>
+                    </div>
+
+                    <!-- Group 11 -->
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-1.5">
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-slate-900 text-sm">第 11 組：大學生二手書買賣與訂閱平台 (Bookoo)</span>
+                            <span class="text-[11px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold">品牌完整度高</span>
+                        </div>
+                        <p class="text-slate-600"><strong>提案內容：</strong> 啟動資金 15 萬元，年營收目標 60 萬（交易抽成 9% 約 36 萬、499 元學期任選 3 本訂閱制、廣告 5 萬、書局合作分潤 9 萬），搭配校內信箱實名與押金制。</p>
+                        <p class="text-slate-700"><strong>老師點評：</strong> 連品牌 Logo 與訂閱方案都設計得很完整，影片呈現相當不錯！</p>
+                    </div>
+
+                    <!-- Group 9 -->
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-1.5">
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-slate-900 text-sm">第 9 組：智慧二手精品循環平台</span>
+                            <span class="text-[11px] bg-amber-100 text-amber-800 px-2 py-0.5 rounded font-bold">重資本規模</span>
+                        </div>
+                        <p class="text-slate-600"><strong>提案內容：</strong> 寄售抽成 12%（月交易 350 萬&rarr;42 萬）、包款月租（50 件@4,000 元&rarr;20 萬）、第三方鑑定防偽（300 件@200 元&rarr;6 萬），月營收 68 萬、月成本 48.7 萬、月淨利 19.3 萬，初期資本 350 萬，18 個月回本。</p>
+                        <p class="text-slate-700"><strong>老師點評：</strong> 啟動金額 350 萬是目前各組最高，財務架構嚴謹，但目前市場上其實已有類似精品租賃/寄售平台，建議補充現有競爭對手分析。</p>
+                    </div>
+
+                    <!-- Group 10 -->
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-1.5">
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-slate-900 text-sm">第 10 組：校園微型任務外包平台</span>
+                            <span class="text-[11px] bg-slate-200 text-slate-800 px-2 py-0.5 rounded font-bold">動態加價機制</span>
+                        </div>
+                        <p class="text-slate-600"><strong>提案內容：</strong> 抽成 18%，依緊急程度動態加價（24 小時內 +30%、6 小時內 +50%），禁止代寫與代考。App 開發 50 萬、月固定成本 3 萬、月需 300 筆達 BEP。</p>
+                        <p class="text-slate-700"><strong>老師點評：</strong> 每月 3 萬元固定營運成本的細項需再交代清楚；另外宣傳影片的旁白音量太小，需調大聲。</p>
+                    </div>
+
+                    <!-- Group 4 -->
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-1.5">
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-slate-900 text-sm">第 4 組：美髮設計師撮合平台</span>
+                            <span class="text-[11px] bg-sky-100 text-sky-800 px-2 py-0.5 rounded font-bold">敏感到位</span>
+                        </div>
+                        <p class="text-slate-600"><strong>提案內容：</strong> 平均客單價 2,500 元、抽成 15%（375 元）、單筆邊際貢獻 300 元，月固定成本 20 萬（工程師與行銷），月需 667 筆達 BEP。</p>
+                        <p class="text-slate-700"><strong>老師點評：</strong> 團隊有測試降低抽成比例的敏感度，發現重點不在降價而在「擴大平台曝光與導客量」，分析非常合理。</p>
+                    </div>
+
+                    <!-- Group 1 -->
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-1.5">
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-slate-900 text-sm">第 1 組：學生共享家電租借平台</span>
+                            <span class="text-[11px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold">情境模擬完整</span>
+                        </div>
+                        <p class="text-slate-600"><strong>提案內容：</strong> 每次租金 80 元（扣清潔耗材 20 元賺 60 元），啟動資金 15,000 元買 10 台家電，月固定成本 2,000 元，月租 34 次（含折舊 40 次）打平，租 16 次（約 4 個月）回本，並做樂觀/基準/悲觀三情境期望值。</p>
+                        <p class="text-slate-700"><strong>老師點評：</strong> 財務試算與壓測非常紮實！影片拍得很有廣告感，但記得把影片後半段的「成本與 BEP 試算」拿掉，消費者廣告不需要看到內部成本。</p>
+                    </div>
+
+                    <!-- Group 7, 5, 8 Videos -->
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-1.5 md:col-span-2">
+                        <div class="font-bold text-slate-900 text-sm">其他組別宣傳影片補充點評（第 7 組、第 5 組、第 8 組）</div>
+                        <ul class="text-slate-600 space-y-1">
+                            <li>• <strong>第 7 組（校園智慧置物櫃/行李寄放）：</strong> 針對期末搬家與行李寄放痛點（每小時 20 元、當日最高 100 元），短劇影片呈現蠻有意思。</li>
+                            <li>• <strong>第 5 組（高峰期校園共乘平台）：</strong> 影片內容把抽成 10-15% 與每日 46/28 趟 BEP 唸出來，這屬於「給投資人看的簡報」，建議修改為吸引乘客與車主的「消費者導向廣告」。</li>
+                            <li>• <strong>第 8 組（樂齡智慧生活服務平台）：</strong> 影片有精準聚焦在長輩與子女需求（月費 199 元、代辦 150 元、數位教學 100 元），唯獨 3 分鐘節奏略長，可再精簡。</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-6 text-center text-xs border-t border-slate-800">
+        財務經濟學第四章（下）課堂筆記 &bull; 互動式教學講義網頁
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        function switchTab(tabId) {
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.add('hidden'));
+
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            document.getElementById(tabId).classList.remove('hidden');
+            document.getElementById('btn-' + tabId).classList.add('active');
+
+            if (window.MathJax) {
+                MathJax.typesetPromise();
+            }
+        }
+
+        function calcRatios() {
+            const sales = parseFloat(document.getElementById('r-sales').value) || 0;
+            const cogs = parseFloat(document.getElementById('r-cogs').value) || 0;
+            const assets = parseFloat(document.getElementById('r-assets').value) || 0;
+            const inv = parseFloat(document.getElementById('r-inv').value) || 0;
+            const nopat = parseFloat(document.getElementById('r-nopat').value) || 0;
+            const ebit = parseFloat(document.getElementById('r-ebit').value) || 0;
+            const interest = parseFloat(document.getElementById('r-int').value) || 0;
+            const ca = parseFloat(document.getElementById('r-ca').value) || 0;
+            const cl = parseFloat(document.getElementById('r-cl').value) || 0;
+            const cash = parseFloat(document.getElementById('r-cash').value) || 0;
+
+            const assetTurnover = assets > 0 ? (sales / assets) : 0;
+            const invTurnover = inv > 0 ? (cogs / inv) : 0;
+            const invDays = cogs > 0 ? ((inv / cogs) * 365) : 0;
+            const opMargin = sales > 0 ? ((nopat / sales) * 100) : 0;
+            const dupontRoa = assetTurnover * opMargin;
+            const tie = interest > 0 ? (ebit / interest) : 0;
+            const currentRatio = cl > 0 ? (ca / cl) : 0;
+            const cashRatio = cl > 0 ? (cash / cl) : 0;
+
+            document.getElementById('o-at').innerText = assetTurnover.toFixed(2) + ' 次';
+            document.getElementById('o-inv').innerText = invTurnover.toFixed(2) + ' 次 / ' + Math.round(invDays) + '天';
+            document.getElementById('o-opm').innerText = opMargin.toFixed(2) + ' %';
+            document.getElementById('o-roa').innerText = dupontRoa.toFixed(2) + ' %';
+            document.getElementById('o-tie').innerText = tie.toFixed(2) + ' 倍';
+            document.getElementById('o-liq').innerText = currentRatio.toFixed(2) + ' / ' + cashRatio.toFixed(2);
+        }
+
+        window.onload = function() {
+            calcRatios();
+        };
+    </script>
+</body>
+</html>
